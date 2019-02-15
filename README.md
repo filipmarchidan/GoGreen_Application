@@ -35,6 +35,10 @@ Run `maven site`
 -Giacomo Mazzola
 ![alt text](src/Giacomo_image.jpg)
 
+-Edin Avdic
+![alt text] (src/EdinF.jpg)
+
 -Jim Vos
 ![alt text](src/oopp.jpg)
+
 
