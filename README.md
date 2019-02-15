@@ -36,7 +36,7 @@ Run `maven site`
 ![alt text](src/Giacomo_image.jpg)
 
 -Edin Avdic
-![alt text] (src/EdinF.jpg)
+![alt text](src/EdinF.jpg)
 
 -Jim Vos
 ![alt text](src/oopp.jpg)
