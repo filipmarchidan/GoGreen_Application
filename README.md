@@ -22,4 +22,5 @@ Run `maven install` ([Intellij](https://www.jetbrains.com/help/idea/2016.3/getti
 **Checkstyle**:  
 Run `maven site`
 
-#Kevin Landegent
+-Kevin Landegent
+![alt text](src/Foto_op_15-02-19_om_15.08__2.jpg)
