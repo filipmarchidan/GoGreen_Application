@@ -24,3 +24,6 @@ Run `maven site`
 
 -Kevin Landegent
 ![alt text](src/Foto_op_15-02-19_om_15.08__2.jpg)
+
+-Jordy van der Tang
+![alt text](src/jordy-photo.jpg)
