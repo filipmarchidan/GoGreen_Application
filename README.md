@@ -27,3 +27,6 @@ Run `maven site`
 
 -Jordy van der Tang
 ![alt text](src/jordy-photo.jpg)
+
+-Giacomo Mazzola
+![alt text](src/Giacomo_image.jpg)
