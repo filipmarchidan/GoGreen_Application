@@ -41,6 +41,4 @@ Run `maven site`
 -Jim Vos
 ![alt text](src/oopp.jpg)
 
--Filip Marchidan
-![alt text](src/filipmarchidan.jpg)
 
