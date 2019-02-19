@@ -76,7 +76,7 @@ public class Server{
                     try{
                         SSLContext  context = getSSLContext();
                         SSLEngine engine = context.createSSLEngine();
-                        h.setNeedClientAuth(mfalse);
+                        h.setNeedClientAuth(false);
                         h.setCipherSuites(engine.getEnabledCipherSuites());
                         h.setProtocols(engine.getEnabledProtocols());
 
