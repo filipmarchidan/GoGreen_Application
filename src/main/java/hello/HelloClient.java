@@ -1,92 +1,63 @@
 package hello;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
-import java.security.cert.Certificate;
+/*
+this client class is able to send GET request to different routs;
+ */
+import org.springframework.web.client.RestTemplate;
+import java.util.Arrays;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 public class HelloClient {
 
-	 private static String urlString = "http://localhost:8080/hello";
-	 private static String name = "World";
+	private static String urlString = "http://localhost:8080/greetings";
 
-	 public static void main(String[] args) throws IOException {
-
-	 	 addNameToUrl(urlString, name);
-	 	 HttpURLConnection con = requestToUrl(urlString);
-
-	 	 getFullResponse(con);
-	 }
+	private static String getUrlString_json = "http://localhost:8080/hello.json";
 
 
-	 private static HttpURLConnection requestToUrl(String urlString) throws IOException  {
+	public static void main(String[] args) {
+
+		GETRequest();
+	}
+
+	private static void GETRequest() {
 
 
-	 	try{
-	 	 URL url = new URL(urlString);
+		 // HttpHeaders
+		 HttpHeaders headers = new HttpHeaders();
 
-	 	 HttpURLConnection con = (HttpURLConnection)url.openConnection();
-	 	 con.setRequestMethod("GET");
-	 	 return con;
+		 headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
 
-	 } catch (MalformedURLException e) {
-		  e.printStackTrace();
-		  throw new MalformedURLException();
-	 } catch (IOException e) {
-		  e.printStackTrace();
-		  throw new IOException();
-	 }
+		 // Request to return JSON format
+		 headers.setContentType(MediaType.APPLICATION_JSON);
+		 headers.set("header_name", "header_value");
 
-	 }
+		 // HttpEntity<String>: To get result as String.
+		 HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+		 // RestTemplate
+		 RestTemplate restTemplate = new RestTemplate();
+
+		 // Send request with GET method, and Headers.
+		 ResponseEntity<String> response = restTemplate.exchange(urlString, //
+					HttpMethod.GET, entity, String.class);
+
+		 String result = response.getBody();
+
+		 System.out.println(result);
+
+	}
 
 
+	private void POSTRquest(){
+	}
 
-	 private static void addNameToUrl(String urlString, String name) {
-
-	 	 urlString += "?name=" + name;
-	 	 System.out.println(urlString);
-
-	 }
+}
 
 
-	 private static void getFullResponse(HttpURLConnection con) {
-
-		  // print https certificate
-		  if (con != null) {
-
-				try {
-
-					 System.out.println("Response Code : " + con.getResponseCode());
-
-					 System.out.println("\n");
-				} catch (IOException e) {
-					 e.printStackTrace();
-				}
-
-				// print the content of the URL
-				try {
-
-					 System.out.println("****** Content of the URL ********");
-					 BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-					 String input;
-
-					 while ((input = br.readLine()) != null) {
-						  System.out.println(input);
-					 }
-					 br.close();
-
-				} catch (IOException e) {
-					 e.printStackTrace();
-				}
-
-		  }
-
-	 }
-
-	 }
 
