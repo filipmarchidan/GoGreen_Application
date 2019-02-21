@@ -4,10 +4,16 @@ pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/tasks.xml
+.idea/compiler.xml
+.idea/*
+/idea/*
+.idea
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 # Exclude maven wrapper
 !/.mvn/wrapper/maven-wrapper.jar
-/.idea
