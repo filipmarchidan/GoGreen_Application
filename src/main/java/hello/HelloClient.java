@@ -1,10 +1,7 @@
 package hello;
 
-/*
-this client class is able to send GET request to different routs;
- */
-import org.springframework.web.client.RestTemplate;
-import java.util.Arrays;
+
+
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,9 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+
+/**T his client class is able to send GET request to different routs;
+ *
+ */
 public class HelloClient {
 
-	private static String urlString = "http://localhost:8080/greetings";
+	private static String urlString = "http://localhost:8080/message";
 
 	private static String getUrlString_json = "http://localhost:8080/hello.json";
 
@@ -25,7 +27,7 @@ public class HelloClient {
 		GETRequest();
 	}
 
-	private static void GETRequest() {
+	public static String GETRequest() {
 
 
 		 // HttpHeaders
@@ -48,14 +50,15 @@ public class HelloClient {
 					HttpMethod.GET, entity, String.class);
 
 		 String result = response.getBody();
-
-		 System.out.println(result);
+		 System.out.println("Retrieved " + result + " from the server!");
+		 return result;
 
 	}
 
-
+	/*
 	private void POSTRquest(){
 	}
+	*/
 
 }
 

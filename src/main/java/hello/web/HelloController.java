@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloControler {
+public class HelloController {
 
             @RequestMapping("/hello")
             public String sayHello(@RequestParam(value = "name") String name)

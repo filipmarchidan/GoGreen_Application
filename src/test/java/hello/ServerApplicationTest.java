@@ -1,6 +1,6 @@
 package hello;
 
-import hello.web.Greeting;
+import hello.web.Message;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,17 +26,15 @@ public class ServerApplicationTest{
 
     @Test
     public void Hello_Test() throws Exception {
-        String body = this.testRestTemplate.getForObject("/hello?name=world", String.class);
-        Assert.assertEquals(body, "Hello world!");
+        String body = this.testRestTemplate.getForObject("/hello?name=World", String.class);
+        Assert.assertEquals(body, "Hello World!");
     }
 
     @Test
     public void Greetings_test() throws Exception {
-        Greeting greeting = new Greeting(1,"Hello, World!");
-        Greeting test = this.testRestTemplate.getForObject("/greetings", Greeting.class);
+        Message greeting = new Message(1,"Hello, World!");
+        Message test = this.testRestTemplate.getForObject("/message", Message.class);
         Assert.assertEquals(greeting.getContent(),test.getContent());
     }
-
-
 
 }

@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 @RestController
-public class GreetingsController {
+public class MessageController {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -18,9 +18,9 @@ public class GreetingsController {
      * @param name Optional - name passed along so the server can say hi, name.
      * @return returns the greeting to be passed back to the client
      */
-    @RequestMapping("/greetings")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(),
+    @RequestMapping("/message")
+    public Message message(@RequestParam(value = "name", defaultValue = "World") String name) {
+        return new Message(counter.incrementAndGet(),
                 String.format(template, name));
     }
 }
