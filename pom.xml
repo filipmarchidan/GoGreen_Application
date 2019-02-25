@@ -43,6 +43,10 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <!-- useful dependency in case we decide to authenticate the client whit user/password-->
         <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
         <dependency>

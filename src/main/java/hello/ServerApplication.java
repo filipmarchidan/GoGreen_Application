@@ -1,5 +1,9 @@
 package hello;
 
+/*
+    class starts the spring server in main
+    this class is the main controller
+ */
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
