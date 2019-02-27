@@ -1,4 +1,4 @@
-package hello;
+package API;
 
 /*
     class starts the spring server in main

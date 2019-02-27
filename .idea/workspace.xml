@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/java/hello/web/MessageController.java" />
-    <bookmark url="file://$PROJECT_DIR$/src/test/java/hello/web/MessageTest.java" line="37" />
+    <bookmark url="file://$PROJECT_DIR$/src/test/java/API/controllers/MessageTest.java" line="33" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a13eedbb-917b-41ce-8ba6-99ce708acaa1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/doc/meetings/20190224_agenda.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/doc/reports/checkstyle/24-2-2019-checkstyle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/doc/reports/test-coverage/24-2-2019-jacoco.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/doc/used sources/sources.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/hello/web/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/hello/HelloClientTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/hello/web/HelloControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/hello/web/MessageControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/hello/web/MessageTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/API/ClientApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/API/MvcConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/API/ServerApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/API/controllers/RequestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/API/messages/Activity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/API/messages/LogInRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/API/messages/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/API/messages/WebSecureAuth.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/MockTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/API/ClientApplicationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/API/ServerApplicationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/API/controllers/HelloControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/API/controllers/MessageTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/grade/ProjectGrade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hello/HelloClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/HelloClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hello/web/Greeting.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hello/web/GreetingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/web/MessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hello/web/HelloControler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/web/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/grade/ProjectGradeTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/hello/ServerApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/hello/ServerApplicationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CSE1105.checkstyle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CSE1105.checkstyle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/HelloClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/MvcConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/ServerApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/web/HelloController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/web/Message.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/web/MessageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/web/WebSecureAuth.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/hello/HelloClientTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/hello/ServerApplicationTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/hello/web/HelloControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/hello/web/MessageControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/hello/web/MessageTest.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,10 +44,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hello/HelloClient.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/MockTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="81" lean-forward="true" selection-start-line="21" selection-start-column="81" selection-end-line="21" selection-end-column="81" />
+            <state relative-caret-position="249">
+              <caret line="74" column="45" selection-start-line="74" selection-start-column="45" selection-end-line="74" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -47,88 +56,99 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hello/web/Message.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/API/controllers/HelloControllerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
+            <state relative-caret-position="238">
+              <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="59" column="75" selection-start-line="59" selection-start-column="75" selection-end-line="59" selection-end-column="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/API/ClientApplicationTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hello/web/MessageController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="25" column="1" lean-forward="true" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/hello/web/MessageControllerTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/hello/web/HelloControllerTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/hello/HelloClientTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hello/web/HelloController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="18" selection-start-column="18" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/hello/web/MessageTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/hello/ServerApplicationTest.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/API/MvcConfig.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/API/controllers/MessageTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/API/ServerApplicationTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="32" column="9" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/API/controllers/RequestController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="34" column="64" lean-forward="true" selection-start-line="34" selection-start-column="64" selection-end-line="34" selection-end-column="64" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#542#543#0" expanded="true" />
+                <element signature="e#586#587#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/API/messages/Message.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/API/messages/LogInRequest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" selection-start-line="12" selection-end-line="13" />
             </state>
           </provider>
         </entry>
@@ -144,6 +164,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -156,11 +181,31 @@
         <option value="$PROJECT_DIR$/src/main/java/hello/web/MessageController.java" />
         <option value="$PROJECT_DIR$/src/test/java/hello/web/MessageControllerTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/hello/web/HelloControllerTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/hello/HelloClientTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/hello/ServerApplicationTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/hello/web/HelloController.java" />
         <option value="$PROJECT_DIR$/src/test/java/hello/web/MessageTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/hello/HelloClient.java" />
+        <option value="$PROJECT_DIR$/src/test/java/hello/HelloClientTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hello/controllers/MessageController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/HelloClient.java" />
+        <option value="$PROJECT_DIR$/src/test/java/API/HelloClientTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/API/controllers/MessageControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/ClientApplication.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Test.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/controllers/LogInInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/controllers/HelloController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/controllers/MessageController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/messages/LogInRequest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/messages/Message.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/messages/Activity.java" />
+        <option value="$PROJECT_DIR$/src/test/java/API/controllers/MessageTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/API/ServerApplicationTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/API/ClientApplicationTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/API/controllers/HelloControllerTest.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/MockTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/controllers/RequestController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/API/MvcConfig.java" />
       </list>
     </option>
   </component>
@@ -183,6 +228,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -214,16 +260,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="hello" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OOP-Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OOPP" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="hello" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="API" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="OOP-Project" type="b2602c69:ProjectViewProjectNode" />
@@ -244,7 +281,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="hello" type="462c0819:PsiDirectoryNode" />
+              <item name="API" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="OOP-Project" type="b2602c69:ProjectViewProjectNode" />
@@ -252,19 +289,23 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="hello" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="API" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551035935413" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551272326076" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="API.controllers" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -278,26 +319,33 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.HelloClient">
-    <configuration name="HelloClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="hello.HelloClient" />
+  <component name="RunManager" selected="Application.MockTest">
+    <configuration name="ClientApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="API.ClientApplication" />
       <module name="OOP-Project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="hello.*" />
+          <option name="PATTERN" value="API.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MockTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MockTest" />
+      <module name="OOP-Project" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="ServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="hello.ServerApplication" />
+      <option name="MAIN_CLASS_NAME" value="API.ServerApplication" />
       <module name="OOP-Project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="hello.*" />
+          <option name="PATTERN" value="API.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -305,39 +353,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in OOP-Project" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="OOP-Project" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HelloClientTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ClientApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="OOP-Project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="hello.*" />
+          <option name="PATTERN" value="API.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="hello" />
-      <option name="MAIN_CLASS_NAME" value="hello.HelloClientTest" />
+      <option name="PACKAGE_NAME" value="API" />
+      <option name="MAIN_CLASS_NAME" value="API.ClientApplicationTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MessageControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServerApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="OOP-Project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="hello.web.*" />
+          <option name="PATTERN" value="API.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="hello.web" />
-      <option name="MAIN_CLASS_NAME" value="hello.web.MessageControllerTest" />
+      <option name="PACKAGE_NAME" value="API" />
+      <option name="MAIN_CLASS_NAME" value="API.ServerApplicationTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -345,11 +385,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.HelloClient" />
+        <item itemvalue="Application.MockTest" />
         <item itemvalue="Application.ServerApplication" />
-        <item itemvalue="JUnit.All in OOP-Project" />
-        <item itemvalue="JUnit.HelloClientTest" />
-        <item itemvalue="JUnit.MessageControllerTest" />
+        <item itemvalue="JUnit.ServerApplicationTest" />
+        <item itemvalue="JUnit.ClientApplicationTest" />
+        <item itemvalue="Application.ClientApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -367,41 +407,42 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GreetingsControllerTest - 2019.02.24 at 19h 41m 24s.xml">
-      <configuration name="GreetingsControllerTest" configurationId="JUnit" />
+    <history-entry file="ClientApplicationTest - 2019.02.26 at 15h 55m 58s.xml">
+      <configuration name="ClientApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GreetingsControllerTest - 2019.02.24 at 19h 41m 47s.xml">
-      <configuration name="GreetingsControllerTest" configurationId="JUnit" />
+    <history-entry file="ClientApplicationTest - 2019.02.26 at 16h 01m 04s.xml">
+      <configuration name="ClientApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GreetingsControllerTest - 2019.02.24 at 19h 42m 12s.xml">
-      <configuration name="GreetingsControllerTest" configurationId="JUnit" />
+    <history-entry file="ClientApplicationTest - 2019.02.26 at 16h 06m 41s.xml">
+      <configuration name="ClientApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GreetingsControllerTest - 2019.02.24 at 19h 43m 57s.xml">
-      <configuration name="GreetingsControllerTest" configurationId="JUnit" />
+    <history-entry file="ClientApplicationTest - 2019.02.26 at 16h 07m 13s.xml">
+      <configuration name="ClientApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GreetingsControllerTest - 2019.02.24 at 19h 45m 24s.xml">
-      <configuration name="GreetingsControllerTest" configurationId="JUnit" />
+    <history-entry file="ClientApplicationTest - 2019.02.26 at 16h 07m 18s.xml">
+      <configuration name="ClientApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GreetingTest - 2019.02.24 at 19h 45m 29s.xml">
-      <configuration name="GreetingTest" configurationId="JUnit" />
+    <history-entry file="ClientApplicationTest - 2019.02.26 at 16h 07m 38s.xml">
+      <configuration name="ClientApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GreetingsControllerTest - 2019.02.24 at 19h 45m 48s.xml">
-      <configuration name="GreetingsControllerTest" configurationId="JUnit" />
+    <history-entry file="ClientApplicationTest - 2019.02.26 at 16h 08m 12s.xml">
+      <configuration name="ClientApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="HelloClientTest - 2019.02.24 at 19h 57m 01s.xml">
-      <configuration name="HelloClientTest" configurationId="JUnit" />
+    <history-entry file="ServerApplicationTest - 2019.02.26 at 16h 16m 06s.xml">
+      <configuration name="ServerApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="HelloClientTest - 2019.02.24 at 19h 57m 54s.xml">
-      <configuration name="HelloClientTest" configurationId="JUnit" />
+    <history-entry file="ServerApplicationTest - 2019.02.26 at 16h 16m 25s.xml">
+      <configuration name="ServerApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_OOP-Project - 2019.02.24 at 20h 03m 33s.xml">
-      <configuration name="All in OOP-Project" configurationId="JUnit" />
+    <history-entry file="ServerApplicationTest - 2019.02.26 at 18h 44m 50s.xml">
+      <configuration name="ServerApplicationTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26332623" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14552239" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -409,14 +450,14 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32827735" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.32827735" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32827735" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32827735" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5010661" side_tool="true" visible="true" weight="0.32827735" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -429,7 +470,7 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26332623" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14232409" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -437,9 +478,9 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32827735" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32827735" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -468,92 +509,127 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hello/ServerApplication.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/hello/Demo.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/API/controllers/MessageControllerTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/controllers/WebSecureAuth.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/controllers/MessageController.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/controllers/HelloController.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/messages/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/ClientApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hello/Demo.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/hello/web/MessageTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/hello/ServerApplicationTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hello/web/HelloController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="18" selection-start-column="18" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/hello/HelloClientTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/hello/web/HelloControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/hello/web/MessageControllerTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/ServerApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
+          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#323#324#0" expanded="true" />
+            <element signature="e#391#392#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/API/controllers/HelloControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hello/HelloClient.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/API/ClientApplicationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/API/controllers/MessageTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/API/ServerApplicationTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
-          <caret line="21" column="81" lean-forward="true" selection-start-line="21" selection-start-column="81" selection-end-line="21" selection-end-column="81" />
+          <caret line="32" column="9" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hello/web/Message.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/messages/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/messages/LogInRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" selection-start-line="12" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="59" column="75" selection-start-line="59" selection-start-column="75" selection-end-line="59" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/controllers/RequestController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="34" column="64" lean-forward="true" selection-start-line="34" selection-start-column="64" selection-end-line="34" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#542#543#0" expanded="true" />
+            <element signature="e#586#587#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MockTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="74" column="45" selection-start-line="74" selection-start-column="45" selection-end-line="74" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/API/MvcConfig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hello/web/MessageController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="25" column="1" lean-forward="true" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
