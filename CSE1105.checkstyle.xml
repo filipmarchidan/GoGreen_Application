@@ -142,7 +142,7 @@ Checkstyle configurartion that checks the Google coding conventions (https://goo
     </module>
     <module name="JavadocMethod">
       <property name="minLineCount" value="2"/>
-      <property name="allowedAnnotations" value="Override, Test"/>
+      <property name="allowedAnnotations" value="Override, MockTest"/>
       <property name="scope" value="public"/>
       <property name="allowThrowsTagsForSubclasses" value="true"/>
       <property name="allowMissingParamTags" value="true"/>
