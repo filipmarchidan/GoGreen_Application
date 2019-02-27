@@ -24,14 +24,20 @@ public class ServerApplicationTest{
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    /** Tests that the Spring server is able to make use of the hello endpoint
+     *
+     */
     @Test
-    public void Hello_Test() throws Exception {
+    public void Hello_Test() {
         String body = this.testRestTemplate.getForObject("/hello?name=World", String.class);
         Assert.assertEquals(body, "Hello World!");
     }
 
+    /** Tests that the Spring server is able to make use of the message endpoint
+     *
+     */
     @Test
-    public void Greetings_test() throws Exception {
+    public void Greetings_test(){
         Message greeting = new Message(1,"Hello, World!");
         Message test = this.testRestTemplate.getForObject("/message", Message.class);
         Assert.assertEquals(greeting.getContent(),test.getContent());

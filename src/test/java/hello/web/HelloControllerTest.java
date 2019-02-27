@@ -5,8 +5,11 @@ import org.junit.Test;
 
 public class HelloControllerTest {
 
+    /** Test that makes sure the sayhello functions returns the expected value
+     *
+     */
     @Test
-    public void HelloController_returns_hello() {
+    public void sayHello_returns_hello() {
         HelloController hc = new HelloController();
         String a = hc.sayHello("Paul");
         String b = "Hello Paul!";
