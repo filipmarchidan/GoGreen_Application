@@ -55,10 +55,6 @@ public class HelloClient {
 
 	}
 
-	/*
-	private void POSTRquest(){
-	}
-	*/
 
 }
 
