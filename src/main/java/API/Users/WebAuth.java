@@ -1,4 +1,4 @@
-package API.User;
+package API.Users;
 
 //PROTOTYPE FOR WEB NEEDS IMPLEMENTATION FOR THE GUI
 /*
@@ -28,7 +28,7 @@ public class WebAuth extends WebSecurityConfigurerAdapter{
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        // Setting Service to find User in the database.
+        // Setting Service to find Users in the database.
         // And Setting PassswordEncoder
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
 

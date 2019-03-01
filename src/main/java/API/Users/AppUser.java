@@ -1,4 +1,4 @@
-package API.User;
+package API.Users;
 
 public class AppUser {
     private Long userId;

@@ -1,4 +1,4 @@
-package API.User;
+package API.Users;
 
 /*
     DAO = DATA ACCESS OBJECT

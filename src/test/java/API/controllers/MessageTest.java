@@ -4,6 +4,8 @@ import API.messages.Message;
 import org.junit.Assert;
 import org.junit.Test;
 
+import API.messages.Message;
+
 public class MessageTest {
 
     /**
@@ -14,21 +16,12 @@ public class MessageTest {
         Message message = new Message("Hello");
         Assert.assertEquals("Hello",message.getContent());
     }
-    /**
-     *  makes sure ID is correctly set and retrieved
-     */
-    @Test
-<<<<<<< HEAD:src/test/java/hello/web/MessageTest.java
-    public void message_retrieve_id(){
-        Message message = new Message(1,"Hello");
-        Assert.assertEquals(1,message.getId());
-    }
+
+
     /**
      *  tests if the object equals itself
      */
     @Test
-=======
->>>>>>> badf809997ebff36fad200d990fc89b191a4dc4f:src/test/java/API/controllers/MessageTest.java
     public void message_equals_itself(){
         Message greeting = new Message( "Paul");
         Assert.assertEquals(greeting,greeting);

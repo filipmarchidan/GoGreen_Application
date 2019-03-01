@@ -1,4 +1,4 @@
-package API.User;
+package API.Users;
 
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;

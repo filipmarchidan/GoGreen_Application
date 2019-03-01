@@ -1,4 +1,4 @@
-package API.User;
+package API.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,10 +24,10 @@ public class UserService  implements UserDetailsService {
         AppUser appUser = this.appDAO.findUserAccount(user);
 
         if (appUser == null) {
-            System.out.println("User not found! " + user);
-            throw new UsernameNotFoundException("User " + user + " was not found in the database");
+            System.out.println("Users not found! " + user);
+            throw new UsernameNotFoundException("Users " + user + " was not found in the database");
         }
-        System.out.println("Found User: " + appUser);
+        System.out.println("Found Users: " + appUser);
 
         // [ROLE_USER, ROLE_ADMIN,..]
         List<String> roleNames = this.appPrivilegeDAO.getRoleNames(appUser.getUserId());
