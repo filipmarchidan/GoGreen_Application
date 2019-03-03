@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Controller">
    <children>
       <SplitPane dividerPositions="0.25" layoutY="38.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <items>
@@ -40,7 +40,6 @@
                </font>
             </Label>
             <Button fx:id="Register" layoutX="271.0" layoutY="452.0" mnemonicParsing="false" onAction="#register" prefHeight="32.0" prefWidth="254.0" style="-fx-background-color: #1a66ff;" text="Register" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" />
-            <Label id="Warning" layoutX="258.0" layoutY="318.0" prefHeight="18.0" prefWidth="285.0" text="wow" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </children>
