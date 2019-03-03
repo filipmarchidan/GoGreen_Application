@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 
 import javafx.application.Application;
@@ -11,15 +11,15 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Main extends Application {
-    private double xOffset = 0;
-    private double yOffset = 0;
+    private double xoffset = 0;
+    private double yoffset = 0;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
 
         primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -28,8 +28,8 @@ public class Main extends Application {
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
+                xoffset = event.getSceneX();
+                xoffset = event.getSceneY();
             }
         });
 
@@ -37,8 +37,8 @@ public class Main extends Application {
         root.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                primaryStage.setX(event.getScreenX() - xOffset);
-                primaryStage.setY(event.getScreenY() - yOffset);
+                primaryStage.setX(event.getScreenX() - xoffset);
+                primaryStage.setY(event.getScreenY() - yoffset);
             }
         });
 
