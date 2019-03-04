@@ -1,8 +1,6 @@
-# Meeting 1
-> Quoted text will give you extra pointers to how an agenda should look like
-
+# Meeting week 
 ## Opening
-> Here you check if everyone is present
+ 
 
 ## Approval of the agenda
 > Make sure everything that needs to be discussed is in the agenda or add it if something is missing.
