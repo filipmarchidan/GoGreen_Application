@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.loginController">
+   <children>
+      <Button fx:id="exit" layoutX="730.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeProgram" prefHeight="29.0" prefWidth="56.0" text="Exit">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
+      <AnchorPane fx:id="signinScreen" layoutX="-1.0" layoutY="40.0" style="-fx-background-color: #ff8080;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <Button fx:id="login" layoutX="71.0" layoutY="362.0" mnemonicParsing="false" onAction="#login" prefHeight="32.0" prefWidth="443.0" style="-fx-background-color: #1a66ff;" text="Login" textFill="WHITE" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="69.0" />
+            <TextArea fx:id="userField" layoutX="151.0" layoutY="147.0" prefHeight="44.0" prefWidth="230.0" promptText="Email" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="149.0" />
+            <Label layoutX="321.0" layoutY="41.0" prefHeight="75.0" prefWidth="159.0" text="Sign In" textAlignment="CENTER">
+               <font>
+                  <Font name="Bell MT" size="50.0" />
+               </font>
+            </Label>
+            <Button fx:id="register" layoutX="271.0" layoutY="452.0" mnemonicParsing="false" onAction="#register" prefHeight="32.0" prefWidth="254.0" style="-fx-background-color: #1a66ff;" text="Register" textFill="WHITE" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" />
+            <PasswordField fx:id="passwordInput" layoutX="151.0" layoutY="236.0" prefHeight="44.0" prefWidth="500.0" promptText="Password" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
