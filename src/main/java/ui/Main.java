@@ -2,51 +2,40 @@ package ui;
 
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Main extends Application {
-    private double xoffset = 0;
-    private double yoffset = 0;
+    public static Stage stage = null;
+
 
     public static void main(String[] args) {
         launch(args);
+
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
+        //Load fxml file
+        Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
 
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        //Set style to not show border
+        primaryStage.initStyle(StageStyle.UNDECORATED);
 
-        //grab your root here
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xoffset = event.getSceneX();
-                xoffset = event.getSceneY();
-            }
-        });
+        //Load scene
+        Scene login = new Scene(root);
 
-        //move around here
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                primaryStage.setX(event.getScreenX() - xoffset);
-                primaryStage.setY(event.getScreenY() - yoffset);
-            }
-        });
+        //Set stage to login scene
+        primaryStage.setScene(login);
 
-        Scene main = new Scene(root);
+        //Set stage
+        this.stage = primaryStage;
 
-        primaryStage.setScene(main);
+        //Show stage
         primaryStage.show();
-
     }
 
 
