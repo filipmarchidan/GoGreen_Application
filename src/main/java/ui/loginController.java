@@ -75,7 +75,6 @@ public class loginController implements Initializable {
     void handle_register(ActionEvent event) {
 
     }
-
     private void makeStageDragable() {
         parent.setOnMousePressed(event -> {
             xoffset = event.getSceneX();
