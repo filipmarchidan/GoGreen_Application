@@ -4,20 +4,27 @@ import com.google.gson.Gson;
 import API.ClientApplication;
 import API.messages.Activity;
 import API.messages.LogInRequest;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Scanner;
 
-public class MockTest {
+public class Main {
 
     private static ClientApplication client;
     private static Scanner scanner;
     private static Gson gson;
+    private static Calendar calendar;
+
     public static void main(String[] args){
 
         client = new ClientApplication("http://localhost:8080");
         scanner = new Scanner(System.in);
         gson = new Gson();
-
+        calendar = Calendar.getInstance();
         while(true){
             displayMenu();
             handleUserInput();
@@ -25,6 +32,9 @@ public class MockTest {
 
     }
 
+    /** Displays the commandline menu before GUI is implemented.
+     *
+     */
     private static void displayMenu(){
 
         System.out.println("Choose one of the options from the menu!");
@@ -34,18 +44,22 @@ public class MockTest {
 
     }
 
+    /** Handles the CommandLine input before GUI is implemented.
+     *
+     */
     private static void handleUserInput(){
         String input = scanner.next();
         switch(input){
             case "1":
-                logIn();
+                client.logIn("blah@blah.com","asdfsdf");
                 break;
             case "2":
-                addActivity();
+                java.util.Date date = calendar.getTime();
+                client.addActivity(Activities.VeggyMeal,new Date(date.getTime()));
                 break;
 
             case "3":
-                seeLeaderboard();
+                client.seeLeaderboard();
                 break;
 
             default:
@@ -54,34 +68,7 @@ public class MockTest {
         }
     }
 
-    private static void logIn(){
 
-        System.out.println("Please enter your username");
-        String user = scanner.next();
 
-        System.out.println("please enter your password");
-        String password = scanner.next();
 
-        LogInRequest logInRequest = new LogInRequest(user,password);
-
-        String result = client.postRequest("/login",logInRequest);
-        System.out.println(result);
-    }
-
-    private static void addActivity(){
-        System.out.println("Adding: 'Eat a vegetarian meal' ");
-        Activity activity = Activity.VeggyMeal;
-
-        String result = client.postRequest("/addactivity",activity);
-        Message message = gson.fromJson(result,Message.class);
-        System.out.println(message.getContent());
-    }
-
-    private static void seeLeaderboard(){
-        System.out.println("fetching leaderboard from server");
-
-        String result = client.getRequest("/leaderboard",null);
-        Message message = gson.fromJson(result,Message.class);
-        System.out.println(message.getContent());
-    }
 }
