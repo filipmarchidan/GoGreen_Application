@@ -81,15 +81,15 @@ public class loginController implements Initializable {
             yoffset = event.getSceneY();
         });
         parent.setOnMouseDragged(event -> {
-            Main.stage.setX(event.getScreenX() - xoffset);
-            Main.stage.setY(event.getScreenY() - yoffset);
-            Main.stage.setOpacity(0.8f);
+            UiMain.stage.setX(event.getScreenX() - xoffset);
+            UiMain.stage.setY(event.getScreenY() - yoffset);
+            UiMain.stage.setOpacity(0.8f);
         });
         parent.setOnDragDone(event -> {
-            Main.stage.setOpacity(1.0f);
+            UiMain.stage.setOpacity(1.0f);
         });
         parent.setOnMouseReleased(event -> {
-            Main.stage.setOpacity(1.0f);
+            UiMain.stage.setOpacity(1.0f);
         });
     }
 

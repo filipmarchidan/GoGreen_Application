@@ -1,7 +1,10 @@
-package hello.web;
+package API.controllers;
 
+import API.messages.Message;
 import org.junit.Assert;
 import org.junit.Test;
+
+import API.messages.Message;
 
 public class MessageTest {
 
@@ -10,23 +13,17 @@ public class MessageTest {
      */
     @Test
     public void message_retrieve_content(){
-        Message message = new Message(1,"Hello");
+        Message message = new Message("Hello");
         Assert.assertEquals("Hello",message.getContent());
     }
-    /**
-     *  makes sure ID is correctly set and retrieved
-     */
-    @Test
-    public void message_retrieve_id(){
-        Message message = new Message(1,"Hello");
-        Assert.assertEquals(1,message.getId());
-    }
+
+
     /**
      *  tests if the object equals itself
      */
     @Test
     public void message_equals_itself(){
-        Message greeting = new Message(1, "Paul");
+        Message greeting = new Message( "Paul");
         Assert.assertEquals(greeting,greeting);
     }
     /**
@@ -34,8 +31,8 @@ public class MessageTest {
      */
     @Test
     public void message_equals_same(){
-        Message greeting = new Message(1, "Paul");
-        Message greeting2 = new Message(1, "Paul");
+        Message greeting = new Message( "Paul");
+        Message greeting2 = new Message( "Paul");
         Assert.assertEquals(greeting,greeting2);
     }
 
@@ -44,8 +41,8 @@ public class MessageTest {
      */
     @Test
     public void message_doesnotequals_other(){
-        Message message = new Message(1, "Paul");
-        Message message2 = new Message(1, "Bert");
+        Message message = new Message( "Paul");
+        Message message2 = new Message( "Bert");
         Assert.assertNotEquals(message,message2);
     }
 
@@ -54,7 +51,7 @@ public class MessageTest {
      */
     @Test
     public void message_doesnotequals_null(){
-        Message message = new Message(1, "Paul");
+        Message message = new Message( "Paul");
         Assert.assertNotEquals(message,null);
     }
 
@@ -63,7 +60,7 @@ public class MessageTest {
      */
     @Test
     public void message_doesnotequals_string(){
-        Message message = new Message(1, "Paul");
+        Message message = new Message( "Paul");
         String string = "Hello, Paul!";
         Assert.assertNotEquals(message,string);
     }
