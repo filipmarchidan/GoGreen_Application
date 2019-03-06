@@ -1,6 +1,7 @@
 
 package ui;
 
+        import API.ClientApplication;
         import javafx.event.ActionEvent;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
@@ -13,7 +14,7 @@ package ui;
         import java.io.IOException;
 
 public class appController {
-
+    private ClientApplication clientApplication = ClientApplication.getInstance();
     @FXML
     private AnchorPane content;
 
@@ -47,17 +48,7 @@ public class appController {
 
     @FXML
     void handle_eatVeg(ActionEvent event) {
-        //Call to client method with certain info
 
-        //Change Label according to received info
-        //For now this is just the number 10
-        if (!score.getText().isEmpty()){
-            int scoreNumber = Integer.parseInt(score.getText());
-            scoreNumber = scoreNumber + 10;
-            score.setText(Integer.toString(scoreNumber));
-        } else {
-            score.setText("10");
-        }
     }
 
     @FXML
