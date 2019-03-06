@@ -23,9 +23,19 @@ public class ClientApplication {
 	private  String address;
 	private RestTemplate restTemplate;
 	private HttpHeaders headers;
+	private static ClientApplication clientApplication;
 
-	private static String getUrlString_json = "http://localhost:8080/API.json";
+	//private static String getUrlString_json = "http://localhost:8080/API.json";
 
+	public static ClientApplication createInstance(String address) {
+		clientApplication = new ClientApplication(address);
+		return clientApplication;
+	}
+
+	public static ClientApplication getInstance() {
+		return clientApplication;
+
+	}
 	public ClientApplication(String serverAdress) {
 
 		gson = new Gson();
