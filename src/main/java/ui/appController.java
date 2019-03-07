@@ -1,17 +1,17 @@
 
 package ui;
 
-        import API.ClientApplication;
-        import javafx.event.ActionEvent;
-        import javafx.fxml.FXML;
-        import javafx.fxml.FXMLLoader;
-        import javafx.scene.Parent;
-        import javafx.scene.control.Button;
-        import javafx.scene.control.Label;
-        import javafx.scene.layout.AnchorPane;
-        import javafx.stage.Stage;
+import API.ClientApplication;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
-        import java.io.IOException;
+import java.io.IOException;
 
 public class appController {
     private ClientApplication clientApplication = ClientApplication.getInstance();
