@@ -85,8 +85,8 @@ public class ClientApplication {
 		ClientApplication client = new ClientApplication("http://localhost:8080/");
 		
 		System.out.println(client.getRequest("all", null));
-		System.out.println(client.postRequest("add", new User("asjhfv", "skldfgfja")));
-		System.out.println(client.getRequest("all", null));
+		//System.out.println(client.postRequest("add", new User("asjhfv", "skldfgfja")));
+		//System.out.println(client.getRequest("all", null));
 		
 		
 	}

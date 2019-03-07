@@ -2,11 +2,6 @@ import API.messages.*;
 
 import com.google.gson.Gson;
 import API.ClientApplication;
-import API.messages.Activity;
-import API.messages.LogInRequest;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 
 import java.sql.Date;
 import java.util.Calendar;
