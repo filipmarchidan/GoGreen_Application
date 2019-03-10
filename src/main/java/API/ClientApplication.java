@@ -3,15 +3,13 @@ package API;
 
 
 
-import API.messages.Activities;
 import API.messages.LogInRequest;
 import API.messages.Message;
 import com.google.gson.Gson;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.Array;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**This client class is able to send GET request to different routs;
@@ -52,7 +50,6 @@ public class ClientApplication {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
 
-
 	}
 
 	private String getRequest(String endpoint,Object obj) {
@@ -86,7 +83,8 @@ public class ClientApplication {
 		
 		System.out.println(client.getRequest("all", null));
 		System.out.println(client.getUsers());
-		client.addActivity(new Activity(1,1,"vegetarian_meal",50,Calendar.getInstance().getTime()));
+		System.out.println(LocalDateTime.now());
+		client.addActivity(new Activity(1,1,"vegetarian_meal",50,Activity.getDateTime()));
 		//System.out.println(client.postRequest("add", new User("asjhfv", "skldfgfja")));
 		System.out.println(client.getRequest("all", null));
 		System.out.println(client.getActivities());
