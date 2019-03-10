@@ -30,11 +30,4 @@ public class ServerApplicationTest{
         Assert.assertEquals(body, "Hello World!");
     }
 
-    @Test
-    public void message_test() {
-        Message greeting = new Message("Paul");
-        Message test = this.testRestTemplate.getForObject("/message", Message.class);
-        Assert.assertEquals(greeting.getContent(),test.getContent());
-    }
-
 }
