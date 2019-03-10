@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes={ServerApplication.class}, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ServerApplicationTest{
-    /*
+
     @Test
     public void contextLoads() {
     }
@@ -29,13 +29,5 @@ public class ServerApplicationTest{
         String body = this.testRestTemplate.getForObject("/hello?name=World", String.class);
         Assert.assertEquals(body, "Hello World!");
     }
-
-    @Test
-    public void message_test() {
-        Message greeting = new Message("Paul");
-        Message test = this.testRestTemplate.getForObject("/message", Message.class);
-        Assert.assertEquals(greeting.getContent(),test.getContent());
-    }
-    */
 
 }

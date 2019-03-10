@@ -36,10 +36,4 @@ public class RequestController {
         return message;
     }
 
-    @RequestMapping("/addactivity")
-    public Message addActivity(@RequestBody Activity activity, @RequestHeader HttpHeaders headers) {
-        Message message = new Message("Tried to add new activity: " + activity.toString());
-        return message;
-    }
-
 }

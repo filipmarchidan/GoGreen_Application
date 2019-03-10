@@ -1,5 +1,6 @@
 package API;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+@Entity // This tells Hibernate to make a table out of this class
 public class Activity {
     
     
@@ -23,7 +25,11 @@ public class Activity {
     
     private Date date_time;
     
-    
+
+    public Activity(){
+
+    }
+
     public Activity(Integer id, int user_id, String activity_type, int CO2_savings, Date date_time) {
         this.id = id;
         this.user_id = user_id;
