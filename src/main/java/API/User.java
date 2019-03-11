@@ -1,23 +1,23 @@
 package API;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
+@NamedQuery(name = "Users.findByEmail", query = "SELECT p FROM user WHERE LOWER(p.email)")
+@Table(name =  "users")
 public class User {
 	 @Id
 	 @GeneratedValue(strategy=GenerationType.AUTO)
 
 
-	 private Integer id;
+	 private long id;
 
-
+	@Column(name = "email", nullable = false)
 	 private String email;
-
+	@Column(name = "password", nullable = false)
 	 private String password;
-	 
+
+
 	 public User() {
 	 
 	 }
@@ -26,12 +26,17 @@ public class User {
 	 	this.email = email;
 	 	this.password = password;
 	 }
+	public void update(String email, String password)
+	{
+		this.email = email;
+		this.password = password;
+	}
 
-	 public Integer getId() {
+	 public Long getId() {
 		  return id;
 	 }
 
-	 public void setId(Integer id) {
+	 public void setId(Long id) {
 		  this.id = id;
 	 }
 
