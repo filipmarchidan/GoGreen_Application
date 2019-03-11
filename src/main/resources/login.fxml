@@ -5,31 +5,33 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.loginController">
+<AnchorPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.loginController">
    <children>
-      <Pane fx:id="content" layoutX="70.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" style="-fx-background-color: #00FFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+      <ImageView fitHeight="600.0" fitWidth="800.0" styleClass="dit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@deacht.jpeg" />
+         </image>
+      </ImageView>
+      <Pane fx:id="content" layoutX="456.0" layoutY="336.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="266.0" style="-fx-background-color: #379683;" styleClass="dit" stylesheets="@style.css">
          <children>
-            <Label layoutX="321.0" layoutY="63.0" prefHeight="75.0" prefWidth="159.0" text="Sign In" textAlignment="CENTER">
-               <font>
-                  <Font name="Bell MT" size="50.0" />
-               </font>
-            </Label>
-            <Button fx:id="register" layoutX="179.0" layoutY="438.0" mnemonicParsing="false" onAction="#handle_register" prefHeight="32.0" prefWidth="443.0" style="-fx-background-color: #1a66ff;" text="Register" textFill="WHITE" />
-            <PasswordField fx:id="passwordInput" layoutX="201.0" layoutY="242.0" prefHeight="30.0" prefWidth="400.0" promptText="Password" />
-            <Button fx:id="login" layoutX="179.0" layoutY="367.0" mnemonicParsing="false" onAction="#handle_login" prefHeight="32.0" prefWidth="443.0" style="-fx-background-color: #1a66ff;" text="Login" textFill="WHITE" />
-            <TextField fx:id="userField" layoutX="201.0" layoutY="176.0" prefHeight="30.0" prefWidth="400.0" promptText="Email" />
+            <Button fx:id="register" layoutX="18.0" layoutY="144.0" mnemonicParsing="false" onAction="#handle_register" prefHeight="32.0" prefWidth="231.0" style="-fx-background-color: #05386B;" text="Register" textFill="WHITE" />
+            <TextField fx:id="userField" layoutX="18.0" layoutY="14.0" prefHeight="30.0" prefWidth="231.0" promptText="Email" />
+            <PasswordField fx:id="passwordInput" layoutX="18.0" layoutY="58.0" prefHeight="30.0" prefWidth="231.0" promptText="Password" />
+            <Button fx:id="login" layoutX="18.0" layoutY="102.0" mnemonicParsing="false" onAction="#handle_login" prefHeight="32.0" prefWidth="231.0" style="-fx-background-color: #05386B;" text="Login" textFill="WHITE" />
          </children>
       </Pane>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#closeProgram" prefHeight="30.0" prefWidth="50.0" text="Exit">
+            <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#closeProgram" prefHeight="30.0" prefWidth="50.0" style="-fx-background-color: #05386B;" text="Exit" textFill="WHITE">
                <font>
-                  <Font size="8.0" />
+                  <Font size="10.0" />
                </font>
                <HBox.margin>
                   <Insets />
@@ -40,5 +42,10 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </HBox>
+      <Label alignment="CENTER" layoutX="79.0" layoutY="379.0" prefHeight="103.0" prefWidth="272.0" text="Go Green" textAlignment="CENTER" textFill="#379683" wrapText="true">
+         <font>
+            <Font name="Ebrima Bold" size="52.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

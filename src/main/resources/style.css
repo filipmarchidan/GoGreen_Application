@@ -1,3 +1,13 @@
 .dit{
--fx-background-color: #123456;
+ -fx-background-radius: 5 5 5 5;
 }
+
+.buttons:hover{
+     -fx-scale-y: 1.03;
+     -fx-scale-x: 1.03;
+ }
+
+.buttons:pressed{
+     -fx-scale-y: 0.97;
+     -fx-scale-x: 0.97;
+ }

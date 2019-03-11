@@ -5,40 +5,52 @@ import API.ClientApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class appController {
+
+
+public class appController{
+
     private ClientApplication clientApplication = ClientApplication.getInstance();
+
     @FXML
     private AnchorPane content;
 
     @FXML
-    private AnchorPane sideBar1;
-
-    @FXML
-    private Button food;
-
-    @FXML
-    private AnchorPane stats1;
-
-    @FXML
-    private AnchorPane foodMenu;
-
-    @FXML
-    private Button vegMeal;
+    private BorderPane borderPane;
 
     @FXML
     private Button exit;
 
     @FXML
-    private Label score;
+    private Pane basePane;
 
+    @FXML
+    private void switchScreen(ActionEvent event){
+        Button variable = (Button) event.getSource();
+        String fxmlName = variable.getId();
+        System.out.println(fxmlname);
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlname + ".fxml"));
+            borderPane.setCenter(root);
+        } catch(IOException ex) {
+            System.out.println("File is not found");
+        }
+    }
 
     @FXML
     void closeProgram(ActionEvent event) {
@@ -46,10 +58,6 @@ public class appController {
         stage.close();
     }
 
-    @FXML
-    void handle_eatVeg(ActionEvent event) {
-
-    }
 
     @FXML
     void handle_logout(ActionEvent event) throws IOException {
