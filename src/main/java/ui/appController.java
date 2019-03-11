@@ -43,9 +43,9 @@ public class appController{
     private void switchScreen(ActionEvent event){
         Button variable = (Button) event.getSource();
         String fxmlName = variable.getId();
-        System.out.println(fxmlname);
+        System.out.println(fxmlName);
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlname + ".fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlName + ".fxml"));
             borderPane.setCenter(root);
         } catch(IOException ex) {
             System.out.println("File is not found");
