@@ -1,3 +1,39 @@
-.dit{
--fx-background-color: #123456;
+.menuButton:hover {
+     -fx-scale-y: 1.2;
+     -fx-scale-x: 1.2;
 }
+.menuButton:pressed {
+     -fx-scale-y: 1;
+     -fx-scale-x: 1;
+}
+.exit:hover {
+    -fx-background-color: #FF0000;
+}
+.menuButton {
+ -fx-background-color: #05386B;
+ -fx-background-radius: 5 5 5 5;
+}
+.topButton{
+ -fx-background-color: #5CDB95;
+ -fx-background-radius: 3 3 3 3;
+}
+.appMenu {
+-fx-background-color: #8ee4af;
+}
+.topBar{
+ -fx-background-color:  #05386B;
+}
+.sideBar{
+-fx-background-color: #5CDB95;
+}
+.loginMenu {
+-fx-background-radius: 5 5 5 5;
+}
+.loginButton: hover {
+  -fx-scale-y: 1.2;
+  -fx-scale-x: 1.07;
+}
+.loginButton {
+ -fx-background-color: #05386B;
+ -fx-background-radius: 5 5 5 5;
+ }
