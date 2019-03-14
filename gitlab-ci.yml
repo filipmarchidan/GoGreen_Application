@@ -1,0 +1,10 @@
+stages:
+  -build
+  -test
+  -deploy
+
+  build:
+    stage: build
+
+  test:
+    stage: test
