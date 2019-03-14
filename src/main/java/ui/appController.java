@@ -1,6 +1,7 @@
 
 package ui;
 
+import API.Activity;
 import API.ClientApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,6 +38,9 @@ public class appController{
     private Button exit;
 
     @FXML
+    private Button theVeg;
+
+    @FXML
     private void switchScreen(ActionEvent event){
         Button variable = (Button) event.getSource();
         String fxmlName = variable.getId();
@@ -53,6 +57,11 @@ public class appController{
     void closeProgram(ActionEvent event) {
         Stage stage = (Stage) exit.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    void addMeal(ActionEvent event) {
+        clientApplication.addActivity(new Activity(1,1,"vegetarian_meal",50,Activity.getDateTime()));
     }
 
 
