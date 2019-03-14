@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -8,7 +8,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -19,33 +18,27 @@
             <Image url="@deacht.jpeg" />
          </image>
       </ImageView>
-      <Pane fx:id="content" layoutX="456.0" layoutY="336.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="266.0" style="-fx-background-color: #379683;" styleClass="dit" stylesheets="@style.css">
+      <Pane fx:id="content" layoutX="456.0" layoutY="336.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="266.0" style="-fx-background-color: #379683;" styleClass="loginMenu" stylesheets="@style.css">
          <children>
-            <Button fx:id="register" layoutX="18.0" layoutY="144.0" mnemonicParsing="false" onAction="#handle_register" prefHeight="32.0" prefWidth="231.0" style="-fx-background-color: #05386B;" text="Register" textFill="WHITE" />
+            <Button fx:id="register" layoutX="18.0" layoutY="151.0" mnemonicParsing="false" onAction="#handle_register" prefHeight="25.0" prefWidth="231.0" styleClass="loginButton" text="Register" textFill="WHITE" />
             <TextField fx:id="userField" layoutX="18.0" layoutY="14.0" prefHeight="30.0" prefWidth="231.0" promptText="Email" />
             <PasswordField fx:id="passwordInput" layoutX="18.0" layoutY="58.0" prefHeight="30.0" prefWidth="231.0" promptText="Password" />
-            <Button fx:id="login" layoutX="18.0" layoutY="102.0" mnemonicParsing="false" onAction="#handle_login" prefHeight="32.0" prefWidth="231.0" style="-fx-background-color: #05386B;" text="Login" textFill="WHITE" />
+            <Button fx:id="login" layoutX="18.0" layoutY="109.0" mnemonicParsing="false" onAction="#handle_login" prefHeight="22.0" prefWidth="231.0" styleClass="loginButton" text="Login" textFill="WHITE" />
          </children>
       </Pane>
-      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#closeProgram" prefHeight="30.0" prefWidth="50.0" style="-fx-background-color: #05386B;" text="Exit" textFill="WHITE">
-               <font>
-                  <Font size="10.0" />
-               </font>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </HBox>
-      <Label alignment="CENTER" layoutX="79.0" layoutY="379.0" prefHeight="103.0" prefWidth="272.0" text="Go Green" textAlignment="CENTER" textFill="#379683" wrapText="true">
+      <Label alignment="CENTER" layoutX="79.0" layoutY="379.0" prefHeight="103.0" prefWidth="272.0" text="Go Green" textAlignment="CENTER" textFill="#358f7d" wrapText="true">
          <font>
             <Font name="Ebrima Bold" size="52.0" />
          </font>
       </Label>
+      <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" layoutX="736.0" layoutY="14.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#closeProgram" prefHeight="30.0" prefWidth="50.0" text="Exit" textFill="WHITE" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <styleClass>
+            <String fx:value="menuButton" />
+            <String fx:value="exit" />
+         </styleClass>
+      </Button>
    </children>
 </AnchorPane>

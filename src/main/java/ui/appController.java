@@ -37,9 +37,6 @@ public class appController{
     private Button exit;
 
     @FXML
-    private Pane basePane;
-
-    @FXML
     private void switchScreen(ActionEvent event){
         Button variable = (Button) event.getSource();
         String fxmlName = variable.getId();
@@ -65,5 +62,13 @@ public class appController{
         content.getChildren().removeAll();
         content.getChildren().setAll(login);
     }
+
+    @FXML
+    void minimize(ActionEvent event){
+        Stage stage = (Stage)content.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+
 
 }
