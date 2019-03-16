@@ -3,7 +3,7 @@ package API;
 import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
-@NamedQuery(name = "Users.findByEmail", query = "SELECT p FROM user WHERE LOWER(p.email)")
+//@NamedQuery(name = "Users.findByEmail", query = "SELECT p FROM user WHERE LOWER(p.email)")
 @Table(name =  "users")
 public class User {
 	 @Id

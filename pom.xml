@@ -64,10 +64,16 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+        </dependency>
+        <!--
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
@@ -78,10 +84,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        -->
         <!-- useful dependency in case we decide to authenticate the client whit user/password-->
         <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 
@@ -134,6 +142,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.3</version>
+                <configuration>
+                    <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                    <excludes>
+                        <exclude>/ui/**</exclude>
+                        <exclude>**/*ui.**</exclude>
+                        <exclude>ui.appController</exclude>
+                        <exclude>ui.loginController</exclude>
+                        <exclude>ui.UiMain</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
@@ -189,6 +207,20 @@
                     <configLocation>CSE1105.checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>ui.**</exclude>
+                        <exclude>**/*ui.**</exclude>
+                        <exclude>ui.appController.java</exclude>
+                        <exclude>ui.loginController.java</exclude>
+                        <exclude>ui.UiMain.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
         </plugins>
     </reporting>
 

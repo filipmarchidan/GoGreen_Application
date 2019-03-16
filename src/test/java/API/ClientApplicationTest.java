@@ -17,7 +17,7 @@ public class ClientApplicationTest {
         Message message = new Message("Paul");
         User[] s = client.getUsers();
         System.out.println(s);
-        //String other = "{\"id\":1,\"content\":\"Hello, Paul!\"}";
+        String other = "{\"id\":1,\"content\":\"Hello, Paul!\"}";
         //Assert.assertEquals(s,other);
     }
 
