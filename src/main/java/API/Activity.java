@@ -1,5 +1,7 @@
 package API;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +25,7 @@ public class Activity {
     
     private String activity_type;
     
-    private int CO2_savings;
+    private int co2_savings;
     
     private String date_time;
     
@@ -36,7 +38,7 @@ public class Activity {
         this.id = id;
         this.user_id = user_id;
         this.activity_type = activity_type;
-        this.CO2_savings = CO2_savings;
+        this.co2_savings = CO2_savings;
         this.date_time = date_time;
     }
 
@@ -65,11 +67,11 @@ public class Activity {
     }
 
     public int getCO2_savings() {
-        return CO2_savings;
+        return co2_savings;
     }
 
     public void setCO2_savings(int CO2_savings) {
-        this.CO2_savings = CO2_savings;
+        this.co2_savings = CO2_savings;
     }
 
     public String getDate_time() {
@@ -87,11 +89,13 @@ public class Activity {
     }
 
 
+    /*
     public static void main(String[] args) {
     
     
         System.out.println(getDateTime());
     
     }
+    */
 
 }

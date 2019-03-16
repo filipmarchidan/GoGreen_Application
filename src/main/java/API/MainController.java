@@ -33,8 +33,12 @@ public class MainController {
 
 	 @PostMapping(path="/addactivity")
 	public @ResponseBody Activity addNewActivity (@RequestBody Activity activity) {
-
-	 	return activityRepository.save(activity);
+	 	System.out.println(activity.getCO2_savings());
+	 	System.out.println(activity.getUser_id());
+		 System.out.println(activity.getId());
+		Activity a = activityRepository.save(activity);
+		System.out.println(a.getCO2_savings());
+	 	return a;
 
 	 }
 	 @GetMapping(path="/activities")

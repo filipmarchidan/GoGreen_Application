@@ -3,13 +3,11 @@ package API;
 
 
 
-import API.messages.LogInRequest;
 import API.messages.Message;
 import com.google.gson.Gson;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**This client class is able to send GET request to different routs;
@@ -67,6 +65,7 @@ public class ClientApplication {
 	private String postRequest(String endpoint, Object obj) {
 
 		String json = gson.toJson(obj);
+		System.out.println(json);
 		HttpEntity<String> request = new HttpEntity<String>(json,headers);
 
 		// Send request with POST method, and Headers.
@@ -76,47 +75,40 @@ public class ClientApplication {
 		return result;
 	}
 
-	
+
+	/*
 	public static void main(String[] args) {
 		
 		ClientApplication client = new ClientApplication("http://localhost:8080/");
 		
-		System.out.println(client.getRequest("all", null));
-		System.out.println(client.getUsers());
-		System.out.println(LocalDateTime.now());
-		client.addActivity(new Activity(1,1,"vegetarian_meal",50,Activity.getDateTime()));
-		//System.out.println(client.postRequest("add", new User("asjhfv", "skldfgfja")));
-		System.out.println(client.getRequest("all", null));
+		//System.out.println(client.getRequest("all", null));
 		System.out.println(client.getActivities());
+		//System.out.println(LocalDateTime.now());
+		//client.addActivity(new Activity(1,1,"vegetarian_meal",50,Activity.getDateTime()));
+		//System.out.println(client.postRequest("add", new User("asjhfv", "skldfgfja")));
+		//System.out.println(client.getRequest("all", null));
+		//System.out.println(client.getActivities());
 		
 		
 	}
+	*/
 
 	/** Mockup that sends log in info to server, to be replaced.
 	 *
 	 * @param email email of user
 	 * @param pass password of user
 	 */
-	public void logIn(String email,String pass) {
-
-
-		LogInRequest logInRequest = new LogInRequest(email,pass);
-
-		String result = postRequest("/login",logInRequest);
-		System.out.println(result);
-	}
 
 	/** Adds an Activity to the Server.
 	 *
 	 * @param activity Activity to be added
 	 */
-	public String addActivity(Activity activity) {
-
+	public Activity addActivity(Activity activity) {
 
 		String result = postRequest("addactivity",activity);
-		Message message = gson.fromJson(result,Message.class);
-		System.out.println(message.getContent());
-		return message.getContent();
+		System.out.println(result);
+		Activity activity1 = gson.fromJson(result,Activity.class);
+		return activity1;
 	}
 
 	/** Method that requests the leaderboard from the server.
@@ -127,7 +119,7 @@ public class ClientApplication {
 
 		//this getRequest returns an Iterable<User>
 		//but in JSON that is basically equal to an array.
-		String result = getRequest("all",null);
+		String result = getRequest("allUsers",null);
 
 		System.out.println(result);
 

@@ -34,7 +34,6 @@ public class MainControllerTest {
         Assert.assertEquals(activity.getCO2_savings(),activity2.getCO2_savings());
         Assert.assertEquals(activity.getDate_time(),activity2.getDate_time());
 
-
     }
 
 
