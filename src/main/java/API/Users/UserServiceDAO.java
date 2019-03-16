@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService  implements UserDetailsService {
+public class UserServiceDAO implements UserDetailsService {
 
     @Autowired
     private AppDAO appDAO;

@@ -3,14 +3,13 @@ package API;
 import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
-@NamedQuery(name = "Users.findByEmail", query = "SELECT p FROM user WHERE LOWER(p.email)")
 @Table(name =  "users")
 public class User {
 	 @Id
 	 @GeneratedValue(strategy=GenerationType.AUTO)
 
 
-	 private long id;
+	 private int id;
 
 	@Column(name = "email", nullable = false)
 	 private String email;
@@ -32,11 +31,11 @@ public class User {
 		this.password = password;
 	}
 
-	 public Long getId() {
+	 public int getId() {
 		  return id;
 	 }
 
-	 public void setId(Long id) {
+	 public void setId(int id) {
 		  this.id = id;
 	 }
 
