@@ -12,12 +12,14 @@ public class User {
 	 @Id
 	 @GeneratedValue(strategy=GenerationType.AUTO)
 	 private Integer id;
-	
-	private String email;
-
-	 private String password;
 	 
-	 public User() {
+	 @Column(name = "email", nullable = false, unique = true)
+	 private String email;
+	
+	@Column(name = "password", nullable = false)
+	private String password;
+	 
+	public User() {
 	 
 	 }
 	 

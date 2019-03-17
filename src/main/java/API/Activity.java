@@ -1,9 +1,6 @@
 package API;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -12,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "activities")
 public class Activity {
 
 
@@ -20,12 +18,16 @@ public class Activity {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     
+    @Column(name = "user_id", nullable = false)
     private int user_id;
     
+    @Column(name = "activity_type", nullable = false)
     private String activity_type;
     
+    @Column(name = "CO2_savings", nullable = false)
     private int CO2_savings;
     
+    @Column(name = "date_time", nullable = false)
     private String date_time;
     
 
