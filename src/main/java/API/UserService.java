@@ -3,6 +3,8 @@ package API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -32,7 +34,7 @@ public class UserService {
         User updatedUser = userRepository.save(userFromDB);
         return updatedUser;
     }
-    public User getUserByEmail(String email)
+    public List<User> getUserByEmail(String email)
     {
         return userRepository.findByEmail(email);
     }
