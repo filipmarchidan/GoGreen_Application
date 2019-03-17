@@ -6,9 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-
-   // @Query("SELECT p FROM user WHERE LOWER(p.email)")
+    
     User findByEmail(String email);
-
     
 }
