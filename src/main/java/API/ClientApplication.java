@@ -3,6 +3,7 @@ package API;
 
 
 
+import API.messages.Message;
 import com.google.gson.Gson;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
