@@ -38,7 +38,7 @@ public class Activity {
     public Activity(int user_id, String activity_type, int CO2_savings, String date_time) {
         this.user_id = user_id;
         this.activity_type = activity_type;
-        this.CO2_savings = CO2_savings;
+        this.co2_savings = CO2_savings;
         this.date_time = date_time;
     }
 
@@ -67,11 +67,11 @@ public class Activity {
     }
 
     public int getCO2_savings() {
-        return CO2_savings;
+        return co2_savings;
     }
 
     public void setCO2_savings(int CO2_savings) {
-        this.CO2_savings = CO2_savings;
+        this.co2_savings = CO2_savings;
     }
 
     public String getDate_time() {

@@ -3,14 +3,11 @@ package API;
 
 
 
-import API.messages.LogInRequest;
-import API.messages.Message;
 import com.google.gson.Gson;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
 
 /**This client class is able to send GET request to different routs;
  *

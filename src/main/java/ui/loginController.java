@@ -24,13 +24,7 @@ public class loginController implements Initializable {
     private AnchorPane parent;
 
     @FXML
-    private Button register;
-
-    @FXML
     private PasswordField passwordInput;
-
-    @FXML
-    private Button login;
 
     @FXML
     private TextField userField;
