@@ -32,6 +32,9 @@ public class loginController implements Initializable {
     @FXML
     private Button exit;
 
+    @FXML
+    private Button login;
+
     //x-coordinate of the mousecursor
     private double xoffset;
 
@@ -64,8 +67,6 @@ public class loginController implements Initializable {
         } else {
             System.out.println("User did not enter all fields");
         }
-
-
     }
 
     @FXML
