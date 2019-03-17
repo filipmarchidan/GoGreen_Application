@@ -14,16 +14,17 @@ public class Message {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object obj) {
 
-        if(o == null){
+        if (obj == null) {
             return false;
-        }if(o == this){
+        }
+        if (obj == this) {
             return true;
         }
-        if(o instanceof Message){
-            Message g = (Message) o;
-            return g.getContent().equals(this.content);
+        if (obj instanceof Message) {
+            Message message = (Message) obj;
+            return message.getContent().equals(this.content);
         }
         return false;
     }

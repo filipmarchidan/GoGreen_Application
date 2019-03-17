@@ -3,7 +3,15 @@ package API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,9 +27,15 @@ public class MainController {
 
     @Autowired
     private UserService userService;
-
-    @PostMapping(path="/add") // Map ONLY GET Requests
-    public @ResponseBody User addNewUser (@RequestBody User user) {
+    
+    
+    /** adds a new user to the database
+     *
+     * @param user user to be added
+     * @return copy of user actually added (proper ID etc..)
+     */
+    @PostMapping(path = "/add") // Map ONLY GET Requests
+    public @ResponseBody User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
@@ -32,14 +46,20 @@ public class MainController {
 
 
     }
-
-    @PostMapping(path="/addactivity")
-    public @ResponseBody Activity addNewActivity (@RequestBody Activity activity) {
-        Activity a = activityRepository.save(activity);
-        return a;
+    
+    /** adds an activity to the database.
+     *
+     * @param activity activity to be added
+     * @return activity actually added (proper id)
+     */
+    @PostMapping(path = "/addactivity")
+    public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
+        Activity act = activityRepository.save(activity);
+        return act;
 
     }
-    @GetMapping(path="/activities")
+    
+    @GetMapping(path = "/activities")
     public @ResponseBody Iterable<Activity> getAllActivities() {
 
         return activityRepository.findAll();
@@ -53,12 +73,15 @@ public class MainController {
         deleteUser - deletes an user in the database
         updateUser - updates a current user in the database
         */
+    
     //creates new user
     @CrossOrigin
-    @PostMapping(value ="/create",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create",consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
+    
     //gets the user by id
     @CrossOrigin
     @GetMapping(value = "/userId/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -72,22 +95,29 @@ public class MainController {
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
     }
+    
     //gets user by email
     @CrossOrigin
     @GetMapping(value = "/email/{email:.+}",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUserByEmail(@PathVariable("email")String email) {
         return userService.getUserByEmail(email);
     }
+    
     //deletes user by id
     @CrossOrigin
     @DeleteMapping(value = "/userId/{userId}")
     public void deleteUser(@PathVariable("ticketId")Integer userId) {
         userService.deleteUser(userId);
     }
+    
     //updates the user
     @CrossOrigin
-    @PutMapping(value = "/userId/{userId}/email/{newEmail:.+}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@PathVariable("ticketId")Integer userId,@PathVariable("newEmail")String newEmail, @PathVariable("newPassword") String newPassword) {
+    @PutMapping(value = "/userId/{userId}/email/{newEmail:.+}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public User updateUser(@PathVariable("ticketId")Integer userId,
+                           @PathVariable("newEmail")String newEmail,
+                           @PathVariable("newPassword") String newPassword) {
+        
         return userService.updateUser(newEmail, newPassword, userId);
     }
 }
