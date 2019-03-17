@@ -11,9 +11,16 @@ import java.util.Objects;
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "activities")
 public class Activity {
-
-
-
+    
+    
+    public Integer getId() {
+        return id;
+    }
+    
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
@@ -25,7 +32,7 @@ public class Activity {
     private String activity_type;
     
     @Column(name = "CO2_savings", nullable = false)
-    private int CO2_savings;
+    private int co2_savings;
     
     @Column(name = "date_time", nullable = false)
     private String date_time;
@@ -94,7 +101,7 @@ public class Activity {
         if (o == null || getClass() != o.getClass()) return false;
         Activity activity = (Activity) o;
         return user_id == activity.user_id &&
-            CO2_savings == activity.CO2_savings &&
+            co2_savings == activity.co2_savings &&
             Objects.equals(id, activity.id) &&
             Objects.equals(activity_type, activity.activity_type) &&
             Objects.equals(date_time, activity.date_time);

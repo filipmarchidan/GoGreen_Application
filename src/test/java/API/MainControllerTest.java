@@ -101,7 +101,7 @@ public class MainControllerTest {
     
         String responseBody =
             mvc.perform(
-                get("/all")
+                get("/allUsers")
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andExpect(

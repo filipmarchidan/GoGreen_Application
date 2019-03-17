@@ -61,7 +61,7 @@ public class appController{
 
     @FXML
     void addMeal(ActionEvent event) {
-        clientApplication.addActivity(new Activity(1,1,"vegetarian_meal",50,Activity.getDateTime()));
+        clientApplication.addActivity(new Activity(1,"vegetarian_meal",50,Activity.getDateTime()));
     }
 
 

@@ -40,7 +40,7 @@ public class ClientApplicationTest {
     @Test
     public void client_adds_activity(){
         clientApplication = ClientApplication.getInstance();
-        Activity veggy = new Activity(1,1,"veggy_meal",50,Activity.getDateTime());
+        Activity veggy = new Activity(1,"veggy_meal",50,Activity.getDateTime());
         Activity back = clientApplication.addActivity(veggy);
         Assert.assertEquals(veggy.getDate_time(),back.getDate_time());
         Assert.assertEquals(veggy.getCO2_savings(),back.getCO2_savings());
@@ -52,17 +52,10 @@ public class ClientApplicationTest {
     public void activity_list_contains_activity(){
 
         clientApplication = ClientApplication.getInstance();
-        Activity veggy = new Activity(1,1,"veggy_meal",50,Activity.getDateTime());
+        Activity veggy = new Activity(1,"veggy_meal",50,Activity.getDateTime());
         Activity back = clientApplication.addActivity(veggy);
         Activity[] activities = clientApplication.getActivities();
-        boolean found = false;
-        for(Activity a : activities){
-            if(a.getId().equals(back.getId())) {
-                System.out.println("setting boolean to true");
-                found = true;
-            }
-        }
-        Assert.assertTrue(found);
+        Assert.assertTrue(Arrays.asList(activities).contains(back));
     }
 
 

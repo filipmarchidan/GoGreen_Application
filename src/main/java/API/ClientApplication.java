@@ -74,7 +74,7 @@ public class ClientApplication {
 		return result;
 	}
 
-	
+	/*
 	public static void main(String[] args) {
 		
 		ClientApplication client = new ClientApplication("http://localhost:8080/");
@@ -90,32 +90,17 @@ public class ClientApplication {
 		
 		
 	}
-
-	/** Mockup that sends log in info to server, to be replaced.
-	 *
-	 * @param email email of user
-	 * @param pass password of user
-	 */
-	public void logIn(String email,String pass) {
-
-
-		LogInRequest logInRequest = new LogInRequest(email,pass);
-
-		String result = postRequest("/login",logInRequest);
-		System.out.println(result);
-	}
-
+	*/
 	/** Adds an Activity to the Server.
 	 *
 	 * @param activity Activity to be added
 	 */
-	public String addActivity(Activity activity) {
+	public Activity addActivity(Activity activity) {
 
 
 		String result = postRequest("addactivity",activity);
-		Message message = gson.fromJson(result,Message.class);
-		System.out.println(message.getContent());
-		return message.getContent();
+		Activity activity1 = gson.fromJson(result,Activity.class);
+		return activity1;
 	}
 
 	/** Method that requests the leaderboard from the server.
@@ -126,7 +111,7 @@ public class ClientApplication {
 
 		//this getRequest returns an Iterable<User>
 		//but in JSON that is basically equal to an array.
-		String result = getRequest("all",null);
+		String result = getRequest("allUsers",null);
 
 		System.out.println(result);
 
