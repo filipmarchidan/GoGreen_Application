@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Activity {
@@ -32,8 +33,7 @@ public class Activity {
 
     }
 
-    public Activity(Integer id, int user_id, String activity_type, int CO2_savings, String date_time) {
-        this.id = id;
+    public Activity(int user_id, String activity_type, int CO2_savings, String date_time) {
         this.user_id = user_id;
         this.activity_type = activity_type;
         this.CO2_savings = CO2_savings;
@@ -85,13 +85,18 @@ public class Activity {
         Date date = new Date();
         return dateFormat.format(date);
     }
-
-
-    public static void main(String[] args) {
     
-    
-        System.out.println(getDateTime());
-    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Activity activity = (Activity) o;
+        return user_id == activity.user_id &&
+            CO2_savings == activity.CO2_savings &&
+            Objects.equals(id, activity.id) &&
+            Objects.equals(activity_type, activity.activity_type) &&
+            Objects.equals(date_time, activity.date_time);
     }
-
+    
+   
 }

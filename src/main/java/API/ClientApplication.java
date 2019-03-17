@@ -84,7 +84,7 @@ public class ClientApplication {
 		//System.out.println(client.getRequest("all", null));
 		//System.out.println(client.getUsers());
 		//System.out.println(LocalDateTime.now());
-		client.addActivity(new Activity(1,1,"vegetarian_meal",50,Activity.getDateTime()));
+		client.addActivity(new Activity(1,"vegetarian_meal",50,Activity.getDateTime()));
 		//System.out.println(client.postRequest("add", new User("asjhfv", "skldfgfja")));
 		//System.out.println(client.getRequest("all", null));
 		//client.postRequest("add", new User("jv#2r","5wew5fs"));
