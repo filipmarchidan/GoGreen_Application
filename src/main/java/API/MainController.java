@@ -5,6 +5,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller    // This means that this class is a Controller
 @RestController
 public class MainController {
@@ -73,7 +75,7 @@ public class MainController {
     //gets user by email
     @CrossOrigin
     @GetMapping(value = "/email/{email:.+}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserByEmail(@PathVariable("email")String email) {
+    public List<User> getUserByEmail(@PathVariable("email")String email) {
         return userService.getUserByEmail(email);
     }
     //deletes user by id
