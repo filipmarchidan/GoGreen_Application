@@ -3,7 +3,9 @@ package API;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,6 +40,7 @@ public class MainControllerTest {
     
     @Autowired
     private ObjectMapper objectMapper;
+    
     
     private String buildRequestBody(Object data) throws JsonProcessingException {
         
@@ -87,10 +90,12 @@ public class MainControllerTest {
             assertEquals(returnedUser.getEmail(), user.getEmail());
             assertEquals(returnedUser.getPassword(), user.getPassword());
     
-    
+        
         } else {
             fail();
         }
+        
+        
     
     }
     
@@ -183,4 +188,34 @@ public class MainControllerTest {
         );
         
     }
+    
+    @Test
+    public void deleteAll() throws Exception {
+        
+        userRepository.deleteAll();
+    
+        Iterable<User> allUsers = userRepository.findAll();
+    
+        String responseBody =
+            mvc.perform(
+                get("/allUsers")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+                .andExpect(
+                    status().isOk()
+                )
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+    
+        Iterable<User> retrievedUsers = objectMapper.readValue(responseBody, new TypeReference<Iterable<User>>(){});
+    
+        assertEquals(
+            allUsers,
+            retrievedUsers
+        );
+        
+        
+    }
+    
 }
