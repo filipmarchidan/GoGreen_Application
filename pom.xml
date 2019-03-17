@@ -150,7 +150,7 @@
                 <configuration>
                     <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
                     <excludes>
-                        <exclude>/ui/**</exclude>
+                        <exclude>ui/**</exclude>
                         <exclude>**/*ui.**</exclude>
                         <exclude>ui.appController</exclude>
                         <exclude>ui.loginController</exclude>
@@ -215,15 +215,6 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>ui.**</exclude>
-                        <exclude>**/*ui.**</exclude>
-                        <exclude>ui.appController.java</exclude>
-                        <exclude>ui.loginController.java</exclude>
-                        <exclude>ui.UiMain.java</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
 
         </plugins>

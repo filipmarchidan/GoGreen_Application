@@ -60,7 +60,8 @@ public class ServerApplicationTest{
 
         Activity activity = new Activity(1,1,"veggy_ meal",5,Activity.getDateTime());
         String activityString = gson.toJson(activity);
-        this.mockMvc.perform(post("/addactivity").contentType(APPLICATION_JSON_UTF8).content(activityString)).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(post("/addactivity").contentType(APPLICATION_JSON_UTF8).content(activityString)).andDo(print())
+                .andExpect(status().isOk()).andExpect(content().string(containsString("activity_type")));
     }
 
 
