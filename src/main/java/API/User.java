@@ -9,8 +9,6 @@ import java.util.Objects;
 @Table(name = "users")
 public class User {
 	
-	
-	
 	 @Id
 	 @GeneratedValue(strategy=GenerationType.AUTO)
 	 private Integer id;
@@ -28,13 +26,13 @@ public class User {
 	 	this.password = password;
 	 }
 
-	 public Integer getId() {
+	 /*public Integer getId() {
 		  return id;
 	 }
 
 	 public void setId(Integer id) {
 		  this.id = id;
-	 }
+	 }*/
 
 
 
