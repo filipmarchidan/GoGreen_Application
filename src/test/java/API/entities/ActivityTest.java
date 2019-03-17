@@ -15,7 +15,7 @@ public class ActivityTest {
     Activity activity2 = new Activity(1,"vegetarian_meal", 15, originalDate);
     Activity activity3 = new Activity(1,"vegetarian_meal", 20, originalDate);
     
-    
+    Activity activityNull = null;
     
     @Test
     void equalsTestTrue(){
@@ -27,6 +27,18 @@ public class ActivityTest {
     void equalsTestFalse() {
     
         assertFalse(activity1.equals(activity3));
+    }
+    
+    @Test
+    void equalsTestNullObject(){
+        
+        assertFalse(activity1.equals(activityNull));
+    }
+    
+    @Test
+    void equalsTestSameObject(){
+        
+        assertTrue(activity1.equals(activity1));
     }
     
     @Test

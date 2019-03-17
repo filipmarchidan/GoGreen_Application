@@ -6,8 +6,7 @@ import API.User;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-
-
+import javax.persistence.Table;
 
 
 public class UserTest {
@@ -19,6 +18,8 @@ public class UserTest {
     
     User user3 = new User("testFalse@gmail.com", "testFalse");
     
+    User userNull = null;
+    
     @Test
    public void equalsTestTrue(){
        
@@ -27,9 +28,21 @@ public class UserTest {
    }
    
    @Test
+   void equalsTestSameObject(){
+        assertTrue(user1.equals(user1));
+        
+   }
+   
+   @Test
     public void equalsTestFalse(){
         
         assertFalse(user1.equals(user3));
+   }
+   
+   @Test
+   void equalsTestNullObject(){
+        
+        assertFalse(user1.equals(userNull));
    }
     
     @Test
