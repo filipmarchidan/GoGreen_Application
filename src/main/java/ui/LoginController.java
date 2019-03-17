@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class loginController implements Initializable {
+public class LoginController implements Initializable {
 
     private ClientApplication clientApplication = ClientApplication.getInstance();
 
@@ -42,7 +42,7 @@ public class loginController implements Initializable {
     private double yoffset;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb){
+    public void initialize(URL url, ResourceBundle rb) {
         makeStageDragable();
     }
 
@@ -73,6 +73,7 @@ public class loginController implements Initializable {
     void handle_register(ActionEvent event) {
 
     }
+
     private void makeStageDragable() {
         parent.setOnMousePressed(event -> {
             xoffset = event.getSceneX();

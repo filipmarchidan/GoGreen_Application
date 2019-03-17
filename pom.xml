@@ -165,8 +165,8 @@
                     <excludes>
                         <exclude>ui/**</exclude>
                         <exclude>**/*ui.**</exclude>
-                        <exclude>ui.appController</exclude>
-                        <exclude>ui.loginController</exclude>
+                        <exclude>ui.AppController</exclude>
+                        <exclude>ui.LoginController</exclude>
                         <exclude>ui.UiMain</exclude>
                     </excludes>
                 </configuration>

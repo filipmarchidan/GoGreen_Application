@@ -6,27 +6,22 @@ import API.ClientApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-
-
-public class appController{
+public class AppController {
 
     private ClientApplication clientApplication = ClientApplication.getInstance();
 
@@ -34,7 +29,7 @@ public class appController{
     private AnchorPane content;
 
     @FXML
-    private BorderPane borderPane;
+    private BorderPane borderpane;
 
     @FXML
     private Button exit;
@@ -43,20 +38,19 @@ public class appController{
     private Pane homeScreen;
 
     @FXML
-    private void switchScreen(ActionEvent event){
+    private void switchScreen(ActionEvent event) {
         Button variable = (Button) event.getSource();
         String fxmlName = variable.getId();
         System.out.println(fxmlName);
-        if(fxmlName.equals("home")) {
-            borderPane.getChildren().removeAll();
-            borderPane.setCenter(homeScreen);
+        if (fxmlName.equals("home")) {
+            borderpane.getChildren().removeAll();
+            borderpane.setCenter(homeScreen);
         } else if (fxmlName.equals("history")) {
             displayActivities();
-        }
-        else {
+        } else {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlName + ".fxml"));
-                borderPane.setCenter(root);
+                borderpane.setCenter(root);
             } catch (IOException ex) {
                 System.out.println("File " + fxmlName + ".fxml not found");
             }
@@ -74,8 +68,7 @@ public class appController{
         clientApplication.addActivity(new Activity(1,"veggie_meal",50,Activity.getDateTime()));
     }
 
-    private void displayActivities(){
-        Activity[] activities = clientApplication.getActivities();
+    private void displayActivities() {
         ScrollPane scroll = new ScrollPane();
         scroll.setPrefSize(600, 560);
         scroll.setFitToWidth(true);
@@ -83,18 +76,20 @@ public class appController{
         vbox.setStyle("-fx-background-color: #8ee4af;");
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setFillWidth(true);
-        for(Activity a : activities) {
+
+        Activity[] activities = clientApplication.getActivities();
+        for (Activity a : activities) {
             HBox active = new HBox();
-            active.setStyle("-fx-border-color:  #05386B;" +
-                        "-fx-border-width: 3;" +
-                        "-fx-border-radius: 10 10 10 10;");
+            active.setStyle("-fx-border-color:  #05386B;"
+                    + "-fx-border-width: 3;"
+                    + "-fx-border-radius: 10 10 10 10;");
             active.setPrefSize(600, 50);
             active.setPadding(new Insets(5,5,5,5));
             active.setAlignment(Pos.CENTER);
             Label activity = new Label("Activity: " + a.getActivity_type());
             activity.setStyle("-fx-font-size:18px;");
             activity.setPrefWidth(200);
-            Label co2 = new Label("Co2 Saved: "+ a.getCO2_savings());
+            Label co2 = new Label("Co2 Saved: " + a.getCO2_savings());
             co2.setStyle("-fx-font-size:18px");
             co2.setPrefWidth(130);
             String[] formatedDate = a.getDate_time().split(" ");
@@ -104,10 +99,10 @@ public class appController{
             active.getChildren().addAll(activity, co2, date);
             System.out.println(a.getActivity_type() + a.getCO2_savings() + a.getDate_time());
             vbox.getChildren().add(active);
-            }
+        }
         scroll.setContent(vbox);
-        borderPane.getChildren().removeAll();
-        borderPane.setCenter(scroll);
+        borderpane.getChildren().removeAll();
+        borderpane.setCenter(scroll);
     }
 
 
@@ -119,7 +114,7 @@ public class appController{
     }
 
     @FXML
-    void minimize(ActionEvent event){
+    void minimize(ActionEvent event) {
         Stage stage = (Stage)content.getScene().getWindow();
         stage.setIconified(true);
     }
