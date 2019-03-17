@@ -49,7 +49,7 @@ public class ClientApplicationTest {
     }
 
     @Test
-    public void client_adds_activity2(){
+    public void activity_list_contains_activity(){
 
         clientApplication = ClientApplication.getInstance();
         Activity veggy = new Activity(1,1,"veggy_meal",50,Activity.getDateTime());
