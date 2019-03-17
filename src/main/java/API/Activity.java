@@ -38,13 +38,13 @@ public class Activity {
      * creates an activity.
      * @param user_id user_id
      * @param activity_type activity_type
-     * @param CO2_savings co2_savings
+     * @param co2_savings co2_savings
      * @param date_time date_time
      */
-    public Activity(int user_id, String activity_type, int CO2_savings, String date_time) {
+    public Activity(int user_id, String activity_type, int co2_savings, String date_time) {
         this.user_id = user_id;
         this.activity_type = activity_type;
-        this.co2_savings = CO2_savings;
+        this.co2_savings = co2_savings;
         this.date_time = date_time;
     }
 
@@ -82,8 +82,8 @@ public class Activity {
         return co2_savings;
     }
 
-    public void setCO2_savings(int CO2_savings) {
-        this.co2_savings = CO2_savings;
+    public void setCO2_savings(int co2_savings) {
+        this.co2_savings = co2_savings;
     }
 
     public String getDate_time() {

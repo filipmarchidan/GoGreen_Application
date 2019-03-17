@@ -3,10 +3,8 @@ package API.entities;
 import API.User;
 
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-
-import javax.persistence.Table;
+import org.junit.Assert;
+import org.junit.Test;
 
 
 public class UserTest {
@@ -22,57 +20,63 @@ public class UserTest {
     
     @Test
    public void equalsTestTrue(){
-       
     
-       assertTrue(user1.equals(user2));
+    
+        Assert.assertTrue(user1.equals(user2));
    }
    
    @Test
-   void equalsTestSameObject(){
-        assertTrue(user1.equals(user1));
+   public void equalsTestSameObject(){
+       Assert.assertTrue(user1.equals(user1));
         
    }
    
    @Test
     public void equalsTestFalse(){
-        
-        assertFalse(user1.equals(user3));
+    
+       Assert.assertFalse(user1.equals(user3));
    }
    
    @Test
-   void equalsTestNullObject(){
-        
-        assertFalse(user1.equals(userNull));
+   public void equalsTestNullObject(){
+    
+       Assert.assertFalse(user1.equals(userNull));
    }
     
     @Test
-    void emailGetter() {
-        
-        assertEquals("test@gmail.com", user1.getEmail());
+    public void emailGetter() {
+    
+        Assert.assertEquals("test@gmail.com", user1.getEmail());
     }
     
     @Test
-    void emailSetter() {
+    public void emailSetter() {
         user1.setEmail("testtest@gmail.com");
-        assertEquals("testtest@gmail.com", user1.getEmail());
+        Assert.assertEquals("testtest@gmail.com", user1.getEmail());
     }
     
     @Test
-    void passwordgetter() {
-        
-        assertEquals("test", user1.getPassword());
+    public void passwordgetter() {
+    
+        Assert.assertEquals("test", user1.getPassword());
     }
     
     @Test
-    void passwordSetter() {
+    public void passwordSetter() {
         
         user1.setPassword("password");
-        assertEquals("password", user1.getPassword());
+        Assert.assertEquals("password", user1.getPassword());
     }
     
     @Test
-    void contructorTest(){
-        
-        assertEquals("test@gmail.comtest", user2.getEmail() + user2.getPassword());
+    public void contructorTest(){
+    
+        Assert.assertEquals("test@gmail.comtest", user2.getEmail() + user2.getPassword());
+    }
+
+    @Test
+    public void user_does_not_equal_string() {
+        String string = "Not a User";
+        Assert.assertFalse(user1.equals(string));
     }
 }
