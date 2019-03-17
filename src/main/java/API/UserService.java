@@ -2,11 +2,13 @@ package API;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
-public class UserService {
+public class UserService{
     @Autowired
     private UserRepository userRepository;
 
@@ -14,6 +16,7 @@ public class UserService {
     {
         return userRepository.save(user);
     }
+
     public User getUserById(Integer userId)
     {
         return userRepository.findById(userId).get();
@@ -34,8 +37,6 @@ public class UserService {
         User updatedUser = userRepository.save(userFromDB);
         return updatedUser;
     }
-    public List<User> getUserByEmail(String email)
-    {
-        return userRepository.findByEmail(email);
-    }
+    public List<User> getUserByEmail(String email) { return userRepository.findByEmail(email); }
+
 }
