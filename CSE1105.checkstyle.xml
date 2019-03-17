@@ -69,12 +69,13 @@ Checkstyle configurartion that checks the Google coding conventions (https://goo
     <module name="TypeName">
       <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
     </module>
+
     <module name="MemberName">
-      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
+      <property name="format" value="^[a-z0-9](_?[a-zA-Z0-9]+)*$"/>
       <message key="name.invalidPattern" value="Member name ''{0}'' must match pattern ''{1}''."/>
     </module>
     <module name="ParameterName">
-      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
+      <property name="format" value="^^[a-z0-9](_?[a-zA-Z0-9]+)*$"/>
       <message key="name.invalidPattern" value="Parameter name ''{0}'' must match pattern ''{1}''."/>
     </module>
     <module name="LocalVariableName">
@@ -108,7 +109,7 @@ Checkstyle configurartion that checks the Google coding conventions (https://goo
       <property name="arrayInitIndent" value="4"/>
     </module>
     <module name="AbbreviationAsWordInName">
-      <property name="allowedAbbreviationLength" value="1"/>
+      <property name="allowedAbbreviationLength" value="3"/>
       <property name="ignoreFinal" value="false"/>
     </module>
     <module name="OverloadMethodsDeclarationOrder"/>

@@ -90,6 +90,16 @@ public class ActivityTest {
         assertEquals(date, activity1.getDate_time());
     }
     
+    @Test
+    void Activity_Equals_itself() {
+        assertEquals(activity1,activity1);
+    }
+    @Test
+    void Activity_does_not_equal_string() {
+        String string = "not an activity";
+        assertFalse(activity1.equals(string));
+    }
+    
 }
 
 

@@ -75,4 +75,15 @@ public class UserTest {
         
         assertEquals("test@gmail.comtest", user2.getEmail() + user2.getPassword());
     }
+    
+    @Test
+    void user_equals_itself() {
+        assertEquals(user1,user1);
+    }
+    
+    @Test
+    void user_does_not_equal_string() {
+        String string = "Not a User";
+        assertFalse(user1.equals(string));
+    }
 }
