@@ -163,8 +163,8 @@
                 <configuration>
                     <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
                     <excludes>
-                        <exclude>ui/**</exclude>
-                        <exclude>**/*ui.**</exclude>
+                        <exclude>gui/**</exclude>
+                        <exclude>**/*gui.**</exclude>
                         <exclude>gui.AppController</exclude>
                         <exclude>gui.LoginController</exclude>
                         <exclude>gui.UiMain</exclude>
