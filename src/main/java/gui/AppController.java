@@ -1,8 +1,7 @@
-
 package gui;
 
-import database.entities.Activity;
 import client.Client;
+import database.entities.Activity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

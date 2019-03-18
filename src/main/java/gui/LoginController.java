@@ -86,7 +86,8 @@ public class LoginController implements Initializable {
         String newUsername = emailInput.getText();
         String password1 = newPassword.getText();
         String password2 = newPasswordRepeat.getText();
-        if(!newUsername.isEmpty() && !password1.isEmpty() && !password2.isEmpty() && (password1.equals(password2))){
+        if (!newUsername.isEmpty() && !password1.isEmpty()
+                && !password2.isEmpty() && (password1.equals(password2))) {
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
@@ -102,8 +103,8 @@ public class LoginController implements Initializable {
         String username = userField.getText();
         String password = passwordInput.getText();
         if (!username.isEmpty() && !password.isEmpty()) {
+            
             System.out.println("User has signed in");
-
             Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
             parent.getChildren().removeAll();
             parent.getChildren().setAll(menu);
@@ -115,9 +116,9 @@ public class LoginController implements Initializable {
 
     @FXML
     void handle_register(ActionEvent event) throws IOException {
-            registerContent.setVisible(true);
-            regMenu.setVisible(true);
-            pageLabel.setText("Sign-up");
+        registerContent.setVisible(true);
+        regMenu.setVisible(true);
+        pageLabel.setText("Sign-up");
     }
 
     private void makeStageDragable() {

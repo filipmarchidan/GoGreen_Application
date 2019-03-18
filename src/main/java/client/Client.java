@@ -1,10 +1,9 @@
 package client;
 
-
+import com.google.gson.Gson;
 
 import database.entities.Activity;
 import database.entities.User;
-import com.google.gson.Gson;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

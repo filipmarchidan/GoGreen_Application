@@ -34,8 +34,7 @@ public class MainController {
      * @return copy of user actually added (proper ID etc..)
      */
     @PostMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody
-    User addNewUser(@RequestBody User user) {
+    public @ResponseBody User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
@@ -53,8 +52,7 @@ public class MainController {
      * @return activity actually added (proper id)
      */
     @PostMapping(path = "/addactivity")
-    public @ResponseBody
-    Activity addNewActivity(@RequestBody Activity activity) {
+    public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
         Activity act = activityRepository.save(activity);
         return act;
 
