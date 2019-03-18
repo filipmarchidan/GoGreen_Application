@@ -1,8 +1,8 @@
 
-package ui;
+package gui;
 
-import API.Activity;
-import API.ClientApplication;
+import database.entities.Activity;
+import client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class AppController {
 
-    private ClientApplication clientApplication = ClientApplication.getInstance();
+    private Client client = Client.getInstance();
 
     @FXML
     private AnchorPane content;
@@ -65,7 +65,7 @@ public class AppController {
 
     @FXML
     void addMeal(ActionEvent event) {
-        clientApplication.addActivity(new Activity(1,"veggie_meal",50,Activity.getDateTime()));
+        client.addActivity(new Activity(1,"veggie_meal",50,Activity.getDateTime()));
     }
 
     private void displayActivities() {
@@ -77,7 +77,7 @@ public class AppController {
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setFillWidth(true);
 
-        Activity[] activities = clientApplication.getActivities();
+        Activity[] activities = client.getActivities();
         for (Activity a : activities) {
             HBox active = new HBox();
             active.setStyle("-fx-border-color:  #05386B;"

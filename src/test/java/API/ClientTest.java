@@ -1,20 +1,23 @@
 package API;
 
 import API.messages.Message;
+import client.Client;
+import database.entities.Activity;
+import database.entities.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 
-public class ClientApplicationTest {
+public class ClientTest {
 
     ServerApplication serverApplication;
-    ClientApplication clientApplication;
+    Client client;
     @Before
     public void before(){
         serverApplication = new ServerApplication();
-        clientApplication = ClientApplication.createInstance("http://localhost:8080/");
+        client = Client.createInstance("http://localhost:8080/");
     }
     @Test
     public void client_retrieves_message(){
@@ -22,7 +25,7 @@ public class ClientApplicationTest {
         serverApplication.main(new String[0]);
 
         Message message = new Message("Paul");
-        User[] s = clientApplication.getUsers();
+        User[] s = client.getUsers();
         System.out.println(s);
         String other = "{\"id\":1,\"content\":\"Hello, Paul!\"}";
         //Assert.assertEquals(s,other);
@@ -30,8 +33,8 @@ public class ClientApplicationTest {
 
     @Test
     public void getinstance_returns_instance(){
-        ClientApplication client = ClientApplication.createInstance("http://localhost:8080/");
-        ClientApplication client2 = ClientApplication.getInstance();
+        Client client = Client.createInstance("http://localhost:8080/");
+        Client client2 = Client.getInstance();
         Assert.assertEquals(client,client2);
 
     }
@@ -39,9 +42,9 @@ public class ClientApplicationTest {
 
     @Test
     public void client_adds_activity(){
-        clientApplication = ClientApplication.getInstance();
+        client = Client.getInstance();
         Activity veggy = new Activity(1,"veggy_meal",50,Activity.getDateTime());
-        Activity back = clientApplication.addActivity(veggy);
+        Activity back = client.addActivity(veggy);
         Assert.assertEquals(veggy.getDate_time(),back.getDate_time());
         Assert.assertEquals(veggy.getCO2_savings(),back.getCO2_savings());
         Assert.assertEquals(veggy.getActivity_type(),back.getActivity_type());
@@ -51,10 +54,10 @@ public class ClientApplicationTest {
     @Test
     public void activity_list_contains_activity(){
 
-        clientApplication = ClientApplication.getInstance();
+        client = Client.getInstance();
         Activity veggy = new Activity(1,"veggy_meal",50,Activity.getDateTime());
-        Activity back = clientApplication.addActivity(veggy);
-        Activity[] activities = clientApplication.getActivities();
+        Activity back = client.addActivity(veggy);
+        Activity[] activities = client.getActivities();
         Assert.assertTrue(Arrays.asList(activities).contains(back));
     }
 

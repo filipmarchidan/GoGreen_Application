@@ -1,6 +1,6 @@
-package ui;
+package gui;
 
-import API.ClientApplication;
+import client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    private ClientApplication clientApplication = ClientApplication.getInstance();
+    private Client client = Client.getInstance();
 
     @FXML
     private AnchorPane parent;

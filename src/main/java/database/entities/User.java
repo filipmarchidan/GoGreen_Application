@@ -1,4 +1,4 @@
-package API;
+package database.entities;
 
 import java.util.Objects;
 import javax.persistence.Column;

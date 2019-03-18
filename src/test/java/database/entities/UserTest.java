@@ -1,6 +1,4 @@
-package API.entities;
-
-import API.User;
+package database.entities;
 
 
 import org.junit.Assert;

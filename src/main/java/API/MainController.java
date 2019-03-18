@@ -1,19 +1,18 @@
 package API;
 
+import database.ActivityRepository;
+import database.UserRepository;
+import database.entities.Activity;
+import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Controller    // This means that this class is a Controller
 @RestController
@@ -35,7 +34,8 @@ public class MainController {
      * @return copy of user actually added (proper ID etc..)
      */
     @PostMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody User addNewUser(@RequestBody User user) {
+    public @ResponseBody
+    User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
@@ -53,7 +53,8 @@ public class MainController {
      * @return activity actually added (proper id)
      */
     @PostMapping(path = "/addactivity")
-    public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
+    public @ResponseBody
+    Activity addNewActivity(@RequestBody Activity activity) {
         Activity act = activityRepository.save(activity);
         return act;
 

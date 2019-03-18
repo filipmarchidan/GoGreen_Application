@@ -1,7 +1,9 @@
-package API;
+package client;
 
 
 
+import database.entities.Activity;
+import database.entities.User;
 import com.google.gson.Gson;
 
 import org.springframework.http.HttpEntity;
@@ -16,9 +18,9 @@ import java.util.Arrays;
 /** This client class is able to send request to different routes.
  *
  */
-public class ClientApplication {
+public class Client {
     
-    private static ClientApplication clientApplication;
+    private static Client client;
     
     Gson gson;
     private  String address;
@@ -29,7 +31,7 @@ public class ClientApplication {
      *
      * @param serverAdress server the client links to
      */
-    public ClientApplication(String serverAdress) {
+    public Client(String serverAdress) {
         
         gson = new Gson();
         //instantiate the variables, template and headers.
@@ -47,13 +49,13 @@ public class ClientApplication {
         
     }
     
-    public static ClientApplication createInstance(String address) {
-        clientApplication = new ClientApplication(address);
-        return clientApplication;
+    public static Client createInstance(String address) {
+        client = new Client(address);
+        return client;
     }
     
-    public static ClientApplication getInstance() {
-        return clientApplication;
+    public static Client getInstance() {
+        return client;
         
     }
     
@@ -89,7 +91,7 @@ public class ClientApplication {
     /*
     public static void main(String[] args) {
         
-        ClientApplication client = new ClientApplication("http://localhost:8080/");
+        Client client = new Client("http://localhost:8080/");
         
         //System.out.println(client.getRequest("all", null));
         //System.out.println(client.getUsers());

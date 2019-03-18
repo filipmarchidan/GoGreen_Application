@@ -1,4 +1,4 @@
-package API;
+package database.entities;
 
 
 import java.text.DateFormat;

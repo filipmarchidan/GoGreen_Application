@@ -1,8 +1,7 @@
 package API;
 
-import API.messages.Message;
 import com.google.gson.Gson;
-import org.junit.Assert;
+import database.entities.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.Matchers.containsString;
@@ -15,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;

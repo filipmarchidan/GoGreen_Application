@@ -1,10 +1,7 @@
-package API.controllers;
+package API.messages;
 
-import API.messages.Message;
 import org.junit.Assert;
 import org.junit.Test;
-
-import API.messages.Message;
 
 public class MessageTest {
 

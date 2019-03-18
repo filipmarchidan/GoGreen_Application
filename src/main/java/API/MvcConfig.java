@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
     
-    /** sets view controllers for jsp files.
+    /** sets view messages for jsp files.
      *
      * @param registry registry where the jsp files can be found
      */

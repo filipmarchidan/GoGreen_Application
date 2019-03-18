@@ -1,7 +1,7 @@
-package ui;
+package gui;
 
 
-import API.ClientApplication;
+import client.Client;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,11 +11,11 @@ import javafx.stage.StageStyle;
 
 public class UiMain extends Application {
     public static Stage stage = null;
-    private static ClientApplication clientApplication;
+    private static Client client;
 
 
     public static void main(String[] args) {
-        clientApplication = ClientApplication.createInstance("http://localhost:8080/");
+        client = Client.createInstance("http://localhost:8080/");
         launch(args);
     }
 
