@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,16 +26,35 @@ public class LoginController implements Initializable {
     private AnchorPane parent;
 
     @FXML
+    private Pane registerContent;
+
+    @FXML
     private PasswordField passwordInput;
+
+    @FXML
+    private TextField emailInput;
+
+    @FXML
+    private PasswordField newPassword;
+
+    @FXML
+    private PasswordField newPasswordRepeat;
 
     @FXML
     private TextField userField;
 
     @FXML
-    private Button exit;
+    private Button regMenu;
 
     @FXML
     private Button login;
+
+    @FXML
+    private Label pageLabel;
+
+    @FXML
+    private Button exit;
+
 
     //x-coordinate of the mousecursor
     private double xoffset;
@@ -51,6 +72,29 @@ public class LoginController implements Initializable {
         Stage stage = (Stage) exit.getScene().getWindow();
         stage.close();
     }
+
+    @FXML
+    void backLogin(ActionEvent event)throws IOException {
+        Parent login = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        parent.getChildren().removeAll();
+        parent.getChildren().setAll(login);
+
+    }
+
+    @FXML
+    void createUser(ActionEvent event) {
+        String newUsername = emailInput.getText();
+        String password1 = newPassword.getText();
+        String password2 = newPasswordRepeat.getText();
+        if(!newUsername.isEmpty() && !password1.isEmpty() && !password2.isEmpty() && (password1.equals(password2))){
+            registerContent.setVisible(false);
+            regMenu.setVisible(false);
+            pageLabel.setText("Go Green");
+
+
+        }
+    }
+
 
 
     @FXML
@@ -70,8 +114,10 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    void handle_register(ActionEvent event) {
-
+    void handle_register(ActionEvent event) throws IOException {
+            registerContent.setVisible(true);
+            regMenu.setVisible(true);
+            pageLabel.setText("Sign-up");
     }
 
     private void makeStageDragable() {
