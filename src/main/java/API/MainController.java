@@ -106,7 +106,7 @@ public class MainController {
     //deletes user by id
     @CrossOrigin
     @DeleteMapping(value = "/userId/{userId}")
-    public void deleteUser(@PathVariable("ticketId")Integer userId) {
+    public void deleteUser(@PathVariable("userId")Integer userId) {
         userService.deleteUser(userId);
     }
     
@@ -114,7 +114,7 @@ public class MainController {
     @CrossOrigin
     @PutMapping(value = "/userId/{userId}/email/{newEmail:.+}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@PathVariable("ticketId")Integer userId,
+    public User updateUser(@PathVariable("userId")Integer userId,
                            @PathVariable("newEmail")String newEmail,
                            @PathVariable("newPassword") String newPassword) {
         
