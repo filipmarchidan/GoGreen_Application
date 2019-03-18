@@ -1,6 +1,8 @@
 package gui;
 
 import client.Client;
+import database.UserRepository;
+import database.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,7 +58,8 @@ public class LoginController implements Initializable {
     @FXML
     private Button exit;
 
-
+    @Autowired
+    private UserRepository userRepository;
     //x-coordinate of the mousecursor
     private double xoffset;
 
@@ -84,15 +88,15 @@ public class LoginController implements Initializable {
     @FXML
     void createUser(ActionEvent event) {
         String newUsername = emailInput.getText();
-        String password1 = newPassword.getText();
-        String password2 = newPasswordRepeat.getText();
-        if (!newUsername.isEmpty() && !password1.isEmpty()
-                && !password2.isEmpty() && (password1.equals(password2))) {
+        String password = newPassword.getText();
+        String passwordRepeat = newPasswordRepeat.getText();
+        if (!newUsername.isEmpty() && !password.isEmpty()
+                && !passwordRepeat.isEmpty() && (password.equals(passwordRepeat))) {
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
-
-
+            User newUser = new User(newUsername, password);
+            userRepository.save(newUser);
         }
     }
 
