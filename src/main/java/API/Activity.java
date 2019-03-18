@@ -53,13 +53,13 @@ public class Activity {
     }
 
 
-    /* public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }*/
+    }
 
     public int getUser_id() {
         return user_id;

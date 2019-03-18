@@ -73,7 +73,7 @@ public class MainController {
         deleteUser - deletes an user in the database
         updateUser - updates a current user in the database
         */
-    
+    /*
     //creates new user
     @CrossOrigin
     @PostMapping(value = "/create",consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -88,14 +88,15 @@ public class MainController {
     public User getUserById(@PathVariable("ticketId")Integer userId) {
         return userService.getUserById(userId);
     }
-
+    */
     //gets all users
     @CrossOrigin
     @GetMapping(value = "/allUsers",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
     }
-    
+
+    /*
     //gets user by email
     @CrossOrigin
     @GetMapping(value = "/email/{email:.+}",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -120,4 +121,5 @@ public class MainController {
         
         return userService.updateUser(newEmail, newPassword, userId);
     }
+    */
 }
