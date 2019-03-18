@@ -4,6 +4,7 @@ import API.Activity;
 
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
@@ -16,7 +17,7 @@ public class ActivityTest {
     Activity activity3 = new Activity(1,"vegetarian_meal", 20, originalDate);
     
     Activity activityNull = null;
-    
+
     @Test
     public void equalsTestTrue(){
         

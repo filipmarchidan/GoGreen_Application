@@ -162,7 +162,7 @@ public class MainControllerTest {
     
     }
     
-    /*
+
     @Test
     public void getAllActivities() throws Exception {
     
@@ -189,7 +189,7 @@ public class MainControllerTest {
         );
         
     }
-    */
+
     
     @Test
     public void deleteAll() throws Exception {
