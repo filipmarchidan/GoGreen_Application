@@ -124,8 +124,12 @@ public class Client {
         User user1 = gson.fromJson(result, User.class);
         return user1;
     }
-    
-    
+    public User findByEmail(String email)
+    {
+        String result = postRequest("findByEmail", email);
+        User user = gson.fromJson(result, User.class);
+        return user;
+    }
     /** Method that requests the leaderboard from the server.
      *
      */

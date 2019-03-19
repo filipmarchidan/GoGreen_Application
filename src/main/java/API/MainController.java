@@ -39,13 +39,18 @@ public class MainController {
         // @RequestParam means it is a parameter from the GET or POST request
 
         // if(userRepository.findByEmail(user.getEmail()) != null) {
-        return userRepository.save(user);
+        return userService.createUser(user);
         // }
         //  throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
 
     }
-    
+    @PostMapping(path = "/findByEmail")
+    public @ResponseBody User findByEmail(@RequestBody String email)
+    {
+        return userService.getUserByEmail(email);
+    }
+
     /** adds an activity to the database.
      *
      * @param activity activity to be added

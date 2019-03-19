@@ -1,21 +1,16 @@
 package gui;
 
 import client.Client;
-import database.UserRepository;
 import database.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -92,14 +87,34 @@ public class LoginController implements Initializable {
         String newUsername = emailInput.getText();
         String password = newPassword.getText();
         String passwordRepeat = newPasswordRepeat.getText();
+        User temp = client.findByEmail(newUsername);
+        if(newUsername.isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Username error");
+            alert.setHeaderText("Error 01");
+            alert.setContentText("Username cannot be empty");
+            alert.showAndWait();
+        }
+        if(temp != null)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Username error");
+            alert.setHeaderText("Error 02");
+            alert.setContentText("Username already exists");
+            alert.showAndWait();
+        }
         if (!newUsername.isEmpty() && !password.isEmpty()
-                && !passwordRepeat.isEmpty() && (password.equals(passwordRepeat))) {
+                && !passwordRepeat.isEmpty() && (password.equals(passwordRepeat)) && client.findByEmail(newUsername) != null) {
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
             User newUser = new User(newUsername, password);
             client.addUser(newUser);
         }
+        emailInput.clear();
+        newPassword.clear();
+        newPasswordRepeat.clear();
     }
 
 
