@@ -1,6 +1,7 @@
 package API;
 
 import database.UserRepository;
+import database.UserServiceImpl;
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class UserService {
+public class UserService implements UserServiceImpl {
     
     @Autowired
     private UserRepository userRepository;
