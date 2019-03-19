@@ -118,6 +118,14 @@ public class Client {
         return activity1;
     }
     
+    public User addUser(User user) {
+        
+        String result = postRequest("add", user);
+        User user1 = gson.fromJson(result, User.class);
+        return user1;
+    }
+    
+    
     /** Method that requests the leaderboard from the server.
      *
      */

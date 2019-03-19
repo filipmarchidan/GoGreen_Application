@@ -33,7 +33,7 @@ public class MainController {
      * @param user user to be added
      * @return copy of user actually added (proper ID etc..)
      */
-    @PostMapping(path = "/add") // Map ONLY GET Requests
+    @PostMapping(path = "/add")
     public @ResponseBody User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request

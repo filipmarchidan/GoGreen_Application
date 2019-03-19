@@ -16,12 +16,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@RestController
 public class LoginController implements Initializable {
+    
 
     private Client client = Client.getInstance();
 
@@ -58,8 +61,7 @@ public class LoginController implements Initializable {
     @FXML
     private Button exit;
 
-    @Autowired
-    private UserRepository userRepository;
+    
     //x-coordinate of the mousecursor
     private double xoffset;
 
@@ -96,7 +98,7 @@ public class LoginController implements Initializable {
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
             User newUser = new User(newUsername, password);
-            userRepository.save(newUser);
+            client.addUser(newUser);
         }
     }
 
