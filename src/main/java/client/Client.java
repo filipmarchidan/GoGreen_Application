@@ -126,7 +126,7 @@ public class Client {
         
         //this getRequest returns an Iterable<User>
         //but in JSON that is basically equal to an array.
-        String result = getRequest("allUsers",null);
+        String result = getRequest("test",null);
         
         System.out.println(result);
         
