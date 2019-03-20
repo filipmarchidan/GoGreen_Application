@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyUserDetailServices implements UserDetailsService {
     
-    
     @Autowired
     UserRepository userRepository;
     
@@ -21,7 +20,7 @@ public class MyUserDetailServices implements UserDetailsService {
         
         User user = userRepository.findByEmail(email);
         
-        if(email == null) {
+        if(user == null) {
             throw new UsernameNotFoundException("invalid credentials");
         }
         

@@ -43,20 +43,28 @@ public class ClientTest {
     @Test
     public void client_adds_activity(){
         client = Client.getInstance();
-        Activity veggy = new Activity(1,"veggy_meal",50,Activity.getDateTime());
-        Activity back = client.addActivity(veggy);
-        Assert.assertEquals(veggy.getDate_time(),back.getDate_time());
-        Assert.assertEquals(veggy.getCO2_savings(),back.getCO2_savings());
-        Assert.assertEquals(veggy.getActivity_type(),back.getActivity_type());
-        Assert.assertEquals(veggy.getUser_id(),back.getUser_id());
+        Activity activity = new Activity();
+        activity.setCo2_savings(50);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        activity.setActivity_type("veggy_meal");
+        
+        Activity back = client.addActivity(activity);
+        Assert.assertEquals(activity.getDate_time(),back.getDate_time());
+        Assert.assertEquals(activity.getCo2_savings(),back.getCo2_savings());
+        Assert.assertEquals(activity.getActivity_type(),back.getActivity_type());
+        Assert.assertEquals(activity.getUser().getId(),back.getUser().getId());
     }
 
     @Test
     public void activity_list_contains_activity(){
 
         client = Client.getInstance();
-        Activity veggy = new Activity(1,"veggy_meal",50,Activity.getDateTime());
-        Activity back = client.addActivity(veggy);
+        Activity activity = new Activity();
+        activity.setCo2_savings(50);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        activity.setActivity_type("veggy_meal");
+        
+        Activity back = client.addActivity(activity);
         Activity[] activities = client.getActivities();
         Assert.assertTrue(Arrays.asList(activities).contains(back));
     }

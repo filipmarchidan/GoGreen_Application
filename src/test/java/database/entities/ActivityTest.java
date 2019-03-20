@@ -6,10 +6,22 @@ import org.junit.Test;
 
 public class ActivityTest {
     
-    String originalDate = Activity.getDateTime();
-    Activity activity1 = new Activity(1,"vegetarian_meal", 15, originalDate);
-    Activity activity2 = new Activity(1,"vegetarian_meal", 15, originalDate);
-    Activity activity3 = new Activity(1,"vegetarian_meal", 20, originalDate);
+   /* String originalDate = Activity.getCurrentDateTimeString();
+    
+    Activity activity1 = new Activity();
+    activity1.setActivity_type("veggie_meal");
+    activity1.setDate_time(originalDate);
+    activity1.setCo2_savings(15);
+    
+    Activity activity2 = new Activity();
+    activity2.setActivity_type("veggie_meal");
+    activity2.setDate_time(originalDate);
+    activity2.setCo2_savings(15);
+    
+    Activity activity3 = new Activity();
+    activity3.setActivity_type("veggie_meal");
+    activity3.setDate_time(originalDate);
+    activity3.setCo2_savings(20);
     
     Activity activityNull = null;
 
@@ -91,6 +103,8 @@ public class ActivityTest {
         String string = "not an activity";
         Assert.assertFalse(activity1.equals(string));
     }
+    
+    */
     
 }
 
