@@ -1,9 +1,11 @@
 package API;
 
 import database.AchievementRepository;
+import database.AchievementTypeRepository;
 import database.ActivityRepository;
 import database.UserRepository;
 import database.entities.Achievement;
+import database.entities.AchievementType;
 import database.entities.Activity;
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller    // This means that this class is a Controller
 @RestController
@@ -31,6 +35,9 @@ public class MainController {
 
     @Autowired
     private AchievementRepository achievementRepository;
+
+    @Autowired
+    private AchievementTypeRepository achievementTypeRepository;
 
     @Autowired
     private UserService userService;
@@ -73,7 +80,24 @@ public class MainController {
         return act;
 
     }
-    
+
+    @PostMapping(path = "/getachievements")
+    public @ResponseBody AchievementType[] getAchievements(@RequestBody User user){
+
+        List<Achievement> achievements = achievementRepository.findByUserId(user.getId());
+        List<AchievementType> returnTypes = new ArrayList<>();
+
+        for(Achievement achievement : achievements) {
+
+            AchievementType achievementType = achievementTypeRepository.findById(achievement.getAchievement_id()).get();
+            returnTypes.add(achievementType);
+
+        }
+
+        return (AchievementType[])returnTypes.toArray();
+
+    }
+
     @GetMapping(path = "/activities")
     public @ResponseBody Iterable<Activity> getAllActivities() {
 

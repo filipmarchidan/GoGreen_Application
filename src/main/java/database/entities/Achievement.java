@@ -2,10 +2,6 @@ package database.entities;
 
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,14 +21,14 @@ public class Achievement implements Serializable {
     private Integer achievement_id;
 
     @Column(nullable = false)
-    private Integer user_id;
+    private Integer userId;
 
     public Achievement() {
     }
 
-    public Achievement(Integer achievement_id, Integer user_id) {
+    public Achievement(Integer achievement_id, Integer userId) {
         this.achievement_id = achievement_id;
-        this.user_id = user_id;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -51,11 +47,11 @@ public class Achievement implements Serializable {
         this.achievement_id = achievement_id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
