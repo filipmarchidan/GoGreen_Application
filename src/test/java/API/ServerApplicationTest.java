@@ -1,6 +1,7 @@
 package API;
 
 import com.google.gson.Gson;
+import database.entities.ActType;
 import database.entities.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,7 +57,7 @@ public class ServerApplicationTest{
     @Test
     public void add_activity_returns_activity() throws Exception {
 
-        Activity activity = new Activity(1,"veggy_ meal",5,Activity.getDateTime());
+        Activity activity = new Activity(1, ActType.vegetarian_meal,1,Activity.getDateTime());
         String activityString = gson.toJson(activity);
         this.mockMvc.perform(post("/addactivity").contentType(APPLICATION_JSON_UTF8).content(activityString)).andDo(print())
                 .andExpect(status().isOk()).andExpect(content().string(containsString("activity_type")));

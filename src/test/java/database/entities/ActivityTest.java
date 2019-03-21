@@ -7,9 +7,9 @@ import org.junit.Test;
 public class ActivityTest {
     
     String originalDate = Activity.getDateTime();
-    Activity activity1 = new Activity(1,"vegetarian_meal", 15, originalDate);
-    Activity activity2 = new Activity(1,"vegetarian_meal", 15, originalDate);
-    Activity activity3 = new Activity(1,"vegetarian_meal", 20, originalDate);
+    Activity activity1 = new Activity(1,ActType.vegetarian_meal, 1, originalDate);
+    Activity activity2 = new Activity(1,ActType.vegetarian_meal, 1, originalDate);
+    Activity activity3 = new Activity(1,ActType.vegetarian_meal, 2, originalDate);
     
     Activity activityNull = null;
 
@@ -40,39 +40,28 @@ public class ActivityTest {
     @Test
     public void getUserID() {
     
-        Assert.assertEquals(1, activity1.getUser_id());
+        Assert.assertEquals(1, activity1.getUserId());
     }
     
     @Test
     public void setUserID() {
         
         activity1.setUser_id(5);
-        Assert.assertEquals(5, activity1.getUser_id());
+        Assert.assertEquals(5, activity1.getUserId());
     }
     
     @Test
     public void getType() {
     
-        Assert.assertEquals("vegetarian_meal",activity1.getActivity_type());
+        Assert.assertEquals(ActType.vegetarian_meal,activity1.getActivity_type());
     }
     
     @Test
     public void setType() {
-        activity1.setActivity_type("bike");
-        Assert.assertEquals("bike", activity1.getActivity_type());
+        activity1.setActivity_type(ActType.bike);
+        Assert.assertEquals(ActType.bike, activity1.getActivity_type());
     }
-    
-    
-    @Test
-    public void getCO2Savings() {
-        Assert.assertEquals(15, activity1.getCO2_savings());
-    }
-    
-    @Test
-    public void setCO2Savings() {
-        activity1.setCO2_savings(50);
-        Assert.assertEquals(50, activity1.getCO2_savings());
-    }
+
     
     @Test
     public void getDateTime() {

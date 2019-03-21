@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import database.ActivityRepository;
 import database.UserRepository;
+import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
 import org.junit.Test;
@@ -128,7 +129,7 @@ public class MainControllerTest {
     @Test
     public void addNewActivity() throws Exception {
     
-        Activity activity = new Activity(1,"vegetarian_meal",50,Activity.getDateTime());
+        Activity activity = new Activity(1, ActType.vegetarian_meal,1,Activity.getDateTime());
         
         String requestBody = buildRequestBody(activity);
         
@@ -152,8 +153,7 @@ public class MainControllerTest {
         
             assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
             assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
-            assertEquals(returnedActivity.getCO2_savings(), activity.getCO2_savings());
-            assertEquals(returnedActivity.getUser_id(), activity.getUser_id());
+            assertEquals(returnedActivity.getUserId(), activity.getUserId());
         
         
         } else {

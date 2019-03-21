@@ -2,6 +2,7 @@ package API;
 
 import API.messages.Message;
 import client.Client;
+import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
 import org.junit.Assert;
@@ -43,19 +44,18 @@ public class ClientTest {
     @Test
     public void client_adds_activity(){
         client = Client.getInstance();
-        Activity veggy = new Activity(1,"veggy_meal",50,Activity.getDateTime());
+        Activity veggy = new Activity(1, ActType.vegetarian_meal,1,Activity.getDateTime());
         Activity back = client.addActivity(veggy);
         Assert.assertEquals(veggy.getDate_time(),back.getDate_time());
-        Assert.assertEquals(veggy.getCO2_savings(),back.getCO2_savings());
         Assert.assertEquals(veggy.getActivity_type(),back.getActivity_type());
-        Assert.assertEquals(veggy.getUser_id(),back.getUser_id());
+        Assert.assertEquals(veggy.getUserId(),back.getUserId());
     }
 
     @Test
     public void activity_list_contains_activity(){
 
         client = Client.getInstance();
-        Activity veggy = new Activity(1,"veggy_meal",50,Activity.getDateTime());
+        Activity veggy = new Activity(1,ActType.vegetarian_meal,1,Activity.getDateTime());
         Activity back = client.addActivity(veggy);
         Activity[] activities = client.getActivities();
         Assert.assertTrue(Arrays.asList(activities).contains(back));
