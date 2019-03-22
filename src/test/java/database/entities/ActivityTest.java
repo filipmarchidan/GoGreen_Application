@@ -6,25 +6,14 @@ import org.junit.Test;
 
 public class ActivityTest {
     
-   /* String originalDate = Activity.getCurrentDateTimeString();
+    String originalDate = Activity.getCurrentDateTimeString();
     
-    Activity activity1 = new Activity();
-    activity1.setActivity_type("veggie_meal");
-    activity1.setDate_time(originalDate);
-    activity1.setCo2_savings(15);
+    Activity activity = new Activity();
     
-    Activity activity2 = new Activity();
-    activity2.setActivity_type("veggie_meal");
-    activity2.setDate_time(originalDate);
-    activity2.setCo2_savings(15);
     
-    Activity activity3 = new Activity();
-    activity3.setActivity_type("veggie_meal");
-    activity3.setDate_time(originalDate);
-    activity3.setCo2_savings(20);
     
     Activity activityNull = null;
-
+/*
     @Test
     public void equalsTestTrue(){
         

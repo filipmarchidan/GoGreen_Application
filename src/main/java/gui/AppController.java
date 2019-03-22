@@ -1,5 +1,6 @@
-package gui;
+/*package gui;
 
+import client.Client;
 import client.Client;
 import database.entities.Activity;
 import javafx.event.ActionEvent;
@@ -126,3 +127,4 @@ public class AppController {
 
 
 }
+*/

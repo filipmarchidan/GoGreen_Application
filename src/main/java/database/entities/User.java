@@ -18,13 +18,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    @JsonIgnore
     private int id;
     
     @Column(name = "email", nullable = false, unique = true)
     @Getter
     @Setter
-    @JsonIgnore
     private String email;
     
     @Column(name = "password", nullable = false)

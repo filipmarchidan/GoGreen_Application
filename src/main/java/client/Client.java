@@ -1,55 +1,56 @@
 package client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-
-import database.entities.Activity;
+import com.google.gson.reflect.TypeToken;
 import database.entities.User;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
+import java.util.List;
 
-/** This client class is able to send request to different routes.
- *
- */
+
 public class Client {
     
     private static Client client;
     
+    
     Gson gson;
-    private  String address;
+    private String address;
     private RestTemplate restTemplate;
     private HttpHeaders headers;
     
-    /** constructor for the client application.
-     *
-     * @param serverAdress server the client links to
-     */
-    public Client(String serverAdress) {
+    
+    public HttpHeaders setHeaders(String sessionCookie) {
         
-        gson = new Gson();
-        //instantiate the variables, template and headers.
-        address = serverAdress;
-        restTemplate = new RestTemplate();
-        headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.add("Cookie", sessionCookie);
         
-        
-        headers.add("Content-Type","application/json");
-        headers.add("Accept", "*/*");
-        
-        // Request to return JSON format
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
+        return headers;
         
     }
     
-    public static Client createInstance(String address) {
-        client = new Client(address);
+    public Client(String sessionCookie, String address) {
+        
+        this.gson = new Gson();
+        this.address = address;
+        this.restTemplate = new RestTemplate();
+        this.headers = setHeaders(sessionCookie);
+        
+    }
+    
+    
+    public static Client createInstance(String sessionCookie, String address) {
+        client = new Client(sessionCookie, address);
         return client;
     }
     
@@ -59,99 +60,62 @@ public class Client {
     }
     
     
-    private String getRequest(String endpoint,Object obj) {
-        
-        String json = gson.toJson(obj);
-        HttpEntity<String> request = new HttpEntity<String>(json,headers);
-        
-        // Send request with GET method, and Headers.
-        ResponseEntity<String> response = restTemplate.exchange(
-                address + endpoint,HttpMethod.GET, request, String.class);
-        
-        String result = response.getBody();
-        
-        return result;
+    public HttpEntity<String> getRequest(String sessionCookie, String address) {
+    
+        HttpHeaders headers = setHeaders(sessionCookie);
+        RestTemplate restTemplate = new RestTemplate();
+    
+        // Data attached to the request.
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
+    
+        return restTemplate.exchange(address, HttpMethod.GET, request, String.class);
+    
     }
     
-    private String postRequest(String endpoint, Object obj) {
+    
+    public HttpEntity<String> postRequest(String sessionCookie, String address, MultiValueMap<String, Object> params) {
         
-        String json = gson.toJson(obj);
-        HttpEntity<String> request = new HttpEntity<String>(json,headers);
+        HttpHeaders headers = setHeaders(sessionCookie);
+        RestTemplate restTemplate = new RestTemplate();
         
-        // Send request with POST method, and Headers.
-        ResponseEntity<String> response = restTemplate.exchange(
-                address + endpoint,HttpMethod.POST, request, String.class);
+        // Data attached to the request.
+        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(params, headers);
         
-        String result = response.getBody();
+        return restTemplate.exchange(address, HttpMethod.POST, request, String.class);
         
-        return result;
     }
     
-    /*
-    public static void main(String[] args) {
-        
-        Client client = new Client("http://localhost:8080/");
-        
-        //System.out.println(client.getRequest("all", null));
-        //System.out.println(client.getUsers());
-        //System.out.println(LocalDateTime.now());
-        client.addActivity(new Activity(1,"vegetarian_meal",50,Activity.getDateTime()));
-        System.out.println(client.postRequest("add", new User("asjhfv", "skldfgfja")));
-        //System.out.println(client.getRequest("all", null));
-        //client.postRequest("add", new User("jv#2r","5wew5fs"));
-        System.out.println(client.getActivities());
-        
-        
-    }
-    */
     
-    
-    /** Adds an Activity to the Server.
-     *
-     * @param activity Activity to be added
-     */
-    public Activity addActivity(Activity activity) {
+    public User[] getUsers(String sessionCookie) {
         
         
-        String result = postRequest("addactivity",activity);
-        Activity activity1 = gson.fromJson(result,Activity.class);
-        return activity1;
-    }
-    
-    /** Method that requests the leaderboard from the server.
-     *
-     */
-    
-    public User[] getUsers() {
+        HttpEntity<String> result = getRequest(sessionCookie,"http://localhost:8080/allUsers");
         
-        //this getRequest returns an Iterable<User>
-        //but in JSON that is basically equal to an array.
-        String result = getRequest("test",null);
+        //System.out.println(result);
         
-        System.out.println(result);
+        ObjectMapper reader = new ObjectMapper();
+        reader.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        //List<User> a = reader.convertValue(result.getBody().replace("[", "").replace("]", ""), new TypeReference<List<User>>() {});
         
-        //so we can convert the JSON string to a User Array like this.
-        User[] users = gson.fromJson(result, User[].class);
+        //List<User> users = gson.fromJson(json, new TypeToken<List<User>>(){}.getType());
         
+        User[] users = gson.fromJson(result.getBody(), User[].class);
         return users;
     }
     
-    /** retrieves all the activities (of a user?) from the server.
-     *
-     * @return an array of activities
-     */
-    public Activity[] getActivities() {
+    public static void main(String[] args) {
         
-        String result = getRequest("activities", null);
-        System.out.println(result);
-        Activity[] activities = gson.fromJson(result, Activity[].class);
-        return activities;
+        Client client = new Client("", "http://localhost:8080");
+        
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("username", "test");
+        params.add("password", "test");
+        
+        String sessionCookie = client.postRequest("", "http://localhost:8080/login", params).getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
+        
+        System.out.println(client.getUsers(sessionCookie)[0].getEmail());
+        
+        
     }
     
-    
-    
-    
 }
-
-
-

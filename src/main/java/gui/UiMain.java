@@ -15,7 +15,7 @@ public class UiMain extends Application {
 
 
     public static void main(String[] args) {
-        client = Client.createInstance("http://localhost:8080/");
+        client = Client.createInstance("","http://localhost:8080");
         launch(args);
     }
 
@@ -34,7 +34,7 @@ public class UiMain extends Application {
         primaryStage.setScene(login);
 
         //Set stage
-        this.stage = primaryStage;
+        stage = primaryStage;
 
         //Show stage
         primaryStage.show();

@@ -2,9 +2,7 @@ package database.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,44 +12,74 @@ import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "activities")
-@NoArgsConstructor
+
 public class Activity {
     
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
-    @JsonIgnore
     private Integer id;
     
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Getter
-    @Setter
     @JsonIgnore
     private User user;
 
     @Column(name = "activity_type", nullable = false)
-    @Getter
-    @Setter
-    @JsonIgnore
+    
     private String activity_type;
 
     @Column(name = "CO2_savings", nullable = false)
-    @Getter
-    @Setter
-    @JsonIgnore
+    
     private int co2_savings;
 
     @Column(name = "date_time", nullable = false)
-    @Getter
-    @Setter
-    @JsonIgnore
+    
     private String date_time;
     
+    public Activity() {}
     
-
+    
+    public Integer getId() {
+        return id;
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public String getActivity_type() {
+        return activity_type;
+    }
+    
+    public int getCo2_savings() {
+        return co2_savings;
+    }
+    
+    public String getDate_time() {
+        return date_time;
+    }
+    
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    public void setActivity_type(String activity_type) {
+        this.activity_type = activity_type;
+    }
+    
+    public void setCo2_savings(int co2_savings) {
+        this.co2_savings = co2_savings;
+    }
+    
+    public void setDate_time(String date_time) {
+        this.date_time = date_time;
+    }
+    
     /**
      * returns the date and time.
      *

@@ -21,7 +21,6 @@ public class UserTest {
     @Test
    public void equalsTestTrue(){
     
-    
         Assert.assertTrue(user1.equals(user2));
    }
    

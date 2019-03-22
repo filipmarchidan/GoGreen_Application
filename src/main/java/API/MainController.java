@@ -5,15 +5,14 @@ import database.UserRepository;
 import database.entities.Activity;
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
 public class MainController {
-    
     
     @Autowired
     private UserRepository userRepository;
@@ -44,10 +43,13 @@ public class MainController {
     }
     
     
-    @RequestMapping(path = "/test")
-    public @ResponseBody Iterable<User> getAllUsers(){
+    @Secured("ROLE_USER")
+    @GetMapping("/allUsers")
+    public @ResponseBody
+    List<User> getAllUsers(){
         
         return userRepository.findAll();
+        
     }
     
     
@@ -64,9 +66,7 @@ public class MainController {
 
     }
     
-    @RequestMapping(path = "/activities", method = RequestMethod.GET, produces = {"application/json"})
-    @ResponseStatus(HttpStatus.OK)
-    
+    @GetMapping("/activities")
     public @ResponseBody Iterable<Activity> getAllActivities() {
 
         return activityRepository.findAll();
