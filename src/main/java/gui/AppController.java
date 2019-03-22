@@ -1,6 +1,5 @@
-/*package gui;
+package gui;
 
-import client.Client;
 import client.Client;
 import database.entities.Activity;
 import javafx.event.ActionEvent;
@@ -63,7 +62,7 @@ public class AppController {
         stage.close();
     }
 
-    @FXML
+  /*  @FXML
     void addMeal(ActionEvent event) {
         
         Activity activity = new Activity();
@@ -71,7 +70,7 @@ public class AppController {
         activity.setDate_time(Activity.getCurrentDateTimeString());
         activity.setActivity_type(" veggie_meal");
         client.addActivity(activity);
-    }
+    }*/
 
     private void displayActivities() {
         ScrollPane scroll = new ScrollPane();
@@ -82,7 +81,7 @@ public class AppController {
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setFillWidth(true);
 
-        Activity[] activities = client.getActivities();
+        Activity[] activities = client.getActivities("");
         for (Activity a : activities) {
             HBox active = new HBox();
             active.setStyle("-fx-border-color:  #05386B;"
@@ -127,4 +126,3 @@ public class AppController {
 
 
 }
-*/

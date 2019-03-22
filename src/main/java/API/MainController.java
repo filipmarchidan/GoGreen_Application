@@ -45,8 +45,7 @@ public class MainController {
     
     @Secured("ROLE_USER")
     @GetMapping("/allUsers")
-    public @ResponseBody
-    List<User> getAllUsers(){
+    public @ResponseBody List<User> getAllUsers(){
         
         return userRepository.findAll();
         
@@ -67,7 +66,7 @@ public class MainController {
     }
     
     @GetMapping("/activities")
-    public @ResponseBody Iterable<Activity> getAllActivities() {
+    public @ResponseBody List<Activity> getAllActivities() {
 
         return activityRepository.findAll();
     }
