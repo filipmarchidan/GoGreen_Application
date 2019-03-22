@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginController">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="800.0" styleClass="dit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@deacht.jpeg" />
+         </image>
+      </ImageView>
+      <Pane fx:id="content" layoutX="456.0" layoutY="336.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="266.0" style="-fx-background-color: #379683;" styleClass="loginMenu" stylesheets="@style.css">
+         <children>
+            <Button fx:id="register" layoutX="18.0" layoutY="151.0" mnemonicParsing="false" onAction="#handle_register" prefHeight="25.0" prefWidth="231.0" styleClass="loginButton" text="Register" textFill="WHITE" />
+            <TextField fx:id="userField" layoutX="18.0" layoutY="14.0" prefHeight="30.0" prefWidth="231.0" promptText="Email" />
+            <PasswordField fx:id="passwordInput" layoutX="18.0" layoutY="58.0" prefHeight="30.0" prefWidth="231.0" promptText="Password" />
+            <Button fx:id="login" layoutX="18.0" layoutY="109.0" mnemonicParsing="false" onAction="#handle_login" prefHeight="22.0" prefWidth="231.0" styleClass="loginButton" text="Login" textFill="WHITE" />
+         </children>
+      </Pane>
+      <Label fx:id="pageLabel" alignment="CENTER" layoutX="79.0" layoutY="379.0" prefHeight="103.0" prefWidth="272.0" text="Go Green" textAlignment="CENTER" textFill="#358f7d" wrapText="true">
+         <font>
+            <Font name="Ebrima Bold" size="52.0" />
+         </font>
+      </Label>
+      <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" layoutX="736.0" layoutY="14.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#closeProgram" prefHeight="30.0" prefWidth="50.0" text="Exit" textFill="WHITE" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <styleClass>
+            <String fx:value="menuButton" />
+            <String fx:value="exit" />
+         </styleClass>
+      </Button>
+      <Pane fx:id="registerContent" layoutX="456.0" layoutY="336.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="266.0" style="-fx-background-color: #379683;" styleClass="loginMenu" stylesheets="@style.css" visible="false">
+         <children>
+            <Button fx:id="newUser" layoutX="18.0" layoutY="151.0" mnemonicParsing="false" onAction="#createUser" prefHeight="25.0" prefWidth="231.0" styleClass="loginButton" text="Register" textFill="WHITE" />
+            <TextField fx:id="emailInput" layoutX="18.0" layoutY="14.0" prefHeight="30.0" prefWidth="231.0" promptText="Email" />
+            <PasswordField fx:id="newPassword" layoutX="18.0" layoutY="58.0" prefHeight="30.0" prefWidth="231.0" promptText="Password" />
+            <PasswordField fx:id="newPasswordRepeat" layoutX="18.0" layoutY="104.0" prefHeight="30.0" prefWidth="231.0" promptText="Password" />
+         </children>
+      </Pane>
+      <Button fx:id="regMenu" layoutX="671.0" layoutY="14.0" mnemonicParsing="false" onAction="#backLogin" prefHeight="30.0" prefWidth="50.0" styleClass="menuButton" stylesheets="@style.css" text="Login" textFill="WHITE" visible="false" />
+   </children>
+</AnchorPane>
