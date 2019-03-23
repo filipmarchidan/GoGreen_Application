@@ -27,7 +27,7 @@ public class Activity {
     @Column(name = "activity_type", nullable = false)
     private ActType activity_type;
 
-    @Column(name ="activity_amount", nullable = false)
+    @Column(name = "activity_amount", nullable = false)
     private int activity_amount;
 
     @Column(name = "date_time", nullable = false)

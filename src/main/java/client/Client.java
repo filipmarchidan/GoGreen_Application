@@ -136,13 +136,18 @@ public class Client {
         return users;
     }
     
-    public User addUser(User user){
+    /** Sends a request to the server to add a User.
+     *
+     * @param user user to be added
+     * @return the actual added user (correct ID)
+     */
+    public User addUser(User user) {
         String result = postRequest("add",user);
         User user1 = gson.fromJson(result,User.class);
         return  user1;
     }
     
-    public void removeUser(User user){
+    public void removeUser(User user) {
         String result = postRequest("removeUser", user);
     }
     

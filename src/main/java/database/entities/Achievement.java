@@ -1,10 +1,16 @@
 package database.entities;
 
 
-
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "achievements")
@@ -20,13 +26,21 @@ public class Achievement {
     private Integer achievement_value;
     
     @ManyToMany(mappedBy = "achievements",cascade = CascadeType.PERSIST)
-    Set<User> users = new HashSet<>();
+    private Set<User> users;
 
-    public Achievement(){
-
+    public Achievement() {
+        users = new HashSet<>();
     }
     
-    public Achievement (String achievement_name, int achievement_value){
+    /** Constructor for Achievement. THIS SHOULD NOT BE USED,
+     * IS ONLY USED ON START UP FOR GENERATION.
+     *
+     * @param achievement_name the name of the achievement
+     * @param achievement_value the CO2value of the achievement
+     */
+    public Achievement(String achievement_name, int achievement_value) {
+        
+        users = new HashSet<>();
         this.achievement_name = achievement_name;
         this.achievement_value = achievement_value;
     }
@@ -64,11 +78,11 @@ public class Achievement {
     }
     
     @Override
-    public boolean equals(Object obj){
-        if(obj == this){
+    public boolean equals(Object obj) {
+        if (obj == this) {
             return true;
         }
-        if (obj instanceof Achievement){
+        if (obj instanceof Achievement) {
             Achievement ach = (Achievement)obj;
             return ach.id == this.id;
         }

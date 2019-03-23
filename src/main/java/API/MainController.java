@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,7 +47,7 @@ public class MainController {
     public @ResponseBody User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-        if(userRepository.findByEmail(user.getEmail()).size() == 0){
+        if (userRepository.findByEmail(user.getEmail()).size() == 0) {
             return userRepository.save(user);
         }
         return userRepository.findByEmail(user.getEmail()).get(0);
@@ -59,10 +58,17 @@ public class MainController {
 
 
     }
-    @PostMapping(path ="/removeUser")
-    public @ResponseBody User removeUser (@RequestBody User user) {
+    
+    /** Finds the user and removes if present.
+     *
+     * @param user User to be removed.
+     * @return the removed user OR null if no user was found
+     */
+    @PostMapping(path = "/removeUser")
+    public @ResponseBody User removeUser(@RequestBody User user) {
         Optional<User> optionalUser = userRepository.findById(user.getId());
-        if(optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
+            
             userRepository.delete(optionalUser.get());
             return optionalUser.get();
         }
@@ -80,20 +86,25 @@ public class MainController {
         Activity act = activityRepository.save(activity);
         List<Activity> activityList = activityRepository.findByUserId(act.getUserId());
 
-        if(activityList.size() >= 1 ) {
+        if (activityList.size() >= 1 ) {
             
-            Set<Achievement> achievements = userRepository.getAchievementsFromUserId(act.getUserId());
+            Set<Achievement> achievements =
+                    achievementRepository.getAchievementsFromUserId(act.getUserId());
+            
             Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
-            if (optionalAchievement.isPresent()){
+            
+            if (optionalAchievement.isPresent()) {
+                
                 Achievement achievement = optionalAchievement.get();
                 Optional<User> user = userRepository.findById(act.getUserId());
-                if(user.isPresent()){
+                
+                if (user.isPresent()) {
                     
-                    User u = user.get();
-                    u.getAchievements().add(achievement);
-                    achievement.getUsers().add(u);
+                    User user1 = user.get();
+                    user1.getAchievements().add(achievement);
+                    achievement.getUsers().add(user1);
                     achievementRepository.save(achievement);
-                    userRepository.save(u);
+                    userRepository.save(user1);
                 }
             }
             
@@ -104,14 +115,20 @@ public class MainController {
 
     }
     
+    /** This is what the client can connect to, to retrieve a user's achievements.
+     *
+     * @param user the user whose achievements you want
+     * @return  a set of all the achievement that user earned
+     */
     @PostMapping(path = "/getachievements")
-    public @ResponseBody Achievement[] getAchievements(@RequestBody User user){
+    public @ResponseBody Achievement[] getAchievements(@RequestBody User user) {
 
-        Set<Achievement> achievements = userRepository.getAchievementsFromUserId(user.getId());
+        Set<Achievement> achievements =
+                achievementRepository.getAchievementsFromUserId(user.getId());
+        
         return (Achievement[])achievements.toArray();
 
     }
-    
 
     @GetMapping(path = "/activities")
     public @ResponseBody Iterable<Activity> getAllActivities() {
