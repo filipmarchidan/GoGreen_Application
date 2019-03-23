@@ -21,15 +21,18 @@ public class ClientTest {
     Client client;
     User user;
     RestTemplate restTemplate;
-    
+    ServerApplication serverApplication;
     @Before
     public void before(){
-        restTemplate = new RestTemplate();
+        user = new User("test@test.com","supersecretpassword");
+        user.setId(1);
+        client = Client.createInstance("http://localhost:8080/");
+        serverApplication = new ServerApplication();
     }
 
     @Test
     public void client_retrieves_message(){
-
+        serverApplication.main(new String[0]);
         Message message = new Message("Paul");
         User[] s = client.getUsers();
         System.out.println(s);
@@ -63,7 +66,6 @@ public class ClientTest {
         Activity back = client.addActivity(veggy);
         Activity[] activities = client.getActivities();
         Assert.assertTrue(Arrays.asList(activities).contains(back));
-        client.removeUser(user);
     }
 
 
