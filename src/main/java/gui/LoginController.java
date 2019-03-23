@@ -105,7 +105,7 @@ public class LoginController implements Initializable {
             alert.showAndWait();
         }
         if (!newUsername.isEmpty() && !password.isEmpty()
-                && !passwordRepeat.isEmpty() && (password.equals(passwordRepeat)) && client.findByEmail(newUsername) != null) {
+                && !passwordRepeat.isEmpty() && (password.equals(passwordRepeat))) {
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
