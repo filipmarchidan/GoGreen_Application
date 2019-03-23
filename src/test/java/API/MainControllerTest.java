@@ -5,9 +5,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import database.ActivityRepository;
 import database.UserRepository;
+import database.entities.Achievement;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,8 +192,9 @@ public class MainControllerTest {
         
     }
 
+
     
-    @Test
+    @After
     public void deleteAll() throws Exception {
         
         userRepository.deleteAll();
@@ -217,7 +220,8 @@ public class MainControllerTest {
             retrievedUsers
         );
         
-        
     }
+    
+
     
 }

@@ -2,10 +2,8 @@ package API;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import database.AchievementTypeRepository;
-import database.ActivityTypeRepository;
-import database.entities.AchievementType;
-import database.entities.ActivityType;
+import database.AchievementRepository;
+import database.entities.Achievement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +15,7 @@ import java.io.FileReader;
 public class AchievementTypeInitializer {
 
     @Autowired
-    private AchievementTypeRepository achievementTypeRepository;
+    private AchievementRepository achievementRepository;
 
     @PostConstruct
     private void init(){
@@ -25,10 +23,10 @@ public class AchievementTypeInitializer {
         System.out.println("LOADING ACHIEVEMENT DATA");
         try {
             JsonReader jsonReader = new JsonReader(new FileReader("ACHIEVEMENT_DATA.json"));
-            AchievementType[] achievementTypes = gson.fromJson(jsonReader,AchievementType[].class);
+            Achievement[] achievements = gson.fromJson(jsonReader, Achievement[].class);
             System.out.println("HELLO?!");
-            for(AchievementType achievementType : achievementTypes) {
-                achievementTypeRepository.save(achievementType);
+            for(Achievement achievement : achievements) {
+                achievementRepository.save(achievement);
             }
         }
         catch(FileNotFoundException e){

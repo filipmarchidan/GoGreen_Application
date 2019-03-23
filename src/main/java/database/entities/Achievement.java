@@ -1,34 +1,33 @@
 package database.entities;
 
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "achievements")
-public class Achievement implements Serializable {
+public class Achievement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(nullable = false)
-    private Integer achievement_id;
+    @Column(name = "achievement_name", nullable = false)
+    private String achievement_name;
 
-    @Column(nullable = false)
-    private Integer userId;
+    @Column(name = "achievement_value", nullable = false)
+    private Integer achievement_value;
+    
+    @ManyToMany(mappedBy = "achievements",cascade = CascadeType.ALL)
+    Set<User> users;
 
-    public Achievement() {
+    public Achievement(){
+
     }
-
-    public Achievement(Integer achievement_id, Integer userId) {
-        this.achievement_id = achievement_id;
-        this.userId = userId;
+    
+    public Achievement (String achievement_name, int achievement_value){
+        this.achievement_name = achievement_name;
+        this.achievement_value = achievement_value;
     }
 
     public Integer getId() {
@@ -39,19 +38,31 @@ public class Achievement implements Serializable {
         this.id = id;
     }
 
-    public Integer getAchievement_id() {
-        return achievement_id;
+    public String getAchievement_name() {
+        return achievement_name;
     }
 
-    public void setAchievement_id(Integer achievement_id) {
-        this.achievement_id = achievement_id;
+    public void setAchievement_name(String achievement_name) {
+        this.achievement_name = achievement_name;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getAchievement_value() {
+        return achievement_value;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setAchievement_value(Integer achievement_value) {
+        this.achievement_value = achievement_value;
+    }
+    
+    @Override
+    public boolean equals(Object obj){
+        if(obj == this){
+            return true;
+        }
+        if (obj instanceof Achievement){
+            Achievement ach = (Achievement)obj;
+            return ach.id == this.id;
+        }
+        return false;
     }
 }

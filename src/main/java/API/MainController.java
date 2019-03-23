@@ -1,11 +1,9 @@
 package API;
 
 import database.AchievementRepository;
-import database.AchievementTypeRepository;
 import database.ActivityRepository;
 import database.UserRepository;
 import database.entities.Achievement;
-import database.entities.AchievementType;
 import database.entities.Activity;
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller    // This means that this class is a Controller
 @RestController
@@ -35,9 +34,6 @@ public class MainController {
 
     @Autowired
     private AchievementRepository achievementRepository;
-
-    @Autowired
-    private AchievementTypeRepository achievementTypeRepository;
 
     @Autowired
     private UserService userService;
@@ -60,6 +56,15 @@ public class MainController {
 
 
     }
+    @PostMapping(path ="/removeUser")
+    public @ResponseBody User removeUser (@RequestBody User user) {
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+        if(optionalUser.isPresent()){
+            userRepository.delete(optionalUser.get());
+            return optionalUser.get();
+        }
+        return null;
+    }
     
     /** adds an activity to the database.
      *
@@ -72,31 +77,35 @@ public class MainController {
         Activity act = activityRepository.save(activity);
         List<Activity> activityList = activityRepository.findByUserId(act.getUserId());
 
-        if(activityList.size() >= 1 ){
-            System.out.println("WE HAVE A WINNER: " + act.getUserId());
-            Achievement achievement = new Achievement(0,act.getUserId());
-            achievementRepository.save(achievement);
+        if(activityList.size() >= 1 ) {
+            
+            Set<Achievement> achievements = userRepository.getAchievementsFromUserId(act.getUserId());
+            Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
+            if (optionalAchievement.isPresent()){
+                Achievement achievement = optionalAchievement.get();
+                achievements.add(achievement);
+            }
+            Optional<User> user = userRepository.findById(act.getUserId());
+            if(user.isPresent()){
+                User u = user.get();
+                u.setAchievements(achievements);
+                userRepository.save(u);
+            }
+            
+
         }
         return act;
 
     }
-
+    
     @PostMapping(path = "/getachievements")
-    public @ResponseBody AchievementType[] getAchievements(@RequestBody User user){
+    public @ResponseBody Achievement[] getAchievements(@RequestBody User user){
 
-        List<Achievement> achievements = achievementRepository.findByUserId(user.getId());
-        List<AchievementType> returnTypes = new ArrayList<>();
-
-        for(Achievement achievement : achievements) {
-
-            AchievementType achievementType = achievementTypeRepository.findById(achievement.getAchievement_id()).get();
-            returnTypes.add(achievementType);
-
-        }
-
-        return (AchievementType[])returnTypes.toArray();
+        Set<Achievement> achievements = userRepository.getAchievementsFromUserId(user.getId());
+        return (Achievement[])achievements.toArray();
 
     }
+    
 
     @GetMapping(path = "/activities")
     public @ResponseBody Iterable<Activity> getAllActivities() {

@@ -2,6 +2,7 @@ package gui;
 
 
 import client.Client;
+import database.entities.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,6 +17,9 @@ public class UiMain extends Application {
 
     public static void main(String[] args) {
         client = Client.createInstance("http://localhost:8080/");
+        User defaultUser = new User("test@blah","hellopassword");
+        defaultUser.setId(1);
+        client.addUser(defaultUser);
         launch(args);
     }
 

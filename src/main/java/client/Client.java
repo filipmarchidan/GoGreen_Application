@@ -136,6 +136,14 @@ public class Client {
         return users;
     }
     
+    public void addUser(User user){
+        String result = postRequest("add",user);
+    }
+    
+    public void removeUser(User user){
+        String result = postRequest("removeUser", user);
+    }
+    
     /** retrieves all the activities (of a user?) from the server.
      *
      * @return an array of activities
@@ -147,6 +155,7 @@ public class Client {
         Activity[] activities = gson.fromJson(result, Activity[].class);
         return activities;
     }
+    
     
     
     

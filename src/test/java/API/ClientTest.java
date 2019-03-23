@@ -5,31 +5,35 @@ import client.Client;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 
 public class ClientTest {
-
-    ServerApplication serverApplication;
+    
     Client client;
+    User user;
+    RestTemplate restTemplate;
+    
     @Before
     public void before(){
-        serverApplication = new ServerApplication();
-        client = Client.createInstance("http://localhost:8080/");
+        restTemplate = new RestTemplate();
     }
+
     @Test
     public void client_retrieves_message(){
-
-        serverApplication.main(new String[0]);
 
         Message message = new Message("Paul");
         User[] s = client.getUsers();
         System.out.println(s);
         String other = "{\"id\":1,\"content\":\"Hello, Paul!\"}";
-        //Assert.assertEquals(s,other);
     }
 
     @Test
@@ -59,8 +63,8 @@ public class ClientTest {
         Activity back = client.addActivity(veggy);
         Activity[] activities = client.getActivities();
         Assert.assertTrue(Arrays.asList(activities).contains(back));
+        client.removeUser(user);
     }
-
 
 
 }
