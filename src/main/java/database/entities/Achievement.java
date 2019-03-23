@@ -3,6 +3,7 @@ package database.entities;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -18,8 +19,8 @@ public class Achievement {
     @Column(name = "achievement_value", nullable = false)
     private Integer achievement_value;
     
-    @ManyToMany(mappedBy = "achievements",cascade = CascadeType.ALL)
-    Set<User> users;
+    @ManyToMany(mappedBy = "achievements",cascade = CascadeType.PERSIST)
+    Set<User> users = new HashSet<>();
 
     public Achievement(){
 
@@ -52,6 +53,14 @@ public class Achievement {
 
     public void setAchievement_value(Integer achievement_value) {
         this.achievement_value = achievement_value;
+    }
+    
+    public Set<User> getUsers() {
+        return users;
+    }
+    
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
     
     @Override

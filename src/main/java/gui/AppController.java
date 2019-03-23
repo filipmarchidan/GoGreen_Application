@@ -3,6 +3,7 @@ package gui;
 import client.Client;
 import database.entities.ActType;
 import database.entities.Activity;
+import database.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +25,9 @@ import java.io.IOException;
 public class AppController {
 
     private Client client = Client.getInstance();
-
+    //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
+    private int id = client.addUser(new User("test@blah","hellopassword")).getId();
+    
     @FXML
     private AnchorPane content;
 
@@ -65,7 +68,7 @@ public class AppController {
 
     @FXML
     void addMeal(ActionEvent event) {
-        client.addActivity(new Activity(1, ActType.vegetarian_meal,1,Activity.getDateTime()));
+        client.addActivity(new Activity(id, ActType.vegetarian_meal,1,Activity.getDateTime()));
     }
 
     private void displayActivities() {

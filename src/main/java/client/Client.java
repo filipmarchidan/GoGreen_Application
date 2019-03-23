@@ -136,8 +136,10 @@ public class Client {
         return users;
     }
     
-    public void addUser(User user){
+    public User addUser(User user){
         String result = postRequest("add",user);
+        User user1 = gson.fromJson(result,User.class);
+        return  user1;
     }
     
     public void removeUser(User user){

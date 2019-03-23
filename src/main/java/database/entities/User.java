@@ -1,5 +1,6 @@
 package database.entities;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.*;
@@ -18,8 +19,8 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
     
-    @ManyToMany
-    Set<Achievement> achievements;
+    @ManyToMany(cascade = CascadeType.ALL)
+    Set<Achievement> achievements = new HashSet<>();
     
     public User() {
     

@@ -48,9 +48,12 @@ public class MainController {
     public @ResponseBody User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-
+        if(userRepository.findByEmail(user.getEmail()).size() == 0){
+            return userRepository.save(user);
+        }
+        return userRepository.findByEmail(user.getEmail()).get(0);
         // if(userRepository.findByEmail(user.getEmail()) != null) {
-        return userRepository.save(user);
+        
         // }
         //  throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
@@ -83,14 +86,17 @@ public class MainController {
             Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
             if (optionalAchievement.isPresent()){
                 Achievement achievement = optionalAchievement.get();
-                achievements.add(achievement);
+                Optional<User> user = userRepository.findById(act.getUserId());
+                if(user.isPresent()){
+                    
+                    User u = user.get();
+                    u.getAchievements().add(achievement);
+                    achievement.getUsers().add(u);
+                    achievementRepository.save(achievement);
+                    userRepository.save(u);
+                }
             }
-            Optional<User> user = userRepository.findById(act.getUserId());
-            if(user.isPresent()){
-                User u = user.get();
-                u.setAchievements(achievements);
-                userRepository.save(u);
-            }
+            
             
 
         }

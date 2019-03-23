@@ -13,13 +13,13 @@ import javafx.stage.StageStyle;
 public class UiMain extends Application {
     public static Stage stage = null;
     private static Client client;
-
+    private static User defaultUser;
 
     public static void main(String[] args) {
         client = Client.createInstance("http://localhost:8080/");
-        User defaultUser = new User("test@blah","hellopassword");
+        defaultUser = new User("test@blah","hellopassword");
         defaultUser.setId(1);
-        client.addUser(defaultUser);
+        defaultUser = client.addUser(defaultUser);
         launch(args);
     }
 
