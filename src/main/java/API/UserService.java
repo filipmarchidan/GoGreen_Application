@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @Service
 public class UserService implements UserServiceImpl {
@@ -45,8 +47,17 @@ public class UserService implements UserServiceImpl {
         return updatedUser;
     }
     
-    public User getUserByEmail(String email) {
+    public List<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+//    public boolean checkRegistration(User user)
+//    {
+//        if(userRepository.checkRegistration(userRepository.findByEmail(user.getEmail()).getEmail()) == null)
+//        {
+//            return true;
+//        }
+//        else
+//            return false;
+//    }
 
 }

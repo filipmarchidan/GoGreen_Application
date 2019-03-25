@@ -87,7 +87,6 @@ public class LoginController implements Initializable {
         String newUsername = emailInput.getText();
         String password = newPassword.getText();
         String passwordRepeat = newPasswordRepeat.getText();
-        User temp = client.findByEmail(newUsername);
         if(newUsername.isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -96,7 +95,7 @@ public class LoginController implements Initializable {
             alert.setContentText("Username cannot be empty");
             alert.showAndWait();
         }
-        if(temp != null)
+        if(client.checkRegistration(newUsername,password) == false)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Username error");
@@ -105,7 +104,7 @@ public class LoginController implements Initializable {
             alert.showAndWait();
         }
         if (!newUsername.isEmpty() && !password.isEmpty()
-                && !passwordRepeat.isEmpty() && (password.equals(passwordRepeat))) {
+                && !passwordRepeat.isEmpty() && (password.equals(passwordRepeat) && client.checkRegistration(newUsername, password) == true)) {
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
