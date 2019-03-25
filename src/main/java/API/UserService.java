@@ -38,6 +38,7 @@ public class UserService{
         userFromDB.setPassword(newPassword);
         User updatedUser = userRepository.save(userFromDB);
         return updatedUser;
+        
     }
     public User getUserByEmail(String email) { return userRepository.findByEmail(email); }
     

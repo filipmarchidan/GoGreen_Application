@@ -61,7 +61,7 @@ public class AppController {
         stage.close();
     }
 
-  /*  @FXML
+    @FXML
     void addMeal(ActionEvent event) {
         
         Activity activity = new Activity();
@@ -69,7 +69,7 @@ public class AppController {
         activity.setDate_time(Activity.getCurrentDateTimeString());
         activity.setActivity_type(" veggie_meal");
         client.addActivity(activity);
-    }*/
+    }
 
     private void displayActivities() {
         ScrollPane scroll = new ScrollPane();

@@ -12,4 +12,5 @@ public interface ActivityRepository extends CrudRepository<Activity, Integer> {
 
     List<Activity> findAll();
 
+    //List<Activity> findByUserId();
 }

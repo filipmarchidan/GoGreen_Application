@@ -66,7 +66,7 @@ public class MainController {
     }
     
     @GetMapping("/activities")
-    public @ResponseBody List<Activity> getAllActivities() {
+    public @ResponseBody List<Activity> getAllActivities(String sessionCookie) {
 
         return activityRepository.findAll();
     }

@@ -2,6 +2,9 @@ package database.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import java.text.DateFormat;
@@ -12,7 +15,7 @@ import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "activities")
-
+@NoArgsConstructor
 public class Activity {
     
     
@@ -23,23 +26,28 @@ public class Activity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
+    @Getter
+    @Setter
     private User user;
 
     @Column(name = "activity_type", nullable = false)
-    
+    @Setter
+    @Getter
     private String activity_type;
 
     @Column(name = "CO2_savings", nullable = false)
-    
+    @Setter
+    @Getter
     private int co2_savings;
 
     @Column(name = "date_time", nullable = false)
-    
+    @Setter
+    @Getter
     private String date_time;
     
-    public Activity() {}
     
     
+   /*
     public Integer getId() {
         return id;
     }
@@ -79,7 +87,7 @@ public class Activity {
     public void setDate_time(String date_time) {
         this.date_time = date_time;
     }
-    
+    */
     /**
      * returns the date and time.
      *
