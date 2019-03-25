@@ -10,13 +10,18 @@
     "achievement_value": 0,
   },
   {
-    "id":1,
+    "id":2,
     "achievement_name":"Silver Badge (500.000 points)",
     "achievement_value": 0,
   },
   {
-    "id":1,
+    "id":3,
     "achievement_name":"Golden Badge (1.000.000 points)",
     "achievement_value": 0,
+  },
+  {
+    "id":4,
+    "achievement_name":"Solar Panel",
+    "achievement_value": 5000,
   }
 ]
