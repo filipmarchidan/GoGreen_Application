@@ -8,8 +8,9 @@ import java.util.List;
 // CRUD refers Create, Read, Update, Delete
 
 public interface UserRepository extends CrudRepository<User, Integer> {
-
     
-    List<User> findByEmail(String email);
+    User findByEmail(String email);
+    
+    List<User> findAll();
     
 }

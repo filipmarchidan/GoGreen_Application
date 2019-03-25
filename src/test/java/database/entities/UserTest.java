@@ -8,17 +8,18 @@ import org.junit.Test;
 public class UserTest {
     
     
-    User user1 = new User("test@gmail.com", "test");
+    User user1 = new User();
     
-    User user2 = new User("test@gmail.com","test");
     
-    User user3 = new User("testFalse@gmail.com", "testFalse");
+    
+    User user2 = new User();
+    
+    User user3 = new User();
     
     User userNull = null;
     
     @Test
    public void equalsTestTrue(){
-    
     
         Assert.assertTrue(user1.equals(user2));
    }

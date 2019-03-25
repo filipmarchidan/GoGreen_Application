@@ -56,7 +56,10 @@ public class ServerApplicationTest{
     @Test
     public void add_activity_returns_activity() throws Exception {
 
-        Activity activity = new Activity(1,"veggy_ meal",5,Activity.getDateTime());
+        Activity activity = new Activity();
+        activity.setCo2_savings(50);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        activity.setActivity_type("veggy_meal");
         String activityString = gson.toJson(activity);
         this.mockMvc.perform(post("/addactivity").contentType(APPLICATION_JSON_UTF8).content(activityString)).andDo(print())
                 .andExpect(status().isOk()).andExpect(content().string(containsString("activity_type")));

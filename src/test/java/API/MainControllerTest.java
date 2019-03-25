@@ -60,7 +60,10 @@ public class MainControllerTest {
     @Test
     public void addNewUser() throws Exception {
         
-        User user = new User("alice@gmail.com", "alice");
+        User user = new User();
+        user.setEmail("alice@gmail.com");
+        user.setPassword("password");
+        
     
         String requestBody = buildRequestBody(
             user
@@ -128,7 +131,10 @@ public class MainControllerTest {
     @Test
     public void addNewActivity() throws Exception {
     
-        Activity activity = new Activity(1,"vegetarian_meal",50,Activity.getDateTime());
+        Activity activity = new Activity();
+        activity.setActivity_type("veggie_meal");
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        activity.setCo2_savings(50);
         
         String requestBody = buildRequestBody(activity);
         
@@ -152,8 +158,8 @@ public class MainControllerTest {
         
             assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
             assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
-            assertEquals(returnedActivity.getCO2_savings(), activity.getCO2_savings());
-            assertEquals(returnedActivity.getUser_id(), activity.getUser_id());
+            assertEquals(returnedActivity.getCo2_savings(), activity.getCo2_savings());
+            assertEquals(returnedActivity.getUser().getId(), activity.getUser().getId());
         
         
         } else {

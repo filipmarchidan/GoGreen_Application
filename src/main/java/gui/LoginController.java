@@ -13,6 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +27,17 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
 
     private Client client = Client.getInstance();
-
+    
+    
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    
+    
+    
     @FXML
     private AnchorPane parent;
 
@@ -95,23 +111,47 @@ public class LoginController implements Initializable {
 
         }
     }
-
-
+    
+    /*
+    @FXML
+    public void handle_login(ActionEvent event) throws IOException {
+        Authentication authToken = new UsernamePasswordAuthenticationToken(emailInput.getText(), passwordInput.getText());
+        try {
+            authToken = authenticationManager.authenticate(authToken);
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        } catch (AuthenticationException e) {
+            System.out.println(("Login failure, please try again:"));
+            
+            return;
+        }
+        System.out.println("User has signed in");
+        Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
+        parent.getChildren().removeAll();
+        parent.getChildren().setAll(menu);
+    }
+    */
+    
 
     @FXML
-    void handle_login(ActionEvent event) throws IOException {
-        String username = userField.getText();
-        String password = passwordInput.getText();
-        if (!username.isEmpty() && !password.isEmpty()) {
+    String handle_login(ActionEvent event) throws IOException {
+        String email = userField.getText().trim();
+        String password = passwordInput.getText().trim();
+        String hashedPassword = passwordEncoder.encode(password);
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("email", email);
+        params.add("password", hashedPassword);
+        if (!email.isEmpty() && !password.isEmpty()) {
             
+            HttpEntity<String> result = client.postRequest("","/login", params);
             System.out.println("User has signed in");
             Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
             parent.getChildren().removeAll();
             parent.getChildren().setAll(menu);
-
+            return result.getBody();
         } else {
             System.out.println("User did not enter all fields");
         }
+        return null;
     }
 
     @FXML
