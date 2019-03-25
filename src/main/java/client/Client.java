@@ -162,6 +162,12 @@ public class Client {
         Activity[] activities = gson.fromJson(result, Activity[].class);
         return activities;
     }
+
+    public User[] getFriends(User user) {
+        String result = getRequest("getFriends", user);
+        User[] friends = gson.fromJson(result, User[].class);
+        return friends;
+    }
     
     
     
