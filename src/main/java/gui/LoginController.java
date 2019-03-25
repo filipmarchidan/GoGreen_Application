@@ -133,25 +133,32 @@ public class LoginController implements Initializable {
     
 
     @FXML
-    String handle_login(ActionEvent event) throws IOException {
+    void handle_login(ActionEvent event) throws IOException {
         String email = userField.getText().trim();
         String password = passwordInput.getText().trim();
-        String hashedPassword = passwordEncoder.encode(password);
+        //String hashedPassword = passwordEncoder.encode(password);
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-        params.add("email", email);
-        params.add("password", hashedPassword);
+        params.add("username", email);
+        params.add("password", password);
         if (!email.isEmpty() && !password.isEmpty()) {
             
-            HttpEntity<String> result = client.postRequest("","/login", params);
-            System.out.println("User has signed in");
-            Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
-            parent.getChildren().removeAll();
-            parent.getChildren().setAll(menu);
-            return result.getBody();
+            HttpEntity<String> result = client.postRequest("","http://localhost:8080/login", params);
+            
+            System.out.println(result.getBody());
+            if(result.getBody().equals("not authenticated")){
+                System.out.println("wrong credentials");
+                
+            } else {
+                System.out.println("User has signed in");
+                Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
+                parent.getChildren().removeAll();
+                parent.getChildren().setAll(menu);
+            }
+           
+            
         } else {
-            System.out.println("User did not enter all fields");
+            System.out.println("empty credentials");
         }
-        return null;
     }
 
     @FXML
