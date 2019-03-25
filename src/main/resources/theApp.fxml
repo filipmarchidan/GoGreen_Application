@@ -50,12 +50,20 @@
          <top>
             <HBox alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" styleClass="topBar" stylesheets="@style.css" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="signout" mnemonicParsing="false" onAction="#handle_logout" prefHeight="30.0" prefWidth="93.0" styleClass="topButton" stylesheets="@style.css" text="Sign out" textFill="#05386b">
+                  <Button fx:id="signout" mnemonicParsing="false" onAction="#handle_logout" prefHeight="30.0" prefWidth="93.0" stylesheets="@style.css" text="Sign out" textFill="#05386b">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
+                     <styleClass>
+                        <String fx:value="topButton" />
+                        <String fx:value="exit" />
+                     </styleClass>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#minimize" prefHeight="30.0" prefWidth="70.0" styleClass="topButton" stylesheets="@style.css" text="Minimize" textFill="#05386b" />
+                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#minimize" prefHeight="30.0" prefWidth="70.0" stylesheets="@style.css" text="Minimize" textFill="#05386b">
+                     <styleClass>
+                        <String fx:value="topButton" />
+                        <String fx:value="minimizeButton" />
+                     </styleClass></Button>
                   <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#closeProgram" prefHeight="30.0" prefWidth="50.0" stylesheets="@style.css" text="Exit" textFill="#05386b">
                      <HBox.margin>
                         <Insets left="10.0" />
