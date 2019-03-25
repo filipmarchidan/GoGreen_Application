@@ -3,5 +3,20 @@
     "id":0,
     "achievement_name":"TestAchievement",
     "achievement_value": 9001
+  },
+  {
+    "id":1,
+    "achievement_name":"Bronze Badge (100.000 points)",
+    "achievement_value": 0,
+  },
+  {
+    "id":1,
+    "achievement_name":"Silver Badge (500.000 points)",
+    "achievement_value": 0,
+  },
+  {
+    "id":1,
+    "achievement_name":"Golden Badge (1.000.000 points)",
+    "achievement_value": 0,
   }
 ]
