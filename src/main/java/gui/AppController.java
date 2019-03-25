@@ -68,7 +68,7 @@ public class AppController {
         activity.setCo2_savings(50);
         activity.setDate_time(Activity.getCurrentDateTimeString());
         activity.setActivity_type(" veggie_meal");
-        client.addActivity(activity);
+        //client.addActivity(activity);
     }
 
     private void displayActivities() {
@@ -111,6 +111,8 @@ public class AppController {
 
     @FXML
     void handle_logout(ActionEvent event) throws IOException {
+        
+        client.getRequest(LoginController.sessionCookie, "http://localhost:8080//logout");
         Parent login = FXMLLoader.load(getClass().getResource("/login.fxml"));
         content.getChildren().removeAll();
         content.getChildren().setAll(login);

@@ -85,8 +85,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(new AuthSuccessHandler())
                 .failureHandler(new AuthFailureHandler())
             .and()
-            .csrf()
-                .disable();
-
+            
+            .logout()
+            ;
+    
+    
+    
     }
 }
