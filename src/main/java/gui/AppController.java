@@ -17,7 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class AppController {
@@ -65,7 +64,12 @@ public class AppController {
 
     @FXML
     void addMeal(ActionEvent event) {
-        client.addActivity(new Activity(1,"veggie_meal",50,Activity.getDateTime()));
+        
+        Activity activity = new Activity();
+        activity.setCo2_savings(50);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        activity.setActivity_type(" veggie_meal");
+        client.addActivity(activity);
     }
 
     private void displayActivities() {
@@ -77,7 +81,7 @@ public class AppController {
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setFillWidth(true);
 
-        Activity[] activities = client.getActivities();
+        Activity[] activities = client.getActivities(LoginController.sessionCookie);
         for (Activity a : activities) {
             HBox active = new HBox();
             active.setStyle("-fx-border-color:  #05386B;"
@@ -89,7 +93,7 @@ public class AppController {
             Label activity = new Label("Activity: " + a.getActivity_type());
             activity.setStyle("-fx-font-size:18px;");
             activity.setPrefWidth(200);
-            Label co2 = new Label("Co2 Saved: " + a.getCO2_savings());
+            Label co2 = new Label("Co2 Saved: " + a.getCo2_savings());
             co2.setStyle("-fx-font-size:18px");
             co2.setPrefWidth(130);
             String[] formatedDate = a.getDate_time().split(" ");
@@ -97,7 +101,7 @@ public class AppController {
             date.setStyle("-fx-font-size:18px");
             date.setPrefWidth(180);
             active.getChildren().addAll(activity, co2, date);
-            System.out.println(a.getActivity_type() + a.getCO2_savings() + a.getDate_time());
+            System.out.println(a.getActivity_type() + a.getCo2_savings() + a.getDate_time());
             vbox.getChildren().add(active);
         }
         scroll.setContent(vbox);
