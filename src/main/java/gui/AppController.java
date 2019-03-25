@@ -36,6 +36,7 @@ public class AppController {
     @FXML
     private Pane homeScreen;
 
+
     @FXML
     private void switchScreen(ActionEvent event) {
         Button variable = (Button) event.getSource();
