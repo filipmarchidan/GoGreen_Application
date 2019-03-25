@@ -11,5 +11,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     
     List<User> findByEmail(String email);
-    
+   // Boolean checkRegistration(String email);
 }

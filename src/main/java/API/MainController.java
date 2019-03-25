@@ -7,12 +7,9 @@ import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller    // This means that this class is a Controller
 @RestController
@@ -33,19 +30,18 @@ public class MainController {
      * @param user user to be added
      * @return copy of user actually added (proper ID etc..)
      */
-    @PostMapping(path = "/add") // Map ONLY GET Requests
+    @PostMapping(path = "/add")
     public @ResponseBody User addNewUser(@RequestBody User user) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
-
-        // if(userRepository.findByEmail(user.getEmail()) != null) {
-        return userRepository.save(user);
-        // }
-        //  throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-
-
+        return userService.createUser(user);
     }
-    
+    @PostMapping(path = "/findByEmail")
+    public @ResponseBody List<User> findByEmail(@RequestBody String email)
+    {
+        return userService.getUserByEmail(email);
+    }
+
+//    @PostMapping(path = "/checkRegistration")
+//    public @ResponseBody Boolean checkRegistration(@RequestBody User user){return userService.checkRegistration(user);}
     /** adds an activity to the database.
      *
      * @param activity activity to be added

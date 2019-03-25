@@ -1,24 +1,25 @@
 package gui;
 
 import client.Client;
+import database.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@RestController
 public class LoginController implements Initializable {
+    
 
     private Client client = Client.getInstance();
 
@@ -55,7 +56,7 @@ public class LoginController implements Initializable {
     @FXML
     private Button exit;
 
-
+    
     //x-coordinate of the mousecursor
     private double xoffset;
 
@@ -84,16 +85,35 @@ public class LoginController implements Initializable {
     @FXML
     void createUser(ActionEvent event) {
         String newUsername = emailInput.getText();
-        String password1 = newPassword.getText();
-        String password2 = newPasswordRepeat.getText();
-        if (!newUsername.isEmpty() && !password1.isEmpty()
-                && !password2.isEmpty() && (password1.equals(password2))) {
+        String password = newPassword.getText();
+        String passwordRepeat = newPasswordRepeat.getText();
+        if(newUsername.isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Username error");
+            alert.setHeaderText("Error 01");
+            alert.setContentText("Username cannot be empty");
+            alert.showAndWait();
+        }
+        if(client.checkRegistration(newUsername,password) == false)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Username error");
+            alert.setHeaderText("Error 02");
+            alert.setContentText("Username already exists");
+            alert.showAndWait();
+        }
+        if (!newUsername.isEmpty() && !password.isEmpty()
+                && !passwordRepeat.isEmpty() && (password.equals(passwordRepeat) && client.checkRegistration(newUsername, password) == true)) {
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
-
-
+            User newUser = new User(newUsername, password);
+            client.addUser(newUser);
         }
+        emailInput.clear();
+        newPassword.clear();
+        newPasswordRepeat.clear();
     }
 
 

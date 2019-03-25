@@ -1,18 +1,13 @@
 package client;
 
 import com.google.gson.Gson;
-
 import database.entities.Activity;
 import database.entities.User;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.List;
 
 /** This client class is able to send request to different routes.
  *
@@ -25,7 +20,6 @@ public class Client {
     private  String address;
     private RestTemplate restTemplate;
     private HttpHeaders headers;
-    
     /** constructor for the client application.
      *
      * @param serverAdress server the client links to
@@ -118,6 +112,29 @@ public class Client {
         return activity1;
     }
     
+    public User addUser(User user) {
+        
+        String result = postRequest("add", user);
+        User user1 = gson.fromJson(result, User.class);
+        return user1;
+    }
+    public List<User> findByEmail(String email)
+    {
+        String result = postRequest("findByEmail", email);
+        List<User> user = gson.fromJson(result, List.class);
+        return user;
+    }
+
+    public boolean checkRegistration(String email, String password)
+    {
+        User user = new User(email,password);
+        if(findByEmail(email).size() > 0)
+        {
+            System.out.println("User exists already");
+            return false;
+        }
+        else{return true;}
+    }
     /** Method that requests the leaderboard from the server.
      *
      */
