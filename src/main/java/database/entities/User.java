@@ -1,15 +1,20 @@
 package database.entities;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
-@Table(name = "users")
+@Table(name = "Users")
 public class User {
     
     @Id
@@ -21,6 +26,9 @@ public class User {
     
     @Column(name = "password", nullable = false)
     private String password;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Achievement> achievements = new HashSet<>();
     
     public User() {
     
@@ -39,7 +47,13 @@ public class User {
         this.id = id;
     }
     
+    public Set<Achievement> getAchievements() {
+        return achievements;
+    }
     
+    public void setAchievements(Set<Achievement> achievements) {
+        this.achievements = achievements;
+    }
     
     public String getEmail() {
         return email;

@@ -21,14 +21,14 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "user_id", nullable = false)
-    private int user_id;
+    @Column(name = "userId", nullable = false)
+    private int userId;
 
     @Column(name = "activity_type", nullable = false)
-    private String activity_type;
+    private ActType activity_type;
 
-    @Column(name = "CO2_savings", nullable = false)
-    private int co2_savings;
+    @Column(name = "activity_amount", nullable = false)
+    private int activity_amount;
 
     @Column(name = "date_time", nullable = false)
     private String date_time;
@@ -38,13 +38,12 @@ public class Activity {
      * creates an activity.
      * @param user_id user_id
      * @param activity_type activity_type
-     * @param co2_savings co2_savings
      * @param date_time date_time
      */
-    public Activity(int user_id, String activity_type, int co2_savings, String date_time) {
-        this.user_id = user_id;
+    public Activity(int user_id, ActType activity_type,int activity_amount, String date_time) {
+        this.userId = user_id;
         this.activity_type = activity_type;
-        this.co2_savings = co2_savings;
+        this.activity_amount = activity_amount;
         this.date_time = date_time;
     }
 
@@ -61,29 +60,28 @@ public class Activity {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    
+    public int getActivity_amount() {
+        return activity_amount;
+    }
+
+    public void setActivity_amount(int activity_amount) {
+        this.activity_amount = activity_amount;
+    }
+
     public void setUser_id(int user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
-    public String getActivity_type() {
+    public ActType getActivity_type() {
         return activity_type;
     }
 
-    public void setActivity_type(String activity_type) {
+    public void setActivity_type(ActType activity_type) {
         this.activity_type = activity_type;
-    }
-
-    public int getCO2_savings() {
-        return co2_savings;
-    }
-
-    public void setCO2_savings(int co2_savings) {
-        this.co2_savings = co2_savings;
     }
 
     public String getDate_time() {
@@ -114,9 +112,9 @@ public class Activity {
             return false;
         }
         Activity activity = (Activity) o;
-        return user_id == activity.user_id
-                && co2_savings == activity.co2_savings
+        return userId == activity.userId
                 && Objects.equals(id, activity.id)
+                && Objects.equals(activity_amount,activity.activity_amount)
                 && Objects.equals(activity_type, activity.activity_type)
                 && Objects.equals(date_time, activity.date_time);
     }

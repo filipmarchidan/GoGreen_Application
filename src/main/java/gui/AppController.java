@@ -1,7 +1,9 @@
 package gui;
 
 import client.Client;
+import database.entities.ActType;
 import database.entities.Activity;
+import database.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +25,9 @@ import java.io.IOException;
 public class AppController {
 
     private Client client = Client.getInstance();
-
+    //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
+    private int id = client.addUser(new User("test@blah","hellopassword")).getId();
+    
     @FXML
     private AnchorPane content;
 
@@ -64,7 +68,7 @@ public class AppController {
 
     @FXML
     void addMeal(ActionEvent event) {
-        client.addActivity(new Activity(1,"veggie_meal",50,Activity.getDateTime()));
+        client.addActivity(new Activity(id, ActType.vegetarian_meal,1,Activity.getDateTime()));
     }
 
     private void displayActivities() {
@@ -88,15 +92,15 @@ public class AppController {
             Label activity = new Label("Activity: " + a.getActivity_type());
             activity.setStyle("-fx-font-size:18px;");
             activity.setPrefWidth(200);
-            Label co2 = new Label("Co2 Saved: " + a.getCO2_savings());
-            co2.setStyle("-fx-font-size:18px");
-            co2.setPrefWidth(130);
+            //TODO:Label co2 = new Label("Co2 Saved: " + a.getCO2_savings())
+            //co2.setStyle("-fx-font-size:18px");
+            //co2.setPrefWidth(130);
             String[] formatedDate = a.getDate_time().split(" ");
             Label date = new Label("Date: " + formatedDate[0]);
             date.setStyle("-fx-font-size:18px");
             date.setPrefWidth(180);
-            active.getChildren().addAll(activity, co2, date);
-            System.out.println(a.getActivity_type() + a.getCO2_savings() + a.getDate_time());
+            active.getChildren().addAll(activity, date);
+            //System.out.println(a.getActivity_type() + a.getCO2_savings() + a.getDate_time());
             vbox.getChildren().add(active);
         }
         scroll.setContent(vbox);

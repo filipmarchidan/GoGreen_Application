@@ -136,6 +136,21 @@ public class Client {
         return users;
     }
     
+    /** Sends a request to the server to add a User.
+     *
+     * @param user user to be added
+     * @return the actual added user (correct ID)
+     */
+    public User addUser(User user) {
+        String result = postRequest("add",user);
+        User user1 = gson.fromJson(result,User.class);
+        return  user1;
+    }
+    
+    public void removeUser(User user) {
+        String result = postRequest("removeUser", user);
+    }
+    
     /** retrieves all the activities (of a user?) from the server.
      *
      * @return an array of activities
@@ -147,6 +162,7 @@ public class Client {
         Activity[] activities = gson.fromJson(result, Activity[].class);
         return activities;
     }
+    
     
     
     
