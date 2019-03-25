@@ -17,7 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class AppController {
@@ -81,7 +80,7 @@ public class AppController {
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setFillWidth(true);
 
-        Activity[] activities = client.getActivities("");
+        Activity[] activities = client.getActivities(LoginController.sessionCookie);
         for (Activity a : activities) {
             HBox active = new HBox();
             active.setStyle("-fx-border-color:  #05386B;"

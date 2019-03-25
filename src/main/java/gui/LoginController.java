@@ -28,6 +28,7 @@ public class LoginController implements Initializable {
 
     private Client client = Client.getInstance();
     
+    public static String sessionCookie;
     
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -143,16 +144,18 @@ public class LoginController implements Initializable {
         if (!email.isEmpty() && !password.isEmpty()) {
             
             HttpEntity<String> result = client.postRequest("","http://localhost:8080/login", params);
-            
             System.out.println(result.getBody());
             if(result.getBody().equals("not authenticated")){
                 System.out.println("wrong credentials");
                 
             } else {
                 System.out.println("User has signed in");
+                this.sessionCookie = client.getSessionCookie(email, password);
                 Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
                 parent.getChildren().removeAll();
                 parent.getChildren().setAll(menu);
+                System.out.println(sessionCookie);
+                
             }
            
             
