@@ -23,5 +23,31 @@
     "id":4,
     "achievement_name":"Solar Panel",
     "achievement_value": 5000,
-  }
+  },
+  {
+    "id":5,
+    "achievement_name":"Vegetarian Meal (one meal)",
+    "achievement_value": 500,
+  },
+  {
+    "id":6,
+    "achievement_name":"Bike (using it once)",
+    "achievement_value": 500,
+  },
+  {
+    "id":7,
+    "achievement_name":"Public Transport (using it once)",
+    "achievement_value": 500,
+  },
+  {
+    "id":8,
+    "achievement_name":"Temperature (doing it once)",
+    "achievement_value": 500,
+  },
+  {
+    "id":9,
+    "achievement_name":"Buying Local (doing it once)",
+    "achievement_value": 500,
+  },
+
 ]
