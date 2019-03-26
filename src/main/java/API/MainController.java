@@ -84,11 +84,10 @@ public class MainController {
      *
      */
     @PostMapping(path = "/getFriends")
-    public @ResponseBody User[] getFriends(@RequestBody User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
+    public @ResponseBody User[] getFriends(@RequestBody int id) {
+        Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
-            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
-            return (User[]) friends.toArray();
+            return userRepository.getFriendsfromUser(id);
         }
         return null;
     }
