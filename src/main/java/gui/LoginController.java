@@ -1,6 +1,7 @@
 package gui;
 
 import client.Client;
+import database.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -108,9 +109,14 @@ public class LoginController implements Initializable {
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
-
-
+            User user = new User();
+            user.setEmail(newUsername);
+            user.setPassword(password1);
+            client.addUser(user);
         }
+        emailInput.clear();
+        newPassword.clear();
+        newPasswordRepeat.clear();
     }
     
     /*
