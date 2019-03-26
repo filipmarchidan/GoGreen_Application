@@ -134,8 +134,8 @@ public class Client {
     public static String getSessionCookie(String email, String password) {
         
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-        params.add("username", "test");
-        params.add("password", "test");
+        params.add("username", email);
+        params.add("password", password);
         
         String sessionCookie = client.postRequest("", "http://localhost:8080/login", params)
             .getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
