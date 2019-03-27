@@ -14,7 +14,7 @@
             <Font size="43.0" />
          </font>
       </Label>
-      <TableView fx:id="leaderboardTable" editable="true" layoutX="14.0" layoutY="77.0" prefHeight="406.0" prefWidth="578.0">
+      <TableView id="leaderboardTable" fx:id="leaderboardTable" editable="true" layoutX="14.0" layoutY="77.0" prefHeight="406.0" prefWidth="578.0">
         <columns>
           <TableColumn fx:id="rank" prefWidth="36.800048828125" text="Rank" />
           <TableColumn fx:id="email" prefWidth="195.20001220703125" text="Email" />

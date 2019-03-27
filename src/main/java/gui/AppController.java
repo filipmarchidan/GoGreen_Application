@@ -4,13 +4,20 @@ import client.Client;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
+import gui.entity.TableUser;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -19,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 
 public class AppController {
 
@@ -38,7 +46,7 @@ public class AppController {
 
     @FXML
     private Pane homeScreen;
-
+    /*
     @FXML
     private TableColumn rank;
 
@@ -52,8 +60,8 @@ public class AppController {
     private TableColumn score;
 
     @FXML
-    private TableView leaderboardTable;
-
+    private TableView<TableUser> leaderboardTable;
+    */
     @FXML
     private void switchScreen(ActionEvent event) {
         Button variable = (Button) event.getSource();
@@ -127,22 +135,77 @@ public class AppController {
     }
     
     private void displayLeaderboard() {
-
-        ScrollPane scroll = new ScrollPane();
-        scroll.setPrefSize(600, 560);
-        scroll.setFitToWidth(true);
-        VBox vbox = new VBox(15);
-        vbox.setStyle("-fx-background-color: #8ee4af;");
-        vbox.setPadding(new Insets(10, 20, 10, 20));
-        vbox.setFillWidth(true);
-
-
+        ScrollPane pane = new ScrollPane();
+        pane.setPrefSize(600, 560);
+        pane.setFitToWidth(true);
+        TableView<TableUser> tableView = new TableView<TableUser>();
+        ObservableList<TableUser> imgList = FXCollections.observableArrayList();
+        
         User[] friends = client.getFriends(id);
-        leaderboardTable.setItems(friends.to);
-        for(int i = 0; i < Math.min(friends.length,10);i++){
-            rank.add
+        
+        //ImageView imageView = new ImageView(new Image("path815.png"));
+
+
+        
+        TableColumn<TableUser,String> rank = new TableColumn<>();
+        TableColumn<TableUser,String> email = new TableColumn<>();
+        TableColumn<TableUser, ImageView> achievementscolumn = new TableColumn<>();
+        TableColumn<TableUser,String> score = new TableColumn<>();
+        
+        rank.setCellValueFactory(new PropertyValueFactory<TableUser,String >("rank"));
+        rank.setPrefWidth(40);
+        rank.setMaxWidth(40);
+        rank.setMinWidth(40);
+        rank.setText("rank");
+        email.setCellValueFactory(new PropertyValueFactory<TableUser, String>("email"));
+        email.setMinWidth(200);
+        email.setMaxWidth(200);
+        email.setPrefWidth(200);
+        email.setText("email");
+        achievementscolumn.setCellValueFactory(new PropertyValueFactory<TableUser, ImageView>("achievements"));
+        achievementscolumn.setPrefWidth(230);
+        achievementscolumn.setMaxWidth(230);
+        achievementscolumn.setMaxWidth(230);
+        achievementscolumn.setText("achievements");
+        score.setCellValueFactory(new PropertyValueFactory<TableUser, String>("score"));
+        score.setPrefWidth(125);
+        score.setMaxWidth(125);
+        score.setMaxWidth(125);
+        score.setText("score");
+        tableView.getColumns().addAll(rank,email,achievementscolumn,score);
+        for(int i = 0; i < Math.min(friends.length,10); i++) {
+            User user = friends[i];
+            HBox hbox = new HBox();
+            ImageView images = new ImageView(new Image(getClass().getResource("/images/path815.png").toExternalForm()));
+            images.setFitHeight(30);
+            images.setFitWidth(30);
+            Tooltip.install(images, new Tooltip("This is an achievement"));
+            ImageView images3 = new ImageView(new Image(getClass().getResource("/images/path815.png").toExternalForm()));
+            images3.setFitHeight(30);
+            images3.setFitWidth(30);
+            ImageView images2 = new ImageView(new Image(getClass().getResource("/images/path817.png").toExternalForm()));
+            images2.setFitHeight(30);
+            images2.setFitWidth(30);
+            ImageView images4 = new ImageView(new Image(getClass().getResource("/images/path817.png").toExternalForm()));
+            images4.setFitHeight(30);
+            images4.setFitWidth(30);
+            Tooltip.install(images, new Tooltip("This is an achievement"));
+            Tooltip.install(images2, new Tooltip("This is an achievement"));
+            Tooltip.install(images3, new Tooltip("This is an achievement"));
+            Tooltip.install(images4, new Tooltip("This is an achievement"));
+            
+            hbox.getChildren().addAll(images,images2,images3,images4);
+            TableUser tableUser = new TableUser(i+1, user.getEmail(),hbox,user.getTotalscore());
+            imgList.add(tableUser);
         }
-        leaderboardTable.getColumns().add(friends);
+        tableView.setItems(imgList);
+        pane.setContent(tableView);
+        pane.setStyle("-fx-font-size:15px");
+        borderpane.getChildren().removeAll();
+        borderpane.setCenter(pane);
+        
+        
+        
         /*
         for (int i = 0; i < Math.min(friends.length,10); i++) {
 
