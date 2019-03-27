@@ -84,7 +84,7 @@ public class MainController {
      *
      */
     @PostMapping(path = "/getFriends")
-    public @ResponseBody User[] getFriends(@RequestBody int id) {
+    public @ResponseBody Set<User> getFriends(@RequestBody int id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             return userRepository.getFriendsfromUser(id);
@@ -218,8 +218,58 @@ public class MainController {
     public User updateUser(@PathVariable("userId")Integer userId,
                            @PathVariable("newEmail")String newEmail,
                            @PathVariable("newPassword") String newPassword) {
-        
+
         return userService.updateUser(newEmail, newPassword, userId);
     }
     */
+
+    /** adds a friend to the user
+     *
+     * @param user the user who adds a friend
+     * @param email the email of the friend
+     * @return the user who followed a friend
+     */
+    @PostMapping(path = "/followFriend")
+    public @ResponseBody User followFriend(@RequestBody User user, String email) {
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+        List<User> optionalfriend = userService.getUserByEmail(email);
+
+        if (optionalUser.isPresent() && !optionalfriend.isEmpty()) {
+            User friend = optionalfriend.get(0);
+            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
+            friends.add(friend);
+            return friend;
+        }
+        return null;
+    }
+
+    /** removes a friend from the user
+     *
+     * @param user the user who removes a friend
+     * @param email email of the friend to remove
+     * @return User friend friend of the user that was removed
+     * @return null when user doesn't follow this friend
+     */
+    @PostMapping(path="/unfollowFriend")
+    public @ResponseBody User unfollowFriend(@RequestBody User user, String email) {
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+        List<User> optionalfriend = userService.getUserByEmail(email);
+
+        if (optionalUser.isPresent() && !optionalfriend.isEmpty()) {
+
+            User friend = optionalfriend.get(0);
+            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
+
+            if (friends.contains(friend)) {
+
+                friends.remove(friend);
+                return friend;
+            }
+
+            System.out.println("Defaultuser doesn't follow this user");
+        }
+        return null;
+    }
+
+
 }

@@ -56,6 +56,7 @@ public class AppController {
         }
         else {
             try {
+                borderpane.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlName + ".fxml"));
                 borderpane.setCenter(root);
             } catch (IOException ex) {
