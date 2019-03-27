@@ -38,21 +38,22 @@ public class ServerApplicationTest{
     @Test
     public void contextLoads() {
     }
-
+/*
     @Test
     public void all_returns_array() throws Exception {
         this.mockMvc.perform(get("/allUsers")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("[")))
                 .andExpect(content().string(containsString("]")));
-    }
-
+    }*/
+/*
     @Test
     public void activities_returns_array() throws Exception {
         this.mockMvc.perform(get("/activities")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("[")))
                 .andExpect(content().string(containsString("]")));
     }
-
+*/
+    /*
     @Test
     public void add_activity_returns_activity() throws Exception {
 
@@ -65,7 +66,7 @@ public class ServerApplicationTest{
                 .andExpect(status().isOk()).andExpect(content().string(containsString("activity_type")));
     }
 
-
+*/
 
 
 }
