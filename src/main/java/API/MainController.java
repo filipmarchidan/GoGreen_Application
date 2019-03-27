@@ -102,16 +102,17 @@ public class MainController {
     
     private void checkAchievements(User user) {
         Achievement achievement = null;
-        if(user.getTotalscore() >= 100000) {
+
+        if (user.getTotalscore() >= 100000) {
             achievement = achievementRepository.findById(1).get();
-        }else if(user.getTotalscore() >= 500000) {
+        } else if (user.getTotalscore() >= 500000) {
             achievement = achievementRepository.findById(2).get();
 
-        }else if(user.getTotalscore() >= 1000000) {
+        } else if (user.getTotalscore() >= 1000000) {
             achievement = achievementRepository.findById(3).get();
 
         }
-        if(achievement != null) {
+        if (achievement != null) {
             user.getAchievements().add(achievement);
             //achievement.getUsers().add(user);
             //achievementRepository.save(achievement);
@@ -132,24 +133,29 @@ public class MainController {
         }
         
         Achievement achievement;
+
         switch (activity.getActivity_type()) {
             
             case vegetarian_meal:
-                
                 achievement = achievementRepository.findById(5).get();
                 break;
+
             case bike:
                 achievement = achievementRepository.findById(6).get();
                 break;
+
             case solar_panel:
                 achievement = achievementRepository.findById(4).get();
                 break;
+
             case local_produce:
                 achievement = achievementRepository.findById(9).get();
                 break;
+
             case public_transport:
                 achievement = achievementRepository.findById(7).get();
                 break;
+
             case lower_temperature:
                 achievement = achievementRepository.findById(8).get();
                 break;
@@ -159,6 +165,7 @@ public class MainController {
                 break;
                 
         }
+
         user.getAchievements().add(achievement);
         achievement.getUsers().add(user);
         achievementRepository.save(achievement);
@@ -167,8 +174,9 @@ public class MainController {
     
     
     private void updateScore(User user,Activity activity) {
+
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
-        user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
+        user.setTotalscore(user.getTotalscore() + activityType.getCo2_savings()*activity.getActivity_amount());
         userRepository.save(user);
     }
 
