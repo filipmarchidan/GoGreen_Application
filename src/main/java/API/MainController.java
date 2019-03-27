@@ -4,10 +4,7 @@ import database.AchievementRepository;
 import database.ActivityRepository;
 import database.ActivityTypeRepository;
 import database.UserRepository;
-import database.entities.Achievement;
-import database.entities.Activity;
-import database.entities.ActivityType;
-import database.entities.User;
+import database.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -99,12 +96,26 @@ public class MainController {
      */
     @PostMapping(path = "/addactivity")
     public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
-
-        Activity act = activityRepository.save(activity);
-        checkAchievements(act);
-        updateScore(act);
-        return act;
-
+        
+        if(activity.getActivity_type() != ActType.solar_panel) {
+            
+            Activity act = activityRepository.save(activity);
+            checkAchievements(act);
+            updateScore(act);
+            return act;
+            
+        } else {
+            
+            User user = userRepository.findById(activity.getUserId()).get();
+            
+            if(!user.hasSolarPanel()) {
+                
+                user.setSolarPanel(true);
+                Activity act = activityRepository.save(activity);
+                return act;
+            }
+            return null;
+        }
     }
 
     private void checkAchievements(Activity act) {

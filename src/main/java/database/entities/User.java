@@ -28,6 +28,9 @@ public class User {
     
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Achievement> achievements = new HashSet<>();
+    
+    @Column (name = "solarPanel")
+    private boolean solarPanel;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
@@ -97,6 +100,13 @@ public class User {
         this.password = password;
     }
     
+    public boolean hasSolarPanel() {
+        return solarPanel;
+    }
+    
+    public void setSolarPanel(boolean solarPanel) {
+        this.solarPanel = solarPanel;
+    }
     
     @Override
     public boolean equals(Object obj) {

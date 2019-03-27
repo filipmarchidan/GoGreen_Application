@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -72,9 +73,39 @@ public class AppController {
     }
 
     @FXML
-    void addMeal(ActionEvent event) {
-        client.addActivity(new Activity(id, ActType.vegetarian_meal,1,Activity.getDateTime()));
+    void addActivity(ActionEvent event) {
+        if(event.getSource() instanceof  Button) {
+            Button button = (Button) event.getSource();
+            ActType actType = null;
+            switch(button.getId()){
+                case "vegetarian" :
+                    actType = ActType.vegetarian_meal;
+                    break;
+                case "bike" :
+                    actType = ActType.bike;
+                    break;
+                case "local" :
+                    actType = ActType.local_produce;
+                    break;
+                case "public" :
+                    actType = ActType.public_transport;
+                    break;
+                case "temp" :
+                    actType = ActType.lower_temperature;
+                    break;
+            }
+            
+            client.addActivity(new Activity(id, actType,1,Activity.getDateTime()));
+            
+        }
+        
+        else if(event.getSource() instanceof CheckBox) {
+            
+            Activity activity = client.addActivity(new Activity(id, ActType.solar_panel,1,Activity.getDateTime()));
+            
+        }
     }
+    
 
     private void displayActivities() {
         ScrollPane scroll = new ScrollPane();
