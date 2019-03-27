@@ -1,7 +1,6 @@
 package API;
 
 import API.security.SecurityService;
-import API.security.UserDetailsServiceImplementation;
 import database.ActivityRepository;
 import database.UserRepository;
 import database.entities.Activity;
@@ -41,7 +40,7 @@ public class MainController {
         return userService.createUser(user);
     }
     @GetMapping(path = "/findByEmail")
-    public @ResponseBody List<User> findByEmail(@RequestBody String email){
+    public @ResponseBody User findByEmail(@RequestBody String email){
         return userService.getUserByEmail(email);
     }
     
