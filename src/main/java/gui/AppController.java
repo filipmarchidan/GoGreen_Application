@@ -10,9 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -26,9 +24,9 @@ public class AppController {
 
     private Client client = Client.getInstance();
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-    private int id = client.addUser(new User("test@blah","hellopassword")).getId();
-    private int friendId = client.addUser(new User("test2@blah2.com","hellopassword2")).getId();
-    
+    private int id = 1;
+    //private int friendId = client.addUser(new User("test2@blah2.com","hellopassword2")).getId();
+
     @FXML
     private AnchorPane content;
 
@@ -40,6 +38,21 @@ public class AppController {
 
     @FXML
     private Pane homeScreen;
+
+    @FXML
+    private TableColumn rank;
+
+    @FXML
+    private TableColumn email;
+
+    @FXML
+    private TableColumn achievementscolumn;
+
+    @FXML
+    private TableColumn score;
+
+    @FXML
+    private TableView leaderboardTable;
 
     @FXML
     private void switchScreen(ActionEvent event) {
@@ -114,6 +127,7 @@ public class AppController {
     }
     
     private void displayLeaderboard() {
+
         ScrollPane scroll = new ScrollPane();
         scroll.setPrefSize(600, 560);
         scroll.setFitToWidth(true);
@@ -121,10 +135,17 @@ public class AppController {
         vbox.setStyle("-fx-background-color: #8ee4af;");
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setFillWidth(true);
-    
+
+
         User[] friends = client.getFriends(id);
-        for (int i = 0; i < Math.max(friends.length,10); i++) {
-            User user = friends[i];
+        leaderboardTable.setItems(friends.to);
+        for(int i = 0; i < Math.min(friends.length,10);i++){
+            rank.add
+        }
+        leaderboardTable.getColumns().add(friends);
+        /*
+        for (int i = 0; i < Math.min(friends.length,10); i++) {
+
             HBox active = new HBox();
             active.setStyle("-fx-border-color:  #05386B;"
                     + "-fx-border-width: 3;"
@@ -144,6 +165,7 @@ public class AppController {
         scroll.setContent(vbox);
         borderpane.getChildren().removeAll();
         borderpane.setCenter(scroll);
+        */
     }
 
 
