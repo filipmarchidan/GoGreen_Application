@@ -16,7 +16,7 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     
-    List<User> findByEmail(String email);
+    User findByEmail(String email);
 
     @Query("SELECT new database.entities.User(fr.email, fr.id,fr.totalscore)"
             + "FROM User u JOIN u.friends fr Where u.id = :userId "

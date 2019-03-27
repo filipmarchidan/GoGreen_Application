@@ -1,5 +1,6 @@
 package database.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ManyToAny;
 
 import java.util.HashSet;
@@ -28,7 +29,8 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Achievement> achievements = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<User> friends = new HashSet<>();
     
     public User() {

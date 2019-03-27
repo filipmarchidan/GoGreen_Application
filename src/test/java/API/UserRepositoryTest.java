@@ -57,8 +57,8 @@ public class UserRepositoryTest {
     public void checkFindByEmailFunctionality() {
         User user = getOneUser();
         User saveData = entityManager.persist(user);
-        List<User> getUser = userRepository.findByEmail(email1);
-        assertEquals(saveData.getEmail(), getUser.get(0).getEmail());
+        User getUser = userRepository.findByEmail(email1);
+        assertEquals(saveData.getEmail(), getUser.getEmail());
     }
     
     private User getOneUser(){
