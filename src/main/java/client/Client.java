@@ -168,6 +168,14 @@ public class Client {
         User[] friends = gson.fromJson(result, User[].class);
         return friends;
     }
+
+    /*
+    public int getScore(Activity a) {
+        String result = postRequest("getscore", a);
+        int score = gson.fromJson(result, int.class);
+        return score;
+    }
+    */
     
     
     

@@ -80,8 +80,10 @@ public class MainController {
         return null;
     }
 
-    /** Finds the friends of a user
+    /** finds the friends of a user
      *
+     * @param user the user which friends you want
+     * @return friends of user
      */
     @PostMapping(path = "/getFriends")
     public @ResponseBody User[] getFriends(@RequestBody User user) {
@@ -92,6 +94,56 @@ public class MainController {
         }
         return null;
     }
+
+    /** adds a friend to the user
+     *
+     * @param user the user who adds a friend
+     * @param email the email of the friend
+     * @return the user who followed a friend
+     */
+    @PostMapping(path = "/followFriend")
+    public @ResponseBody User followFriend(@RequestBody User user, String email) {
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+        List<User> optionalfriend = userService.getUserByEmail(email);
+
+        if (optionalUser.isPresent() && !optionalfriend.isEmpty()) {
+            User friend = optionalfriend.get(0);
+            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
+            friends.add(friend);
+            return friend;
+        }
+        return null;
+    }
+
+    /** removes a friend from the user
+     *
+     * @param user the user who removes a friend
+     * @param email email of the friend to remove
+     * @return User friend friend of the user that was removed
+     * @return null when user doesn't follow this friend
+     */
+    @PostMapping(path="/unfollowFriend")
+    public @ResponseBody User unfollowFriend(@RequestBody User user, String email) {
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+        List<User> optionalfriend = userService.getUserByEmail(email);
+
+        if (optionalUser.isPresent() && !optionalfriend.isEmpty()) {
+
+            User friend = optionalfriend.get(0);
+            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
+
+            if (friends.contains(friend)) {
+
+                friends.remove(friend);
+                return friend;
+            }
+
+            System.out.println("Defaultuser doesn't follow this user");
+        }
+        return null;
+    }
+
+
 
     /** adds an activity to the database.
      *
@@ -144,6 +196,16 @@ public class MainController {
         user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
         userRepository.save(user);
     }
+/*
+    @PostMapping(path = "/getscore")
+    private @ResponseBody int getScore (@RequestBody Activity activity) {
+
+        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
+        int activityscore = activityType.getCo2_savings();
+        System.out.println(activityscore);
+        return activityscore;
+    }
+    */
     
     /** This is what the client can connect to, to retrieve a user's achievements.
      *
