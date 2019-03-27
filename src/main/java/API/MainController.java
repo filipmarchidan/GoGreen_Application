@@ -7,6 +7,7 @@ import database.entities.Activity;
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,16 +28,13 @@ public class MainController {
     private UserService userService;
     
     
-    /** adds a new user to the database
-     *
-     * @param user user to be added
-     * @return copy of user actually added (proper ID etc..)
-     */
+    
     @PostMapping(path = "/addUser")
-    public @ResponseBody User addNewUser(@RequestBody User user) {
-//        User user = new User();
-//        user.setPassword(password);
-//        user.setEmail(email);
+    public @ResponseBody User addNewUser(@RequestBody MultiValueMap<String, Object> params) {
+        
+        User user = new User();
+        user.setEmail((String)params.getFirst("username"));
+        user.setPassword((String)params.getFirst("password"));
         return userService.createUser(user);
     }
     @GetMapping(path = "/findByEmail")

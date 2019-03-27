@@ -133,11 +133,13 @@ public class Client {
     public void addUser(User user)
     {
        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-       //params.add("username", user.getEmail());
-       //params.add("password", user.getPassword());
-        params.add("user", user);
-       postRequest("", "http://localhost:8080/addUser",params);
+       params.add("username", user.getEmail());
+       params.add("password", user.getPassword());
+        //params.add("user", user);
+       postRequest("", "http://localhost:8080/addUser", params);
     }
+    
+    
     public static String getSessionCookie(String email, String password) {
         
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
