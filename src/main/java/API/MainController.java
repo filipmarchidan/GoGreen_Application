@@ -90,9 +90,10 @@ public class MainController {
         
         if(user.isPresent()){
             User user1 = user.get();
+            updateScore(user1,act);
             checkAchievements(user1);
             checkActivityAchievements(act,user1);
-            updateScore(user1,act);
+
         }
 
         return act;
@@ -112,8 +113,8 @@ public class MainController {
         }
         if(achievement != null) {
             user.getAchievements().add(achievement);
-            achievement.getUsers().add(user);
-            achievementRepository.save(achievement);
+            //achievement.getUsers().add(user);
+            //achievementRepository.save(achievement);
         }
         userRepository.save(user);
     }
@@ -126,8 +127,8 @@ public class MainController {
             
             Achievement achievement = achievementRepository.findById(0).get();
             user.getAchievements().add(achievement);
-            achievement.getUsers().add(user);
-            achievementRepository.save(achievement);
+            //achievement.getUsers().add(user);
+            //achievementRepository.save(achievement);
         }
         
         Achievement achievement;
