@@ -1,6 +1,8 @@
 package database.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -26,6 +28,7 @@ public class Achievement {
     private Integer achievement_value;
     
     @ManyToMany(mappedBy = "achievements",cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private Set<User> users;
 
     public Achievement() {

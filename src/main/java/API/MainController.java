@@ -4,10 +4,7 @@ import database.AchievementRepository;
 import database.ActivityRepository;
 import database.ActivityTypeRepository;
 import database.UserRepository;
-import database.entities.Achievement;
-import database.entities.Activity;
-import database.entities.ActivityType;
-import database.entities.User;
+import database.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -41,8 +38,8 @@ public class MainController {
 
     @Autowired
     private UserService userService;
-    
-    
+
+
     /** adds a new user to the database
      *
      * @param user user to be added
@@ -57,13 +54,13 @@ public class MainController {
         }
         return userRepository.findByEmail(user.getEmail()).get(0);
         // if(userRepository.findByEmail(user.getEmail()) != null) {
-        
+
         // }
         //  throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
 
     }
-    
+
     /** Finds the user and removes if present.
      *
      * @param user User to be removed.
@@ -73,27 +70,195 @@ public class MainController {
     public @ResponseBody User removeUser(@RequestBody User user) {
         Optional<User> optionalUser = userRepository.findById(user.getId());
         if (optionalUser.isPresent()) {
-            
+
             userRepository.delete(optionalUser.get());
             return optionalUser.get();
         }
         return null;
     }
 
-    /** finds the friends of a user
+    /** adds an activity to the database.
      *
-     * @param user the user which friends you want
-     * @return friends of user
+     * @param activity activity to be added
+     * @return activity actually added (proper id)
      */
-    @PostMapping(path = "/getFriends")
-    public @ResponseBody User[] getFriends(@RequestBody User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
-        if (optionalUser.isPresent()) {
-            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
-            return (User[]) friends.toArray();
+    @PostMapping(path = "/addactivity")
+    public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
+
+        Activity act = activityRepository.save(activity);
+        Optional<User> user = userRepository.findById(act.getUserId());
+
+        if(user.isPresent()){
+            User user1 = user.get();
+            updateScore(user1,act);
+            checkAchievements(user1);
+            checkActivityAchievements(act,user1);
+
         }
-        return null;
+
+        return act;
+
     }
+
+    private void checkAchievements(User user) {
+        Achievement achievement = null;
+
+        if (user.getTotalscore() >= 100000) {
+            achievement = achievementRepository.findById(1).get();
+        } else if (user.getTotalscore() >= 500000) {
+            achievement = achievementRepository.findById(2).get();
+
+        } else if (user.getTotalscore() >= 1000000) {
+            achievement = achievementRepository.findById(3).get();
+
+        }
+        if (achievement != null) {
+            user.getAchievements().add(achievement);
+            //achievement.getUsers().add(user);
+            //achievementRepository.save(achievement);
+        }
+        userRepository.save(user);
+    }
+
+    private void checkActivityAchievements(Activity activity, User user) {
+        List<Activity> activityList = activityRepository.findByUserId(user.getId());
+
+        //check test achievements
+        if (activityList.size() >= 1 ) {
+
+            Achievement achievement = achievementRepository.findById(0).get();
+            user.getAchievements().add(achievement);
+            //achievement.getUsers().add(user);
+            //achievementRepository.save(achievement);
+        }
+
+        Achievement achievement;
+
+        switch (activity.getActivity_type()) {
+
+            case vegetarian_meal:
+                achievement = achievementRepository.findById(5).get();
+                break;
+
+            case bike:
+                achievement = achievementRepository.findById(6).get();
+                break;
+
+            case solar_panel:
+                achievement = achievementRepository.findById(4).get();
+                break;
+
+            case local_produce:
+                achievement = achievementRepository.findById(9).get();
+                break;
+
+            case public_transport:
+                achievement = achievementRepository.findById(7).get();
+                break;
+
+            case lower_temperature:
+                achievement = achievementRepository.findById(8).get();
+                break;
+
+            default:
+                achievement = null;
+                break;
+
+        }
+
+        user.getAchievements().add(achievement);
+        achievement.getUsers().add(user);
+        achievementRepository.save(achievement);
+        userRepository.save(user);
+    }
+
+
+    private void updateScore(User user,Activity activity) {
+
+        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
+        user.setTotalscore(user.getTotalscore() + activityType.getCo2_savings()*activity.getActivity_amount());
+        userRepository.save(user);
+    }
+
+
+    /** This is what the client can connect to, to retrieve a user's achievements.
+     *
+     * @param user the user whose achievements you want
+     * @return  a set of all the achievement that user earned
+     */
+    @PostMapping(path = "/getachievements")
+    public @ResponseBody Achievement[] getAchievements(@RequestBody User user) {
+
+        Set<Achievement> achievements =
+                achievementRepository.getAchievementsFromUserId(user.getId());
+
+        return (Achievement[])achievements.toArray();
+
+    }
+
+    @GetMapping(path = "/activities")
+    public @ResponseBody Iterable<Activity> getAllActivities() {
+
+        return activityRepository.findAll();
+    }
+    /*
+        The next methods are created via UserServiceDAO
+        The user service has the following methods
+        createUser - creates a new user
+        getUserById - retrieves the user by id
+        getAllUsers - retrieves all users from database
+        deleteUser - deletes an user in the database
+        updateUser - updates a current user in the database
+        */
+    /*
+    //creates new user
+    @CrossOrigin
+    @PostMapping(value = "/create",consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
+
+    //gets the user by id
+    @CrossOrigin
+    @GetMapping(value = "/userId/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public User getUserById(@PathVariable("ticketId")Integer userId) {
+        return userService.getUserById(userId);
+    }
+    */
+    //gets all users
+    @CrossOrigin
+    @GetMapping(value = "/allUsers",produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    /*
+    //gets user by email
+    @CrossOrigin
+    @GetMapping(value = "/email/{email:.+}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<User> getUserByEmail(@PathVariable("email")String email) {
+        return userService.getUserByEmail(email);
+    }
+
+    //deletes user by id
+    @CrossOrigin
+    @DeleteMapping(value = "/userId/{userId}")
+    public void deleteUser(@PathVariable("userId")Integer userId) {
+        userService.deleteUser(userId);
+    }
+
+    //updates the user
+    @CrossOrigin
+    @PutMapping(value = "/userId/{userId}/email/{newEmail:.+}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public User updateUser(@PathVariable("userId")Integer userId,
+                           @PathVariable("newEmail")String newEmail,
+                           @PathVariable("newPassword") String newPassword) {
+
+        return userService.updateUser(newEmail, newPassword, userId);
+    }
+    */
 
     /** adds a friend to the user
      *
@@ -144,145 +309,4 @@ public class MainController {
     }
 
 
-
-    /** adds an activity to the database.
-     *
-     * @param activity activity to be added
-     * @return activity actually added (proper id)
-     */
-    @PostMapping(path = "/addactivity")
-    public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
-
-        Activity act = activityRepository.save(activity);
-        checkAchievements(act);
-        updateScore(act);
-        return act;
-
-    }
-
-    private void checkAchievements(Activity act) {
-        List<Activity> activityList = activityRepository.findByUserId(act.getUserId());
-
-        if (activityList.size() >= 1 ) {
-
-            Set<Achievement> achievements =
-                    achievementRepository.getAchievementsFromUserId(act.getUserId());
-
-            Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
-
-            if (optionalAchievement.isPresent()) {
-
-                Achievement achievement = optionalAchievement.get();
-                Optional<User> user = userRepository.findById(act.getUserId());
-
-                if (user.isPresent()) {
-
-                    User user1 = user.get();
-                    user1.getAchievements().add(achievement);
-                    achievement.getUsers().add(user1);
-                    achievementRepository.save(achievement);
-                    userRepository.save(user1);
-                }
-            }
-
-
-
-        }
-    }
-
-    private void updateScore (Activity activity) {
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
-        User user = userRepository.findById(activity.getUserId()).get();
-        user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
-        userRepository.save(user);
-    }
-/*
-    @PostMapping(path = "/getscore")
-    private @ResponseBody int getScore (@RequestBody Activity activity) {
-
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
-        int activityscore = activityType.getCo2_savings();
-        System.out.println(activityscore);
-        return activityscore;
-    }
-    */
-    
-    /** This is what the client can connect to, to retrieve a user's achievements.
-     *
-     * @param user the user whose achievements you want
-     * @return  a set of all the achievement that user earned
-     */
-    @PostMapping(path = "/getachievements")
-    public @ResponseBody Achievement[] getAchievements(@RequestBody User user) {
-
-        Set<Achievement> achievements =
-                achievementRepository.getAchievementsFromUserId(user.getId());
-        
-        return (Achievement[])achievements.toArray();
-
-    }
-
-    @GetMapping(path = "/activities")
-    public @ResponseBody Iterable<Activity> getAllActivities() {
-
-        return activityRepository.findAll();
-    }
-    /*
-        The next methods are created via UserServiceDAO
-        The user service has the following methods
-        createUser - creates a new user
-        getUserById - retrieves the user by id
-        getAllUsers - retrieves all users from database
-        deleteUser - deletes an user in the database
-        updateUser - updates a current user in the database
-        */
-    /*
-    //creates new user
-    @CrossOrigin
-    @PostMapping(value = "/create",consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
-    }
-    
-    //gets the user by id
-    @CrossOrigin
-    @GetMapping(value = "/userId/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserById(@PathVariable("ticketId")Integer userId) {
-        return userService.getUserById(userId);
-    }
-    */
-    //gets all users
-    @CrossOrigin
-    @GetMapping(value = "/allUsers",produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
-    /*
-    //gets user by email
-    @CrossOrigin
-    @GetMapping(value = "/email/{email:.+}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getUserByEmail(@PathVariable("email")String email) {
-        return userService.getUserByEmail(email);
-    }
-    
-    //deletes user by id
-    @CrossOrigin
-    @DeleteMapping(value = "/userId/{userId}")
-    public void deleteUser(@PathVariable("userId")Integer userId) {
-        userService.deleteUser(userId);
-    }
-    
-    //updates the user
-    @CrossOrigin
-    @PutMapping(value = "/userId/{userId}/email/{newEmail:.+}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@PathVariable("userId")Integer userId,
-                           @PathVariable("newEmail")String newEmail,
-                           @PathVariable("newPassword") String newPassword) {
-        
-        return userService.updateUser(newEmail, newPassword, userId);
-    }
-    */
 }

@@ -46,11 +46,11 @@ public class User {
         this.email = email;
         this.id = id;
     }
-
+    
     public int getTotalscore() {
         return totalscore;
     }
-
+    
     public void setTotalscore(int totalscore) {
         this.totalscore = totalscore;
     }
