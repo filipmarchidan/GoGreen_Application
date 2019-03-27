@@ -1,5 +1,7 @@
 package API;
 
+import API.security.SecurityService;
+import API.security.UserDetailsServiceImplementation;
 import database.ActivityRepository;
 import database.UserRepository;
 import database.entities.Activity;
@@ -9,6 +11,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+
 
 
 @RestController
@@ -64,9 +68,12 @@ public class MainController {
     }
     
     @GetMapping("/activities")
-    public @ResponseBody List<Activity> getAllActivities(String sessionCookie) {
+    public @ResponseBody Set<Activity> getAllActivities(String sessionCookie) {
 
-        return activityRepository.findAll();
+        
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        return user.getActivities();
     }
     /*
         The next methods are created via UserServiceDAO

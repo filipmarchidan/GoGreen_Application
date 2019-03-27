@@ -25,7 +25,7 @@ public class AuthFailureHandler implements org.springframework.security.web.auth
             HttpServletResponse response,
             AuthenticationException exception
     ) throws IOException, ServletException {
-        response.setStatus(200);
+        response.setStatus(401);
         response.setContentType("Application/JSON");
         response.getWriter().write(
             "not authenticated"
