@@ -25,7 +25,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.script.Bindings;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class AppController {
@@ -134,24 +138,43 @@ public class AppController {
         borderpane.setCenter(scroll);
     }
     
+    private User[] InsertUser(User[] friends) {
+    
+        User user = client.addUser(new User("user1@user1.com", "user1"));
+        System.out.println(user.getId());
+        User[] friends2 = new User[friends.length + 1];
+        int i = 0;
+        while (friends[i].getTotalscore() > user.getTotalscore()) {
+            System.out.println(i + " = " + i);
+            friends2[i] = friends[i];
+            i++;
+        }
+        friends2[i] = user;
+        i++;
+        while (i < friends2.length) {
+            
+            System.out.println(i+1 + " = " + i);
+            friends2[i] = friends[i-1];
+            i++;
+        }
+        return friends2;
+    }
+    
     private void displayLeaderboard() {
         ScrollPane pane = new ScrollPane();
         pane.setPrefSize(600, 560);
         pane.setFitToWidth(true);
         TableView<TableUser> tableView = new TableView<TableUser>();
         ObservableList<TableUser> imgList = FXCollections.observableArrayList();
-        
+        VBox vbox = new VBox();
         User[] friends = client.getFriends(id);
-        
+        friends = InsertUser(friends);
         //ImageView imageView = new ImageView(new Image("path815.png"));
 
-
-        
         TableColumn<TableUser,String> rank = new TableColumn<>();
         TableColumn<TableUser,String> email = new TableColumn<>();
         TableColumn<TableUser, ImageView> achievementscolumn = new TableColumn<>();
         TableColumn<TableUser,String> score = new TableColumn<>();
-        
         rank.setCellValueFactory(new PropertyValueFactory<TableUser,String >("rank"));
         rank.setPrefWidth(40);
         rank.setMaxWidth(40);
@@ -168,13 +191,20 @@ public class AppController {
         achievementscolumn.setMaxWidth(230);
         achievementscolumn.setText("achievements");
         score.setCellValueFactory(new PropertyValueFactory<TableUser, String>("score"));
-        score.setPrefWidth(125);
-        score.setMaxWidth(125);
-        score.setMaxWidth(125);
+        score.setPrefWidth(110);
+        score.setMaxWidth(110);
+        score.setMaxWidth(110);
         score.setText("score");
         tableView.getColumns().addAll(rank,email,achievementscolumn,score);
+        tableView.setFixedCellSize(35);
+        tableView.setPrefHeight(35*friends.length + 43);
+        tableView.setStyle("-fx-border-color:  #05386B;"
+                + "-fx-border-width: 3;"
+                + "-fx-border-radius: 10 10 10 10;");
         for(int i = 0; i < Math.min(friends.length,10); i++) {
+            
             User user = friends[i];
+            System.out.println(user);
             HBox hbox = new HBox();
             ImageView images = new ImageView(new Image(getClass().getResource("/images/path815.png").toExternalForm()));
             images.setFitHeight(30);
@@ -193,8 +223,9 @@ public class AppController {
             Tooltip.install(images2, new Tooltip("This is an achievement"));
             Tooltip.install(images3, new Tooltip("This is an achievement"));
             Tooltip.install(images4, new Tooltip("This is an achievement"));
-            
             hbox.getChildren().addAll(images,images2,images3,images4);
+            hbox.setSpacing(4);
+            hbox.setFillHeight(true);
             TableUser tableUser = new TableUser(i+1, user.getEmail(),hbox,user.getTotalscore());
             imgList.add(tableUser);
         }
