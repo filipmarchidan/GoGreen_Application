@@ -37,19 +37,21 @@ public class User {
     private Set<User> friends = new HashSet<>();
     
     public User() {
-    
+        this.solarPanel = false;
     }
     
     public User(String email, String password) {
         this.email = email;
         this.password = password;
         this.totalscore = 0;
+        this.solarPanel = false;
     }
 
     public User(String email, int id,int totalscore) {
         this.totalscore = totalscore;
         this.email = email;
         this.id = id;
+        this.solarPanel = false;
     }
     
     public int getTotalscore() {
@@ -100,7 +102,7 @@ public class User {
         this.password = password;
     }
     
-    public boolean hasSolarPanel() {
+    public boolean isSolarPanel() {
         return solarPanel;
     }
     

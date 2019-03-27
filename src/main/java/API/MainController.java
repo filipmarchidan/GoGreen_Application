@@ -108,7 +108,7 @@ public class MainController {
             
             User user = userRepository.findById(activity.getUserId()).get();
             
-            if(!user.hasSolarPanel()) {
+            if(!user.isSolarPanel()) {
                 
                 user.setSolarPanel(true);
                 Activity act = activityRepository.save(activity);
