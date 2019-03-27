@@ -34,8 +34,8 @@ public class UserServiceTest {
     {
         User newUser = getOneUser();
         User saveUser = entityManager.persist(newUser);
-        User user = userRepository.findByEmail(email1);
-        assertEquals(saveUser.getEmail(), user.getEmail());
+        List<User> user = userRepository.findByEmail(email1);
+        assertEquals(saveUser.getEmail(), user.get(0).getEmail());
     }
     private User getOneUser(){
         User spongeBob = new User();

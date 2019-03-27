@@ -35,17 +35,15 @@ public class MainController {
      */
     @PostMapping(path = "/addUser")
     public @ResponseBody User addNewUser(@RequestBody User user) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
-
-        // if(userRepository.findByEmail(user.getEmail()) != null) {
-        return userRepository.save(user);
-        // }
-        //  throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-
-
+//        User user = new User();
+//        user.setPassword(password);
+//        user.setEmail(email);
+        return userService.createUser(user);
     }
-    
+    @GetMapping(path = "/findByEmail")
+    public @ResponseBody List<User> findByEmail(@RequestBody String email){
+        return userService.getUserByEmail(email);
+    }
     
     @Secured("ROLE_USER")
     @GetMapping("/allUsers")
