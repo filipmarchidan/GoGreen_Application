@@ -2,6 +2,7 @@ package client;
 
 import com.google.gson.Gson;
 
+import database.entities.Achievement;
 import database.entities.Activity;
 import database.entities.User;
 
@@ -162,6 +163,15 @@ public class Client {
         Activity[] activities = gson.fromJson(result, Activity[].class);
         return activities;
     }
+
+    public Achievement[] getAchievements (User user) {
+
+        String result = postRequest("getAchievements", user);
+        Achievement[] achievement = gson.fromJson(result, Achievement[].class);
+        return achievement;
+
+    }
+
     
     
     
