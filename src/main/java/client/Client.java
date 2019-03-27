@@ -163,9 +163,11 @@ public class Client {
         return activities;
     }
 
-    public User[] getFriends(User user) {
-        String result = getRequest("getFriends", user);
+    public User[] getFriends(int id) {
+        
+        String result = postRequest("getFriends", id);
         User[] friends = gson.fromJson(result, User[].class);
+
         return friends;
     }
 

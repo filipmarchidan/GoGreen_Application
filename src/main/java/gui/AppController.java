@@ -27,6 +27,7 @@ public class AppController {
     private Client client = Client.getInstance();
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
     private int id = client.addUser(new User("test@blah","hellopassword")).getId();
+    private int friendId = client.addUser(new User("test2@blah2.com","hellopassword2")).getId();
     
     @FXML
     private AnchorPane content;
@@ -50,7 +51,10 @@ public class AppController {
             borderpane.setCenter(homeScreen);
         } else if (fxmlName.equals("history")) {
             displayActivities();
-        } else {
+        } else if(fxmlName.equals("leaderboard")) {
+            displayLeaderboard();
+        }
+        else {
             try {
                 borderpane.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlName + ".fxml"));
@@ -101,6 +105,39 @@ public class AppController {
             date.setStyle("-fx-font-size:18px");
             date.setPrefWidth(180);
             active.getChildren().addAll(activity, date);
+            //System.out.println(a.getActivity_type() + a.getCO2_savings() + a.getDate_time());
+            vbox.getChildren().add(active);
+        }
+        scroll.setContent(vbox);
+        borderpane.getChildren().removeAll();
+        borderpane.setCenter(scroll);
+    }
+    
+    private void displayLeaderboard() {
+        ScrollPane scroll = new ScrollPane();
+        scroll.setPrefSize(600, 560);
+        scroll.setFitToWidth(true);
+        VBox vbox = new VBox(15);
+        vbox.setStyle("-fx-background-color: #8ee4af;");
+        vbox.setPadding(new Insets(10, 20, 10, 20));
+        vbox.setFillWidth(true);
+    
+        User[] friends = client.getFriends(id);
+        for (int i = 0; i < Math.max(friends.length,10); i++) {
+            User user = friends[i];
+            HBox active = new HBox();
+            active.setStyle("-fx-border-color:  #05386B;"
+                    + "-fx-border-width: 3;"
+                    + "-fx-border-radius: 10 10 10 10;");
+            active.setPrefSize(600, 50);
+            active.setPadding(new Insets(5,5,5,5));
+            active.setAlignment(Pos.CENTER);
+            Label position = new Label("position: " + i);
+            Label email = new Label("email: " + user.getEmail());
+            email.setStyle("-fx-font-size:18px;");
+            email.setPrefWidth(200);
+            Label score = new Label("score: " + user.getTotalscore());
+            active.getChildren().addAll(position, email, score);
             //System.out.println(a.getActivity_type() + a.getCO2_savings() + a.getDate_time());
             vbox.getChildren().add(active);
         }

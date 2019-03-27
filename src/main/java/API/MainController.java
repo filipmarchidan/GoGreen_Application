@@ -4,7 +4,10 @@ import database.AchievementRepository;
 import database.ActivityRepository;
 import database.ActivityTypeRepository;
 import database.UserRepository;
-import database.entities.*;
+import database.entities.Achievement;
+import database.entities.Activity;
+import database.entities.ActivityType;
+import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -38,8 +41,8 @@ public class MainController {
 
     @Autowired
     private UserService userService;
-
-
+    
+    
     /** adds a new user to the database
      *
      * @param user user to be added
@@ -54,13 +57,13 @@ public class MainController {
         }
         return userRepository.findByEmail(user.getEmail());
         // if(userRepository.findByEmail(user.getEmail()) != null) {
-
+        
         // }
         //  throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
 
     }
-
+    
     /** Finds the user and removes if present.
      *
      * @param user User to be removed.
@@ -70,9 +73,21 @@ public class MainController {
     public @ResponseBody User removeUser(@RequestBody User user) {
         Optional<User> optionalUser = userRepository.findById(user.getId());
         if (optionalUser.isPresent()) {
-
+            
             userRepository.delete(optionalUser.get());
             return optionalUser.get();
+        }
+        return null;
+    }
+
+    /** Finds the friends of a user
+     *
+     */
+    @PostMapping(path = "/getFriends")
+    public @ResponseBody Set<User> getFriends(@RequestBody int id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            return userRepository.getFriendsfromUser(id);
         }
         return null;
     }
@@ -86,101 +101,49 @@ public class MainController {
     public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
 
         Activity act = activityRepository.save(activity);
-        Optional<User> user = userRepository.findById(act.getUserId());
-
-        if(user.isPresent()){
-            User user1 = user.get();
-            updateScore(user1,act);
-            checkAchievements(user1);
-            checkActivityAchievements(act,user1);
-
-        }
-
+        checkAchievements(act);
+        updateScore(act);
         return act;
 
     }
 
-    private void checkAchievements(User user) {
-        Achievement achievement = null;
+    private void checkAchievements(Activity act) {
+        List<Activity> activityList = activityRepository.findByUserId(act.getUserId());
 
-        if (user.getTotalscore() >= 100000) {
-            achievement = achievementRepository.findById(1).get();
-        } else if (user.getTotalscore() >= 500000) {
-            achievement = achievementRepository.findById(2).get();
-
-        } else if (user.getTotalscore() >= 1000000) {
-            achievement = achievementRepository.findById(3).get();
-
-        }
-        if (achievement != null) {
-            user.getAchievements().add(achievement);
-            //achievement.getUsers().add(user);
-            //achievementRepository.save(achievement);
-        }
-        userRepository.save(user);
-    }
-
-    private void checkActivityAchievements(Activity activity, User user) {
-        List<Activity> activityList = activityRepository.findByUserId(user.getId());
-
-        //check test achievements
         if (activityList.size() >= 1 ) {
 
-            Achievement achievement = achievementRepository.findById(0).get();
-            user.getAchievements().add(achievement);
-            //achievement.getUsers().add(user);
-            //achievementRepository.save(achievement);
-        }
+            Set<Achievement> achievements =
+                    achievementRepository.getAchievementsFromUserId(act.getUserId());
 
-        Achievement achievement;
+            Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
 
-        switch (activity.getActivity_type()) {
+            if (optionalAchievement.isPresent()) {
 
-            case vegetarian_meal:
-                achievement = achievementRepository.findById(5).get();
-                break;
+                Achievement achievement = optionalAchievement.get();
+                Optional<User> user = userRepository.findById(act.getUserId());
 
-            case bike:
-                achievement = achievementRepository.findById(6).get();
-                break;
+                if (user.isPresent()) {
 
-            case solar_panel:
-                achievement = achievementRepository.findById(4).get();
-                break;
+                    User user1 = user.get();
+                    user1.getAchievements().add(achievement);
+                    achievement.getUsers().add(user1);
+                    achievementRepository.save(achievement);
+                    userRepository.save(user1);
+                }
+            }
 
-            case local_produce:
-                achievement = achievementRepository.findById(9).get();
-                break;
 
-            case public_transport:
-                achievement = achievementRepository.findById(7).get();
-                break;
-
-            case lower_temperature:
-                achievement = achievementRepository.findById(8).get();
-                break;
-
-            default:
-                achievement = null;
-                break;
 
         }
-
-        user.getAchievements().add(achievement);
-        achievement.getUsers().add(user);
-        achievementRepository.save(achievement);
-        userRepository.save(user);
     }
 
-
-    private void updateScore(User user,Activity activity) {
-
+    private void updateScore (Activity activity) {
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
-        user.setTotalscore(user.getTotalscore() + activityType.getCo2_savings()*activity.getActivity_amount());
+        User user = userRepository.findById(activity.getUserId()).get();
+        user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
         userRepository.save(user);
     }
-
-
+    
     /** This is what the client can connect to, to retrieve a user's achievements.
      *
      * @param user the user whose achievements you want
@@ -191,7 +154,7 @@ public class MainController {
 
         Set<Achievement> achievements =
                 achievementRepository.getAchievementsFromUserId(user.getId());
-
+        
         return (Achievement[])achievements.toArray();
 
     }
@@ -218,7 +181,7 @@ public class MainController {
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
-
+    
     //gets the user by id
     @CrossOrigin
     @GetMapping(value = "/userId/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -240,14 +203,14 @@ public class MainController {
     public List<User> getUserByEmail(@PathVariable("email")String email) {
         return userService.getUserByEmail(email);
     }
-
+    
     //deletes user by id
     @CrossOrigin
     @DeleteMapping(value = "/userId/{userId}")
     public void deleteUser(@PathVariable("userId")Integer userId) {
         userService.deleteUser(userId);
     }
-
+    
     //updates the user
     @CrossOrigin
     @PutMapping(value = "/userId/{userId}/email/{newEmail:.+}",
