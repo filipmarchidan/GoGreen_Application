@@ -143,6 +143,17 @@ public class MainController {
         user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
         userRepository.save(user);
     }
+
+    @PostMapping(path = "/removeactivity")
+    public @ResponseBody boolean removeActivity(@RequestBody Activity activity) {
+        int id = activity.getId();
+        if (activityRepository.existsById(id)){
+            activityRepository.delete(activity);
+            return true;
+        }
+
+        return false;
+    }
     
     /** This is what the client can connect to, to retrieve a user's achievements.
      *

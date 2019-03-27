@@ -117,11 +117,17 @@ public class Client {
         Activity activity1 = gson.fromJson(result,Activity.class);
         return activity1;
     }
+
+    public boolean removeActivity(Activity activity) {
+
+        String response = postRequest("removeactivity", activity);
+        boolean result = gson.fromJson(response, boolean.class);
+        return result;
+    }
     
     /** Method that requests the leaderboard from the server.
      *
      */
-    
     public User[] getUsers() {
         
         //this getRequest returns an Iterable<User>
