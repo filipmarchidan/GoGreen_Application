@@ -101,7 +101,7 @@ public class LoginController implements Initializable {
         String password2 = newPasswordRepeat.getText();
         if (!newUsername.isEmpty() && !password1.isEmpty()
                 && !password2.isEmpty() && (password1.equals(password2)) && validate("Email", newUsername, "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+")) {
-            if(checkAvailability(newUsername) == true){
+//            if(checkAvailability(newUsername) == true){
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
@@ -109,7 +109,7 @@ public class LoginController implements Initializable {
             user.setEmail(newUsername);
             user.setPassword(password1);
             client.addUser(user);
-        }}
+        }
         emailInput.clear();
         newPassword.clear();
         newPasswordRepeat.clear();
