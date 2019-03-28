@@ -17,34 +17,34 @@
       <Text layoutX="136.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="bronze" />
    <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="394.0" layoutY="144.0" opacity="0.4">
       <image>
-         <Image url="@../../../../Downloads/gold.png" />
+         <Image url="gold.png" />
       </image>
    </ImageView>
    <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="107.0" layoutY="144.0" opacity="0.4">
       <image>
-         <Image url="@../../../../Downloads/bronze.png" />
+         <Image url="bronze.png" />
       </image>
    </ImageView>
    <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="251.0" layoutY="144.0" opacity="0.4">
       <image>
-         <Image url="@../../../../Downloads/silver.png" />
+         <Image url="silver.png" />
       </image>
    </ImageView>
    <Text layoutX="285.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="silver" />
    <Text layoutX="431.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="gold" />
    <ImageView fx:id="gold" fitHeight="100.0" fitWidth="100.0" layoutX="394.0" layoutY="144.0" visible="false">
       <image>
-         <Image url="@../../../../Downloads/gold.png" />
+         <Image url="gold.png" />
       </image>
    </ImageView>
    <ImageView fx:id="silver" fitHeight="100.0" fitWidth="100.0" layoutX="251.0" layoutY="144.0" visible="false">
       <image>
-         <Image url="@../../../../Downloads/silver.png" />
+         <Image url="silver.png" />
       </image>
    </ImageView>
    <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="107.0" layoutY="144.0">
       <image>
-         <Image url="@../../../../Downloads/bronze.png" />
+         <Image url="@bronze.png" />
       </image>
    </ImageView>
    <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="111.0" layoutY="350.0" opacity="0.4">
