@@ -28,9 +28,10 @@ public class AppController {
 
     private Client client = Client.getInstance();
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-    private int id = client.addUser(new User("test@blah","hellopassword")).getId();
-    private int friendId = client.addUser(new User("test2@blah2.com","hellopassword2")).getId();
-    
+    //private int id = client.addUser(new User("test@blah","hellopassword")).getId();
+    //private int friendId = client.addUser(new User("test2@blah2.com","hellopassword2")).getId();
+    private int id = 1;
+
     @FXML
     private AnchorPane content;
 
