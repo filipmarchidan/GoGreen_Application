@@ -117,7 +117,7 @@ public class AppController {
     
             MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
             Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
-            params.add("activity",activity);
+            params.add("activity",gson.toJson(activity));
             HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
             Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
             
@@ -296,6 +296,7 @@ public class AppController {
         borderpane.getChildren().removeAll();
         borderpane.setCenter(pane);
     }
+    
 
 
 

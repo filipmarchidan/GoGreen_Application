@@ -34,8 +34,8 @@ public class UserRepositoryTest {
     private static final String pass1 = "12345";
     private static final String email2 = "Patrick";
     private static final String pass2 = "1234";
-        
-        
+    
+    
     @Autowired
     private TestEntityManager entityManager;
 

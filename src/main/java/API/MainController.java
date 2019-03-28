@@ -1,6 +1,8 @@
 package API;
 
+import com.google.gson.Gson;
 import database.AchievementRepository;
+import API.security.SecurityService;
 import API.security.SecurityService;
 import database.ActivityRepository;
 import database.ActivityTypeRepository;
@@ -15,6 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 
 import java.util.List;
@@ -42,16 +52,25 @@ public class MainController {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+    
+    Gson gson = new Gson();
+    
+    @Bean
+    public BCryptPasswordEncoder appPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     
 
     @PostMapping(path = "/addUser")
     public @ResponseBody User addNewUser(@RequestBody MultiValueMap<String, Object> params) {
-
         User user = new User();
         user.setEmail((String)params.getFirst("username"));
-        user.setPassword((String)params.getFirst("password"));
+        user.setPassword(encoder.encode((String)params.getFirst("password")));
         return userService.createUser(user);
     }
+    
     @GetMapping(path = "/findByEmail")
     public @ResponseBody User findByEmail(@RequestBody String email){
         return userService.getUserByEmail(email);
@@ -99,15 +118,23 @@ public class MainController {
         return userRepository.getFriendsfromUser(user.getId());
         
     }
-
+    
     /** adds an activity to the database.
      *
-     * @param activity activity to be added
+     * @param params parameter passed by client
      * @return activity actually added (proper id)
      */
     @PostMapping(path = "/addactivity")
-    public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
-
+    public @ResponseBody Activity addNewActivity(@RequestBody MultiValueMap<String, Object> params) {
+        
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        
+        System.out.println((String)params.getFirst("activity"));
+        Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
+        
+        activity.setUser(user);
+        
         if(activity.getActivity_type() != ActType.solar_panel) {
 
             Activity act = activityRepository.save(activity);
@@ -116,8 +143,6 @@ public class MainController {
             return act;
 
         } else {
-
-            User user = userRepository.findById(activity.getUser().getId()).get();
 
             if(!user.isSolarPanel()) {
 
@@ -239,8 +264,6 @@ public class MainController {
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
     }
-    */
-
 
     /*
     //gets user by email
