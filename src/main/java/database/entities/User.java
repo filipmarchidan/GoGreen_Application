@@ -28,25 +28,30 @@ public class User {
     
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Achievement> achievements = new HashSet<>();
+    
+    @Column (name = "solarPanel")
+    private boolean solarPanel;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<User> friends = new HashSet<>();
     
     public User() {
-    
+        this.solarPanel = false;
     }
     
     public User(String email, String password) {
         this.email = email;
         this.password = password;
         this.totalscore = 0;
+        this.solarPanel = false;
     }
 
     public User(String email, int id,int totalscore) {
         this.totalscore = totalscore;
         this.email = email;
         this.id = id;
+        this.solarPanel = false;
     }
     
     public int getTotalscore() {
@@ -97,6 +102,13 @@ public class User {
         this.password = password;
     }
     
+    public boolean isSolarPanel() {
+        return solarPanel;
+    }
+    
+    public void setSolarPanel(boolean solarPanel) {
+        this.solarPanel = solarPanel;
+    }
     
     @Override
     public boolean equals(Object obj) {
