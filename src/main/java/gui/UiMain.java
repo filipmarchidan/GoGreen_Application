@@ -14,13 +14,13 @@ public class UiMain extends Application {
     public static Stage stage = null;
     private static Client client;
     private static User defaultUser;
-    
+
     /** main method of the UI that instantiates the client and launches the UI elements.
      *
      * @param args list of arguments (not used)
      */
     public static void main(String[] args) {
-        client = Client.createInstance("http://localhost:8080/");
+        //client = Client.createInstance("","http://localhost:8080");
         defaultUser = new User("user1@user1.com","user1");
         defaultUser.setId(1);
         defaultUser = client.addUser(defaultUser);

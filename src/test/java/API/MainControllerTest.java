@@ -63,7 +63,10 @@ public class MainControllerTest {
     @Test
     public void addNewUser() throws Exception {
         
-        User user = new User("alice@gmail.com", "alice");
+        User user = new User();
+        user.setEmail("alice@gmail.com");
+        user.setPassword("password");
+
     
         String requestBody = buildRequestBody(
             user
@@ -131,8 +134,10 @@ public class MainControllerTest {
     @Test
     public void addNewActivity() throws Exception {
     
-        Activity activity = new Activity(1, ActType.vegetarian_meal,1,Activity.getDateTime());
-        
+        Activity activity = new Activity(ActType.vegetarian_meal,1,Activity.getCurrentDateTimeString());
+        activity.setActivity_type(ActType.vegetarian_meal);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+
         String requestBody = buildRequestBody(activity);
         
         Object responseBody = getResponseBody(
@@ -155,8 +160,8 @@ public class MainControllerTest {
         
             assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
             assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
-            assertEquals(returnedActivity.getUserId(), activity.getUserId());
-        
+            assertEquals(returnedActivity.getUser().getId(), activity.getUser().getId());
+
         
         } else {
             fail();
@@ -192,9 +197,8 @@ public class MainControllerTest {
         
     }
 
-
     
-    @After
+    @Test
     public void deleteAll() throws Exception {
         
         userRepository.deleteAll();
@@ -219,9 +223,5 @@ public class MainControllerTest {
             allUsers,
             retrievedUsers
         );
-        
     }
-    
-
-    
 }

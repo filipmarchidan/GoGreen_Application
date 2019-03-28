@@ -1,45 +1,53 @@
 package database.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ManyToAny;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "Users")
+@NoArgsConstructor
 public class User {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     private int id;
     
     @Column(name = "email", nullable = false, unique = true)
+    @Getter
+    @Setter
     private String email;
     
     @Column(name = "password", nullable = false)
+    @Getter
+    @Setter
+    @JsonIgnore
     private String password;
 
     @Column (name = "totalscore")
     private int totalscore;
-    
+
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Achievement> achievements = new HashSet<>();
-    
+
     @Column (name = "solarPanel")
     private boolean solarPanel;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<User> friends = new HashSet<>();
-    
-    public User() {
-        this.solarPanel = false;
-    }
-    
+
     public User(String email, String password) {
         this.email = email;
         this.password = password;
@@ -53,11 +61,11 @@ public class User {
         this.id = id;
         this.solarPanel = false;
     }
-    
+
     public int getTotalscore() {
         return totalscore;
     }
-    
+
     public void setTotalscore(int totalscore) {
         this.totalscore = totalscore;
     }
@@ -77,11 +85,11 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public Set<Achievement> getAchievements() {
         return achievements;
     }
-    
+
     public void setAchievements(Set<Achievement> achievements) {
         this.achievements = achievements;
     }
@@ -101,15 +109,21 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    @OneToMany(mappedBy = "user")
+    @Getter
+    @Setter
+    @JsonIgnore
+    private Set<Activity> activities;
+
     public boolean isSolarPanel() {
         return solarPanel;
     }
-    
+
     public void setSolarPanel(boolean solarPanel) {
         this.solarPanel = solarPanel;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -15,13 +15,12 @@ import java.util.Set;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    
+    List<User> findAll();
     User findByEmail(String email);
 
     @Query("SELECT new database.entities.User(fr.email, fr.id,fr.totalscore)"
             + "FROM User u JOIN u.friends fr Where u.id = :userId "
             + "ORDER BY fr.totalscore DESC")
     Set<User> getFriendsfromUser(@Param("userId") int userId);
-    
-    
+
 }

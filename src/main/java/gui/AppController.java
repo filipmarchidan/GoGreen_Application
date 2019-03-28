@@ -28,8 +28,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import javax.script.Bindings;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,22 +53,7 @@ public class AppController {
 
     @FXML
     private Pane homeScreen;
-    /*
-    @FXML
-    private TableColumn rank;
 
-    @FXML
-    private TableColumn email;
-
-    @FXML
-    private TableColumn achievementscolumn;
-
-    @FXML
-    private TableColumn score;
-
-    @FXML
-    private TableView<TableUser> leaderboardTable;
-    */
     @FXML
     private void switchScreen(ActionEvent event) {
         Button variable = (Button) event.getSource();
@@ -123,18 +106,17 @@ public class AppController {
                     actType = ActType.lower_temperature;
                     break;
             }
-            
+
             client.addActivity(new Activity(id, actType,1,Activity.getDateTime()));
-            
+
         }
-        
+
         else if(event.getSource() instanceof CheckBox) {
-            
+
             Activity activity = client.addActivity(new Activity(id, ActType.solar_panel,1,Activity.getDateTime()));
-            
+
         }
     }
-    
 
     private void displayActivities() {
         ScrollPane scroll = new ScrollPane();
@@ -146,7 +128,8 @@ public class AppController {
         vbox.setFillWidth(true);
         vbox.setMinHeight(560);
 
-        Activity[] activities = client.getActivities();
+        //TODO: FIX SESSIONCOOKIE LOCATION
+        Activity[] activities = client.getActivities(LoginController.sessionCookie);
         for (Activity a : activities) {
             HBox active = new HBox(0);
             active.setStyle("-fx-border-color:  #05386B;"
@@ -191,9 +174,9 @@ public class AppController {
         borderpane.getChildren().removeAll();
         borderpane.setCenter(scroll);
     }
-    
+
     private User[] InsertUser(User[] friends) {
-    
+
         User user = client.addUser(new User("user1@user1.com", "user1"));
         System.out.println(user.getId());
         User[] friends2 = new User[friends.length + 1];
@@ -206,14 +189,14 @@ public class AppController {
         friends2[i] = user;
         i++;
         while (i < friends2.length) {
-            
+
             System.out.println(i+1 + " = " + i);
             friends2[i] = friends[i-1];
             i++;
         }
         return friends2;
     }
-    
+
     private void displayLeaderboard() {
         ScrollPane pane = new ScrollPane();
         pane.setPrefSize(600, 560);
@@ -256,7 +239,7 @@ public class AppController {
                 + "-fx-border-width: 3;"
                 + "-fx-border-radius: 10 10 10 10;");
         for(int i = 0; i < Math.min(friends.length,10); i++) {
-            
+
             User user = friends[i];
             System.out.println(user);
             HBox hbox = new HBox();
@@ -288,9 +271,9 @@ public class AppController {
         pane.setStyle("-fx-font-size:15px");
         borderpane.getChildren().removeAll();
         borderpane.setCenter(pane);
-        
-        
-        
+
+
+
         /*
         for (int i = 0; i < Math.min(friends.length,10); i++) {
 
@@ -301,24 +284,31 @@ public class AppController {
             active.setPrefSize(600, 50);
             active.setPadding(new Insets(5,5,5,5));
             active.setAlignment(Pos.CENTER);
-            Label position = new Label("position: " + i);
-            Label email = new Label("email: " + user.getEmail());
-            email.setStyle("-fx-font-size:18px;");
-            email.setPrefWidth(200);
-            Label score = new Label("score: " + user.getTotalscore());
-            active.getChildren().addAll(position, email, score);
-            //System.out.println(a.getActivity_type() + a.getCO2_savings() + a.getDate_time());
+            Label activity = new Label("Activity: " + a.getActivity_type());
+            activity.setStyle("-fx-font-size:18px;");
+            activity.setPrefWidth(200);
+            Label co2 = new Label("Co2 Saved: " + a.getCO2_savings());
+            co2.setStyle("-fx-font-size:18px");
+            co2.setPrefWidth(130);
+            String[] formatedDate = a.getDate_time().split(" ");
+            Label date = new Label("Date: " + formatedDate[0]);
+            date.setStyle("-fx-font-size:18px");
+            date.setPrefWidth(180);
+            active.getChildren().addAll(activity, co2, date);
+            System.out.println(a.getActivity_type() + a.getCO2_savings() + a.getDate_time());
             vbox.getChildren().add(active);
         }
         scroll.setContent(vbox);
         borderpane.getChildren().removeAll();
         borderpane.setCenter(scroll);
-        */
     }
+    */
 
 
     @FXML
     void handle_logout(ActionEvent event) throws IOException {
+
+        client.getRequest(LoginController.sessionCookie, "http://localhost:8080//logout");
         Parent login = FXMLLoader.load(getClass().getResource("/login.fxml"));
         content.getChildren().removeAll();
         content.getChildren().setAll(login);
