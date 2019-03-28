@@ -21,27 +21,5 @@ public class ActivityType {
     @Column(name = "co2_savings", nullable = false)
     private Integer co2_savings;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getActivity_name() {
-        return activity_name;
-    }
-
-    public void setActivity_name(String activity_name) {
-        this.activity_name = activity_name;
-    }
-
-    public Integer getCo2_savings() {
-        return co2_savings;
-    }
-
-    public void setCo2_savings(Integer co2_savings) {
-        this.co2_savings = co2_savings;
-    }
 }

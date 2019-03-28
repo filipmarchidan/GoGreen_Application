@@ -2,11 +2,9 @@ package API;
 
 import database.AchievementRepository;
 import database.ActivityRepository;
-import database.ActivityTypeRepository;
 import database.UserRepository;
 import database.entities.Achievement;
 import database.entities.Activity;
-import database.entities.ActivityType;
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,9 +35,6 @@ public class MainController {
     private AchievementRepository achievementRepository;
 
     @Autowired
-    private ActivityTypeRepository activityTypeRepository;
-
-    @Autowired
     private UserService userService;
     
     
@@ -52,10 +47,10 @@ public class MainController {
     public @ResponseBody User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-        if (userRepository.findByEmail(user.getEmail()) == null) {
+        if (userRepository.findByEmail(user.getEmail()).size() == 0) {
             return userRepository.save(user);
         }
-        return userRepository.findByEmail(user.getEmail());
+        return userRepository.findByEmail(user.getEmail()).get(0);
         // if(userRepository.findByEmail(user.getEmail()) != null) {
         
         // }
@@ -79,19 +74,7 @@ public class MainController {
         }
         return null;
     }
-
-    /** Finds the friends of a user
-     *
-     */
-    @PostMapping(path = "/getFriends")
-    public @ResponseBody Set<User> getFriends(@RequestBody int id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            return userRepository.getFriendsfromUser(id);
-        }
-        return null;
-    }
-
+    
     /** adds an activity to the database.
      *
      * @param activity activity to be added
@@ -101,29 +84,22 @@ public class MainController {
     public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
 
         Activity act = activityRepository.save(activity);
-        checkAchievements(act);
-        updateScore(act);
-        return act;
-
-    }
-
-    private void checkAchievements(Activity act) {
         List<Activity> activityList = activityRepository.findByUserId(act.getUserId());
 
         if (activityList.size() >= 1 ) {
-
+            
             Set<Achievement> achievements =
                     achievementRepository.getAchievementsFromUserId(act.getUserId());
-
+            
             Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
-
+            
             if (optionalAchievement.isPresent()) {
-
+                
                 Achievement achievement = optionalAchievement.get();
                 Optional<User> user = userRepository.findById(act.getUserId());
-
+                
                 if (user.isPresent()) {
-
+                    
                     User user1 = user.get();
                     user1.getAchievements().add(achievement);
                     achievement.getUsers().add(user1);
@@ -131,28 +107,12 @@ public class MainController {
                     userRepository.save(user1);
                 }
             }
-
-
+            
+            
 
         }
-    }
+        return act;
 
-    private void updateScore (Activity activity) {
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
-        User user = userRepository.findById(activity.getUserId()).get();
-        user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
-        userRepository.save(user);
-    }
-
-    @PostMapping(path = "/removeactivity")
-    public @ResponseBody boolean removeActivity(@RequestBody Activity activity) {
-        int id = activity.getId();
-        if (activityRepository.existsById(id)){
-            activityRepository.delete(activity);
-            return true;
-        }
-
-        return false;
     }
     
     /** This is what the client can connect to, to retrieve a user's achievements.
@@ -229,57 +189,8 @@ public class MainController {
     public User updateUser(@PathVariable("userId")Integer userId,
                            @PathVariable("newEmail")String newEmail,
                            @PathVariable("newPassword") String newPassword) {
-
+        
         return userService.updateUser(newEmail, newPassword, userId);
     }
     */
-
-    /** adds a friend to the user
-     *
-     * @param user the user who adds a friend
-     * @param email the email of the friend
-     * @return the user who followed a friend
-     */
-    @PostMapping(path = "/followFriend")
-    public @ResponseBody User followFriend(@RequestBody User user, String email) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
-        User optionalfriend = userService.getUserByEmail(email);
-
-        if (optionalfriend != null) {
-            User friend = optionalfriend;
-            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
-            friends.add(friend);
-            return friend;
-        }
-        return null;
-    }
-
-    /** removes a friend from the user
-     *
-     * @param user the user who removes a friend
-     * @param email email of the friend to remove
-     * @return User friend friend of the user that was removed
-     * @return null when user doesn't follow this friend
-     */
-    @PostMapping(path="/unfollowFriend")
-    public @ResponseBody User unfollowFriend(@RequestBody User user, String email) {
-        //Optional<User> optionalUser = userRepository.findById(user.getId());
-        User optionalfriend = userService.getUserByEmail(email);
-
-        if (optionalfriend != null) {
-
-            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
-
-            if (friends.contains(optionalfriend)) {
-
-                friends.remove(optionalfriend);
-                return optionalfriend;
-            }
-
-            System.out.println("Defaultuser doesn't follow this user");
-        }
-        return null;
-    }
-
-
 }
