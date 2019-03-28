@@ -49,7 +49,7 @@ public class MainController {
     public @ResponseBody User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-        if (userRepository.findByEmail(user.getEmail()) != user) {
+        if (userRepository.findByEmail(user.getEmail()) == null) {
             return userRepository.save(user);
         }
         return userRepository.findByEmail(user.getEmail());
@@ -153,6 +153,17 @@ public class MainController {
         User user = userRepository.findById(activity.getUserId()).get();
         user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
         userRepository.save(user);
+    }
+
+    @PostMapping(path = "/removeactivity")
+    public @ResponseBody boolean removeActivity(@RequestBody Activity activity) {
+        int id = activity.getId();
+        if (activityRepository.existsById(id)){
+            activityRepository.delete(activity);
+            return true;
+        }
+
+        return false;
     }
     
     /** This is what the client can connect to, to retrieve a user's achievements.
