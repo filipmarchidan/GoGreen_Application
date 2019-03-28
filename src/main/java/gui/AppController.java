@@ -40,10 +40,7 @@ public class AppController {
 
     private Client client = Client.getInstance();
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-    private int id = 1;
-    //private int friendId = client.addUser(new User("test2@blah2.com","hellopassword2")).getId();
-    
-    //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
+
     private int id = 1;
 
 
