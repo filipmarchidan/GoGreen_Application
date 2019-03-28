@@ -155,10 +155,10 @@ public class LoginController implements Initializable {
     void handle_login(ActionEvent event) throws IOException {
         String email = userField.getText().trim();
         String password = passwordInput.getText().trim();
-        String encodedPassword = passwordEncoder.encode(password);
+       // String encodedPassword = passwordEncoder.encode(password);
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", email);
-        params.add("password", encodedPassword);
+        params.add("password", password);
         if (!email.isEmpty() && !password.isEmpty()) {
             
             HttpEntity<String> result = client.postRequest("","http://localhost:8080/login", params);
