@@ -27,6 +27,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
     
+    @Column (name = "totalscore")
+    private int totalscore;
+    
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Achievement> achievements = new HashSet<>();
     
@@ -37,6 +40,14 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+    
+    public int getTotalscore() {
+        return totalscore;
+    }
+    
+    public void setTotalscore(int totalscore) {
+        this.totalscore = totalscore;
     }
     
     public int getId() {

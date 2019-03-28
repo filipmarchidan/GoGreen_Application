@@ -2,10 +2,9 @@ package API;
 
 import database.AchievementRepository;
 import database.ActivityRepository;
+import database.ActivityTypeRepository;
 import database.UserRepository;
-import database.entities.Achievement;
-import database.entities.Activity;
-import database.entities.User;
+import database.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -33,7 +32,10 @@ public class MainController {
 
     @Autowired
     private AchievementRepository achievementRepository;
-
+    
+    @Autowired
+    private ActivityTypeRepository activityTypeRepository;
+    
     @Autowired
     private UserService userService;
     
@@ -82,38 +84,102 @@ public class MainController {
      */
     @PostMapping(path = "/addactivity")
     public @ResponseBody Activity addNewActivity(@RequestBody Activity activity) {
-
+        
         Activity act = activityRepository.save(activity);
-        List<Activity> activityList = activityRepository.findByUserId(act.getUserId());
-
-        if (activityList.size() >= 1 ) {
-            
-            Set<Achievement> achievements =
-                    achievementRepository.getAchievementsFromUserId(act.getUserId());
-            
-            Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
-            
-            if (optionalAchievement.isPresent()) {
-                
-                Achievement achievement = optionalAchievement.get();
-                Optional<User> user = userRepository.findById(act.getUserId());
-                
-                if (user.isPresent()) {
-                    
-                    User user1 = user.get();
-                    user1.getAchievements().add(achievement);
-                    achievement.getUsers().add(user1);
-                    achievementRepository.save(achievement);
-                    userRepository.save(user1);
-                }
-            }
-            
-            
+        Optional<User> user = userRepository.findById(act.getUserId());
+        
+        if(user.isPresent()){
+            User user1 = user.get();
+            updateScore(user1,act);
+            checkAchievements(user1);
+            checkActivityAchievements(act,user1);
 
         }
-        return act;
 
+        return act;
+        
     }
+    
+    private void checkAchievements(User user) {
+        Achievement achievement = null;
+
+        if (user.getTotalscore() >= 100000) {
+            achievement = achievementRepository.findById(1).get();
+        } else if (user.getTotalscore() >= 500000) {
+            achievement = achievementRepository.findById(2).get();
+
+        } else if (user.getTotalscore() >= 1000000) {
+            achievement = achievementRepository.findById(3).get();
+
+        }
+        if (achievement != null) {
+            user.getAchievements().add(achievement);
+            //achievement.getUsers().add(user);
+            //achievementRepository.save(achievement);
+        }
+        userRepository.save(user);
+    }
+    
+    private void checkActivityAchievements(Activity activity, User user) {
+        List<Activity> activityList = activityRepository.findByUserId(user.getId());
+        
+        //check test achievements
+        if (activityList.size() >= 1 ) {
+            
+            Achievement achievement = achievementRepository.findById(0).get();
+            user.getAchievements().add(achievement);
+            //achievement.getUsers().add(user);
+            //achievementRepository.save(achievement);
+        }
+        
+        Achievement achievement;
+
+        switch (activity.getActivity_type()) {
+            
+            case vegetarian_meal:
+                achievement = achievementRepository.findById(5).get();
+                break;
+
+            case bike:
+                achievement = achievementRepository.findById(6).get();
+                break;
+
+            case solar_panel:
+                achievement = achievementRepository.findById(4).get();
+                break;
+
+            case local_produce:
+                achievement = achievementRepository.findById(9).get();
+                break;
+
+            case public_transport:
+                achievement = achievementRepository.findById(7).get();
+                break;
+
+            case lower_temperature:
+                achievement = achievementRepository.findById(8).get();
+                break;
+                
+            default:
+                achievement = null;
+                break;
+                
+        }
+
+        user.getAchievements().add(achievement);
+        achievement.getUsers().add(user);
+        achievementRepository.save(achievement);
+        userRepository.save(user);
+    }
+    
+    
+    private void updateScore(User user,Activity activity) {
+
+        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
+        user.setTotalscore(user.getTotalscore() + activityType.getCo2_savings()*activity.getActivity_amount());
+        userRepository.save(user);
+    }
+
     
     /** This is what the client can connect to, to retrieve a user's achievements.
      *
