@@ -77,12 +77,12 @@
          <Image url="@temp.png" />
       </image>
    </ImageView>
-   <Text layoutX="139.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="bronze" />
-   <Text layoutX="284.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="silver" />
-   <Text layoutX="435.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="gold" />
-   <Text layoutX="140.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="bronze" />
-   <Text layoutX="289.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="silver" />
-   <Text layoutX="435.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="gold" />
+   <Text layoutX="125.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="vegetarian" />
+   <Text layoutX="284.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="solar" />
+   <Text layoutX="430.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="bike" />
+   <Text layoutX="146.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="local" />
+   <Text layoutX="263.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="temperature" />
+   <Text layoutX="407.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="public transport" />
    <ImageView fx:id="publictransport" fitHeight="100.0" fitWidth="100.0" layoutX="398.0" layoutY="547.0" visible="false">
       <image>
          <Image url="@publictransport.png" />
