@@ -4,15 +4,21 @@ import client.Client;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
+import gui.entity.TableUser;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -22,15 +28,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.script.Bindings;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class AppController {
 
     private Client client = Client.getInstance();
+    
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-    //private int id = client.addUser(new User("test@blah","hellopassword")).getId();
-    //private int friendId = client.addUser(new User("test2@blah2.com","hellopassword2")).getId();
     private int id = 1;
+
 
     @FXML
     private AnchorPane content;
@@ -43,7 +54,22 @@ public class AppController {
 
     @FXML
     private Pane homeScreen;
+    /*
+    @FXML
+    private TableColumn rank;
 
+    @FXML
+    private TableColumn email;
+
+    @FXML
+    private TableColumn achievementscolumn;
+
+    @FXML
+    private TableColumn score;
+
+    @FXML
+    private TableView<TableUser> leaderboardTable;
+    */
     @FXML
     private void switchScreen(ActionEvent event) {
         Button variable = (Button) event.getSource();
@@ -135,18 +161,108 @@ public class AppController {
         borderpane.setCenter(scroll);
     }
     
-    private void displayLeaderboard() {
-        ScrollPane scroll = new ScrollPane();
-        scroll.setPrefSize(600, 560);
-        scroll.setFitToWidth(true);
-        VBox vbox = new VBox(15);
-        vbox.setStyle("-fx-background-color: #8ee4af;");
-        vbox.setPadding(new Insets(10, 20, 10, 20));
-        vbox.setFillWidth(true);
+    private User[] InsertUser(User[] friends) {
     
+        User user = client.addUser(new User("user1@user1.com", "user1"));
+        System.out.println(user.getId());
+        User[] friends2 = new User[friends.length + 1];
+        int i = 0;
+        while (friends[i].getTotalscore() > user.getTotalscore()) {
+            System.out.println(i + " = " + i);
+            friends2[i] = friends[i];
+            i++;
+        }
+        friends2[i] = user;
+        i++;
+        while (i < friends2.length) {
+            
+            System.out.println(i+1 + " = " + i);
+            friends2[i] = friends[i-1];
+            i++;
+        }
+        return friends2;
+    }
+    
+    private void displayLeaderboard() {
+        ScrollPane pane = new ScrollPane();
+        pane.setPrefSize(600, 560);
+        pane.setFitToWidth(true);
+        TableView<TableUser> tableView = new TableView<TableUser>();
+        ObservableList<TableUser> imgList = FXCollections.observableArrayList();
+        VBox vbox = new VBox();
         User[] friends = client.getFriends(id);
-        for (int i = 0; i < Math.max(friends.length,10); i++) {
+        friends = InsertUser(friends);
+        //ImageView imageView = new ImageView(new Image("path815.png"));
+
+        TableColumn<TableUser,String> rank = new TableColumn<>();
+        TableColumn<TableUser,String> email = new TableColumn<>();
+        TableColumn<TableUser, ImageView> achievementscolumn = new TableColumn<>();
+        TableColumn<TableUser,String> score = new TableColumn<>();
+        rank.setCellValueFactory(new PropertyValueFactory<TableUser,String >("rank"));
+        rank.setPrefWidth(40);
+        rank.setMaxWidth(40);
+        rank.setMinWidth(40);
+        rank.setText("rank");
+        email.setCellValueFactory(new PropertyValueFactory<TableUser, String>("email"));
+        email.setMinWidth(200);
+        email.setMaxWidth(200);
+        email.setPrefWidth(200);
+        email.setText("email");
+        achievementscolumn.setCellValueFactory(new PropertyValueFactory<TableUser, ImageView>("achievements"));
+        achievementscolumn.setPrefWidth(230);
+        achievementscolumn.setMaxWidth(230);
+        achievementscolumn.setMaxWidth(230);
+        achievementscolumn.setText("achievements");
+        score.setCellValueFactory(new PropertyValueFactory<TableUser, String>("score"));
+        score.setPrefWidth(110);
+        score.setMaxWidth(110);
+        score.setMaxWidth(110);
+        score.setText("score");
+        tableView.getColumns().addAll(rank,email,achievementscolumn,score);
+        tableView.setFixedCellSize(35);
+        tableView.setPrefHeight(35*friends.length + 43);
+        tableView.setStyle("-fx-border-color:  #05386B;"
+                + "-fx-border-width: 3;"
+                + "-fx-border-radius: 10 10 10 10;");
+        for(int i = 0; i < Math.min(friends.length,10); i++) {
+            
             User user = friends[i];
+            System.out.println(user);
+            HBox hbox = new HBox();
+            ImageView images = new ImageView(new Image(getClass().getResource("/images/path815.png").toExternalForm()));
+            images.setFitHeight(30);
+            images.setFitWidth(30);
+            Tooltip.install(images, new Tooltip("This is an achievement"));
+            ImageView images3 = new ImageView(new Image(getClass().getResource("/images/path815.png").toExternalForm()));
+            images3.setFitHeight(30);
+            images3.setFitWidth(30);
+            ImageView images2 = new ImageView(new Image(getClass().getResource("/images/path817.png").toExternalForm()));
+            images2.setFitHeight(30);
+            images2.setFitWidth(30);
+            ImageView images4 = new ImageView(new Image(getClass().getResource("/images/path817.png").toExternalForm()));
+            images4.setFitHeight(30);
+            images4.setFitWidth(30);
+            Tooltip.install(images, new Tooltip("This is an achievement"));
+            Tooltip.install(images2, new Tooltip("This is an achievement"));
+            Tooltip.install(images3, new Tooltip("This is an achievement"));
+            Tooltip.install(images4, new Tooltip("This is an achievement"));
+            hbox.getChildren().addAll(images,images2,images3,images4);
+            hbox.setSpacing(4);
+            hbox.setFillHeight(true);
+            TableUser tableUser = new TableUser(i+1, user.getEmail(),hbox,user.getTotalscore());
+            imgList.add(tableUser);
+        }
+        tableView.setItems(imgList);
+        pane.setContent(tableView);
+        pane.setStyle("-fx-font-size:15px");
+        borderpane.getChildren().removeAll();
+        borderpane.setCenter(pane);
+        
+        
+        
+        /*
+        for (int i = 0; i < Math.min(friends.length,10); i++) {
+
             HBox active = new HBox();
             active.setStyle("-fx-border-color:  #05386B;"
                     + "-fx-border-width: 3;"
@@ -166,6 +282,7 @@ public class AppController {
         scroll.setContent(vbox);
         borderpane.getChildren().removeAll();
         borderpane.setCenter(scroll);
+        */
     }
 
 
