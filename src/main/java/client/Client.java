@@ -143,9 +143,8 @@ public class Client {
     public void addUser(User user)
     {
        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-       String encodedPassword = passwordEncoder.encode(user.getPassword());
        params.add("username", user.getEmail());
-       params.add("password", encodedPassword);
+       params.add("password", user.getPassword());
         //params.add("user", user);
        postRequest("", "http://localhost:8080/addUser", params);
     }
