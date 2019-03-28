@@ -52,7 +52,7 @@ public class MainController {
     public @ResponseBody User addNewUser(@RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-        if (userRepository.findByEmail(user.getEmail()) != user) {
+        if (userRepository.findByEmail(user.getEmail()) == null) {
             return userRepository.save(user);
         }
         return userRepository.findByEmail(user.getEmail());
