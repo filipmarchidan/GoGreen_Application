@@ -7,108 +7,108 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
         <Label layoutX="157.0" layoutY="31.0" text="Achievements">
             <font>
                 <Font size="43.0" />
             </font>
         </Label>
-      <Text layoutX="136.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="bronze" />
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="394.0" layoutY="144.0" opacity="0.4">
+      <Text layoutX="132.0" layoutY="224.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="bronze" />
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="390.0" layoutY="92.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@gold.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="107.0" layoutY="144.0" opacity="0.4">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="103.0" layoutY="92.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@bronze.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="251.0" layoutY="144.0" opacity="0.4">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="247.0" layoutY="92.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@silver.png" />
       </image>
    </ImageView>
-   <Text layoutX="285.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="silver" />
-   <Text layoutX="431.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="gold" />
-   <ImageView fx:id="gold" fitHeight="100.0" fitWidth="100.0" layoutX="394.0" layoutY="144.0" visible="false">
+   <Text layoutX="281.0" layoutY="224.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="silver" />
+   <Text layoutX="427.0" layoutY="224.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="gold" />
+   <ImageView fx:id="gold" fitHeight="100.0" fitWidth="100.0" layoutX="390.0" layoutY="92.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@gold.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="silver" fitHeight="100.0" fitWidth="100.0" layoutX="251.0" layoutY="144.0" visible="false">
+   <ImageView fx:id="silver" fitHeight="100.0" fitWidth="100.0" layoutX="247.0" layoutY="92.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@silver.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="107.0" layoutY="144.0">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="103.0" layoutY="92.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@bronze.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="111.0" layoutY="350.0" opacity="0.4">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="106.0" layoutY="232.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@vegetarian.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="251.0" layoutY="350.0" opacity="0.4">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="246.0" layoutY="232.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@solar.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="398.0" layoutY="547.0" opacity="0.4">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="371.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@publictransport.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="394.0" layoutY="350.0" opacity="0.4">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="232.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@bike.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="107.0" layoutY="547.0" opacity="0.4">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="98.0" layoutY="371.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@local.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="temperature" fitHeight="100.0" fitWidth="100.0" layoutX="251.0" layoutY="547.0" opacity="0.4">
+   <ImageView fx:id="temperature" fitHeight="100.0" fitWidth="100.0" layoutX="242.0" layoutY="371.0" opacity="0.2" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@temp.png" />
       </image>
    </ImageView>
-   <Text layoutX="125.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="vegetarian" />
-   <Text layoutX="284.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="solar" />
-   <Text layoutX="430.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="bike" />
-   <Text layoutX="146.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="local" />
-   <Text layoutX="263.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="temperature" />
-   <Text layoutX="407.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="public transport" />
-   <ImageView fx:id="publictransport" fitHeight="100.0" fitWidth="100.0" layoutX="398.0" layoutY="547.0" visible="false">
+   <Text layoutX="120.0" layoutY="354.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="vegetarian" />
+   <Text layoutX="279.0" layoutY="354.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="solar" />
+   <Text layoutX="425.0" layoutY="354.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="bike" />
+   <Text layoutX="137.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="local" />
+   <Text layoutX="254.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="temperature" />
+   <Text layoutX="398.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="public transport" />
+   <ImageView fx:id="publictransport" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="371.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@publictransport.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="local" fitHeight="100.0" fitWidth="100.0" layoutX="107.0" layoutY="547.0" visible="false">
+   <ImageView fx:id="local" fitHeight="100.0" fitWidth="100.0" layoutX="98.0" layoutY="371.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@local.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="251.0" layoutY="547.0" visible="false">
+   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="242.0" layoutY="371.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@temp.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="vegetarian" fitHeight="100.0" fitWidth="100.0" layoutX="110.0" layoutY="350.0" visible="false">
+   <ImageView fx:id="vegetarian" fitHeight="100.0" fitWidth="100.0" layoutX="106.0" layoutY="232.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@vegetarian.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="solar" fitHeight="100.0" fitWidth="100.0" layoutX="250.0" layoutY="350.0" visible="false">
+   <ImageView fx:id="solar" fitHeight="100.0" fitWidth="100.0" layoutX="246.0" layoutY="232.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@solar.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="bike" fitHeight="100.0" fitWidth="100.0" layoutX="393.0" layoutY="350.0" visible="false">
+   <ImageView fx:id="bike" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="232.0" scaleX="0.8" scaleY="0.8" visible="false">
       <image>
          <Image url="@bike.png" />
       </image>
