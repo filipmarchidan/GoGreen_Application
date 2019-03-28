@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,29 +28,30 @@ public class MainController {
 
     @Autowired
     private UserService userService;
-
+    
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    private BCryptPasswordEncoder encoder;
+    
     @Bean
-    public PasswordEncoder passwordEncoder()
-    {
+    public BCryptPasswordEncoder appPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
+    
     
     @PostMapping(path = "/addUser")
     public @ResponseBody User addNewUser(@RequestBody MultiValueMap<String, Object> params) {
         
         User user = new User();
         user.setEmail((String)params.getFirst("username"));
-        user.setPassword((String)params.getFirst("password"));
+        String password = (String)params.getFirst("password");
+        String hashedPassword = encoder.encode(password);
+        user.setPassword(hashedPassword);
         return userService.createUser(user);
     }
     @GetMapping(path = "/findByEmail")
-    public @ResponseBody User findByEmail(@RequestBody MultiValueMap<String, Object> params){
-        User user = new User();
-        user.setEmail((String)params.getFirst("username"));
-        return userService.getUserByEmail(user.getEmail());
+    public @ResponseBody User findByEmail(@RequestBody String email){
+        return userService.getUserByEmail(email);
     }
     
     @Secured("ROLE_USER")
