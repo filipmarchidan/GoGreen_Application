@@ -1,14 +1,23 @@
 package client;
 
+import API.UserService;
 import com.google.gson.Gson;
 
 import database.entities.Activity;
 import database.entities.User;
 
+import gui.LoginController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +32,12 @@ public class Client {
     //private  String address;
     private RestTemplate restTemplate;
     private HttpHeaders headers;
+    
+    @Bean
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
     
 
     public static HttpHeaders setHeaders(String sessionCookie) {
@@ -122,8 +137,8 @@ public class Client {
 
     public User[] getFriends(int id) {
 
-        String result = postRequest("getFriends", id);
-        User[] friends = gson.fromJson(result, User[].class);
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/getFriends");
+        User[] friends = gson.fromJson(result.getBody(), User[].class);
 
         return friends;
     }
@@ -148,7 +163,7 @@ public class Client {
        // System.out.println(getActivities(sessionCookie)[0]);
 
     }
-    public void addUser(User user)
+    public static void addUser(User user)
     {
        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
        params.add("username", user.getEmail());

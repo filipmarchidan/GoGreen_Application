@@ -1,6 +1,7 @@
 package gui;
 
 import client.Client;
+import com.google.gson.Gson;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
@@ -28,6 +29,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.springframework.http.HttpEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +43,9 @@ public class AppController {
 
     private Client client = Client.getInstance();
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-
+    
+    Gson gson = new Gson();
+    
     private int id = 1;
 
 
@@ -89,6 +96,7 @@ public class AppController {
         if(event.getSource() instanceof  Button) {
             Button button = (Button) event.getSource();
             ActType actType = null;
+            int amount = 1;
             switch(button.getId()){
                 case "vegetarian" :
                     actType = ActType.vegetarian_meal;
@@ -106,14 +114,25 @@ public class AppController {
                     actType = ActType.lower_temperature;
                     break;
             }
-
-            client.addActivity(new Activity(id, actType,1,Activity.getDateTime()));
+    
+            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
+            Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
+            params.add("activity",gson.toJson(activity));
+            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
+            Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
+            
+            //TODO: Add response to user
 
         }
 
         else if(event.getSource() instanceof CheckBox) {
-
-            Activity activity = client.addActivity(new Activity(id, ActType.solar_panel,1,Activity.getDateTime()));
+            
+            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
+            Activity activity = new Activity(ActType.solar_panel, 1,Activity.getCurrentDateTimeString());
+            params.add("activity",activity);
+            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
+    
+            //TODO: Add response to user
 
         }
     }
@@ -161,7 +180,11 @@ public class AppController {
             but.setStyle("-fx-background-color: #f23a3a;" +
                     "-fx-border-radius: 3 3 3 3;");
             but.setOnAction(event -> {
-                client.removeActivity(a);
+                MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+                params.add("activity",a);
+                HttpEntity<String> response = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/removeactivity", params);
+                boolean result = gson.fromJson(response.getBody(), boolean.class);
+    
                 vbox.getChildren().remove(active);
             });
 
@@ -177,7 +200,8 @@ public class AppController {
 
     private User[] InsertUser(User[] friends) {
 
-        User user = client.addUser(new User("user1@user1.com", "user1"));
+        //User user = client.addUser(new User("user1@user1.com", "user1"));
+        User user =  gson.fromJson(Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/getCurrentUser").getBody(),User.class);
         System.out.println(user.getId());
         User[] friends2 = new User[friends.length + 1];
         int i = 0;
@@ -207,12 +231,12 @@ public class AppController {
         User[] friends = client.getFriends(id);
         friends = InsertUser(friends);
         //ImageView imageView = new ImageView(new Image("path815.png"));
-
-        TableColumn<TableUser,String> rank = new TableColumn<>();
-        TableColumn<TableUser,String> email = new TableColumn<>();
+    
+        TableColumn<TableUser, String> rank = new TableColumn<>();
+        TableColumn<TableUser, String> email = new TableColumn<>();
         TableColumn<TableUser, ImageView> achievementscolumn = new TableColumn<>();
-        TableColumn<TableUser,String> score = new TableColumn<>();
-        rank.setCellValueFactory(new PropertyValueFactory<TableUser,String >("rank"));
+        TableColumn<TableUser, String> score = new TableColumn<>();
+        rank.setCellValueFactory(new PropertyValueFactory<TableUser, String>("rank"));
         rank.setPrefWidth(40);
         rank.setMaxWidth(40);
         rank.setMinWidth(40);
@@ -232,14 +256,14 @@ public class AppController {
         score.setMaxWidth(110);
         score.setMaxWidth(110);
         score.setText("score");
-        tableView.getColumns().addAll(rank,email,achievementscolumn,score);
+        tableView.getColumns().addAll(rank, email, achievementscolumn, score);
         tableView.setFixedCellSize(35);
-        tableView.setPrefHeight(35*friends.length + 43);
+        tableView.setPrefHeight(35 * friends.length + 43);
         tableView.setStyle("-fx-border-color:  #05386B;"
                 + "-fx-border-width: 3;"
                 + "-fx-border-radius: 10 10 10 10;");
-        for(int i = 0; i < Math.min(friends.length,10); i++) {
-
+        for (int i = 0; i < Math.min(friends.length, 10); i++) {
+    
             User user = friends[i];
             System.out.println(user);
             HBox hbox = new HBox();
@@ -260,10 +284,10 @@ public class AppController {
             Tooltip.install(images2, new Tooltip("This is an achievement"));
             Tooltip.install(images3, new Tooltip("This is an achievement"));
             Tooltip.install(images4, new Tooltip("This is an achievement"));
-            hbox.getChildren().addAll(images,images2,images3,images4);
+            hbox.getChildren().addAll(images, images2, images3, images4);
             hbox.setSpacing(4);
             hbox.setFillHeight(true);
-            TableUser tableUser = new TableUser(i+1, user.getEmail(),hbox,user.getTotalscore());
+            TableUser tableUser = new TableUser(i + 1, user.getEmail(), hbox, user.getTotalscore());
             imgList.add(tableUser);
         }
         tableView.setItems(imgList);
@@ -271,6 +295,8 @@ public class AppController {
         pane.setStyle("-fx-font-size:15px");
         borderpane.getChildren().removeAll();
         borderpane.setCenter(pane);
+    }
+    
 
 
 

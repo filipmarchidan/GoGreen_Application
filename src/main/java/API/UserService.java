@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService implements UserServiceImpl {
     @Autowired
     private UserRepository userRepository;
-
+    
     public User createUser(User user)
     {
         return userRepository.save(user);
     }
-
+    
     public User getUserById(Integer userId)
     {
         return userRepository.findById(userId).get();
@@ -37,11 +37,11 @@ public class UserService implements UserServiceImpl {
         userFromDB.setPassword(newPassword);
         User updatedUser = userRepository.save(userFromDB);
         return updatedUser;
-
+        
     }
     public User getUserByEmail(String email) { return userRepository.findByEmail(email); }
-
-
-
-
+    
+    
+    
+    
 }
