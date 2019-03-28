@@ -1,13 +1,18 @@
 package client;
 
 
+import API.UserService;
 import com.google.gson.Gson;
 import database.entities.Activity;
 import database.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -16,13 +21,18 @@ import org.springframework.web.client.RestTemplate;
 public class Client {
     
     private static Client client = new Client("");
-    
-    
+
+    @Autowired
+    private UserService userService;
     private Gson gson;
     //private String address;
     private RestTemplate restTemplate;
     private HttpHeaders headers;
-    
+    @Bean
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
     
     public static HttpHeaders setHeaders(String sessionCookie) {
         
@@ -133,12 +143,17 @@ public class Client {
     public void addUser(User user)
     {
        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+       String encodedPassword = passwordEncoder.encode(user.getPassword());
        params.add("username", user.getEmail());
-       params.add("password", user.getPassword());
+       params.add("password", encodedPassword);
         //params.add("user", user);
        postRequest("", "http://localhost:8080/addUser", params);
     }
-    
+    public void findByEmail(String email){
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("username", email);
+        getRequest("", "http://localhost:8080/findByEmail");
+    }
     
     public static String getSessionCookie(String email, String password) {
         
@@ -152,5 +167,5 @@ public class Client {
         return sessionCookie;
         
     }
-    
+
 }

@@ -1,5 +1,6 @@
 package gui;
 
+import API.UserService;
 import client.Client;
 import database.entities.User;
 import javafx.event.ActionEvent;
@@ -7,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -24,21 +22,16 @@ import org.springframework.util.MultiValueMap;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginController implements Initializable {
 
     private Client client = Client.getInstance();
     
     public static String sessionCookie;
-    
     @Autowired
     private AuthenticationManager authenticationManager;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    
-    
-    
     
     @FXML
     private AnchorPane parent;
@@ -73,7 +66,8 @@ public class LoginController implements Initializable {
     @FXML
     private Button exit;
 
-
+    @Autowired
+    UserService userService;
     //x-coordinate of the mousecursor
     private double xoffset;
 
@@ -98,14 +92,16 @@ public class LoginController implements Initializable {
         parent.getChildren().setAll(login);
 
     }
-
+    private PasswordEncoder passwordEncoder;
     @FXML
+
     void createUser(ActionEvent event) {
         String newUsername = emailInput.getText();
         String password1 = newPassword.getText();
         String password2 = newPasswordRepeat.getText();
         if (!newUsername.isEmpty() && !password1.isEmpty()
-                && !password2.isEmpty() && (password1.equals(password2))) {
+                && !password2.isEmpty() && (password1.equals(password2)) && validate("Email", newUsername, "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+")) {
+            if(checkAvailability(newUsername) == true){
             registerContent.setVisible(false);
             regMenu.setVisible(false);
             pageLabel.setText("Go Green");
@@ -113,12 +109,28 @@ public class LoginController implements Initializable {
             user.setEmail(newUsername);
             user.setPassword(password1);
             client.addUser(user);
-        }
+        }}
         emailInput.clear();
         newPassword.clear();
         newPasswordRepeat.clear();
     }
-    
+    public boolean checkAvailability(String email)
+    {
+        User user = new User();
+        user.setEmail(email);
+        try{
+            client.findByEmail(email);
+            System.out.println("Already exists");
+            return false;
+        }
+        catch(Exception e){
+
+        }
+        finally
+        {
+            return true;
+        }
+    }
     /*
     @FXML
     public void handle_login(ActionEvent event) throws IOException {
@@ -143,10 +155,10 @@ public class LoginController implements Initializable {
     void handle_login(ActionEvent event) throws IOException {
         String email = userField.getText().trim();
         String password = passwordInput.getText().trim();
-        //String hashedPassword = passwordEncoder.encode(password);
+        String encodedPassword = passwordEncoder.encode(password);
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", email);
-        params.add("password", password);
+        params.add("password", encodedPassword);
         if (!email.isEmpty() && !password.isEmpty()) {
             
             HttpEntity<String> result = client.postRequest("","http://localhost:8080/login", params);
@@ -193,6 +205,33 @@ public class LoginController implements Initializable {
         parent.setOnMouseReleased(event -> {
             UiMain.stage.setOpacity(1.0f);
         });
+    }
+    private boolean validate(String field, String value, String pattern){
+        if(!value.isEmpty()){
+            Pattern p = Pattern.compile(pattern);
+            Matcher m = p.matcher(value);
+            if(m.find() && m.group().equals(value)){
+                return true;
+            }else{
+                validationAlert(field, false);
+                return false;
+            }
+        }else{
+            validationAlert(field, true);
+            return false;
+        }
+    }
+
+    private void validationAlert(String field, boolean empty){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(null);
+        if(field.equals("Role")) alert.setContentText("Please Select "+ field);
+        else{
+            if(empty) alert.setContentText("Please Enter "+ field);
+            else alert.setContentText("Please Enter Valid "+ field);
+        }
+        alert.showAndWait();
     }
 
 }
