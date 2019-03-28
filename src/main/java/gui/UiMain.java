@@ -21,7 +21,7 @@ public class UiMain extends Application {
      */
     public static void main(String[] args) {
         client = Client.createInstance("http://localhost:8080/");
-        defaultUser = new User("test@blah","hellopassword");
+        defaultUser = new User("user1@user1.com","user1");
         defaultUser.setId(1);
         defaultUser = client.addUser(defaultUser);
         launch(args);

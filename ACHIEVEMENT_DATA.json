@@ -6,48 +6,47 @@
   },
   {
     "id":1,
-    "achievement_name":"Bronze Badge (100.000 points)",
-    "achievement_value": 0,
+    "achievement_name":"Bronze Badge",
+    "achievement_value": 0
   },
   {
     "id":2,
-    "achievement_name":"Silver Badge (500.000 points)",
-    "achievement_value": 0,
+    "achievement_name":"Silver Badge",
+    "achievement_value": 0
   },
   {
     "id":3,
-    "achievement_name":"Golden Badge (1.000.000 points)",
-    "achievement_value": 0,
+    "achievement_name":"Golden Badge",
+    "achievement_value": 0
   },
   {
     "id":4,
     "achievement_name":"Solar Panel",
-    "achievement_value": 5000,
+    "achievement_value": 5000
   },
   {
     "id":5,
-    "achievement_name":"Vegetarian Meal (one meal)",
-    "achievement_value": 500,
+    "achievement_name":"Vegetarian Meal",
+    "achievement_value": 500
   },
   {
     "id":6,
-    "achievement_name":"Bike (using it once)",
-    "achievement_value": 500,
+    "achievement_name":"Bike",
+    "achievement_value": 500
   },
   {
     "id":7,
-    "achievement_name":"Public Transport (using it once)",
-    "achievement_value": 500,
+    "achievement_name":"Public Transport",
+    "achievement_value": 500
   },
   {
     "id":8,
-    "achievement_name":"Temperature (doing it once)",
-    "achievement_value": 500,
+    "achievement_name":"Temperature",
+    "achievement_value": 500
   },
   {
     "id":9,
-    "achievement_name":"Buying Local (doing it once)",
-    "achievement_value": 500,
-  },
-
+    "achievement_name":"Buying Local",
+    "achievement_value": 500
+  }
 ]
