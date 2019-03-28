@@ -5,8 +5,7 @@ import API.security.SecurityService;
 import database.ActivityRepository;
 import database.ActivityTypeRepository;
 import database.UserRepository;
-import database.entities.Activity;
-import database.entities.User;
+import database.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.MultiValueMap;
@@ -57,6 +56,13 @@ public class MainController {
     public @ResponseBody User findByEmail(@RequestBody String email){
         return userService.getUserByEmail(email);
     }
+    
+    @GetMapping(path = "/getCurrentUser")
+    public @ResponseBody User getCurrentUser() {
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        return user;
+    }
 
     @Secured("ROLE_USER")
     @GetMapping("/allUsers")
@@ -86,12 +92,12 @@ public class MainController {
      *
      */
     @PostMapping(path = "/getFriends")
-    public @ResponseBody Set<User> getFriends(@RequestBody int id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            return userRepository.getFriendsfromUser(id);
-        }
-        return null;
+    public @ResponseBody Set<User> getFriends() {
+        
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        return userRepository.getFriendsfromUser(user.getId());
+        
     }
 
     /** adds an activity to the database.
@@ -111,7 +117,7 @@ public class MainController {
 
         } else {
 
-            User user = userRepository.findById(activity.getUserId()).get();
+            User user = userRepository.findById(activity.getUser().getId()).get();
 
             if(!user.isSolarPanel()) {
 
@@ -124,19 +130,19 @@ public class MainController {
     }
 
     private void checkAchievements(Activity act) {
-        List<Activity> activityList = activityRepository.findByUserId(act.getUserId());
+        List<Activity> activityList = activityRepository.findByUserId(act.getUser().getId());
 
         if (activityList.size() >= 1 ) {
 
             Set<Achievement> achievements =
-                    achievementRepository.getAchievementsFromUserId(act.getUserId());
+                    achievementRepository.getAchievementsFromUserId(act.getUser().getId());
 
             Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
 
             if (optionalAchievement.isPresent()) {
 
                 Achievement achievement = optionalAchievement.get();
-                Optional<User> user = userRepository.findById(act.getUserId());
+                Optional<User> user = userRepository.findById(act.getUser().getId());
 
                 if (user.isPresent()) {
 
@@ -155,7 +161,7 @@ public class MainController {
 
     private void updateScoreAdd(Activity activity) {
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
-        User user = userRepository.findById(activity.getUserId()).get();
+        User user = userRepository.findByEmail(activity.getUser().getEmail());
         user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
         userRepository.save(user);
     }
@@ -174,7 +180,7 @@ public class MainController {
 
     private void updateScoreRemove(Activity activity) {
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
-        User user = userRepository.findById(activity.getUserId()).get();
+        User user = userRepository.findById(activity.getUser().getId()).get();
         user.setTotalscore(user.getTotalscore() - activityType.getCo2_savings()*activity.getActivity_amount());
         userRepository.save(user);
     }
@@ -196,8 +202,6 @@ public class MainController {
     
     @GetMapping("/activities")
     public @ResponseBody Set<Activity> getAllActivities(String sessionCookie) {
-
-
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         return user.getActivities();

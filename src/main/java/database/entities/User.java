@@ -36,15 +36,23 @@ public class User {
     private String password;
 
     @Column (name = "totalscore")
+    @Getter
+    @Setter
     private int totalscore;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @Getter
+    @Setter
     private Set<Achievement> achievements = new HashSet<>();
 
     @Column (name = "solarPanel")
+    @Getter
+    @Setter
     private boolean solarPanel;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @Getter
+    @Setter
     @JsonIgnore
     private Set<User> friends = new HashSet<>();
 
@@ -62,67 +70,11 @@ public class User {
         this.solarPanel = false;
     }
 
-    public int getTotalscore() {
-        return totalscore;
-    }
-
-    public void setTotalscore(int totalscore) {
-        this.totalscore = totalscore;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public Set<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(Set<User> friends) {
-        this.friends = friends;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Set<Achievement> getAchievements() {
-        return achievements;
-    }
-
-    public void setAchievements(Set<Achievement> achievements) {
-        this.achievements = achievements;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @OneToMany(mappedBy = "user")
     @Getter
     @Setter
     @JsonIgnore
     private Set<Activity> activities;
-
-    public boolean isSolarPanel() {
-        return solarPanel;
-    }
-
-    public void setSolarPanel(boolean solarPanel) {
-        this.solarPanel = solarPanel;
-    }
 
     @Override
     public boolean equals(Object obj) {

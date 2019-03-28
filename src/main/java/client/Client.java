@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import database.entities.Activity;
 import database.entities.User;
 
+import gui.LoginController;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -122,8 +123,8 @@ public class Client {
 
     public User[] getFriends(int id) {
 
-        String result = postRequest("getFriends", id);
-        User[] friends = gson.fromJson(result, User[].class);
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/getFriends");
+        User[] friends = gson.fromJson(result.getBody(), User[].class);
 
         return friends;
     }
