@@ -38,6 +38,9 @@ public class AuthenticationTest {
              .build();
     }
     
+//    @Before
+//    public void
+    
     
     @Test
     public void notAuthenticatedTest() throws Exception {

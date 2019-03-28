@@ -6,7 +6,9 @@ import database.UserRepository;
 import database.entities.Activity;
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,14 @@ public class MainController {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+    
+    @Bean
+    public BCryptPasswordEncoder appPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
     
     
     @PostMapping(path = "/addUser")
@@ -34,7 +44,9 @@ public class MainController {
         
         User user = new User();
         user.setEmail((String)params.getFirst("username"));
-        user.setPassword((String)params.getFirst("password"));
+        String password = (String)params.getFirst("password");
+        String hashedPassword = encoder.encode(password);
+        user.setPassword(hashedPassword);
         return userService.createUser(user);
     }
     @GetMapping(path = "/findByEmail")
