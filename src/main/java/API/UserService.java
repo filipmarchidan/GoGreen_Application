@@ -46,7 +46,7 @@ public class UserService {
         return updatedUser;
     }
     
-    public User getUserByEmail(String email) {
+    public List<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 

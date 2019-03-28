@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppController">
+<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="180.0" layoutY="14.0" text="Leaderboard">
+      <Label layoutX="180.0" layoutY="248.0" text="Leaderboard">
          <font>
             <Font size="43.0" />
          </font>
       </Label>
-      <TableView id="leaderboardTable" fx:id="leaderboardTable" editable="true" layoutX="14.0" layoutY="77.0" prefHeight="406.0" prefWidth="578.0">
-        <columns>
-          <TableColumn fx:id="rank" prefWidth="36.800048828125" text="Rank" />
-          <TableColumn fx:id="email" prefWidth="195.20001220703125" text="Email" />
-            <TableColumn fx:id="achievementscolumn" prefWidth="207.199951171875" text="Achievements" />
-            <TableColumn fx:id="score" prefWidth="138.4000244140625" text="Score" />
-        </columns>
-      </TableView>
-      <Pane layoutX="11.0" layoutY="491.0" prefHeight="64.0" prefWidth="578.0" />
    </children>
 </AnchorPane>
