@@ -45,7 +45,8 @@ public class LoginController implements Initializable {
 
     @FXML
     private PasswordField newPassword;
-
+    @FXML
+    private  Label registrationStatus;
     @FXML
     private PasswordField newPasswordRepeat;
 
@@ -94,40 +95,25 @@ public class LoginController implements Initializable {
         String newUsername = emailInput.getText();
         String password1 = newPassword.getText();
         String password2 = newPasswordRepeat.getText();
-        if (!newUsername.isEmpty() && !password1.isEmpty()
-                && !password2.isEmpty() && (password1.equals(password2)) && validate("Email", newUsername, "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+")) {
-//            if(checkAvailability(newUsername) == true){
-            registerContent.setVisible(false);
-            regMenu.setVisible(false);
-            pageLabel.setText("Go Green");
-            User user = new User();
-            user.setEmail(newUsername);
-            user.setPassword(password1);
-            user.setSolarPanel(false);
-            
-            client.addUser(user);
+        if(!newUsername.isEmpty() && validate("Email", newUsername, "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+")){
+            if (!password1.isEmpty() && !password2.isEmpty() && (password1.equals(password2))){
+                if(validatePassword(password1) == true){
+                        registerContent.setVisible(false);
+                        regMenu.setVisible(false);
+                        pageLabel.setText("Go Green");
+                        User user = new User();
+                        user.setEmail(newUsername);
+                        user.setPassword(password1);
+                        client.addUser(user);
+                        registrationStatus.setVisible(false);
+                }
+            }
         }
         emailInput.clear();
         newPassword.clear();
         newPasswordRepeat.clear();
     }
-    public boolean checkAvailability(String email)
-    {
-        User user = new User();
-        user.setEmail(email);
-        try{
-            //Client.findByEmail(email);
-            System.out.println("Already exists");
-            return false;
-        }
-        catch(Exception e){
 
-        }
-        finally
-        {
-            return true;
-        }
-    }
     /*
     @FXML
     public void handle_login(ActionEvent event) throws IOException {
@@ -207,23 +193,37 @@ public class LoginController implements Initializable {
             if(m.find() && m.group().equals(value)){
                 return true;
             }else{
-                validationAlert(field, false);
+                validationAlert(field);
                 return false;
             }
         }else{
-            validationAlert(field, true);
+            validationAlert(field);
             return false;
         }
     }
-
-    private void validationAlert(String field, boolean empty){
+    private boolean validatePassword(String pass)
+    {
+        if(!pass.isEmpty())
+        {
+            if(pass.length() >= 8){
+                if(pass.matches("^[a-zA-Z0-9]+$"))
+                    return true;
+                else{validationAlert(pass); return false;}}
+            else{validationAlert(pass);return false;}
+        }
+        validationAlert(pass);
+        return false;
+    }
+    private void validationAlert(String field){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Validation Error");
         alert.setHeaderText(null);
-        if(field.equals("Role")) alert.setContentText("Please Select "+ field);
-        else{
-            if(empty) alert.setContentText("Please Enter "+ field);
-            else alert.setContentText("Please Enter Valid "+ field);
+        if(field.equals("Email")){
+            alert.setContentText("Your email is incorrect");
+        }
+        else
+        {
+            alert.setContentText("Your password must contain at least 8 character and at least 1 numbers");
         }
         alert.showAndWait();
     }

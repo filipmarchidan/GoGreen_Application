@@ -45,7 +45,8 @@
             <Button fx:id="newUser" layoutX="18.0" layoutY="151.0" mnemonicParsing="false" onAction="#createUser" prefHeight="25.0" prefWidth="231.0" styleClass="loginButton" text="Register" textFill="WHITE" />
             <TextField fx:id="emailInput" layoutX="18.0" layoutY="14.0" prefHeight="30.0" prefWidth="231.0" promptText="Email" />
             <PasswordField fx:id="newPassword" layoutX="18.0" layoutY="58.0" prefHeight="30.0" prefWidth="231.0" promptText="Password" />
-            <PasswordField fx:id="newPasswordRepeat" layoutX="18.0" layoutY="104.0" prefHeight="30.0" prefWidth="231.0" promptText="Password" />
+            <PasswordField fx:id="newPasswordRepeat" layoutX="18.0" layoutY="104.0" prefHeight="30.0" prefWidth="231.0" promptText="Repeat Password" />
+            <Label fx:id="registrationStatus" layoutX="18.0" layoutY="191.0" prefHeight="30.0" prefWidth="231.0" text="" visible="false"></Label>
          </children>
       </Pane>
       <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="456.0" layoutY="526.0" prefHeight="26.0" prefWidth="266.0" styleClass="errorMessage" stylesheets="@style.css" text="test" textFill="WHITE" visible="false" />

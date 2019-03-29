@@ -7,6 +7,10 @@ import API.security.SecurityService;
 import database.ActivityRepository;
 import database.ActivityTypeRepository;
 import database.UserRepository;
+import database.UserServiceImpl;
+import database.entities.Activity;
+import database.entities.User;
+import javafx.fxml.FXML;
 import database.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -23,18 +27,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
-
-
-import java.util.List;
-import java.util.Set;
+import java.awt.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+
+
 
 @RestController
 public class MainController {
-
+    @FXML
+    private Label registrationStatus;
     @Autowired
     private UserRepository userRepository;
 
@@ -61,12 +66,23 @@ public class MainController {
     }
     
 
+    @Autowired
+    private UserServiceImpl userServiceImpl;
+
     @PostMapping(path = "/addUser")
-    public @ResponseBody User addNewUser(@RequestBody MultiValueMap<String, Object> params) {
+    public @ResponseBody String addNewUser(@RequestBody MultiValueMap<String, Object> params) {
+        
         User user = new User();
         user.setEmail((String)params.getFirst("username"));
-        user.setPassword(encoder.encode((String)params.getFirst("password")));
-        return userService.createUser(user);
+        String password = (String)params.getFirst("password");
+        String hashedPassword = encoder.encode(password);
+        user.setPassword(hashedPassword);
+        String result = "User added successfully User[" + user.getEmail() + "] with password [" + password +"]";
+        if(userServiceImpl.getUserByEmail(user.getEmail()) != null){
+            System.out.println("User already exists and it couldn't be added");
+            return "Failed to add user";}
+        userService.createUser(user);
+        return result;
     }
     
     @GetMapping(path = "/findByEmail")
@@ -91,9 +107,9 @@ public class MainController {
     @Secured("ROLE_USER")
     @GetMapping("/allUsers")
     public @ResponseBody List<User> getAllUsers(){
-
+        
         return userRepository.findAll();
-
+        
     }
     
     /** Finds the user and removes if present.
@@ -292,7 +308,7 @@ public class MainController {
         return userService.getUserById(userId);
     }
     */
-
+    
     /*
     //gets all users
     @CrossOrigin
@@ -300,6 +316,7 @@ public class MainController {
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
     }
+    */
 
     /*
     //gets user by email
