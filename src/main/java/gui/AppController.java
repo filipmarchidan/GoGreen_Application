@@ -31,10 +31,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.hibernate.annotations.Check;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,9 +49,6 @@ public class AppController {
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
     
     Gson gson = new Gson();
-    
-    private int id = 1;
-
 
     @FXML
     private AnchorPane content;
@@ -59,7 +58,10 @@ public class AppController {
 
     @FXML
     private Button exit;
-
+    
+    @FXML
+    private CheckBox solar;
+    
     @FXML
     private Pane homeScreen;
     
@@ -93,6 +95,10 @@ public class AppController {
                 borderpane.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlName + ".fxml"));
                 borderpane.setCenter(root);
+                System.out.println("Trying to set checkbox1");
+                User user = Client.findCurrentUser();
+                solar = (CheckBox)exit.getScene().lookup("#solar");
+                solar.setSelected(user.isSolarPanel());
             } catch (IOException ex) {
                 System.out.println("File " + fxmlName + ".fxml not found");
             }
@@ -101,6 +107,7 @@ public class AppController {
 
     @FXML
     void closeProgram(ActionEvent event) {
+        
         Stage stage = (Stage) exit.getScene().getWindow();
         stage.close();
     }
@@ -150,11 +157,21 @@ public class AppController {
         }
 
         else if(event.getSource() instanceof CheckBox) {
+            CheckBox checkbox = (CheckBox) event.getSource();
+            if(checkbox.isSelected()) {
+                
+                MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
+                Activity activity = new Activity(ActType.solar_panel, 1,Activity.getCurrentDateTimeString());
+                params.add("activity",gson.toJson(activity));
+                HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
+                
+            } else {
+                User user = Client.findCurrentUser();
+                user.setSolarPanel(false);
+                Client.updateUser(user);
+            }
             
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(ActType.solar_panel, 1,Activity.getCurrentDateTimeString());
-            params.add("activity",activity);
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
+
     
             //TODO: Add response to user
 
@@ -162,7 +179,6 @@ public class AppController {
     }
     @FXML
     public void updateBikeValue(Event event) {
-        System.out.println("hi");
         Slider slider = (Slider) event.getSource();
         int value = (int)slider.getValue();
         biketext.setText(Integer.toString(value));
@@ -170,7 +186,6 @@ public class AppController {
     
     @FXML
     public void updateTransportValue(Event event) {
-        System.out.println("hi2");
         Slider slider = (Slider) event.getSource();
         int value = (int)slider.getValue();
         transporttext.setText(Integer.toString(value));
@@ -187,7 +202,7 @@ public class AppController {
         vbox.setMinHeight(560);
 
         //TODO: FIX SESSIONCOOKIE LOCATION
-        Activity[] activities = client.getActivities(LoginController.sessionCookie);
+        Activity[] activities = Client.getActivities(LoginController.sessionCookie);
         for (Activity a : activities) {
             HBox active = new HBox(0);
             active.setStyle("-fx-border-color:  #05386B;"
@@ -220,7 +235,7 @@ public class AppController {
                     "-fx-border-radius: 3 3 3 3;");
             but.setOnAction(event -> {
                 MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-                params.add("activity",a);
+                params.add("activity",gson.toJson(a));
                 HttpEntity<String> response = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/removeactivity", params);
                 boolean result = gson.fromJson(response.getBody(), boolean.class);
     
@@ -238,20 +253,19 @@ public class AppController {
     }
 
     private User[] InsertUser(User[] friends) {
-
-        //User user = client.addUser(new User("user1@user1.com", "user1"));
+        
         User user =  gson.fromJson(Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/getCurrentUser").getBody(),User.class);
         System.out.println(user.getId());
         User[] friends2 = new User[friends.length + 1];
         int i = 0;
-        while (friends[i].getTotalscore() > user.getTotalscore()) {
+        while (i < friends.length && friends[i].getTotalscore() > user.getTotalscore() ) {
             System.out.println(i + " = " + i);
             friends2[i] = friends[i];
             i++;
         }
         friends2[i] = user;
         i++;
-        while (i < friends2.length) {
+        while (i <= friends.length) {
 
             System.out.println(i+1 + " = " + i);
             friends2[i] = friends[i-1];
@@ -267,10 +281,11 @@ public class AppController {
         TableView<TableUser> tableView = new TableView<TableUser>();
         ObservableList<TableUser> imgList = FXCollections.observableArrayList();
         VBox vbox = new VBox();
-        User[] friends = client.getFriends(id);
+        User[] friends = client.getFriends();
+        
         friends = InsertUser(friends);
-        //ImageView imageView = new ImageView(new Image("path815.png"));
-    
+        
+        
         TableColumn<TableUser, String> rank = new TableColumn<>();
         TableColumn<TableUser, String> email = new TableColumn<>();
         TableColumn<TableUser, ImageView> achievementscolumn = new TableColumn<>();

@@ -57,7 +57,7 @@
       </Button>
       <BorderPane layoutX="342.0" layoutY="405.0" prefHeight="109.0" prefWidth="244.0" style="-fx-background-color: #5CDB95;">
          <center>
-            <CheckBox fx:id="solar" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="192.0" text="I have solar &#10;panels installed" BorderPane.alignment="CENTER">
+            <CheckBox  id="solar" fx:id="solar" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="192.0" text="I have solar &#10;panels installed" BorderPane.alignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>
@@ -65,7 +65,7 @@
          </center>
       </BorderPane>
       <Slider fx:id="bikeslider" layoutX="343.0" layoutY="219.0" max="50.0" onContextMenuRequested="#updateBikeValue" onDragDetected="#updateBikeValue" onDragDone="#updateBikeValue" onDragDropped="#updateBikeValue" onDragEntered="#updateBikeValue" onDragExited="#updateBikeValue" onDragOver="#updateBikeValue" onMouseClicked="#updateBikeValue" onMouseDragged="#updateBikeValue" onMouseEntered="#updateBikeValue" onMouseExited="#updateBikeValue" onMouseMoved="#updateBikeValue" prefHeight="14.0" prefWidth="166.0" />
-      <Slider layoutX="343.0" layoutY="343.0" onContextMenuRequested="#updateTransportValue" onDragDetected="#updateTransportValue" onDragDone="#updateTransportValue" onDragDropped="#updateTransportValue" onDragEntered="#updateTransportValue" onDragExited="#updateTransportValue" onDragOver="#updateTransportValue" onMouseClicked="#updateTransportValue" onMouseDragged="#updateTransportValue" onMouseEntered="#updateTransportValue" onMouseExited="#updateTransportValue" onMouseMoved="#updateTransportValue" prefHeight="14.0" prefWidth="166.0" />
+      <Slider fx:id="transportslider" layoutX="343.0" layoutY="343.0" onContextMenuRequested="#updateTransportValue" onDragDetected="#updateTransportValue" onDragDone="#updateTransportValue" onDragDropped="#updateTransportValue" onDragEntered="#updateTransportValue" onDragExited="#updateTransportValue" onDragOver="#updateTransportValue" onMouseClicked="#updateTransportValue" onMouseDragged="#updateTransportValue" onMouseEntered="#updateTransportValue" onMouseExited="#updateTransportValue" onMouseMoved="#updateTransportValue" prefHeight="14.0" prefWidth="166.0" />
       <Text layoutX="563.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text layoutX="563.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Km" />
       <Text layoutX="563.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Km" />
