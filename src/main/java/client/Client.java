@@ -28,7 +28,7 @@ public class Client {
     
     private static Client client = new Client("");
     
-    Gson gson;
+    static Gson gson = new Gson();
     //private  String address;
     private RestTemplate restTemplate;
     private HttpHeaders headers;
@@ -121,7 +121,7 @@ public class Client {
         //so we can convert the JSON string to a User Array like this.
         //User[] users = gson.fromJson(result, User[].class);
         
-        User[] users = client.gson.fromJson(result.getBody(), User[].class);
+        User[] users = gson.fromJson(result.getBody(), User[].class);
         return users;
     }
     
@@ -130,12 +130,12 @@ public class Client {
 
         HttpEntity<String> result = getRequest(sessionCookie,"http://localhost:8080/activities");
 
-        Activity[] activities = client.gson.fromJson(result.getBody(), Activity[].class);
+        Activity[] activities = gson.fromJson(result.getBody(), Activity[].class);
         return activities;
 
     }
 
-    public User[] getFriends(int id) {
+    public static User[] getFriends() {
 
         HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/getFriends");
         User[] friends = gson.fromJson(result.getBody(), User[].class);
@@ -163,6 +163,20 @@ public class Client {
        // System.out.println(getActivities(sessionCookie)[0]);
 
     }
+    public static  User findCurrentUser() {
+        HttpEntity<String> response = getRequest(LoginController.sessionCookie,"http://localhost:8080/finduser");
+        return gson.fromJson(response.getBody(),User.class);
+    }
+    
+    public static User updateUser(User user) {
+        
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("user",gson.toJson(user));
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/updatesolar",params).getBody(),User.class);
+        
+        return user1;
+    }
+    
     public static void addUser(User user)
     {
        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();

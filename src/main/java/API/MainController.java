@@ -76,6 +76,13 @@ public class MainController {
         return userService.getUserByEmail(email);
     }
     
+    @GetMapping(path = "/finduser")
+    public @ResponseBody User findUser() {
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        return  user;
+    }
+    
     @GetMapping(path = "/getCurrentUser")
     public @ResponseBody User getCurrentUser() {
         String email = SecurityService.findLoggedInEmail();
@@ -130,7 +137,7 @@ public class MainController {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         
-        System.out.println((String)params.getFirst("activity"));
+        //System.out.println((String)params.getFirst("activity"));
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
         
         activity.setUser(user);
@@ -183,8 +190,20 @@ public class MainController {
 
         }
     }
+    
+    @PostMapping
+    public @ResponseBody User updateSolar(@RequestBody MultiValueMap<String, Object> params) {
+        
+        User user = gson.fromJson((String)params.getFirst("user"),User.class);
+        String email = SecurityService.findLoggedInEmail();
+        User user1 = userRepository.findByEmail(email);
+        user1.setSolarPanel(user.isSolarPanel());
+        return userRepository.save(user1);
+    
+    }
 
     private void updateScoreAdd(Activity activity) {
+        System.out.println("we get here");
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
         User user = userRepository.findByEmail(activity.getUser().getEmail());
         user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
@@ -192,9 +211,19 @@ public class MainController {
     }
 
     @PostMapping(path = "/removeactivity")
-    public @ResponseBody boolean removeActivity(@RequestBody Activity activity) {
-        int id = activity.getId();
-        if (activityRepository.existsById(id)){
+    public @ResponseBody boolean removeActivity(@RequestBody MultiValueMap<String, Object> params) {
+        
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+    
+        System.out.println((String)params.getFirst("activity"));
+        Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
+        if(activity.getActivity_type() == ActType.solar_panel){
+            return false;
+        }
+        activity.setUser(user);
+        
+        if (activityRepository.existsById(activity.getId())){
             updateScoreRemove(activity);
             activityRepository.delete(activity);
             return true;
