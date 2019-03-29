@@ -23,15 +23,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 import java.util.List;
 import java.util.Set;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -230,6 +228,17 @@ public class MainController {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         return activityRepository.findByUserIdSorted(user.getId());
+    }
+
+    @GetMapping("/allActType")
+    public @ResponseBody List<Integer> getAllActType() {
+
+        List<ActivityType> activityTypes = activityTypeRepository.findAll();
+        List values = new ArrayList();
+        for(ActivityType a: activityTypes) {
+            values.add(a.getCo2_savings());
+        }
+        return values;
     }
     /*
         The next methods are created via UserServiceDAO

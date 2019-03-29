@@ -2,8 +2,10 @@ package gui;
 
 import client.Client;
 import com.google.gson.Gson;
+import database.ActivityTypeRepository;
 import database.entities.ActType;
 import database.entities.Activity;
+import database.entities.ActivityType;
 import database.entities.User;
 import gui.entity.TableUser;
 import javafx.collections.FXCollections;
@@ -188,6 +190,9 @@ public class AppController {
 
         //TODO: FIX SESSIONCOOKIE LOCATION
         Activity[] activities = client.getActivities(LoginController.sessionCookie);
+        HttpEntity<String> rep = Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/allActType");
+        List<Double> activityTypes = gson.fromJson(rep.getBody(), List.class);
+
         for (Activity a : activities) {
             HBox active = new HBox(0);
             active.setStyle("-fx-border-color:  #05386B;"
@@ -201,8 +206,13 @@ public class AppController {
             activity.setStyle("-fx-font-size:15px;");
             activity.setPrefWidth(180);
 
-            Label co2 = new Label("Co2 Saved: " );
-            //TODO: SHOW CO2 co2.setStyle("-fx-font-size:15px");
+
+
+            int index = a.getActivity_type().ordinal();
+            int co2 = activityTypes.get(index).intValue();
+
+            Label co2Label = new Label("Co2 Saved: " + co2);
+
             //co2.setPrefWidth(150);
 
             Label date = new Label("Date: " + a.getDate_time());
@@ -228,8 +238,8 @@ public class AppController {
             });
 
 
-            active.getChildren().addAll(activity, co2, date, but);
-            System.out.println(a.getActivity_type() + a.getDate_time());
+            active.getChildren().addAll(activity, co2Label, date, but);
+            System.out.println(a.getActivity_type() + a.getDate_time() + "!!!!!!");
             vbox.getChildren().add(active);
         }
         scroll.setContent(vbox);

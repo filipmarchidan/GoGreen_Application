@@ -4,6 +4,7 @@ import API.UserService;
 import com.google.gson.Gson;
 
 import database.entities.Activity;
+import database.entities.ActivityType;
 import database.entities.User;
 
 import gui.LoginController;
@@ -23,6 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Client {
     
