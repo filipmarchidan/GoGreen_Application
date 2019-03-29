@@ -231,14 +231,11 @@ public class MainController {
     }
 
     @GetMapping("/allActType")
-    public @ResponseBody List<Integer> getAllActType() {
+    public @ResponseBody List getAllActType() {
 
-        List<ActivityType> activityTypes = activityTypeRepository.findAll();
-        List values = new ArrayList();
-        for(ActivityType a: activityTypes) {
-            values.add(a.getCo2_savings());
-        }
-        return values;
+        List co2Values = activityTypeRepository.findAllCo2SavingsSorted();
+        return co2Values;
+
     }
     /*
         The next methods are created via UserServiceDAO

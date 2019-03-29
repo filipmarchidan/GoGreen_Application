@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 
 public class AppController {
@@ -188,10 +189,16 @@ public class AppController {
         vbox.setFillWidth(true);
         vbox.setMinHeight(560);
 
+
         //TODO: FIX SESSIONCOOKIE LOCATION
         Activity[] activities = client.getActivities(LoginController.sessionCookie);
+
+        /*
         HttpEntity<String> rep = Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/allActType");
         List<Double> activityTypes = gson.fromJson(rep.getBody(), List.class);
+        */
+        HttpEntity<String> co2Values = Client.getRequest(LoginController.sessionCookie, "http://localhost:8080/allActType");
+        List<Double> co2List = gson.fromJson(co2Values.getBody(), List.class);
 
         for (Activity a : activities) {
             HBox active = new HBox(0);
@@ -206,14 +213,10 @@ public class AppController {
             activity.setStyle("-fx-font-size:15px;");
             activity.setPrefWidth(180);
 
-
-
-            int index = a.getActivity_type().ordinal();
-            int co2 = activityTypes.get(index).intValue();
-
-            Label co2Label = new Label("Co2 Saved: " + co2);
-
-            //co2.setPrefWidth(150);
+            Double co2 = co2List.get(a.getActivity_type().ordinal());
+            Label co2Label = new Label("Co2 Saved: " + co2.intValue());
+            co2Label.setStyle("-fx-font-size:15px;");
+            co2Label.setPrefWidth(150);
 
             Label date = new Label("Date: " + a.getDate_time());
             date.setStyle("-fx-font-size:15px");
