@@ -52,9 +52,8 @@ public class MainController {
         String hashedPassword = encoder.encode(password);
         user.setPassword(hashedPassword);
         String result = "User added successfully User[" + user.getEmail() + "] with password [" + password +"]";
-        System.out.println(result);
         if(userServiceImpl.getUserByEmail(user.getEmail()) != null){
-            System.out.println("User already exists");
+            System.out.println("User already exists and it couldn't be added");
             return "Failed to add user";}
         userService.createUser(user);
         return result;
