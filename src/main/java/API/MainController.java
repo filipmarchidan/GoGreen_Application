@@ -3,8 +3,10 @@ package API;
 import API.security.SecurityService;
 import database.ActivityRepository;
 import database.UserRepository;
+import database.UserServiceImpl;
 import database.entities.Activity;
 import database.entities.User;
+import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.annotation.Secured;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +22,8 @@ import java.util.Set;
 
 @RestController
 public class MainController {
-    
+    @FXML
+    private Label registrationStatus;
     @Autowired
     private UserRepository userRepository;
     
@@ -36,18 +40,24 @@ public class MainController {
     public BCryptPasswordEncoder appPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
-    
-    
+    @Autowired
+    private UserServiceImpl userServiceImpl;
+
     @PostMapping(path = "/addUser")
-    public @ResponseBody User addNewUser(@RequestBody MultiValueMap<String, Object> params) {
-        
+    public @ResponseBody String addNewUser(@RequestBody MultiValueMap<String, Object> params) {
+
         User user = new User();
         user.setEmail((String)params.getFirst("username"));
         String password = (String)params.getFirst("password");
         String hashedPassword = encoder.encode(password);
         user.setPassword(hashedPassword);
-        return userService.createUser(user);
+        String result = "User added successfully User[" + user.getEmail() + "] with password [" + password +"]";
+        System.out.println(result);
+        if(userServiceImpl.getUserByEmail(user.getEmail()) != null){
+            System.out.println("User already exists");
+            return "Failed to add user";}
+        userService.createUser(user);
+        return result;
     }
     @GetMapping(path = "/findByEmail")
     public @ResponseBody User findByEmail(@RequestBody String email){
