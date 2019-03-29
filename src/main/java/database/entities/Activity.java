@@ -81,7 +81,7 @@ public class Activity {
             return false;
         }
         Activity activity = (Activity) o;
-        return getUser().getId() == activity.getUser().getId()
+        return Objects.equals(getUser(),activity.getUser())
                 && Objects.equals(id, activity.id)
                 && Objects.equals(activity_amount,activity.activity_amount)
                 && Objects.equals(activity_type, activity.activity_type)

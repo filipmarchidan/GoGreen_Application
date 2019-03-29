@@ -110,7 +110,7 @@ public class MainController {
     /** Finds the friends of a user
      *
      */
-    @PostMapping(path = "/getFriends")
+    @GetMapping(path = "/getFriends")
     public @ResponseBody Set<User> getFriends() {
         
         String email = SecurityService.findLoggedInEmail();
