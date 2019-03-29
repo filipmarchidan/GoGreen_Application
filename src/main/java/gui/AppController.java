@@ -229,7 +229,7 @@ public class AppController {
             activity.setPrefWidth(180);
 
             Double co2 = co2List.get(a.getActivity_type().ordinal());
-            Label co2Label = new Label("Co2 Saved: " + co2.intValue());
+            Label co2Label = new Label("Co2 Saved: " + co2.intValue()* a.getActivity_amount());
             co2Label.setStyle("-fx-font-size:15px;");
             co2Label.setPrefWidth(150);
 

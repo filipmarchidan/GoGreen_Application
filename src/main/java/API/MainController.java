@@ -137,11 +137,11 @@ public class MainController {
         
         //System.out.println((String)params.getFirst("activity"));
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
-        
+        System.out.println(activity.getActivity_type());
         activity.setUser(user);
         
         if(activity.getActivity_type() != ActType.solar_panel) {
-
+            //System.out.println("HELLO");
             Activity act = activityRepository.save(activity);
             checkAchievements(act);
             updateScoreAdd(act);
@@ -201,7 +201,8 @@ public class MainController {
     }
 
     private void updateScoreAdd(Activity activity) {
-        System.out.println("we get here");
+        //System.out.println(activity.getActivity_amount());
+        //System.out.println("we get here");
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
         User user = userRepository.findByEmail(activity.getUser().getEmail());
         user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
