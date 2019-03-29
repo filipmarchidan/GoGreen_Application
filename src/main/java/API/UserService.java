@@ -35,6 +35,7 @@ public class UserService implements UserServiceImpl {
         User userFromDB = userRepository.findById(userId).get();
         userFromDB.setEmail(newEmail);
         userFromDB.setPassword(newPassword);
+        
         User updatedUser = userRepository.save(userFromDB);
         return updatedUser;
         
