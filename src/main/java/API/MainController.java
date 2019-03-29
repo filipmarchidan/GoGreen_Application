@@ -229,7 +229,7 @@ public class MainController {
     public @ResponseBody Set<Activity> getAllActivities(String sessionCookie) {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
-        return user.getActivities();
+        return activityRepository.findByUserIdSorted(user.getId());
     }
     /*
         The next methods are created via UserServiceDAO

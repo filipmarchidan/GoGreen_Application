@@ -58,6 +58,12 @@ public class Activity {
         this.activity_amount = activity_amount;
         this.date_time = date_time;
     }
+    public Activity(int id ,ActType activity_type,int activity_amount, String date_time) {
+        this.id = id;
+        this.activity_type = activity_type;
+        this.activity_amount = activity_amount;
+        this.date_time = date_time;
+    }
 
 
 

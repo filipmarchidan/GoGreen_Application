@@ -9,6 +9,7 @@ import gui.entity.TableUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,6 +29,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -60,6 +62,18 @@ public class AppController {
 
     @FXML
     private Pane homeScreen;
+    
+    @FXML
+    private Slider transportslider;
+    
+    @FXML
+    private Text transporttext;
+    
+    @FXML
+    private Slider bikeslider;
+    
+    @FXML
+    private Text biketext;
 
     @FXML
     private void switchScreen(ActionEvent event) {
@@ -103,12 +117,22 @@ public class AppController {
                     break;
                 case "bike" :
                     actType = ActType.bike;
+                    amount = (int)bikeslider.getValue();
+                    if(amount == 0) {
+                        //TODO: add buzzer sound or something?
+                        return;
+                    }
                     break;
                 case "local" :
                     actType = ActType.local_produce;
                     break;
                 case "transport" :
                     actType = ActType.public_transport;
+                    amount = (int)transportslider.getValue();
+                    if(amount == 0) {
+                        //TODO: add buzzer sound or something?
+                        return;
+                    }
                     break;
                 case "temp" :
                     actType = ActType.lower_temperature;
@@ -135,6 +159,21 @@ public class AppController {
             //TODO: Add response to user
 
         }
+    }
+    @FXML
+    public void updateBikeValue(Event event) {
+        System.out.println("hi");
+        Slider slider = (Slider) event.getSource();
+        int value = (int)slider.getValue();
+        biketext.setText(Integer.toString(value));
+    }
+    
+    @FXML
+    public void updateTransportValue(Event event) {
+        System.out.println("hi2");
+        Slider slider = (Slider) event.getSource();
+        int value = (int)slider.getValue();
+        transporttext.setText(Integer.toString(value));
     }
 
     private void displayActivities() {
