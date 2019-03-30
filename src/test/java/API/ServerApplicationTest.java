@@ -1,6 +1,7 @@
 package API;
 
 import com.google.gson.Gson;
+import database.entities.ActType;
 import database.entities.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,35 +39,32 @@ public class ServerApplicationTest{
     @Test
     public void contextLoads() {
     }
-/*
+    /*
     @Test
     public void all_returns_array() throws Exception {
         this.mockMvc.perform(get("/allUsers")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("[")))
                 .andExpect(content().string(containsString("]")));
-    }*/
-/*
+    }
+    */
+    /*
     @Test
     public void activities_returns_array() throws Exception {
         this.mockMvc.perform(get("/activities")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("[")))
                 .andExpect(content().string(containsString("]")));
     }
-*/
+    */
     /*
     @Test
     public void add_activity_returns_activity() throws Exception {
 
-        Activity activity = new Activity();
-        activity.setCo2_savings(50);
-        activity.setDate_time(Activity.getCurrentDateTimeString());
-        activity.setActivity_type("veggy_meal");
+        Activity activity = new Activity(ActType.vegetarian_meal,1,Activity.getCurrentDateTimeString());
         String activityString = gson.toJson(activity);
         this.mockMvc.perform(post("/addactivity").contentType(APPLICATION_JSON_UTF8).content(activityString)).andDo(print())
                 .andExpect(status().isOk()).andExpect(content().string(containsString("activity_type")));
     }
-
-*/
+    */
 
 
 }

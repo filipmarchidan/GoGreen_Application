@@ -12,6 +12,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -44,24 +45,24 @@ public class AuthenticationTest {
     
     @Test
     public void notAuthenticatedTest() throws Exception {
-        mvc.perform(formLogin().user("invalid").password("invalid"))
+        ResultActions resultActions = mvc.perform(formLogin().user("invalid").password("invalid"))
             .andExpect(unauthenticated());
-    
+
     }
-    
+
     @Test
     public void authenticatedTest() throws Exception {
         
-        mvc.perform(formLogin().user("test").password("test"))
-            .andExpect(authenticated());
+
         
     }
     
     @Test
     public void logoutTest() throws Exception {
-        
-        mvc.perform(formLogin().password("test").user("test"));
-        
+
+        mvc.perform(formLogin().user("user1@user1.com").password("test"))
+                .andExpect(authenticated());
+
         mvc.perform(logout())
             .andExpect(unauthenticated());
         

@@ -20,9 +20,11 @@ public class Activity {
     
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
+    @Setter
     private Integer id;
-    
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
@@ -31,63 +33,40 @@ public class Activity {
     private User user;
 
     @Column(name = "activity_type", nullable = false)
-    @Setter
     @Getter
-    private String activity_type;
+    @Setter
+    private ActType activity_type;
 
-    @Column(name = "CO2_savings", nullable = false)
-    @Setter
+    @Column(name = "activity_amount", nullable = false)
     @Getter
-    private int co2_savings;
+    @Setter
+    private int activity_amount;
 
     @Column(name = "date_time", nullable = false)
     @Setter
     @Getter
     private String date_time;
-    
-    
-    
-   /*
-    public Integer getId() {
-        return id;
-    }
-    
-    public User getUser() {
-        return user;
-    }
-    
-    public String getActivity_type() {
-        return activity_type;
-    }
-    
-    public int getCo2_savings() {
-        return co2_savings;
-    }
-    
-    public String getDate_time() {
-        return date_time;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    public void setActivity_type(String activity_type) {
+
+
+    /**
+     * creates an activity.
+     * @param activity_type activity_type
+     * @param date_time date_time
+     */
+    public Activity(ActType activity_type,int activity_amount, String date_time) {
         this.activity_type = activity_type;
-    }
-    
-    public void setCo2_savings(int co2_savings) {
-        this.co2_savings = co2_savings;
-    }
-    
-    public void setDate_time(String date_time) {
+        this.activity_amount = activity_amount;
         this.date_time = date_time;
     }
-    */
+    public Activity(int id ,ActType activity_type,int activity_amount, String date_time) {
+        this.id = id;
+        this.activity_type = activity_type;
+        this.activity_amount = activity_amount;
+        this.date_time = date_time;
+    }
+
+
+
     /**
      * returns the date and time.
      *
@@ -108,9 +87,9 @@ public class Activity {
             return false;
         }
         Activity activity = (Activity) o;
-        return getUser().getId() == activity.getUser().getId()
-                && co2_savings == activity.co2_savings
+        return Objects.equals(getUser(),activity.getUser())
                 && Objects.equals(id, activity.id)
+                && Objects.equals(activity_amount,activity.activity_amount)
                 && Objects.equals(activity_type, activity.activity_type)
                 && Objects.equals(date_time, activity.date_time);
     }

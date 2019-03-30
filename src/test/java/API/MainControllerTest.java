@@ -3,8 +3,10 @@ package API;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import database.ActivityRepository;
 import database.UserRepository;
+import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
 import org.junit.Test;
@@ -16,7 +18,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
+import javax.print.attribute.standard.Media;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -28,7 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
 public class MainControllerTest {
-    
+
+
+    Gson gson = new Gson();
     @Autowired
     private MockMvc mvc;
     
@@ -63,7 +70,7 @@ public class MainControllerTest {
         User user = new User();
         user.setEmail("alice@gmail.com");
         user.setPassword("password");
-        
+
     
         String requestBody = buildRequestBody(
             user
@@ -72,7 +79,7 @@ public class MainControllerTest {
         Object responseBody = getResponseBody(
             
             mvc.perform(
-                    post("/add")
+                    post("/addUser")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(
                             requestBody
@@ -131,19 +138,19 @@ public class MainControllerTest {
     @Test
     public void addNewActivity() throws Exception {
     
-        Activity activity = new Activity();
-        activity.setActivity_type("veggie_meal");
+        Activity activity = new Activity(ActType.vegetarian_meal,1,Activity.getCurrentDateTimeString());
+        activity.setActivity_type(ActType.vegetarian_meal);
         activity.setDate_time(Activity.getCurrentDateTimeString());
-        activity.setCo2_savings(50);
-        
-        String requestBody = buildRequestBody(activity);
+        MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        String requestBody = buildRequestBody(params);
         
         Object responseBody = getResponseBody(
             
             mvc.perform(
                 
                 post("/addactivity")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(requestBody)
             )
             .andExpect(status().isOk()),
@@ -158,14 +165,11 @@ public class MainControllerTest {
         
             assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
             assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
-            assertEquals(returnedActivity.getCo2_savings(), activity.getCo2_savings());
             assertEquals(returnedActivity.getUser().getId(), activity.getUser().getId());
-        
-        
+
         } else {
             fail();
         }
-    
     }
     
 

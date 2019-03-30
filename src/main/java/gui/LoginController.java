@@ -2,7 +2,6 @@ package gui;
 
 import API.UserService;
 import client.Client;
-import database.UserServiceImpl;
 import database.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,8 +30,6 @@ public class LoginController implements Initializable {
     private Client client = Client.getInstance();
     
     public static String sessionCookie;
-    @Autowired
-    private AuthenticationManager authenticationManager;
     
     @FXML
     private AnchorPane parent;
@@ -67,10 +64,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private Button exit;
-    @Autowired
-    UserServiceImpl userServiceImpl;
-    @Autowired
-    UserService userService;
+    
     //x-coordinate of the mousecursor
     private double xoffset;
 
@@ -95,9 +89,8 @@ public class LoginController implements Initializable {
         parent.getChildren().setAll(login);
 
     }
-    private PasswordEncoder passwordEncoder;
+    
     @FXML
-
     void createUser(ActionEvent event) {
         String newUsername = emailInput.getText();
         String password1 = newPassword.getText();
@@ -133,13 +126,10 @@ public class LoginController implements Initializable {
             
             return;
         }
-        System.out.println("User has signed in");
-        Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
-        parent.getChildren().removeAll();
-        parent.getChildren().setAll(menu);
     }
     */
     
+
 
     @FXML
     void handle_login(ActionEvent event) throws IOException {
