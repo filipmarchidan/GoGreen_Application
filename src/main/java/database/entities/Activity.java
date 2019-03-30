@@ -93,6 +93,11 @@ public class Activity {
                 && Objects.equals(activity_type, activity.activity_type)
                 && Objects.equals(date_time, activity.date_time);
     }
+
+    @Override
+    public int hashCode() {
+        return activity_amount*activity_type.ordinal()*date_time.toString().hashCode();
+    }
     
    
 }

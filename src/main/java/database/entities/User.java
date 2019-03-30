@@ -87,8 +87,12 @@ public class User {
         User user = (User) obj;
         return Objects.equals(id, user.id)
                 && Objects.equals(email, user.email)
-                && Objects.equals(password, user.password)
                 && totalscore == user.totalscore;
+    }
+    
+    @Override
+    public int hashCode() {
+        return id;
     }
     
 }
