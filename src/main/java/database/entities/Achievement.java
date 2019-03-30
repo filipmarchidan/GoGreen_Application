@@ -42,11 +42,12 @@ public class Achievement {
     /** Constructor for Achievement. THIS SHOULD NOT BE USED,
      * IS ONLY USED ON START UP FOR GENERATION.
      *
+     * @param id    the id of the achievement
      * @param achievement_name the name of the achievement
      * @param achievement_value the CO2value of the achievement
      */
-    public Achievement(String achievement_name, int achievement_value) {
-        
+    public Achievement(int id,String achievement_name, int achievement_value) {
+        this.id = id;
         users = new HashSet<>();
         this.achievement_name = achievement_name;
         this.achievement_value = achievement_value;

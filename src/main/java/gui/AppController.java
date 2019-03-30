@@ -165,7 +165,7 @@ public class AppController {
             } else {
                 User user = Client.findCurrentUser();
                 user.setSolarPanel(false);
-                Client.updateUser(user);
+                Client.updateSolar(user);
             }
             
 

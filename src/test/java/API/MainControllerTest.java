@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import database.AchievementRepository;
 import database.ActivityRepository;
+import database.ActivityTypeRepository;
 import database.UserRepository;
+import database.entities.Achievement;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
@@ -67,6 +70,12 @@ public class MainControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     
+    @Autowired
+    ActivityTypeRepository activityTypeRepository;
+    
+    @Autowired
+    AchievementRepository achievementRepository;
+    
     
     private String buildRequestBody(Object data) throws JsonProcessingException {
         
@@ -115,6 +124,7 @@ public class MainControllerTest {
         } else {
             fail();
         }
+        userRepository.delete(userRepository.findByEmail("alice@gmail.com"));
 
     }
     
@@ -246,7 +256,7 @@ public class MainControllerTest {
         
         String requestBody = buildRequestBody(params);
         
-        Object responseBody = getResponseBody(
+        String responseBody =
                 
                 mvc.perform(
                         
@@ -254,21 +264,14 @@ public class MainControllerTest {
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                 .content(requestBody).session(sessionCookie).params(params)
                 )
-                        .andExpect(status().isOk()),
-                
-                Activity.class
-        );
-        
-        
-        if (responseBody instanceof Activity) {
+                        .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+
+        System.out.println(responseBody +  " HELLO");
+        Activity returnedActivity = gson.fromJson(responseBody,Activity.class);
+        assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+        assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
             
-            Activity returnedActivity = (Activity) responseBody;
-            assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
-            assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
-            
-        } else {
-            fail();
-        }
     }
 
     @Test
@@ -324,14 +327,14 @@ public class MainControllerTest {
     }
     
     @Test
-    public void followFriend() throws  Exception {
+    public void followUnfollowFriend() throws  Exception {
         
-        User user = new User("email@blah","password");
+        User user1 = new User("email@blah","password");
         
-        user = userRepository.save(user);
+        user1 = userRepository.save(user1);
         //System.out.println(user);
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
-        params.add("user",gson.toJson(user));
+        params.add("user",gson.toJson(user1));
     
         String requestBody = buildRequestBody(params);
     
@@ -345,22 +348,42 @@ public class MainControllerTest {
                 )
                         .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         
-        User user1 = gson.fromJson(responseBody,User.class);
+        User user2 = gson.fromJson(responseBody,User.class);
         //System.out.println(user1);
-        Assert.assertEquals(user,user1);
+        Assert.assertEquals(user1,user2);
         Set<User> friendsfromUser = userRepository.getFriendsfromUser(user.getId());
+
         for(User u : friendsfromUser) {
             System.out.println(u.getEmail());
         }
         
+        
+    
+        String responseBody2 =
+            
+                mvc.perform(
+                    
+                        post("/unfollowFriend")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    
+        userRepository.delete(userRepository.findByEmail("email@blah"));
+        
     }
+    
+    
     
     
     @Test
     public void removeUser() throws  Exception {
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
-    
+        user.setAchievements(null);
+        user.setPassword("" +
+                "");
+        userRepository.saveAndFlush(user);
         String requestBody = buildRequestBody(params);
     
         String responseBody =
@@ -373,6 +396,7 @@ public class MainControllerTest {
                 )
                         .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         User user = gson.fromJson(responseBody,User.class);
+
         assertNotNull(user);
         
         
@@ -400,12 +424,66 @@ public class MainControllerTest {
     }
     
     @Test
+    public void switchSolar() throws Exception {
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        user.setSolarPanel(!user.isSolarPanel());
+        params.add("user",gson.toJson(user));
+        
+        String requestBody = buildRequestBody(params);
+    
+        String responseBody =
+            
+                mvc.perform(
+                    
+                        post("/updateSolar")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    
+        User user2 = gson.fromJson(responseBody,User.class);
+        Assert.assertEquals(user.isSolarPanel(),user2.isSolarPanel());
+    }
+    
+    @Test
     public void removeActivity() throws Exception {
         Activity activity = new Activity(ActType.vegetarian_meal,1,Activity.getCurrentDateTimeString());
         activity.setUser(user);
-        activityRepository.save(activity);
+        activity = activityRepository.save(activity);
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
-        params.add("activity",gson.toJson(user));
+        params.add("activity",gson.toJson(activity));
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/removeactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Boolean.class
+        );
+        
+        
+        if (responseBody instanceof Boolean) {
+            Assert.assertTrue((boolean)responseBody);
+            
+        } else {
+            fail();
+        }
+        
+    }
+    
+    @Test
+    public void removeSolarPanel() throws Exception {
+        Activity activity = new Activity(ActType.solar_panel,1,Activity.getCurrentDateTimeString());
+        activity.setUser(user);
+        activity = activityRepository.save(activity);
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
         String requestBody = buildRequestBody(params);
         
         Object responseBody = getResponseBody(
@@ -428,6 +506,53 @@ public class MainControllerTest {
         } else {
             fail();
         }
+        
+    }
+    
+    @Test
+    public void getActTypeValues() throws Exception {
+        List<Integer> list = activityTypeRepository.findAllCo2SavingsSorted();
+        Set<Integer> set = new HashSet<>(list);
+        MvcResult responseBody2 = mvc.perform(
+                get("/allActType")
+                        .contentType(MediaType.ALL)
+                        .session(sessionCookie)
+        )
+                .andExpect(
+                        status().isOk()
+                ).andReturn();
+        List<Integer> co2Values = Arrays.asList(gson.fromJson(responseBody2.getResponse().getContentAsString(),Integer[].class));
+        Set<Integer> co2set = new HashSet<>(co2Values);
+        Assert.assertTrue(set.equals(co2set));
+    }
+    
+    @Test
+    public void getUserAchievements() throws Exception {
+        Achievement achievement = achievementRepository.findById(0).get();
+        User dataUser = userRepository.findByEmail(user.getEmail());
+        dataUser.setAchievements(new HashSet<Achievement>());
+        dataUser.getAchievements().add(achievement);
+        userRepository.save(dataUser);
+    
+        String responseBody =
+                mvc.perform(
+                        get("/getachievements")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .session(sessionCookie)
+                )
+                        .andExpect(
+                                status().isOk()
+                        )
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+    
+        System.out.println(responseBody);
+        Set<Achievement> achievements = new HashSet<>(Arrays.asList(gson.fromJson(responseBody,Achievement[].class)));
+        System.out.println(achievements.size());
+        Assert.assertTrue(achievements.contains(achievement));
+        
+        
         
     }
     

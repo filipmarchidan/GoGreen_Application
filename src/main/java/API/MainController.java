@@ -173,38 +173,28 @@ public class MainController {
                 Activity act = activityRepository.save(activity);
                 return act;
             }
-            return null;
+            try {
+                return (Activity) activityRepository.findSolarActivityFromUserId(user.getId()).toArray()[0];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                System.out.println("Testing descepancy");
+                return activity;
+            }
         }
     }
 
     private void checkAchievements(Activity act) {
         List<Activity> activityList = activityRepository.findByUserId(act.getUser().getId());
-
-        if (activityList.size() >= 1 ) {
-
-            Set<Achievement> achievements =
+        
+        Set<Achievement> achievements =
                     achievementRepository.getAchievementsFromUserId(act.getUser().getId());
 
-            Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
-
-            if (optionalAchievement.isPresent()) {
-
-                Achievement achievement = optionalAchievement.get();
-                Optional<User> user = userRepository.findById(act.getUser().getId());
-
-                if (user.isPresent()) {
-
-                    User user1 = user.get();
-                    user1.getAchievements().add(achievement);
-                    achievement.getUsers().add(user1);
+        Achievement achievement = achievementRepository.findById(0).get();
+        
+        User user = userRepository.findById(act.getUser().getId()).get();
+                    user.getAchievements().add(achievement);
+                    achievement.getUsers().add(user);
                     achievementRepository.save(achievement);
-                    userRepository.save(user1);
-                }
-            }
-
-
-
-        }
+                    userRepository.save(user);
     }
     
     @PostMapping
@@ -258,16 +248,15 @@ public class MainController {
 
     /** This is what the client can connect to, to retrieve a user's achievements.
      *
-     * @param user the user whose achievements you want
      * @return  a set of all the achievement that user earned
      */
-    @PostMapping(path = "/getachievements")
-    public @ResponseBody Achievement[] getAchievements(@RequestBody User user) {
-
+    @GetMapping(path = "/getachievements")
+    public @ResponseBody Set<Achievement> getAchievements() {
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
         Set<Achievement> achievements =
                 achievementRepository.getAchievementsFromUserId(user.getId());
-
-        return (Achievement[])achievements.toArray();
+        return achievements;
 
     }
     
@@ -292,7 +281,7 @@ public class MainController {
         getUserById - retrieves the user by id
         getAllUsers - retrieves all users from database
         deleteUser - deletes an user in the database
-        updateUser - updates a current user in the database
+        updateSolar - updates a current user in the database
         */
     /*
     //creates new user
@@ -339,11 +328,11 @@ public class MainController {
     @CrossOrigin
     @PutMapping(value = "/userId/{userId}/email/{newEmail:.+}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@PathVariable("userId")Integer userId,
+    public User updateSolar(@PathVariable("userId")Integer userId,
                            @PathVariable("newEmail")String newEmail,
                            @PathVariable("newPassword") String newPassword) {
         
-        return userService.updateUser(newEmail, newPassword, userId);
+        return userService.updateSolar(newEmail, newPassword, userId);
     }
     */
 
@@ -358,10 +347,8 @@ public class MainController {
         User other = gson.fromJson((String)params.getFirst("user"),User.class);
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
-        Set<User> friends = userRepository.getFriendsfromUser(user.getId());
-        friends.add(other);
-        user.setFriends(friends);
-        userRepository.save(user);
+        user.getFriends().add(other);
+        userRepository.saveAndFlush(user);
         
         return other;
     }

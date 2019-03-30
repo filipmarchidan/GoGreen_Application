@@ -30,4 +30,5 @@ public class ActivityType {
     @Setter
     private Integer co2_savings;
     
+    
 }
