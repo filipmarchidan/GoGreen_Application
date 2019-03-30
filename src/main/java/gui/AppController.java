@@ -261,7 +261,7 @@ public class AppController {
 
     private User[] InsertUser(User[] friends) {
         
-        User user =  gson.fromJson(Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/getCurrentUser").getBody(),User.class);
+        User user =  gson.fromJson(Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/finduser").getBody(),User.class);
         System.out.println(user.getId());
         User[] friends2 = new User[friends.length + 1];
         int i = 0;
