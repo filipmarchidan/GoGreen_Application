@@ -87,9 +87,7 @@ public class Activity {
             return false;
         }
         Activity activity = (Activity) o;
-        return Objects.equals(getUser(),activity.getUser())
-                && Objects.equals(id, activity.id)
-                && Objects.equals(activity_amount,activity.activity_amount)
+        return  Objects.equals(activity_amount,activity.activity_amount)
                 && Objects.equals(activity_type, activity.activity_type)
                 && Objects.equals(date_time, activity.date_time);
     }

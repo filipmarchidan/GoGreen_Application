@@ -85,8 +85,7 @@ public class User {
             return false;
         }
         User user = (User) obj;
-        return Objects.equals(id, user.id)
-                && Objects.equals(email, user.email)
+        return Objects.equals(email, user.email)
                 && totalscore == user.totalscore;
     }
     
