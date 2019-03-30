@@ -170,7 +170,7 @@ public class Client {
         return gson.fromJson(response.getBody(),User.class);
     }
     
-    public static User updateUser(User user) {
+    public static User updateSolar(User user) {
         
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));

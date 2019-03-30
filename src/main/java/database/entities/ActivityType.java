@@ -2,6 +2,9 @@ package database.entities;
 
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -13,35 +16,19 @@ import javax.persistence.Table;
 public class ActivityType {
 
     @Id
+    @Getter
+    @Setter
     private Integer id;
 
     @Column(name = "activity_name", nullable = false)
+    @Getter
+    @Setter
     private String activity_name;
 
     @Column(name = "co2_savings", nullable = false)
+    @Getter
+    @Setter
     private Integer co2_savings;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getActivity_name() {
-        return activity_name;
-    }
-
-    public void setActivity_name(String activity_name) {
-        this.activity_name = activity_name;
-    }
-
-    public Integer getCo2_savings() {
-        return co2_savings;
-    }
-
-    public void setCo2_savings(Integer co2_savings) {
-        this.co2_savings = co2_savings;
-    }
+    
+    
 }

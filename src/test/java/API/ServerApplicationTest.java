@@ -29,16 +29,12 @@ import java.nio.charset.Charset;
 @SpringBootTest(classes={ServerApplication.class}, webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class ServerApplicationTest{
-
-    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
-    Gson gson = new Gson();
-
-    @Autowired
-    private MockMvc mockMvc;
-
+    
     @Test
-    public void contextLoads() {
+    public void ensureServerStarts() {
+        ServerApplication.main(new String[0]);
     }
+    
     /*
     @Test
     public void all_returns_array() throws Exception {

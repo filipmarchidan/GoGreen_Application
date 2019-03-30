@@ -2,10 +2,8 @@ package gui;
 
 import client.Client;
 import com.google.gson.Gson;
-import database.ActivityTypeRepository;
 import database.entities.ActType;
 import database.entities.Activity;
-import database.entities.ActivityType;
 import database.entities.User;
 import gui.entity.TableUser;
 import javafx.collections.FXCollections;
@@ -14,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -26,24 +23,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.hibernate.annotations.Check;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 
 public class AppController {
@@ -92,19 +80,25 @@ public class AppController {
             displayActivities();
         } else if(fxmlName.equals("leaderboard")) {
             displayLeaderboard();
+        } else if (fxmlName.equals("findfriends")) {
+            displayUsers();
         }
         else {
             try {
                 borderpane.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlName + ".fxml"));
                 borderpane.setCenter(root);
-                System.out.println("Trying to set checkbox1");
-                User user = Client.findCurrentUser();
-                solar = (CheckBox)exit.getScene().lookup("#solar");
-                solar.setSelected(user.isSolarPanel());
+                
+                if(fxmlName.equals("activities")) {
+                    User user = Client.findCurrentUser();
+                    solar = (CheckBox) exit.getScene().lookup("#solar");
+                    solar.setSelected(user.isSolarPanel());
+                }
+
             } catch (IOException ex) {
                 System.out.println("File " + fxmlName + ".fxml not found");
             }
+
         }
     }
 
@@ -171,7 +165,7 @@ public class AppController {
             } else {
                 User user = Client.findCurrentUser();
                 user.setSolarPanel(false);
-                Client.updateUser(user);
+                Client.updateSolar(user);
             }
             
 
@@ -291,46 +285,67 @@ public class AppController {
         ScrollPane pane = new ScrollPane();
         pane.setPrefSize(600, 560);
         pane.setFitToWidth(true);
-        TableView<TableUser> tableView = new TableView<TableUser>();
-        ObservableList<TableUser> imgList = FXCollections.observableArrayList();
-        VBox vbox = new VBox();
-        User[] friends = client.getFriends();
         
+        
+        User[] friends = Client.getFriends();
         friends = InsertUser(friends);
         
+        VBox vbox = new VBox(15);
+        vbox.setStyle("-fx-background-color: #8ee4af");
+        vbox.setPadding(new Insets(10, 20, 10, 20));
+        vbox.setFillWidth(true);
+        vbox.setMinHeight(560);
         
+    
+        TableView<TableUser> tableView = loadTable(friends.length);
+        ObservableList<TableUser> imgList = fillTable(friends);
+        tableView.setItems(imgList);
+        vbox.getChildren().add(tableView);
+        pane.setContent(vbox);
+        pane.setStyle("-fx-font-size:15px");
+        borderpane.getChildren().removeAll();
+        borderpane.setCenter(pane);
+    }
+    
+    private TableView<TableUser> loadTable(int size) {
+        TableView<TableUser> tableView = new TableView<TableUser>();
         TableColumn<TableUser, String> rank = new TableColumn<>();
         TableColumn<TableUser, String> email = new TableColumn<>();
         TableColumn<TableUser, ImageView> achievementscolumn = new TableColumn<>();
         TableColumn<TableUser, String> score = new TableColumn<>();
         rank.setCellValueFactory(new PropertyValueFactory<TableUser, String>("rank"));
-        rank.setPrefWidth(40);
-        rank.setMaxWidth(40);
-        rank.setMinWidth(40);
-        rank.setText("rank");
+        rank.setPrefWidth(20);
+        rank.setMaxWidth(20);
+        rank.setMinWidth(20);
+        rank.setText("#");
         email.setCellValueFactory(new PropertyValueFactory<TableUser, String>("email"));
-        email.setMinWidth(200);
-        email.setMaxWidth(200);
-        email.setPrefWidth(200);
+        email.setMinWidth(190);
+        email.setMaxWidth(190);
+        email.setPrefWidth(190);
         email.setText("email");
         achievementscolumn.setCellValueFactory(new PropertyValueFactory<TableUser, ImageView>("achievements"));
-        achievementscolumn.setPrefWidth(230);
-        achievementscolumn.setMaxWidth(230);
-        achievementscolumn.setMaxWidth(230);
+        achievementscolumn.setPrefWidth(210);
+        achievementscolumn.setMaxWidth(210);
+        achievementscolumn.setMaxWidth(210);
         achievementscolumn.setText("achievements");
         score.setCellValueFactory(new PropertyValueFactory<TableUser, String>("score"));
-        score.setPrefWidth(110);
-        score.setMaxWidth(110);
-        score.setMaxWidth(110);
+        score.setPrefWidth(130);
+        score.setMaxWidth(130);
+        score.setMaxWidth(130);
         score.setText("score");
         tableView.getColumns().addAll(rank, email, achievementscolumn, score);
         tableView.setFixedCellSize(35);
-        tableView.setPrefHeight(35 * friends.length + 43);
+        tableView.setPrefHeight(35 * size + 43);
         tableView.setStyle("-fx-border-color:  #05386B;"
                 + "-fx-border-width: 3;"
-                + "-fx-border-radius: 10 10 10 10;");
-        for (int i = 0; i < Math.min(friends.length, 10); i++) {
+                + "-fx-");
+        return tableView;
+    }
     
+    private ObservableList<TableUser> fillTable(User[] friends) {
+        ObservableList<TableUser> imgList = FXCollections.observableArrayList();
+        
+        for (int i = 0; i < Math.min(friends.length, 10); i++) {
             User user = friends[i];
             System.out.println(user);
             HBox hbox = new HBox();
@@ -357,11 +372,16 @@ public class AppController {
             TableUser tableUser = new TableUser(i + 1, user.getEmail(), hbox, user.getTotalscore());
             imgList.add(tableUser);
         }
-        tableView.setItems(imgList);
-        pane.setContent(tableView);
-        pane.setStyle("-fx-font-size:15px");
-        borderpane.getChildren().removeAll();
-        borderpane.setCenter(pane);
+        return imgList;
+    }
+    
+    private void displayUsers() {
+        ScrollPane pane = new ScrollPane();
+        pane.setPrefSize(600, 560);
+        pane.setFitToWidth(true);
+    
+    
+        VBox vbox = new VBox();
     }
     
 

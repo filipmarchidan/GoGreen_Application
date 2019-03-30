@@ -53,7 +53,8 @@ public class AuthenticationTest {
     @Test
     public void authenticatedTest() throws Exception {
         
-
+        mvc.perform(formLogin().user("user1@user1.com").password("test"))
+                .andExpect(authenticated());
         
     }
     

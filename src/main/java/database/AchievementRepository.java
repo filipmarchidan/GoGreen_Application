@@ -11,7 +11,7 @@ public interface AchievementRepository extends JpaRepository<Achievement, Intege
 
     
     //List<Achievement> findById(Integer id);
-    @Query("SELECT new database.entities.Achievement(ach.achievement_name, ach.achievement_value)"
+    @Query("SELECT new database.entities.Achievement(ach.id, ach.achievement_name, ach.achievement_value)"
             + "FROM User u JOIN u.achievements ach Where u.id = :userId")
     Set<Achievement> getAchievementsFromUserId(@Param("userId") int userId);
 

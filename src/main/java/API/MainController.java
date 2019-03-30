@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -71,10 +72,11 @@ public class MainController {
 
     @PostMapping(path = "/addUser")
     public @ResponseBody String addNewUser(@RequestBody MultiValueMap<String, Object> params) {
-        
+        System.out.println(params);
         User user = new User();
         user.setEmail((String)params.getFirst("username"));
         String password = (String)params.getFirst("password");
+        System.out.println(user.getEmail());
         String hashedPassword = encoder.encode(password);
         user.setPassword(hashedPassword);
         String result = "User added successfully User[" + user.getEmail() + "] with password [" + password +"]";
@@ -96,13 +98,6 @@ public class MainController {
         User user = userRepository.findByEmail(email);
         return  user;
     }
-    
-    @GetMapping(path = "/getCurrentUser")
-    public @ResponseBody User getCurrentUser() {
-        String email = SecurityService.findLoggedInEmail();
-        User user = userRepository.findByEmail(email);
-        return user;
-    }
 
     @Secured("ROLE_USER")
     @GetMapping("/allUsers")
@@ -114,15 +109,22 @@ public class MainController {
     
     /** Finds the user and removes if present.
      *
-     * @param user User to be removed.
+     * @param params User to be removed.
      * @return the removed user OR null if no user was found
      */
     @PostMapping(path = "/removeUser")
-    public @ResponseBody User removeUser(@RequestBody User user) {
+    public @ResponseBody User removeUser(@RequestBody MultiValueMap<String, Object> params) {
+        User user = gson.fromJson((String)params.getFirst("user"),User.class);
+        System.out.println(user.getEmail());
         Optional<User> optionalUser = userRepository.findById(user.getId());
         if (optionalUser.isPresent()) {
-
-            userRepository.delete(optionalUser.get());
+            User user1 = optionalUser.get();
+            for(Activity activity : user1.getActivities()) {
+                activityRepository.deleteAll(user1.getActivities());
+            }
+            System.out.println("removing user");
+            user1.setActivities(new HashSet<Activity>());
+            userRepository.delete(user1);
             return optionalUser.get();
         }
         return null;
@@ -171,38 +173,28 @@ public class MainController {
                 Activity act = activityRepository.save(activity);
                 return act;
             }
-            return null;
+            try {
+                return (Activity) activityRepository.findSolarActivityFromUserId(user.getId()).toArray()[0];
+            } catch(ArrayIndexOutOfBoundsException e) {
+                System.out.println("Testing descepancy");
+                return activity;
+            }
         }
     }
 
     private void checkAchievements(Activity act) {
         List<Activity> activityList = activityRepository.findByUserId(act.getUser().getId());
-
-        if (activityList.size() >= 1 ) {
-
-            Set<Achievement> achievements =
+        
+        Set<Achievement> achievements =
                     achievementRepository.getAchievementsFromUserId(act.getUser().getId());
 
-            Optional<Achievement> optionalAchievement = achievementRepository.findById(0);
-
-            if (optionalAchievement.isPresent()) {
-
-                Achievement achievement = optionalAchievement.get();
-                Optional<User> user = userRepository.findById(act.getUser().getId());
-
-                if (user.isPresent()) {
-
-                    User user1 = user.get();
-                    user1.getAchievements().add(achievement);
-                    achievement.getUsers().add(user1);
+        Achievement achievement = achievementRepository.findById(0).get();
+        
+        User user = userRepository.findById(act.getUser().getId()).get();
+                    user.getAchievements().add(achievement);
+                    achievement.getUsers().add(user);
                     achievementRepository.save(achievement);
-                    userRepository.save(user1);
-                }
-            }
-
-
-
-        }
+                    userRepository.save(user);
     }
     
     @PostMapping
@@ -256,16 +248,15 @@ public class MainController {
 
     /** This is what the client can connect to, to retrieve a user's achievements.
      *
-     * @param user the user whose achievements you want
      * @return  a set of all the achievement that user earned
      */
-    @PostMapping(path = "/getachievements")
-    public @ResponseBody Achievement[] getAchievements(@RequestBody User user) {
-
+    @GetMapping(path = "/getachievements")
+    public @ResponseBody Set<Achievement> getAchievements() {
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
         Set<Achievement> achievements =
                 achievementRepository.getAchievementsFromUserId(user.getId());
-
-        return (Achievement[])achievements.toArray();
+        return achievements;
 
     }
     
@@ -290,7 +281,7 @@ public class MainController {
         getUserById - retrieves the user by id
         getAllUsers - retrieves all users from database
         deleteUser - deletes an user in the database
-        updateUser - updates a current user in the database
+        updateSolar - updates a current user in the database
         */
     /*
     //creates new user
@@ -337,58 +328,51 @@ public class MainController {
     @CrossOrigin
     @PutMapping(value = "/userId/{userId}/email/{newEmail:.+}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@PathVariable("userId")Integer userId,
+    public User updateSolar(@PathVariable("userId")Integer userId,
                            @PathVariable("newEmail")String newEmail,
                            @PathVariable("newPassword") String newPassword) {
         
-        return userService.updateUser(newEmail, newPassword, userId);
+        return userService.updateSolar(newEmail, newPassword, userId);
     }
     */
 
     /** adds a friend to the user
      *
-     * @param user the user who adds a friend
-     * @param email the email of the friend
+     * @param params user to be friended
      * @return the user who followed a friend
      */
     @PostMapping(path = "/followFriend")
-    public @ResponseBody User followFriend(@RequestBody User user, String email) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
-        User optionalfriend = userService.getUserByEmail(email);
-
-        if (optionalfriend != null) {
-            User friend = optionalfriend;
-            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
-            friends.add(friend);
-            return friend;
-        }
-        return null;
+    public @ResponseBody User followFriend(@RequestBody MultiValueMap<String, Object> params) {
+        
+        User other = gson.fromJson((String)params.getFirst("user"),User.class);
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        user.getFriends().add(other);
+        userRepository.saveAndFlush(user);
+        
+        return other;
     }
 
     /** removes a friend from the user
      *
-     * @param user the user who removes a friend
-     * @param email email of the friend to remove
+     * @param params friend to be removed
      * @return User friend friend of the user that was removed
      * @return null when user doesn't follow this friend
      */
     @PostMapping(path="/unfollowFriend")
-    public @ResponseBody User unfollowFriend(@RequestBody User user, String email) {
-        //Optional<User> optionalUser = userRepository.findById(user.getId());
-        User optionalfriend = userService.getUserByEmail(email);
-
-        if (optionalfriend != null) {
-
-            Set<User> friends = userRepository.getFriendsfromUser(user.getId());
-
-            if (friends.contains(optionalfriend)) {
-
-                friends.remove(optionalfriend);
-                return optionalfriend;
-            }
-
-            System.out.println("Defaultuser doesn't follow this user");
+    public @ResponseBody User unfollowFriend(@RequestBody MultiValueMap<String, Object> params) {
+        
+        User other = gson.fromJson((String)params.getFirst("user"),User.class);
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        Set<User> friends = userRepository.getFriendsfromUser(user.getId());
+        if (friends.contains(other)) {
+            friends.remove(other);
+            user.setFriends(friends);
+            userRepository.save(user);
+            return other;
         }
+        System.out.println("Defaultuser doesn't follow this user");
         return null;
     }
 
