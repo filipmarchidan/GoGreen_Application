@@ -96,7 +96,8 @@ public class UserTest {
        Assert.assertTrue(user1.equals(user1));
         
    }
-   
+   @Test
+   public void equalsTestFalse() {
     
        Assert.assertFalse(user1.equals(user3));
    }
@@ -106,10 +107,12 @@ public class UserTest {
     
        Assert.assertFalse(user1.equals(userNull));
    }
+   
    @Test
    public void testGetPassword(){
         Assert.assertEquals("password", user1.getPassword());
    }
+   
    @Test
    public void testGetAchievements(){
        Set<Achievement> achievementstest = new HashSet<>();
@@ -120,6 +123,7 @@ public class UserTest {
        user5.setAchievements(achievementstest);
        Assert.assertEquals(achievementstest, user5.getAchievements());
    }
+   
    @Test
    public void testFriendsGetterAndSetter()
    {
@@ -130,6 +134,7 @@ public class UserTest {
        friends.add(friend2);
        Assert.assertEquals(friends, user5.getFriends());
    }
+   
    @Test
    public void testActivityGetterAndSetter()
    {
@@ -166,6 +171,6 @@ public class UserTest {
         String string = "Not a User";
         Assert.assertFalse(user1.equals(string));
     }
-    
+    */
     
 }
