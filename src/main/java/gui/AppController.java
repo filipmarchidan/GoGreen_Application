@@ -47,19 +47,21 @@ public class AppController {
     
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
     
-    Gson gson = new Gson();
-
+    
+    @FXML
+    public Label scoreRepresentation;
+    
+    @FXML
+    public Label theScore;
+    
+    private Gson gson = new Gson();
+    
     @FXML
     private AnchorPane content;
 
     @FXML
     private BorderPane borderpane;
 
-    @FXML
-    public Label scoreRepresentation;
-
-    @FXML
-    public Label theScore;
 
     @FXML
     private Button exit;
@@ -215,27 +217,27 @@ public class AppController {
      *
      * @param event button that calls the function
      */
-
-
     @FXML
-    void refreshTotal(ActionEvent event){
+    void refreshTotal(ActionEvent event) {
         scoreRepresentation.setVisible(true);
         setTotal();
     }
     
-    /** sets the current total
+    /** sets the current total.
      *
      */
     @FXML
-    void setTotal(){
-        try{
+    void setTotal() {
+        try {
             User user = Client.findCurrentUser();
             int total = user.getTotalscore();
             String score = ((Integer) total).toString();
-            theScore.setText(score);} catch(Exception e){
+            theScore.setText(score);
+        } catch (NullPointerException e) {
             theScore.setText("No score");
         }
     }
+    
     /** Makes sure the sliders always update the numerical value.
      *
      * @param event button that calls the function

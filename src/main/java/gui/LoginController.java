@@ -103,13 +103,24 @@ public class LoginController implements Initializable {
             if (!password1.isEmpty() && !password2.isEmpty() && (password1.equals(password2))) {
                 
                 if (validatePassword(password1) == true) {
+                    
                     registerContent.setVisible(false);
                     regMenu.setVisible(false);
                     pageLabel.setText("Go Green");
                     User user = new User();
                     user.setEmail(newUsername);
                     user.setPassword(password1);
-                    Client.addUser(user);
+                    
+                    boolean result = Client.addUser(user);
+                    System.out.println(result);
+                    if (!result) {
+                       Alert alert = new Alert(Alert.AlertType.WARNING);
+                       alert.setTitle("Username in use");
+                       alert.setHeaderText(null);
+                       alert.setContentText("The email you entered is already in use! Please try something else");
+                       alert.show();
+                       return;
+                    }
                     registrationStatus.setVisible(false);
                 }
             }

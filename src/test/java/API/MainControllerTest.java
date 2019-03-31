@@ -115,16 +115,16 @@ public class MainControllerTest {
                 status().isOk()
             ).andReturn().getResponse().getContentAsString();
         System.out.println(responseBody);
-        
+        userRepository.delete(userRepository.findByEmail("alice@gmail.com"));
         if (responseBody.equals(responseBody)) {
             
-            String returnedString = responseBody.toString();
-            Assert.assertEquals(returnedString,"User added successfully User[alice@gmail.com] with password [test]");
+            boolean bool = gson.fromJson(responseBody,boolean.class);
+            Assert.assertEquals(bool,true);
             
         } else {
             fail();
         }
-        userRepository.delete(userRepository.findByEmail("alice@gmail.com"));
+        
 
     }
     

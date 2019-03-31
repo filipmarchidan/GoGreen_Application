@@ -4,9 +4,7 @@ package client;
 import com.google.gson.Gson;
 
 import database.entities.Activity;
-
 import database.entities.User;
-
 import gui.LoginController;
 
 import org.springframework.http.HttpEntity;
@@ -16,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -115,8 +115,11 @@ public class Client {
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(params, headers);
         try {
             return restTemplate.exchange(address, HttpMethod.POST, request, String.class);
-        }
-        catch (Exception e) {
+        } catch (HttpServerErrorException exception) {
+            System.out.println(exception.getClass());
+            return null;
+        } catch (HttpClientErrorException exception) {
+            System.out.println(exception.getClass());
             return null;
         }
 
@@ -222,13 +225,16 @@ public class Client {
      * @param user user
      * @return new user
      */
-    public static String addUser(User user) {
+    public static boolean addUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", user.getEmail());
         params.add("password", user.getPassword());
         //params.add("user", user);
         HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
-        return gson.fromJson(result.getBody(),String.class);
+        if(result != null){
+            return gson.fromJson(result.getBody(),boolean.class);
+        }
+        return false;
     }
     
     
@@ -243,9 +249,9 @@ public class Client {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", email);
         params.add("password", password);
-        HttpEntity<String> s = postRequest("", "http://localhost:8080/login", params);
-        if (s != null) {
-            return s.getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
+        HttpEntity<String> string = postRequest("", "http://localhost:8080/login", params);
+        if (string != null) {
+            return string.getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
         }
         return null;
     }

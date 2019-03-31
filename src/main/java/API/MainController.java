@@ -18,7 +18,6 @@ import javafx.fxml.FXML;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,7 +82,7 @@ public class MainController {
      * @return a response message.
      */
     @PostMapping(path = "/addUser")
-    public @ResponseBody String addNewUser(@RequestBody MultiValueMap<String, Object> params) {
+    public @ResponseBody boolean addNewUser(@RequestBody MultiValueMap<String, Object> params) {
         System.out.println(params);
         User user = new User();
         user.setEmail((String)params.getFirst("username"));
@@ -91,14 +90,12 @@ public class MainController {
         System.out.println(user.getEmail());
         String hashedPassword = encoder.encode(password);
         user.setPassword(hashedPassword);
-        String result = "User added successfully User[" + user.getEmail()
-            + "] with password [" + password + "]";
+       
         if (userServiceImpl.getUserByEmail(user.getEmail()) != null) {
-            System.out.println("User already exists and it couldn't be added");
-            return "Failed to add user";
+            return false;
         }
         userService.createUser(user);
-        return result;
+        return true;
     }
     
     /**
