@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="content" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppController">
+<AnchorPane fx:id="content" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppController">
    <children>
       <BorderPane fx:id="borderpane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -51,16 +51,21 @@
                         <Insets top="120.0" />
                      </VBox.margin>
                      <children>
-                        <Label fx:id="scoreRepresentation" layoutX="13.0" layoutY="14.0" prefHeight="43.0" prefWidth="146.0" stylesheets="@style.css" text="Total saved CO2" textFill="#edf5e1">
+                        <Label fx:id="scoreRepresentation" layoutX="13.0" layoutY="31.0" prefHeight="43.0" prefWidth="146.0" stylesheets="@style.css" text="Total saved CO2" textFill="#edf5e1" visible="false">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="13.0" layoutY="59.0" prefHeight="63.0" prefWidth="120.0" text="Over 9000" textFill="#edf5e1">
+                        <Label fx:id="theScore" alignment="CENTER" layoutX="13.0" layoutY="59.0" prefHeight="63.0" prefWidth="120.0" text="Please refresh" textFill="#edf5e1">
                            <font>
-                              <Font name="System Bold" size="20.0" />
+                              <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
+                        <Button layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#refreshTotal" text="refresh">
+                           <font>
+                              <Font name="System Bold" size="7.0" />
+                           </font>
+                        </Button>
                      </children>
                   </Pane>
                </children>

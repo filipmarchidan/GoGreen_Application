@@ -47,6 +47,12 @@ public class AppController {
     private BorderPane borderpane;
 
     @FXML
+    public Label scoreRepresentation;
+
+    @FXML
+    public Label theScore;
+
+    @FXML
     private Button exit;
     
     @FXML
@@ -173,6 +179,25 @@ public class AppController {
 
         }
     }
+
+
+    @FXML
+    void refreshTotal(ActionEvent event){
+        scoreRepresentation.setVisible(true);
+        setTotal();
+    }
+
+    @FXML
+    void setTotal(){
+        try{
+            User user = Client.findCurrentUser();
+            int total = user.getTotalscore();
+            String score = ((Integer) total).toString();
+            theScore.setText(score);} catch(Exception e){
+            theScore.setText("No score");
+        }
+    }
+
     @FXML
     public void updateBikeValue(Event event) {
         Slider slider = (Slider) event.getSource();
