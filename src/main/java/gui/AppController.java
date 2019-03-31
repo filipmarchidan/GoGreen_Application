@@ -56,6 +56,12 @@ public class AppController {
     private BorderPane borderpane;
 
     @FXML
+    public Label scoreRepresentation;
+
+    @FXML
+    public Label theScore;
+
+    @FXML
     private Button exit;
     
     @FXML
@@ -205,6 +211,31 @@ public class AppController {
     
     }
     
+    /** Makes sure the sliders always update the numerical value.
+     *
+     * @param event button that calls the function
+     */
+
+
+    @FXML
+    void refreshTotal(ActionEvent event){
+        scoreRepresentation.setVisible(true);
+        setTotal();
+    }
+    
+    /** sets the current total
+     *
+     */
+    @FXML
+    void setTotal(){
+        try{
+            User user = Client.findCurrentUser();
+            int total = user.getTotalscore();
+            String score = ((Integer) total).toString();
+            theScore.setText(score);} catch(Exception e){
+            theScore.setText("No score");
+        }
+    }
     /** Makes sure the sliders always update the numerical value.
      *
      * @param event button that calls the function

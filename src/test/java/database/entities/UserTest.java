@@ -107,6 +107,18 @@ public class UserTest {
     
        Assert.assertFalse(user1.equals(userNull));
    }
+    
+    @Test
+    public void equalsTestStringObject(){
+        
+        Assert.assertFalse(user1.equals("hello"));
+    }
+    
+    @Test
+    public void TestSameEmailDifferentPassword(){
+        User userx = new User("email","blah");
+        Assert.assertFalse(user1.equals(userx));
+    }
    
    @Test
    public void testGetPassword(){

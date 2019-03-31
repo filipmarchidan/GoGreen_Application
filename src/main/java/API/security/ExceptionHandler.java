@@ -14,7 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 public class ExceptionHandler {
     
     @org.springframework.web.bind.annotation.ExceptionHandler({Exception.class})
-    private ResponseEntity<String> handleAccessDeniedException (
+    private ResponseEntity<String> handleAccessDeniedException(
         AccessDeniedException ex,
         WebRequest request
     ) {

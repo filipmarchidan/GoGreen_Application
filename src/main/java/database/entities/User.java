@@ -5,13 +5,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.ManyToAny;
+
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+
+import javax.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "Users")
@@ -55,14 +66,31 @@ public class User {
     @Setter
     @JsonIgnore
     private Set<User> friends = new HashSet<>();
-
+    
+    @OneToMany(mappedBy = "user")
+    @Getter
+    @Setter
+    @JsonIgnore
+    private Set<Activity> activities;
+    
+    /**
+     * creates a new user.
+     * @param email email
+     * @param password password
+     */
     public User(String email, String password) {
         this.email = email;
         this.password = password;
         this.totalscore = 0;
         this.solarPanel = false;
     }
-
+    
+    /**
+     * creates a new user.
+     * @param email email
+     * @param id id
+     * @param totalscore totalscore
+     */
     public User(String email, int id,int totalscore) {
         this.totalscore = totalscore;
         this.email = email;
@@ -70,11 +98,6 @@ public class User {
         this.solarPanel = false;
     }
 
-    @OneToMany(mappedBy = "user")
-    @Getter
-    @Setter
-    @JsonIgnore
-    private Set<Activity> activities;
 
     @Override
     public boolean equals(Object obj) {

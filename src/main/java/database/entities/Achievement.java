@@ -7,7 +7,18 @@ import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+
+import javax.persistence.ManyToMany;
+
+import javax.persistence.Table;
+
+
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -66,7 +77,7 @@ public class Achievement {
     }
     
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return achievement_name.hashCode();
     }
 }

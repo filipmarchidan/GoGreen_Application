@@ -10,9 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.sql.DataSource;
 
 /**
@@ -43,15 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImplementation();
     }
-
-    /**
-     * PasswordEncoder bean.
-     * @return Instance of PasswordEncoder
-     */
-//    @Bean
-//    public BCryptPasswordEncoder appPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    
 
     /**
      * AuthenticationManager bean.

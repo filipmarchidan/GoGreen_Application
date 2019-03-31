@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.List;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RunWith(SpringRunner.class)
@@ -121,6 +122,17 @@ public class ClientTest {
         String sessionCookie = Client.getSessionCookie(user1.getEmail(),user1.getPassword());
         Assert.assertEquals(sessionCookie,headers.getFirst(HttpHeaders.SET_COOKIE));
 
+    }
+    
+    @Test
+    public void getFalseSessionCookieTest() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE,"blahblahsession");
+        mockServer.expect(requestTo("http://localhost:8080/login")).andRespond(withServerError());
+        
+        String sessionCookie = Client.getSessionCookie(user1.getEmail(),user1.getPassword());
+        Assert.assertEquals(sessionCookie,null);
+        
     }
     
     @Test

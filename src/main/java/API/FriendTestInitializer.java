@@ -3,10 +3,7 @@ package API;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import database.ActivityTypeRepository;
 import database.UserRepository;
-import database.entities.ActivityType;
-
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
