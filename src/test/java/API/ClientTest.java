@@ -132,6 +132,23 @@ public class ClientTest {
         Assert.assertEquals(this.users,userSet);
     }
     
+    @Test
+    public void followUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/followUser")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        
+        User user = Client.followUser(user1);
+        Assert.assertEquals(user,user1);
+    }
+    
+    @Test
+    public void unfollowUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/unfollowUser")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        
+        User user = Client.unfollowUser(user1);
+        Assert.assertEquals(user,user1);
+    }
+    
+    
     
     
     

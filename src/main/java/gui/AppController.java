@@ -379,7 +379,6 @@ public class AppController {
         pane.setPrefSize(600, 560);
         pane.setFitToWidth(true);
     
-    
         VBox vbox = new VBox();
     }
     
