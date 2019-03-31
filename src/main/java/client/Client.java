@@ -118,9 +118,6 @@ public class Client {
         } catch (HttpServerErrorException exception) {
             System.out.println(exception.getClass());
             return null;
-        } catch (HttpClientErrorException exception) {
-            System.out.println(exception.getClass());
-            return null;
         }
 
     }

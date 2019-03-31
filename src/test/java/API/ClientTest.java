@@ -105,6 +105,13 @@ public class ClientTest {
         boolean bool = Client.addUser(user1);
         Assert.assertTrue(bool);
     }
+    @Test
+    public void addFalseUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/addUser")).andRespond(withServerError());
+        boolean bool = Client.addUser(user1);
+        Assert.assertFalse(bool);
+    }
+    
     
     @Test
     public void updateSolarTest() {
