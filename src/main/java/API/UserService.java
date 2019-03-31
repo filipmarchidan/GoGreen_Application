@@ -3,7 +3,6 @@ package API;
 import database.UserRepository;
 import database.UserServiceImpl;
 import database.entities.User;
-import javafx.scene.control.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,26 +30,14 @@ public class UserService implements UserServiceImpl {
     {
         userRepository.deleteById(userId);
     }
-    public User updateUser(String newEmail, String newPassword, Integer userId)
+    public User updateUser(User user, String newEmail, String newPassword)
     {
-        User userFromDB = userRepository.findById(userId).get();
-        userFromDB.setEmail(newEmail);
-        userFromDB.setPassword(newPassword);
-        
-        User updatedUser = userRepository.save(userFromDB);
+        user.setEmail(newEmail);
+        user.setPassword(newPassword);
+        User updatedUser = userRepository.save(user);
         return updatedUser;
         
     }
     public User getUserByEmail(String email) { return userRepository.findByEmail(email); }
-    public boolean checkAvailability(String email)
-    {
-        if(userRepository.findByEmail(email) != null)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Database error");
-            alert.setContentText("User already exists");
-            return false;
-        }
-        return true;
-    }
+
 }

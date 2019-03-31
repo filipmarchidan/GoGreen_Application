@@ -2,43 +2,53 @@ package API;
 
 
 import database.UserRepository;
+import database.UserServiceImpl;
 import database.entities.User;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@DataJpaTest
+@SpringBootTest
 public class UserServiceTest {
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserServiceImpl userService;
 
-    private  UserService userService;
+     static final String email1 = "Spongebob";
+     static final String pass1 = "12345";
+     User user1 = new User();
+     User user2 = new User();
 
-    private static final String email1 = "Spongebob";
-    private static final String pass1 = "12345";
+    @Before
+    public void setup(){
+        user1.setEmail(email1);
+        user1.setPassword(pass1);
+        user2.setEmail("Trump@Donald.Orange");
+        user2.setPassword("iLoveOil");
+    }
 
     @Test
-    public void checkFindByEmail()
+    public void checkUpdateUser()
     {
-        User newUser = getOneUser();
-        User saveUser = entityManager.persist(newUser);
-        User user = userRepository.findByEmail(email1);
-        assertEquals(saveUser.getEmail(), user.getEmail());
+        User expectedUser = userRepository.save(user1);
+        User testUser = userRepository.save(user2);
+        Assert.assertFalse(expectedUser.equals(testUser));
+        User resultUser = userService.updateUser(testUser,"Spongebob","12345");
+        Assert.assertEquals(expectedUser, resultUser);
     }
-    private User getOneUser(){
-        User spongeBob = new User();
-        spongeBob.setEmail(email1);
-        spongeBob.setPassword(pass1);
-        return spongeBob;
-    }
+//    @Test
+//    public void checkDeleteUser()
+//    {
+//        User expectedUser = userRepository.save(user1);
+//        userService.deleteUser(expectedUser.getId());
+//        Assert.assertEquals(null, userRepository.findByEmail(expectedUser.getEmail()));
+//    }
 }
