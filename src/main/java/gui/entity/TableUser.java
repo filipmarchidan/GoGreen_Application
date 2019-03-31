@@ -1,8 +1,7 @@
 package gui.entity;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.layout.HBox;
 
 
@@ -13,6 +12,13 @@ public class TableUser {
     private final HBox achievements;
     private final SimpleStringProperty score;
     
+    /** constructor.
+     *
+     * @param rank the rank in the Leaderboard
+     * @param email email of the user
+     * @param achievements hbox with achievement images
+     * @param score the total score of the user
+     */
     public TableUser(int rank, String email, HBox achievements, int score) {
         this.rank = new SimpleStringProperty(Integer.toString(rank));
         this.email = new SimpleStringProperty(email);

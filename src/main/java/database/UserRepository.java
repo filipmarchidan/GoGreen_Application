@@ -22,5 +22,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             + "FROM User u JOIN u.friends fr Where u.id = :userId "
             + "ORDER BY fr.totalscore DESC")
     Set<User> getFriendsfromUser(@Param("userId") int userId);
+    
+    
+    @Query("SELECT new database.entities.User(u.email, u.id,u.totalscore)"
+            + "From User u")
+    Set<User> findUsersSimple();
+    
 
 }

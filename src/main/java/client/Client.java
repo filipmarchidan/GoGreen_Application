@@ -4,9 +4,7 @@ package client;
 import com.google.gson.Gson;
 
 import database.entities.Activity;
-
 import database.entities.User;
-
 import gui.LoginController;
 
 import org.springframework.http.HttpEntity;
@@ -16,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -113,8 +113,15 @@ public class Client {
 
         // Data attached to the request.
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(params, headers);
-
-        return restTemplate.exchange(address, HttpMethod.POST, request, String.class);
+        try {
+            return restTemplate.exchange(address, HttpMethod.POST, request, String.class);
+        } catch (HttpServerErrorException exception) {
+            System.out.println(exception.getClass());
+            return null;
+        } catch (HttpClientErrorException exception) {
+            System.out.println(exception.getClass());
+            return null;
+        }
 
     }
     
@@ -218,13 +225,16 @@ public class Client {
      * @param user user
      * @return new user
      */
-    public static User addUser(User user) {
+    public static boolean addUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", user.getEmail());
         params.add("password", user.getPassword());
         //params.add("user", user);
         HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
-        return gson.fromJson(result.getBody(),User.class);
+        if (result != null) {
+            return gson.fromJson(result.getBody(),boolean.class);
+        }
+        return false;
     }
     
     
@@ -239,11 +249,11 @@ public class Client {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", email);
         params.add("password", password);
-
-        String sessionCookie = postRequest("", "http://localhost:8080/login", params)
-            .getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
-
-        return sessionCookie;
+        HttpEntity<String> string = postRequest("", "http://localhost:8080/login", params);
+        if (string != null) {
+            return string.getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
+        }
+        return null;
     }
     
     /**
@@ -254,7 +264,7 @@ public class Client {
     public static User followUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
-        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followUser",params).getBody(),User.class);
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(),User.class);
         return user1;
     }
     
@@ -266,7 +276,7 @@ public class Client {
     public static User unfollowUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
-        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowUser",params).getBody(),User.class);
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowFriend",params).getBody(),User.class);
         return user1;
     }
     

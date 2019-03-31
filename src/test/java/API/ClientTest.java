@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.List;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RunWith(SpringRunner.class)
@@ -100,10 +101,17 @@ public class ClientTest {
     
     @Test
     public void addUserTest() {
-        mockServer.expect(requestTo("http://localhost:8080/addUser")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
-        User user = Client.addUser(user1);
-        Assert.assertEquals(user,user1);
+        mockServer.expect(requestTo("http://localhost:8080/addUser")).andRespond(withSuccess(gson.toJson(true), MediaType.APPLICATION_JSON));
+        boolean bool = Client.addUser(user1);
+        Assert.assertTrue(bool);
     }
+    @Test
+    public void addFalseUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/addUser")).andRespond(withServerError());
+        boolean bool = Client.addUser(user1);
+        Assert.assertFalse(bool);
+    }
+    
     
     @Test
     public void updateSolarTest() {
@@ -124,6 +132,17 @@ public class ClientTest {
     }
     
     @Test
+    public void getFalseSessionCookieTest() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE,"blahblahsession");
+        mockServer.expect(requestTo("http://localhost:8080/login")).andRespond(withServerError());
+        
+        String sessionCookie = Client.getSessionCookie(user1.getEmail(),user1.getPassword());
+        Assert.assertEquals(sessionCookie,null);
+        
+    }
+    
+    @Test
     public void getAllUsersTest() {
         mockServer.expect(requestTo("http://localhost:8080/allUsers")).andRespond(withSuccess(gson.toJson(users), MediaType.APPLICATION_JSON));
     
@@ -134,7 +153,7 @@ public class ClientTest {
     
     @Test
     public void followUserTest() {
-        mockServer.expect(requestTo("http://localhost:8080/followUser")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/followFriend")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
         
         User user = Client.followUser(user1);
         Assert.assertEquals(user,user1);
@@ -142,7 +161,7 @@ public class ClientTest {
     
     @Test
     public void unfollowUserTest() {
-        mockServer.expect(requestTo("http://localhost:8080/unfollowUser")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/unfollowFriend")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
         
         User user = Client.unfollowUser(user1);
         Assert.assertEquals(user,user1);

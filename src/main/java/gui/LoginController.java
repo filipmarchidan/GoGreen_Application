@@ -1,21 +1,22 @@
 package gui;
 
-import API.UserService;
 import client.Client;
 import database.entities.User;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -95,17 +96,33 @@ public class LoginController implements Initializable {
         String newUsername = emailInput.getText();
         String password1 = newPassword.getText();
         String password2 = newPasswordRepeat.getText();
-        if(!newUsername.isEmpty() && validate("Email", newUsername, "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+")){
-            if (!password1.isEmpty() && !password2.isEmpty() && (password1.equals(password2))){
-                if(validatePassword(password1) == true){
-                        registerContent.setVisible(false);
-                        regMenu.setVisible(false);
-                        pageLabel.setText("Go Green");
-                        User user = new User();
-                        user.setEmail(newUsername);
-                        user.setPassword(password1);
-                        Client.addUser(user);
-                        registrationStatus.setVisible(false);
+        
+        if (!newUsername.isEmpty() && validate("Email", newUsername,
+                "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+")) {
+            
+            if (!password1.isEmpty() && !password2.isEmpty() && (password1.equals(password2))) {
+                
+                if (validatePassword(password1) == true) {
+                    
+                    registerContent.setVisible(false);
+                    regMenu.setVisible(false);
+                    pageLabel.setText("Go Green");
+                    User user = new User();
+                    user.setEmail(newUsername);
+                    user.setPassword(password1);
+                    
+                    boolean result = Client.addUser(user);
+                    System.out.println(result);
+                    if (!result) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Username in use");
+                        alert.setHeaderText(null);
+                        alert.setContentText("The email you entered is already in use! "
+                                + "Please try something else");
+                        alert.show();
+                        return;
+                    }
+                    registrationStatus.setVisible(false);
                 }
             }
         }
@@ -114,36 +131,28 @@ public class LoginController implements Initializable {
         newPasswordRepeat.clear();
     }
 
-    /*
-    @FXML
-    public void handle_login(ActionEvent event) throws IOException {
-        Authentication authToken = new UsernamePasswordAuthenticationToken(emailInput.getText(), passwordInput.getText());
-        try {
-            authToken = authenticationManager.authenticate(authToken);
-            SecurityContextHolder.getContext().setAuthentication(authToken);
-        } catch (AuthenticationException e) {
-            System.out.println(("Login failure, please try again:"));
-            
-            return;
-        }
-    }
-    */
-    
-
-
     @FXML
     void handle_login(ActionEvent event) throws IOException {
         String email = userField.getText().trim();
         String password = passwordInput.getText().trim();
-       // String encodedPassword = passwordEncoder.encode(password);
+        //String encodedPassword = passwordEncoder.encode(password);
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", email);
         params.add("password", password);
         if (!email.isEmpty() && !password.isEmpty()) {
             
             HttpEntity<String> result = Client.postRequest("","http://localhost:8080/login", params);
-            System.out.println(result.getBody());
-            if(result.getBody().equals("not authenticated")){
+            System.out.println(result);
+            if (result == null) {
+                
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Validation Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Something went wrong, please check your credentials!");
+                alert.show();
+                return;
+            }
+            if (result.getBody().equals("not authenticated")) {
                 System.out.println("wrong credentials");
                 
             } else {
@@ -155,7 +164,6 @@ public class LoginController implements Initializable {
                 System.out.println(sessionCookie);
                 
             }
-           
             
         } else {
             System.out.println("empty credentials");
@@ -186,44 +194,52 @@ public class LoginController implements Initializable {
             UiMain.stage.setOpacity(1.0f);
         });
     }
-    private boolean validate(String field, String value, String pattern){
-        if(!value.isEmpty()){
-            Pattern p = Pattern.compile(pattern);
-            Matcher m = p.matcher(value);
-            if(m.find() && m.group().equals(value)){
+    
+    private boolean validate(String field, String value, String pattern) {
+        if (!value.isEmpty()) {
+            Pattern pattern1 = Pattern.compile(pattern);
+            Matcher matcher = pattern1.matcher(value);
+            if (matcher.find() && matcher.group().equals(value)) {
                 return true;
-            }else{
+            } else {
                 validationAlert(field);
                 return false;
             }
-        }else{
+        } else {
             validationAlert(field);
             return false;
         }
     }
-    private boolean validatePassword(String pass)
-    {
-        if(!pass.isEmpty())
-        {
-            if(pass.length() >= 8){
-                if(pass.matches("^[a-zA-Z0-9]+$"))
+    
+    private boolean validatePassword(String pass) {
+        if (!pass.isEmpty()) {
+            
+            if (pass.length() >= 8) {
+                
+                if (pass.matches("^[a-zA-Z0-9]+$")) {
                     return true;
-                else{validationAlert(pass); return false;}}
-            else{validationAlert(pass);return false;}
+                } else {
+                    validationAlert(pass);
+                    return false;
+                }
+            } else {
+                validationAlert(pass);
+                return false;
+            }
         }
         validationAlert(pass);
         return false;
     }
-    private void validationAlert(String field){
+    
+    private void validationAlert(String field) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Validation Error");
         alert.setHeaderText(null);
-        if(field.equals("Email")){
+        if (field.equals("Email")) {
             alert.setContentText("Your email is incorrect");
-        }
-        else
-        {
-            alert.setContentText("Your password must contain at least 8 character and at least 1 numbers");
+        } else {
+            alert.setContentText("Your password must contain at"
+                    + "least 8 character and at least 1 numbers");
         }
         alert.showAndWait();
     }
