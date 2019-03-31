@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @Service
 public class UserService implements UserServiceImpl {
@@ -22,7 +24,7 @@ public class UserService implements UserServiceImpl {
         return userRepository.findById(userId).get();
     }
     
-    public Iterable<User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
     

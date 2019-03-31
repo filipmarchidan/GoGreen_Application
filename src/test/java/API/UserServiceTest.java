@@ -4,6 +4,7 @@ package API;
 import database.UserRepository;
 import database.UserServiceImpl;
 import database.entities.User;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -44,11 +47,36 @@ public class UserServiceTest {
         User resultUser = userService.updateUser(testUser,"Spongebob","12345");
         Assert.assertEquals(expectedUser, resultUser);
     }
-//    @Test
-//    public void checkDeleteUser()
-//    {
-//        User expectedUser = userRepository.save(user1);
-//        userService.deleteUser(expectedUser.getId());
-//        Assert.assertEquals(null, userRepository.findByEmail(expectedUser.getEmail()));
-//    }
+    @Test
+    public void checkFindAll()
+    {
+        List<User> expected = userRepository.findAll();
+        List<User> result = userService.getAllUsers();
+        Assert.assertEquals(expected.size(),result.size());
+    }
+
+    @Test
+    public void checkDelete()
+    {
+        User user = new User("360noScope","420blazeIt");
+        userRepository.save(user);
+        List<User> before = userRepository.findAll();
+        userService.deleteUser(user.getId());
+        List<User> after = userRepository.findAll();
+        Assert.assertTrue("The numbers of users is bigger before", before.size() > after.size());
+    }
+    @Test
+    public void checkFindById()
+    {
+        userRepository.save(user1);
+        int expectedId = user1.getId();
+        Assert.assertEquals(expectedId, userService.getUserById(user1.getId()).getId());
+    }
+    @After
+    public void delete()
+    {
+      userRepository.delete(user1);
+      userRepository.delete(user2);
+    }
+
 }
