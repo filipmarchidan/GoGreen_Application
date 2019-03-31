@@ -179,14 +179,14 @@ public class Client {
         return user1;
     }
     
-    public static User addUser(User user)
+    public static String addUser(User user)
     {
        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
        params.add("username", user.getEmail());
        params.add("password", user.getPassword());
         //params.add("user", user);
        HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
-       return gson.fromJson(result.getBody(),User.class);
+       return gson.fromJson(result.getBody(),String.class);
     }
 
 

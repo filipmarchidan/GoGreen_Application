@@ -100,9 +100,9 @@ public class ClientTest {
     
     @Test
     public void addUserTest() {
-        mockServer.expect(requestTo("http://localhost:8080/addUser")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
-        User user = Client.addUser(user1);
-        Assert.assertEquals(user,user1);
+        mockServer.expect(requestTo("http://localhost:8080/addUser")).andRespond(withSuccess(gson.toJson("success"), MediaType.APPLICATION_JSON));
+        String string = Client.addUser(user1);
+        Assert.assertEquals("success",string);
     }
     
     @Test

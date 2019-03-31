@@ -251,7 +251,7 @@ public class AppController {
 
 
             active.getChildren().addAll(activity, co2Label, date, but);
-            System.out.println(a.getActivity_type() + a.getDate_time() + "!!!!!!");
+            //System.out.println(a.getActivity_type() + a.getDate_time() + "!!!!!!");
             vbox.getChildren().add(active);
         }
         scroll.setContent(vbox);
@@ -297,7 +297,7 @@ public class AppController {
         vbox.setMinHeight(560);
         
     
-        TableView<TableUser> tableView = loadTable(friends.length);
+        TableView<TableUser> tableView = loadTable(Math.min(friends.length,11));
         ObservableList<TableUser> imgList = fillTable(friends);
         tableView.setItems(imgList);
         vbox.getChildren().add(tableView);
@@ -314,9 +314,9 @@ public class AppController {
         TableColumn<TableUser, ImageView> achievementscolumn = new TableColumn<>();
         TableColumn<TableUser, String> score = new TableColumn<>();
         rank.setCellValueFactory(new PropertyValueFactory<TableUser, String>("rank"));
-        rank.setPrefWidth(20);
-        rank.setMaxWidth(20);
-        rank.setMinWidth(20);
+        rank.setPrefWidth(25);
+        rank.setMaxWidth(25);
+        rank.setMinWidth(25);
         rank.setText("#");
         email.setCellValueFactory(new PropertyValueFactory<TableUser, String>("email"));
         email.setMinWidth(190);
@@ -329,25 +329,31 @@ public class AppController {
         achievementscolumn.setMaxWidth(210);
         achievementscolumn.setText("achievements");
         score.setCellValueFactory(new PropertyValueFactory<TableUser, String>("score"));
-        score.setPrefWidth(130);
-        score.setMaxWidth(130);
-        score.setMaxWidth(130);
+        score.setPrefWidth(125);
+        score.setMaxWidth(125);
+        score.setMaxWidth(125);
         score.setText("score");
         tableView.getColumns().addAll(rank, email, achievementscolumn, score);
         tableView.setFixedCellSize(35);
-        tableView.setPrefHeight(35 * size + 43);
+        tableView.setPrefHeight(35.5f * size + 37);
         tableView.setStyle("-fx-border-color:  #05386B;"
                 + "-fx-border-width: 3;"
                 + "-fx-");
         return tableView;
     }
     
+    
     private ObservableList<TableUser> fillTable(User[] friends) {
         ObservableList<TableUser> imgList = FXCollections.observableArrayList();
-        
+        User currentUser = Client.findCurrentUser();
+        Boolean seen = false;
         for (int i = 0; i < Math.min(friends.length, 10); i++) {
             User user = friends[i];
+            if(user.equals(currentUser)) {
+                seen = true;
+            }
             System.out.println(user);
+            
             /*
             HBox hbox = new HBox();
             ImageView images = new ImageView(new Image(getClass().getResource("/images/path815.png").toExternalForm()));
@@ -374,33 +380,44 @@ public class AppController {
             TableUser tableUser = new TableUser(i + 1, user.getEmail(), null/*hbox*/, user.getTotalscore());
             imgList.add(tableUser);
         }
+        if(!seen) {
+            
+            int rank = Arrays.asList(friends).indexOf(currentUser);
+            TableUser tableUser = new TableUser(rank+1, currentUser.getEmail(),null,currentUser.getTotalscore());
+            imgList.add(tableUser);
+        }
         return imgList;
     }
+    
     
     private void displayUsers() {
         
         ScrollPane pane = new ScrollPane();
         pane.setPrefSize(600, 560);
         pane.setFitToWidth(true);
+        
         VBox vbox = new VBox();
         vbox.setFillWidth(true);
-        vbox.setMinHeight(560);
+        //vbox.setMinHeight(560);
         vbox.setStyle("-fx-background-color: #8ee4af");
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setSpacing(10);
+        
         User currentUser = Client.findCurrentUser();
         List<User> currentFriends = Arrays.asList(Client.getFriends());
         User[] allusers = Client.getUsers();
+        System.out.println(allusers.length + "AMOUNT OF USERS");
         
         int i = 0;
         while(i < allusers.length) {
             HBox hbox = new HBox();
             hbox.setSpacing(10);
             hbox.setFillHeight(true);
-            hbox.setMinWidth(440);
+            hbox.setPrefWidth(600);
             vbox.setPrefHeight(200);
             for(int j = i; j < i+2; j++) {
                 if(j < allusers.length && (allusers[j].equals(currentUser))) {
+                    System.out.println(allusers[j].getEmail() + " equals " + currentUser.getEmail() );
                     i++;
                     j++;
                 }
@@ -409,9 +426,9 @@ public class AppController {
                 innerv.setPrefWidth(270);
                 innerv.setPrefHeight(120);
                 innerv.setFillWidth(true);
-                innerv.setStyle("-fx-border-color:  #05386B;"
-                        + "-fx-border-width: 3;"
-                        + "-fx-border-radius: 10 10 10 10;");
+                innerv.setStyle("-fx-border-color: #05386B; "
+                        + "-fx-border-width: 3; "
+                        + "-fx-border-radius: 10 10 10 10;" );
                 innerv.setPadding(new Insets(10, 50, 10, 50));
                 Label email = new Label(allusers[j].getEmail());
                 email.setStyle("-fx-font-size:15px;");
@@ -432,6 +449,7 @@ public class AppController {
                         + "-fx-text-fill: #edf5e1;");
                 
                 User user = allusers[j];
+                System.out.println(allusers[j].getEmail());
                 if(!currentFriends.contains(allusers[j])) {
                     button.setText("Follow");
                     button.setOnAction(event -> {
@@ -453,13 +471,14 @@ public class AppController {
                 innerv.getChildren().addAll(email,score,button);
                 hbox.getChildren().add(innerv);
             }
-            i+= 3;
+            i+= 2;
             vbox.getChildren().add(hbox);
         }
         pane.setContent(vbox);
         borderpane.getChildren().removeAll();
         borderpane.setCenter(pane);
     }
+    
     
 
 
