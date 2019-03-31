@@ -118,6 +118,9 @@ public class Client {
         } catch (HttpServerErrorException exception) {
             System.out.println(exception.getClass());
             return null;
+        } catch (HttpClientErrorException exception) {
+            System.out.println(exception.getClass());
+            return null;
         }
 
     }
@@ -228,7 +231,7 @@ public class Client {
         params.add("password", user.getPassword());
         //params.add("user", user);
         HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
-        if(result != null){
+        if (result != null) {
             return gson.fromJson(result.getBody(),boolean.class);
         }
         return false;

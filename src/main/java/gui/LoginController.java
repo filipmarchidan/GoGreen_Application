@@ -114,12 +114,13 @@ public class LoginController implements Initializable {
                     boolean result = Client.addUser(user);
                     System.out.println(result);
                     if (!result) {
-                       Alert alert = new Alert(Alert.AlertType.WARNING);
-                       alert.setTitle("Username in use");
-                       alert.setHeaderText(null);
-                       alert.setContentText("The email you entered is already in use! Please try something else");
-                       alert.show();
-                       return;
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Username in use");
+                        alert.setHeaderText(null);
+                        alert.setContentText("The email you entered is already in use! "
+                                + "Please try something else");
+                        alert.show();
+                        return;
                     }
                     registrationStatus.setVisible(false);
                 }
