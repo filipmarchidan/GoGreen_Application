@@ -123,5 +123,21 @@ public class AppController {
     }
 
 
+<<<<<<< Updated upstream
+=======
+    @FXML
+    public static void GetAchievements
+    handle (ActionEvent event) {
+
+        if (obj=true()) {
+            Show();
+
+        } else {
+            Hide();
+        }
+    }
+
+
+>>>>>>> Stashed changes
 
 }
