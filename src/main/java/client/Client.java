@@ -32,7 +32,7 @@ public class Client {
     
     static Gson gson = new Gson();
     //private  String address;
-    private RestTemplate restTemplate;
+    private static RestTemplate restTemplate = new RestTemplate();
     private HttpHeaders headers;
     
     @Bean
@@ -86,7 +86,7 @@ public class Client {
     public static HttpEntity<String> getRequest(String sessionCookie, String address) {
 
         HttpHeaders headers = setHeaders(sessionCookie);
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
 
         // Data attached to the request.
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
@@ -99,7 +99,7 @@ public class Client {
     public static HttpEntity<String> postRequest(String sessionCookie, String address, MultiValueMap<String, Object> params) {
         
         HttpHeaders headers = setHeaders(sessionCookie);
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
 
         // Data attached to the request.
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(params, headers);
@@ -109,10 +109,10 @@ public class Client {
     }
 
 
-    public static User[] getUsers(String sessionCookie) {
+    public static User[] getUsers() {
 
 
-        HttpEntity<String> result = getRequest(sessionCookie,"http://localhost:8080/allUsers");
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/allUsers");
         
         //this getRequest returns an Iterable<User>
         //but in JSON that is basically equal to an array.
@@ -127,10 +127,10 @@ public class Client {
         return users;
     }
     
-    public static Activity[] getActivities(String sessionCookie) {
+    public static Activity[] getActivities() {
 
 
-        HttpEntity<String> result = getRequest(sessionCookie,"http://localhost:8080/activities");
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/activities");
 
         Activity[] activities = gson.fromJson(result.getBody(), Activity[].class);
         return activities;
@@ -154,7 +154,7 @@ public class Client {
     */
 
     
-    
+    /*
     public static void main(String[] args) {
 
         Client client = new Client("");
@@ -165,6 +165,8 @@ public class Client {
        // System.out.println(getActivities(sessionCookie)[0]);
 
     }
+    */
+    
     public static  User findCurrentUser() {
         HttpEntity<String> response = getRequest(LoginController.sessionCookie,"http://localhost:8080/finduser");
         return gson.fromJson(response.getBody(),User.class);
@@ -200,6 +202,9 @@ public class Client {
 
         return sessionCookie;
 
+    }
+    public static RestTemplate getRestTemplate() {
+        return restTemplate;
     }
 
 }

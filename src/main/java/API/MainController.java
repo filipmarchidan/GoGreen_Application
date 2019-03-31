@@ -39,8 +39,10 @@ import java.util.Set;
 
 @RestController
 public class MainController {
+    
     @FXML
     private Label registrationStatus;
+    
     @Autowired
     private UserRepository userRepository;
 
@@ -197,7 +199,7 @@ public class MainController {
                     userRepository.save(user);
     }
     
-    @PostMapping
+    @PostMapping(path = "/updateSolar")
     public @ResponseBody User updateSolar(@RequestBody MultiValueMap<String, Object> params) {
         
         User user = gson.fromJson((String)params.getFirst("user"),User.class);
