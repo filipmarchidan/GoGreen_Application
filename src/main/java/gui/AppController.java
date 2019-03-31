@@ -135,14 +135,18 @@ public class AppController {
 
 
     @FXML
-    void GetAchievements
+    public static void GetAchievements
     handle (ActionEvent event) {
-        if (this=true()) {
+
+        if (obj=true()) {
             Show();
+
         } else {
             Hide();
         }
     }
+
+
 
 
 
