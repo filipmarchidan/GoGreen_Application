@@ -28,18 +28,20 @@ import java.util.List;
 
 public class Client {
     
-    private static Client client = new Client("");
+    //private static Client client = new Client("");
     
     static Gson gson = new Gson();
     //private  String address;
-    private RestTemplate restTemplate;
+    private static RestTemplate restTemplate = new RestTemplate();
     private HttpHeaders headers;
     
+    /*
     @Bean
     public PasswordEncoder passwordEncoder()
     {
         return new BCryptPasswordEncoder();
     }
+    */
     
 
     public static HttpHeaders setHeaders(String sessionCookie) {
@@ -52,7 +54,7 @@ public class Client {
         return headers;
 
     }
-
+    /*
     public Client(String sessionCookie) {
         
         this.gson = new Gson();
@@ -60,11 +62,7 @@ public class Client {
         this.headers = setHeaders(sessionCookie);
 
     }
-    
-    public static Client getInstance() {
-        return client;
-        
-    }
+    */
     
     /*
     public static String getSessionCookie(String username, String password) {
@@ -86,7 +84,7 @@ public class Client {
     public static HttpEntity<String> getRequest(String sessionCookie, String address) {
 
         HttpHeaders headers = setHeaders(sessionCookie);
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
 
         // Data attached to the request.
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
@@ -99,7 +97,7 @@ public class Client {
     public static HttpEntity<String> postRequest(String sessionCookie, String address, MultiValueMap<String, Object> params) {
         
         HttpHeaders headers = setHeaders(sessionCookie);
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
 
         // Data attached to the request.
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(params, headers);
@@ -109,10 +107,10 @@ public class Client {
     }
 
 
-    public static User[] getUsers(String sessionCookie) {
+    public static User[] getUsers() {
 
 
-        HttpEntity<String> result = getRequest(sessionCookie,"http://localhost:8080/allUsers");
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/allUsers");
         
         //this getRequest returns an Iterable<User>
         //but in JSON that is basically equal to an array.
@@ -127,10 +125,10 @@ public class Client {
         return users;
     }
     
-    public static Activity[] getActivities(String sessionCookie) {
+    public static Activity[] getActivities() {
 
 
-        HttpEntity<String> result = getRequest(sessionCookie,"http://localhost:8080/activities");
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/activities");
 
         Activity[] activities = gson.fromJson(result.getBody(), Activity[].class);
         return activities;
@@ -154,7 +152,7 @@ public class Client {
     */
 
     
-    
+    /*
     public static void main(String[] args) {
 
         Client client = new Client("");
@@ -165,6 +163,8 @@ public class Client {
        // System.out.println(getActivities(sessionCookie)[0]);
 
     }
+    */
+    
     public static  User findCurrentUser() {
         HttpEntity<String> response = getRequest(LoginController.sessionCookie,"http://localhost:8080/finduser");
         return gson.fromJson(response.getBody(),User.class);
@@ -179,13 +179,14 @@ public class Client {
         return user1;
     }
     
-    public static void addUser(User user)
+    public static User addUser(User user)
     {
        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
        params.add("username", user.getEmail());
        params.add("password", user.getPassword());
         //params.add("user", user);
-       postRequest("", "http://localhost:8080/addUser", params);
+       HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
+       return gson.fromJson(result.getBody(),User.class);
     }
 
 
@@ -195,11 +196,30 @@ public class Client {
         params.add("username", email);
         params.add("password", password);
 
-        String sessionCookie = client.postRequest("", "http://localhost:8080/login", params)
+        String sessionCookie = postRequest("", "http://localhost:8080/login", params)
             .getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
 
         return sessionCookie;
-
+    }
+    
+    public static User followUser(User user) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("user",gson.toJson(user));
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followUser",params).getBody(),User.class);
+        return user1;
+    }
+    
+    
+    public static User unfollowUser(User user) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("user",gson.toJson(user));
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowUser",params).getBody(),User.class);
+        return user1;
+    }
+    
+    
+    public static RestTemplate getRestTemplate() {
+        return restTemplate;
     }
 
 }

@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class LoginController implements Initializable {
 
-    private Client client = Client.getInstance();
+    //private Client client = Client.getInstance();
     
     public static String sessionCookie;
     
@@ -104,7 +104,7 @@ public class LoginController implements Initializable {
                         User user = new User();
                         user.setEmail(newUsername);
                         user.setPassword(password1);
-                        client.addUser(user);
+                        Client.addUser(user);
                         registrationStatus.setVisible(false);
                 }
             }
@@ -141,14 +141,14 @@ public class LoginController implements Initializable {
         params.add("password", password);
         if (!email.isEmpty() && !password.isEmpty()) {
             
-            HttpEntity<String> result = client.postRequest("","http://localhost:8080/login", params);
+            HttpEntity<String> result = Client.postRequest("","http://localhost:8080/login", params);
             System.out.println(result.getBody());
             if(result.getBody().equals("not authenticated")){
                 System.out.println("wrong credentials");
                 
             } else {
                 System.out.println("User has signed in");
-                this.sessionCookie = client.getSessionCookie(email, password);
+                this.sessionCookie = Client.getSessionCookie(email, password);
                 Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
                 parent.getChildren().removeAll();
                 parent.getChildren().setAll(menu);

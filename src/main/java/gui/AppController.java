@@ -35,8 +35,7 @@ import java.util.List;
 
 
 public class AppController {
-
-    private Client client = Client.getInstance();
+    
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
     
     Gson gson = new Gson();
@@ -200,7 +199,7 @@ public class AppController {
 
 
         //TODO: FIX SESSIONCOOKIE LOCATION
-        Activity[] activities = client.getActivities(LoginController.sessionCookie);
+        Activity[] activities = Client.getActivities();
 
         /*
         HttpEntity<String> rep = Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/allActType");
@@ -380,7 +379,6 @@ public class AppController {
         pane.setPrefSize(600, 560);
         pane.setFitToWidth(true);
     
-    
         VBox vbox = new VBox();
     }
     
@@ -421,7 +419,7 @@ public class AppController {
     @FXML
     void handle_logout(ActionEvent event) throws IOException {
 
-        client.getRequest(LoginController.sessionCookie, "http://localhost:8080//logout");
+        Client.getRequest(LoginController.sessionCookie, "http://localhost:8080//logout");
         Parent login = FXMLLoader.load(getClass().getResource("/login.fxml"));
         content.getChildren().removeAll();
         content.getChildren().setAll(login);
