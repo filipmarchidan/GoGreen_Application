@@ -6,12 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
+
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "activities")
@@ -58,6 +68,14 @@ public class Activity {
         this.activity_amount = activity_amount;
         this.date_time = date_time;
     }
+    
+    /**
+     * creates an activity.
+     * @param id id
+     * @param activity_type activity_type
+     * @param activity_amount activity_amount
+     * @param date_time date_time
+     */
     public Activity(int id ,ActType activity_type,int activity_amount, String date_time) {
         this.id = id;
         this.activity_type = activity_type;
@@ -94,7 +112,8 @@ public class Activity {
 
     @Override
     public int hashCode() {
-        return activity_amount*activity_type.ordinal()*date_time.toString().hashCode();
+        return activity_amount * activity_type.ordinal() * date_time
+            .hashCode();
     }
     
    

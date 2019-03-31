@@ -1,15 +1,25 @@
 package API.security;
 
 import org.springframework.security.core.AuthenticationException;
+
 import java.io.IOException;
+
 import javax.servlet.ServletException;
+
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
+
+
 
 /**
  * Custom authentication failure handler.
  */
-public class AuthFailureHandler implements org.springframework.security.web.authentication.AuthenticationFailureHandler {
+public class AuthFailureHandler implements org.springframework.security.web.authentication
+    .AuthenticationFailureHandler {
 
     /**
      * Handles authentication failure.

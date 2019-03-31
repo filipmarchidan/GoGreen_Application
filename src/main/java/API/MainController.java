@@ -1,34 +1,34 @@
 package API;
 
 import com.google.gson.Gson;
+
+import API.security.SecurityService;
 import database.AchievementRepository;
-import API.security.SecurityService;
-import API.security.SecurityService;
 import database.ActivityRepository;
 import database.ActivityTypeRepository;
 import database.UserRepository;
 import database.UserServiceImpl;
+import database.entities.Achievement;
+import database.entities.ActType;
 import database.entities.Activity;
+import database.entities.ActivityType;
 import database.entities.User;
+
 import javafx.fxml.FXML;
-import database.entities.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 
+import java.awt.Label;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +37,15 @@ import java.util.Set;
 
 
 
+
+
+
 @RestController
 public class MainController {
+    
+    
+    Gson gson = new Gson();
+    
     
     @FXML
     private Label registrationStatus;
@@ -61,17 +68,20 @@ public class MainController {
     @Autowired
     private BCryptPasswordEncoder encoder;
     
-    Gson gson = new Gson();
+    @Autowired
+    private UserServiceImpl userServiceImpl;
     
     @Bean
     public BCryptPasswordEncoder appPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
     
-
-    @Autowired
-    private UserServiceImpl userServiceImpl;
-
+    
+    /**
+     * This pass allows to add a new User.
+     * @param params multiValueMap that contains the attributes of the user.
+     * @return a response message.
+     */
     @PostMapping(path = "/addUser")
     public @ResponseBody String addNewUser(@RequestBody MultiValueMap<String, Object> params) {
         System.out.println(params);
@@ -81,29 +91,45 @@ public class MainController {
         System.out.println(user.getEmail());
         String hashedPassword = encoder.encode(password);
         user.setPassword(hashedPassword);
-        String result = "User added successfully User[" + user.getEmail() + "] with password [" + password +"]";
-        if(userServiceImpl.getUserByEmail(user.getEmail()) != null){
+        String result = "User added successfully User[" + user.getEmail()
+            + "] with password [" + password + "]";
+        if (userServiceImpl.getUserByEmail(user.getEmail()) != null) {
             System.out.println("User already exists and it couldn't be added");
-            return "Failed to add user";}
+            return "Failed to add user";
+        }
         userService.createUser(user);
         return result;
     }
     
+    /**
+     * find a user by theirs email.
+     * @param email email
+     * @return the user.
+     */
     @GetMapping(path = "/findByEmail")
-    public @ResponseBody User findByEmail(@RequestBody String email){
+    public @ResponseBody User findByEmail(@RequestBody String email) {
         return userService.getUserByEmail(email);
     }
     
+    /**
+     * find the logged in  user.
+     * @return the logged in user.
+     */
     @GetMapping(path = "/finduser")
     public @ResponseBody User findUser() {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         return  user;
     }
-
+    
+    
+    /**
+     * retrieves a list of all users.
+     * @return a list of all users.
+     */
     @Secured("ROLE_USER")
     @GetMapping("/allUsers")
-    public @ResponseBody List<User> getAllUsers(){
+    public @ResponseBody List<User> getAllUsers() {
         
         return userRepository.findAll();
         
@@ -121,7 +147,7 @@ public class MainController {
         Optional<User> optionalUser = userRepository.findById(user.getId());
         if (optionalUser.isPresent()) {
             User user1 = optionalUser.get();
-            for(Activity activity : user1.getActivities()) {
+            for (Activity activity : user1.getActivities()) {
                 activityRepository.deleteAll(user1.getActivities());
             }
             System.out.println("removing user");
@@ -132,7 +158,7 @@ public class MainController {
         return null;
     }
 
-    /** Finds the friends of a user
+    /** Finds the friends of a user.
      *
      */
     @GetMapping(path = "/getFriends")
@@ -150,7 +176,8 @@ public class MainController {
      * @return activity actually added (proper id)
      */
     @PostMapping(path = "/addactivity")
-    public @ResponseBody Activity addNewActivity(@RequestBody MultiValueMap<String, Object> params) {
+    public @ResponseBody Activity addNewActivity(@RequestBody MultiValueMap<String,
+        Object> params) {
         
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
@@ -160,7 +187,7 @@ public class MainController {
         System.out.println(activity.getActivity_type());
         activity.setUser(user);
         
-        if(activity.getActivity_type() != ActType.solar_panel) {
+        if (activity.getActivity_type() != ActType.solar_panel) {
             //System.out.println("HELLO");
             Activity act = activityRepository.save(activity);
             checkAchievements(act);
@@ -169,15 +196,16 @@ public class MainController {
 
         } else {
 
-            if(!user.isSolarPanel()) {
+            if (!user.isSolarPanel()) {
 
                 user.setSolarPanel(true);
                 Activity act = activityRepository.save(activity);
                 return act;
             }
             try {
-                return (Activity) activityRepository.findSolarActivityFromUserId(user.getId()).toArray()[0];
-            } catch(ArrayIndexOutOfBoundsException e) {
+                return (Activity) activityRepository.findSolarActivityFromUserId(user.getId())
+                    .toArray()[0];
+            } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("Testing descepancy");
                 return activity;
             }
@@ -193,12 +221,18 @@ public class MainController {
         Achievement achievement = achievementRepository.findById(0).get();
         
         User user = userRepository.findById(act.getUser().getId()).get();
-                    user.getAchievements().add(achievement);
-                    achievement.getUsers().add(user);
-                    achievementRepository.save(achievement);
-                    userRepository.save(user);
+        user.getAchievements().add(achievement);
+        achievement.getUsers().add(user);
+        achievementRepository.save(achievement);
+        userRepository.save(user);
     }
     
+    
+    /**
+     * updates solar panels.
+     * @param params params.
+     * @return User.
+     */
     @PostMapping(path = "/updateSolar")
     public @ResponseBody User updateSolar(@RequestBody MultiValueMap<String, Object> params) {
         
@@ -213,12 +247,20 @@ public class MainController {
     private void updateScoreAdd(Activity activity) {
         //System.out.println(activity.getActivity_amount());
         //System.out.println("we get here");
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
+        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
+            .ordinal()).get();
         User user = userRepository.findByEmail(activity.getUser().getEmail());
-        user.setTotalscore(user.getTotalscore()+ activityType.getCo2_savings()*activity.getActivity_amount());
+        user.setTotalscore(user.getTotalscore() + activityType.getCo2_savings() * activity
+            .getActivity_amount());
         userRepository.save(user);
     }
-
+    
+    
+    /**
+     * removes activit.
+     * @param params params.
+     * @return boolean.
+     */
     @PostMapping(path = "/removeactivity")
     public @ResponseBody boolean removeActivity(@RequestBody MultiValueMap<String, Object> params) {
         
@@ -227,12 +269,12 @@ public class MainController {
     
         System.out.println((String)params.getFirst("activity"));
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
-        if(activity.getActivity_type() == ActType.solar_panel){
+        if (activity.getActivity_type() == ActType.solar_panel) {
             return false;
         }
         activity.setUser(user);
         
-        if (activityRepository.existsById(activity.getId())){
+        if (activityRepository.existsById(activity.getId())) {
             updateScoreRemove(activity);
             activityRepository.delete(activity);
             return true;
@@ -242,9 +284,11 @@ public class MainController {
     }
 
     private void updateScoreRemove(Activity activity) {
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type().ordinal()).get();
+        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
+            .ordinal()).get();
         User user = userRepository.findById(activity.getUser().getId()).get();
-        user.setTotalscore(user.getTotalscore() - activityType.getCo2_savings()*activity.getActivity_amount());
+        user.setTotalscore(user.getTotalscore() - activityType.getCo2_savings() * activity
+            .getActivity_amount());
         userRepository.save(user);
     }
 
@@ -262,13 +306,24 @@ public class MainController {
 
     }
     
+    
+    /**
+     * return the activities of a user.
+     * @param sessionCookie sessionCookie.
+     * @return set of activities.
+     */
     @GetMapping("/activities")
     public @ResponseBody Set<Activity> getAllActivities(String sessionCookie) {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         return activityRepository.findByUserIdSorted(user.getId());
     }
-
+    
+    
+    /**
+     * returns the actTypes.
+     * @return a list.
+     */
     @GetMapping("/allActType")
     public @ResponseBody List getAllActType() {
 
@@ -338,7 +393,8 @@ public class MainController {
     }
     */
 
-    /** adds a friend to the user
+    /**
+     * adds a friend to the user.
      *
      * @param params user to be friended
      * @return the user who followed a friend
@@ -355,13 +411,13 @@ public class MainController {
         return other;
     }
 
-    /** removes a friend from the user
+    /**
+     * removes a friend from the user.
      *
      * @param params friend to be removed
      * @return User friend friend of the user that was removed
-     * @return null when user doesn't follow this friend
      */
-    @PostMapping(path="/unfollowFriend")
+    @PostMapping(path = "/unfollowFriend")
     public @ResponseBody User unfollowFriend(@RequestBody MultiValueMap<String, Object> params) {
         
         User other = gson.fromJson((String)params.getFirst("user"),User.class);

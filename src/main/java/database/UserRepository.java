@@ -1,6 +1,5 @@
 package database;
 
-import database.entities.Achievement;
 import database.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +15,7 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findAll();
+    
     User findByEmail(String email);
 
     @Query("SELECT new database.entities.User(fr.email, fr.id,fr.totalscore)"

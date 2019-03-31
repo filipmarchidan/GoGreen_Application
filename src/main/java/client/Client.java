@@ -1,30 +1,23 @@
 package client;
 
-import API.UserService;
+
 import com.google.gson.Gson;
 
 import database.entities.Activity;
-import database.entities.ActivityType;
+
 import database.entities.User;
 
 import gui.LoginController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class Client {
     
@@ -43,7 +36,12 @@ public class Client {
     }
     */
     
-
+    
+    /**
+     * set the headers.
+     * @param sessionCookie sessionCookie
+     * @return httpHeaders
+     */
     public static HttpHeaders setHeaders(String sessionCookie) {
         
         HttpHeaders headers = new HttpHeaders();
@@ -80,7 +78,13 @@ public class Client {
         }
 
     }*/
-
+    
+    /**
+     * make a getRequest.
+     * @param sessionCookie sessionCookie
+     * @param address address
+     * @return httpEntity
+     */
     public static HttpEntity<String> getRequest(String sessionCookie, String address) {
 
         HttpHeaders headers = setHeaders(sessionCookie);
@@ -92,9 +96,17 @@ public class Client {
         return restTemplate.exchange(address, HttpMethod.GET, request, String.class);
     
     }
-
-
-    public static HttpEntity<String> postRequest(String sessionCookie, String address, MultiValueMap<String, Object> params) {
+    
+    
+    /**
+     * make a postRequest.
+     * @param sessionCookie sessionCookie
+     * @param address address
+     * @param params params
+     * @return httpEntity
+     */
+    public static HttpEntity<String> postRequest(String sessionCookie, String address,
+                                                 MultiValueMap<String, Object> params) {
         
         HttpHeaders headers = setHeaders(sessionCookie);
         //RestTemplate restTemplate = new RestTemplate();
@@ -105,8 +117,12 @@ public class Client {
         return restTemplate.exchange(address, HttpMethod.POST, request, String.class);
 
     }
-
-
+    
+    
+    /**
+     * getUsers.
+     * @return all users
+     */
     public static User[] getUsers() {
 
 
@@ -125,6 +141,11 @@ public class Client {
         return users;
     }
     
+    
+    /**
+     * getActivities.
+     * @return all activities
+     */
     public static Activity[] getActivities() {
 
 
@@ -134,7 +155,11 @@ public class Client {
         return activities;
 
     }
-
+    
+    /**
+     * getFriends.
+     * @return all friends
+     */
     public static User[] getFriends() {
 
         HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/getFriends");
@@ -165,11 +190,20 @@ public class Client {
     }
     */
     
+    /**
+     * find current user.
+     * @return user
+     */
     public static  User findCurrentUser() {
         HttpEntity<String> response = getRequest(LoginController.sessionCookie,"http://localhost:8080/finduser");
         return gson.fromJson(response.getBody(),User.class);
     }
     
+    /**
+     * update solar panels.
+     * @param user user
+     * @return user
+     */
     public static User updateSolar(User user) {
         
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
@@ -179,17 +213,27 @@ public class Client {
         return user1;
     }
     
-    public static User addUser(User user)
-    {
-       MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-       params.add("username", user.getEmail());
-       params.add("password", user.getPassword());
+    /**
+     * add a new user.
+     * @param user user
+     * @return new user
+     */
+    public static User addUser(User user) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("username", user.getEmail());
+        params.add("password", user.getPassword());
         //params.add("user", user);
-       HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
-       return gson.fromJson(result.getBody(),User.class);
+        HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
+        return gson.fromJson(result.getBody(),User.class);
     }
-
-
+    
+    
+    /**
+     * return the sessionCookie.
+     * @param email email
+     * @param password password
+     * @return sessionCookie
+     */
     public static String getSessionCookie(String email, String password) {
 
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
@@ -202,6 +246,11 @@ public class Client {
         return sessionCookie;
     }
     
+    /**
+     * follow a user.
+     * @param user user
+     * @return user
+     */
     public static User followUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
@@ -209,7 +258,11 @@ public class Client {
         return user1;
     }
     
-    
+    /**
+     * unfolow a user.
+     * @param user user
+     * @return user
+     */
     public static User unfollowUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
@@ -218,6 +271,10 @@ public class Client {
     }
     
     
+    /**
+     * get the restTemplate.
+     * @return restTemplate
+     */
     public static RestTemplate getRestTemplate() {
         return restTemplate;
     }
