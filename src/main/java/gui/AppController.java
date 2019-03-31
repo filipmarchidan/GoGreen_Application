@@ -297,8 +297,9 @@ public class AppController {
         vbox.setMinHeight(560);
         
     
-        TableView<TableUser> tableView = loadTable(Math.min(friends.length,11));
+
         ObservableList<TableUser> imgList = fillTable(friends);
+        TableView<TableUser> tableView = loadTable(Math.min(friends.length,11));
         tableView.setItems(imgList);
         vbox.getChildren().add(tableView);
         pane.setContent(vbox);
@@ -438,37 +439,52 @@ public class AppController {
                 score.setStyle("-fx-font-size:15px;");
                 score.setAlignment(Pos.CENTER);
                 score.setPrefWidth(180);
-                Button button = new Button();
-                button.setAlignment(Pos.BOTTOM_CENTER);
-                button.setPrefWidth(160);
-                button.setPadding(new Insets(10, 10, 10, 10));
-                button.setPrefHeight(50);
-                button.setStyle("-fx-background-radius: 15 15 15 15;"
+    
+                User user = allusers[j];
+                innerv.getChildren().addAll(email,score);
+                Button button1 = new Button();
+                button1.setAlignment(Pos.BOTTOM_CENTER);
+                button1.setPrefWidth(160);
+                button1.setPadding(new Insets(10, 10, 10, 10));
+                button1.setPrefHeight(50);
+                button1.setStyle("-fx-background-radius: 15 15 15 15;"
                         + "-fx-background-color: #05386B;"
                         + "-fx-font-size:19px;"
                         + "-fx-text-fill: #edf5e1;");
+    
+                button1.setText("Follow");
+    
+                Button button2 = new Button();
+                button2.setAlignment(Pos.BOTTOM_CENTER);
+                button2.setPrefWidth(160);
+                button2.setPadding(new Insets(10, 10, 10, 10));
+                button2.setPrefHeight(50);
+                button2.setStyle("-fx-background-radius: 15 15 15 15;"
+                        + "-fx-background-color: #05386B;"
+                        + "-fx-font-size:19px;"
+                        + "-fx-text-fill: #edf5e1;");
+    
+                button2.setText("Unfollow");
                 
-                User user = allusers[j];
-                System.out.println(allusers[j].getEmail());
+                button1.setOnAction(event -> {
+                    Client.followUser(user);
+                    innerv.getChildren().remove(button1);
+                    innerv.getChildren().add(button2);
+                });
+                button2.setOnAction(event -> {
+                    Client.unfollowUser(user);
+                    innerv.getChildren().remove(button2);
+                    innerv.getChildren().add(button1);
+                
+                });
+                
                 if(!currentFriends.contains(allusers[j])) {
-                    button.setText("Follow");
-                    button.setOnAction(event -> {
-                        
-                                Client.followUser(user);
-                                button.setVisible(false);
-                
-                            }
-                    );
+                    innerv.getChildren().add(button1);
                 } else {
-                    button.setText("Unfollow");
-                    button.setOnAction(event -> {
-                                Client.unfollowUser(user);
-                                button.setVisible(false);
-                
-                            }
-                    );
+                    innerv.getChildren().add(button2);
                 }
-                innerv.getChildren().addAll(email,score,button);
+                
+                //innerv.getChildren().addAll(email,score,button1);
                 hbox.getChildren().add(innerv);
             }
             i+= 2;
