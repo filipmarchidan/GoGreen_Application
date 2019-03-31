@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -39,6 +40,16 @@ public class AppController {
 
     @FXML
     private Pane homeScreen;
+
+    @FXML
+    private ImageView bronze;
+
+    @FXML
+    private void HideBronze() {
+        if (1 > 0) bronze.setVisible(true);
+    }
+
+
 
     @FXML
     private void switchScreen(ActionEvent event) {
