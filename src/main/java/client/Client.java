@@ -28,18 +28,20 @@ import java.util.List;
 
 public class Client {
     
-    private static Client client = new Client("");
+    //private static Client client = new Client("");
     
     static Gson gson = new Gson();
     //private  String address;
     private static RestTemplate restTemplate = new RestTemplate();
     private HttpHeaders headers;
     
+    /*
     @Bean
     public PasswordEncoder passwordEncoder()
     {
         return new BCryptPasswordEncoder();
     }
+    */
     
 
     public static HttpHeaders setHeaders(String sessionCookie) {
@@ -52,7 +54,7 @@ public class Client {
         return headers;
 
     }
-
+    /*
     public Client(String sessionCookie) {
         
         this.gson = new Gson();
@@ -60,11 +62,7 @@ public class Client {
         this.headers = setHeaders(sessionCookie);
 
     }
-    
-    public static Client getInstance() {
-        return client;
-        
-    }
+    */
     
     /*
     public static String getSessionCookie(String username, String password) {
@@ -181,13 +179,14 @@ public class Client {
         return user1;
     }
     
-    public static void addUser(User user)
+    public static User addUser(User user)
     {
        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
        params.add("username", user.getEmail());
        params.add("password", user.getPassword());
         //params.add("user", user);
-       postRequest("", "http://localhost:8080/addUser", params);
+       HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
+       return gson.fromJson(result.getBody(),User.class);
     }
 
 
@@ -197,7 +196,7 @@ public class Client {
         params.add("username", email);
         params.add("password", password);
 
-        String sessionCookie = client.postRequest("", "http://localhost:8080/login", params)
+        String sessionCookie = postRequest("", "http://localhost:8080/login", params)
             .getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
 
         return sessionCookie;
