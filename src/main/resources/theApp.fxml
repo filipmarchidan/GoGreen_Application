@@ -41,7 +41,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="findfriends" mnemonicParsing="false" onAction="#switchScreen" prefHeight="25.0" prefWidth="150.0" styleClass="menuButton" stylesheets="@style.css" text="Find Friends" textFill="#edf5e1">
+                  <Button fx:id="findfriends" mnemonicParsing="false" onAction="#switchScreen" prefHeight="25.0" prefWidth="150.0" styleClass="menuButton" stylesheets="@style.css" text="Manage Friends" textFill="#edf5e1">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

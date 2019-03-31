@@ -31,6 +31,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -347,6 +348,7 @@ public class AppController {
         for (int i = 0; i < Math.min(friends.length, 10); i++) {
             User user = friends[i];
             System.out.println(user);
+            /*
             HBox hbox = new HBox();
             ImageView images = new ImageView(new Image(getClass().getResource("/images/path815.png").toExternalForm()));
             images.setFitHeight(30);
@@ -368,18 +370,95 @@ public class AppController {
             hbox.getChildren().addAll(images, images2, images3, images4);
             hbox.setSpacing(4);
             hbox.setFillHeight(true);
-            TableUser tableUser = new TableUser(i + 1, user.getEmail(), hbox, user.getTotalscore());
+            */
+            TableUser tableUser = new TableUser(i + 1, user.getEmail(), null/*hbox*/, user.getTotalscore());
             imgList.add(tableUser);
         }
         return imgList;
     }
     
     private void displayUsers() {
+        
         ScrollPane pane = new ScrollPane();
         pane.setPrefSize(600, 560);
         pane.setFitToWidth(true);
-    
         VBox vbox = new VBox();
+        vbox.setFillWidth(true);
+        vbox.setMinHeight(560);
+        vbox.setStyle("-fx-background-color: #8ee4af");
+        vbox.setPadding(new Insets(10, 20, 10, 20));
+        vbox.setSpacing(10);
+        User currentUser = Client.findCurrentUser();
+        List<User> currentFriends = Arrays.asList(Client.getFriends());
+        User[] allusers = Client.getUsers();
+        
+        int i = 0;
+        while(i < allusers.length) {
+            HBox hbox = new HBox();
+            hbox.setSpacing(10);
+            hbox.setFillHeight(true);
+            hbox.setMinWidth(440);
+            vbox.setPrefHeight(200);
+            for(int j = i; j < i+2; j++) {
+                if(j < allusers.length && (allusers[j].equals(currentUser))) {
+                    i++;
+                    j++;
+                }
+                if(!(j < allusers.length)) break;
+                VBox innerv = new VBox();
+                innerv.setPrefWidth(270);
+                innerv.setPrefHeight(120);
+                innerv.setFillWidth(true);
+                innerv.setStyle("-fx-border-color:  #05386B;"
+                        + "-fx-border-width: 3;"
+                        + "-fx-border-radius: 10 10 10 10;");
+                innerv.setPadding(new Insets(10, 50, 10, 50));
+                Label email = new Label(allusers[j].getEmail());
+                email.setStyle("-fx-font-size:15px;");
+                email.setPrefWidth(270);
+                email.setAlignment(Pos.CENTER);
+                Label score = new Label("Score: " + Integer.toString(allusers[j].getTotalscore()));
+                score.setStyle("-fx-font-size:15px;");
+                score.setAlignment(Pos.CENTER);
+                score.setPrefWidth(180);
+                Button button = new Button();
+                button.setAlignment(Pos.BOTTOM_CENTER);
+                button.setPrefWidth(160);
+                button.setPadding(new Insets(10, 10, 10, 10));
+                button.setPrefHeight(50);
+                button.setStyle("-fx-background-radius: 15 15 15 15;"
+                        + "-fx-background-color: #05386B;"
+                        + "-fx-font-size:19px;"
+                        + "-fx-text-fill: #edf5e1;");
+                
+                User user = allusers[j];
+                if(!currentFriends.contains(allusers[j])) {
+                    button.setText("Follow");
+                    button.setOnAction(event -> {
+                        
+                                Client.followUser(user);
+                                button.setVisible(false);
+                
+                            }
+                    );
+                } else {
+                    button.setText("Unfollow");
+                    button.setOnAction(event -> {
+                                Client.unfollowUser(user);
+                                button.setVisible(false);
+                
+                            }
+                    );
+                }
+                innerv.getChildren().addAll(email,score,button);
+                hbox.getChildren().add(innerv);
+            }
+            i+= 3;
+            vbox.getChildren().add(hbox);
+        }
+        pane.setContent(vbox);
+        borderpane.getChildren().removeAll();
+        borderpane.setCenter(pane);
     }
     
 

@@ -100,12 +100,11 @@ public class MainController {
         User user = userRepository.findByEmail(email);
         return  user;
     }
-
-    @Secured("ROLE_USER")
+    
     @GetMapping("/allUsers")
-    public @ResponseBody List<User> getAllUsers(){
+    public @ResponseBody Set<User> getAllUsers(){
         
-        return userRepository.findAll();
+        return userRepository.findUsersSimple();
         
     }
     
@@ -345,13 +344,12 @@ public class MainController {
      */
     @PostMapping(path = "/followFriend")
     public @ResponseBody User followFriend(@RequestBody MultiValueMap<String, Object> params) {
-        
         User other = gson.fromJson((String)params.getFirst("user"),User.class);
+        other = userRepository.findByEmail(other.getEmail());
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         user.getFriends().add(other);
-        userRepository.saveAndFlush(user);
-        
+        userService.createUser(user);
         return other;
     }
 
@@ -367,11 +365,9 @@ public class MainController {
         User other = gson.fromJson((String)params.getFirst("user"),User.class);
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
-        Set<User> friends = userRepository.getFriendsfromUser(user.getId());
-        if (friends.contains(other)) {
-            friends.remove(other);
-            user.setFriends(friends);
-            userRepository.save(user);
+        if (user.getFriends().contains(other)) {
+            user.getFriends().remove(other);
+            userService.createUser(user);
             return other;
         }
         System.out.println("Defaultuser doesn't follow this user");

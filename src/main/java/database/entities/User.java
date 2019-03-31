@@ -50,7 +50,7 @@ public class User {
     @Setter
     private boolean solarPanel;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @Getter
     @Setter
     @JsonIgnore
