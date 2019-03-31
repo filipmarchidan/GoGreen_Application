@@ -1,8 +1,6 @@
 package gui;
 
 
-import client.Client;
-import database.entities.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +10,6 @@ import javafx.stage.StageStyle;
 
 public class UiMain extends Application {
     public static Stage stage = null;
-    private static User defaultUser;
 
     /** main method of the UI that instantiates the client and launches the UI elements.
      *

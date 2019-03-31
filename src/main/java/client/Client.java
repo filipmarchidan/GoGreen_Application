@@ -101,8 +101,12 @@ public class Client {
 
         // Data attached to the request.
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(params, headers);
-
-        return restTemplate.exchange(address, HttpMethod.POST, request, String.class);
+        try {
+            return restTemplate.exchange(address, HttpMethod.POST, request, String.class);
+        }
+        catch (Exception e) {
+            return null;
+        }
 
     }
 
@@ -195,11 +199,11 @@ public class Client {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", email);
         params.add("password", password);
-
-        String sessionCookie = postRequest("", "http://localhost:8080/login", params)
-            .getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
-
-        return sessionCookie;
+        HttpEntity<String> s = postRequest("", "http://localhost:8080/login", params);
+        if (s != null) {
+            return s.getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
+        }
+        return null;
     }
     
     public static User followUser(User user) {
