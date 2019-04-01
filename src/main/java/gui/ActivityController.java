@@ -39,6 +39,11 @@ public class ActivityController {
     @FXML
     private Label response;
 
+    @FXML
+    private Slider tempSlider;
+
+    @FXML
+    private Text tempDisplay;
 
     /** Adds an activity based on the button.
      *
@@ -79,6 +84,22 @@ public class ActivityController {
                     break;
                 case "temp" :
                     actType = ActType.lower_temperature;
+                    int preTempValue = (int)tempSlider.getValue();
+                    if(preTempValue == 16)
+                        amount = 5;
+                    else if(preTempValue == 17)
+                        amount = 4;
+                    else if(preTempValue == 18)
+                        amount = 3;
+                    else if(preTempValue == 19)
+                        amount = 2;
+                    else if(preTempValue == 20)
+                        amount = 1;
+                    else if (preTempValue == 21){
+                        response.setText("This is the average room temperature no points added");
+                        response.setTextFill(Color.RED);
+                        return;
+                    }
                     break;
                 default:
                     return;
@@ -181,5 +202,10 @@ public class ActivityController {
         int value = (int)slider.getValue();
         transporttext.setText(Integer.toString(value));
     }
-
+    @FXML
+    public void updateTemperatureValue(Event event) {
+        Slider slider = (Slider) event.getSource();
+        int value = (int)slider.getValue();
+        tempDisplay.setText(Integer.toString(value));
+    }
 }
