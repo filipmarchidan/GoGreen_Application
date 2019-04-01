@@ -131,6 +131,7 @@ public class AppController {
         Stage stage = (Stage) content.getScene().getWindow();
         stage.setIconified(true);
     }
+<<<<<<< HEAD
 }
 
 
@@ -143,6 +144,23 @@ public class AppController {
     //        Hide();
     //    }
     //}
+=======
+
+
+    @FXML
+    public static void GetAchievements
+    handle (ActionEvent event) {
+
+        if (obj=true()) {
+            Show();
+
+        } else {
+            Hide();
+        }
+    }
+>>>>>>> eb15031d7bfb8b45844a7b8248d070821c9852c8
+
+
 
 
 
