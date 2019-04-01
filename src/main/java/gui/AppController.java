@@ -27,8 +27,8 @@ public class AppController {
 
     private Client client = Client.getInstance();
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-    private int id = client.addUser(new User("test@blah","hellopassword")).getId();
-    
+    private int id = client.addUser(new User("test@blah", "hellopassword")).getId();
+
     @FXML
     private AnchorPane content;
 
@@ -48,7 +48,6 @@ public class AppController {
     private void HideBronze() {
         if (1 > 0) bronze.setVisible(true);
     }
-
 
 
     @FXML
@@ -79,7 +78,7 @@ public class AppController {
 
     @FXML
     void addMeal(ActionEvent event) {
-        client.addActivity(new Activity(id, ActType.vegetarian_meal,1,Activity.getDateTime()));
+        client.addActivity(new Activity(id, ActType.vegetarian_meal, 1, Activity.getDateTime()));
     }
 
     private void displayActivities() {
@@ -98,7 +97,7 @@ public class AppController {
                     + "-fx-border-width: 3;"
                     + "-fx-border-radius: 10 10 10 10;");
             active.setPrefSize(600, 50);
-            active.setPadding(new Insets(5,5,5,5));
+            active.setPadding(new Insets(5, 5, 5, 5));
             active.setAlignment(Pos.CENTER);
             Label activity = new Label("Activity: " + a.getActivity_type());
             activity.setStyle("-fx-font-size:18px;");
@@ -129,20 +128,21 @@ public class AppController {
 
     @FXML
     void minimize(ActionEvent event) {
-        Stage stage = (Stage)content.getScene().getWindow();
+        Stage stage = (Stage) content.getScene().getWindow();
         stage.setIconified(true);
     }
+}
 
 
-    @FXML
-    void GetAchievements
-    handle (ActionEvent event) {
-        if (this=true()) {
-            Show();
-        } else {
-            Hide();
-        }
-    }
+    //@FXML
+    //void GetAchievements
+    //handle (ActionEvent event) {
+    //    if (this=true()) {
+    //        Show();
+    //    } else {
+    //        Hide();
+    //    }
+    //}
 
 
 
