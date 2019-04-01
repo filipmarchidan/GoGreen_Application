@@ -4,6 +4,7 @@ package gui;
 import client.Client;
 import database.entities.User;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,6 +48,8 @@ public class UiMain extends Application {
         //Show stage
         primaryStage.show();
     }
+
+
 
 
 

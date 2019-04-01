@@ -42,12 +42,16 @@ public class AppController {
     private Pane homeScreen;
 
     @FXML
-    private ImageView bronze;
+    private ImageView gold;
 
     @FXML
-    private void HideBronze() {
-        if (1 > 0) bronze.setVisible(true);
+    private void goldopacity(){
+        if (1 > 0) {
+            gold.setOpacity(10);
+        }
     }
+
+
 
 
     @FXML
@@ -119,6 +123,7 @@ public class AppController {
     }
 
 
+
     @FXML
     void handle_logout(ActionEvent event) throws IOException {
         Parent login = FXMLLoader.load(getClass().getResource("/login.fxml"));
@@ -131,8 +136,9 @@ public class AppController {
         Stage stage = (Stage) content.getScene().getWindow();
         stage.setIconified(true);
     }
-<<<<<<< HEAD
 }
+//<<<<<<< HEAD
+
 
 
     //@FXML
@@ -144,21 +150,21 @@ public class AppController {
     //        Hide();
     //    }
     //}
-=======
+//=======
 
 
-    @FXML
-    public static void GetAchievements
-    handle (ActionEvent event) {
+    //@FXML
+    //public static void GetAchievements
+  //  handle (ActionEvent event) {
 
-        if (obj=true()) {
-            Show();
+    //    if (obj=true()) {
+         //   Show();
 
-        } else {
-            Hide();
-        }
-    }
->>>>>>> eb15031d7bfb8b45844a7b8248d070821c9852c8
+    //    } else {
+ //           Hide();
+    //    }
+  //  }
+//>>>>>>> eb15031d7bfb8b45844a7b8248d070821c9852c8
 
 
 
