@@ -1,11 +1,12 @@
 package gui;
 
-import client.Client;
 import com.google.gson.Gson;
+
+import client.Client;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
-import gui.LoginController;
+
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -13,12 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -41,6 +39,11 @@ public class ActivityController {
     @FXML
     private Label response;
 
+
+    /** Adds an activity based on the button.
+     *
+     * @param event button trigger
+     */
     @FXML
     void addActivity(ActionEvent event) {
         if (event.getSource() instanceof  Button) {
@@ -119,9 +122,9 @@ public class ActivityController {
 
     }
 
-    /** Displays a response when an activity gets added
+    /** Displays a response when an activity gets added.
      *
-     * @param activity the activity added
+     * @param activity @param activity the activity added
      */
     private void displayResponse(Activity activity) {
         String actType = activity.getActivity_type().toString();
@@ -151,6 +154,8 @@ public class ActivityController {
                 response.setText("Your total co2 saved will increase overtime!");
                 response.setTextFill(Color.BLACK);
                 break;
+            default:
+                return;
         }
         return;
     }

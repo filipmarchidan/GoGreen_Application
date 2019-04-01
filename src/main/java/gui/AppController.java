@@ -3,7 +3,6 @@ package gui;
 import com.google.gson.Gson;
 
 import client.Client;
-import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
 import gui.entity.TableUser;
@@ -11,7 +10,6 @@ import gui.entity.TableUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -33,8 +30,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -71,7 +68,10 @@ public class AppController implements Initializable {
     @FXML
     private Pane homeScreen;
 
-
+    /** This method is called before the fxml file gets loaded.
+     *
+     *
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         User user = Client.findCurrentUser();
@@ -143,7 +143,7 @@ public class AppController implements Initializable {
      *
      */
     @FXML
-    void refreshTotal(){
+    void refreshTotal() {
         User user = Client.findCurrentUser();
         scoreRepresentation.setText(Integer.toString(user.getTotalscore()));
     }
