@@ -368,6 +368,8 @@ public class AppController {
         ScrollPane pane = new ScrollPane();
         pane.setPrefSize(600, 560);
         pane.setFitToWidth(true);
+        
+        
         User[] friends = Client.getFriends();
         friends = insertUser(friends);
         
@@ -386,7 +388,7 @@ public class AppController {
         pane.setContent(vbox);
         pane.setStyle("-fx-font-size:15px");
         borderpane.getChildren().removeAll();
-        borderpane.setCenter(vbox);
+        borderpane.setCenter(pane);
     }
     
     /** Prepares the leaderboard table based on the amount of friends.
@@ -600,7 +602,6 @@ public class AppController {
             index += 2;
             vbox.getChildren().add(hbox);
         }
-        vbox.setMinHeight(560);
         pane.setContent(vbox);
         borderpane.getChildren().removeAll();
         borderpane.setCenter(pane);

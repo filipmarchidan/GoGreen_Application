@@ -9,30 +9,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppController">
+<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ActivityController">
    <children>
-      <Button fx:id="vegetarian" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="244.0" text="Eat a &#10;vegetarian meal" textAlignment="CENTER">
+      <Button fx:id="vegetarian" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="116.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="85.0" prefWidth="244.0" text="Eat a &#10;vegetarian meal" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="22.0" />
          </font></Button>
-      <Label layoutX="181.0" text="Add Activities">
+      <Label layoutX="171.0" layoutY="14.0" text="Add Activities">
          <font>
             <Font size="43.0" />
          </font>
       </Label>
-      <Button fx:id="transport" layoutX="342.0" layoutY="242.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="244.0" text="Take public &#10;transport" textAlignment="CENTER">
+      <Button fx:id="transport" layoutX="342.0" layoutY="242.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="85.0" prefWidth="244.0" text="Take public &#10;transport" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="22.0" />
          </font>
       </Button>
-      <Button fx:id="bike" layoutX="342.0" layoutY="116.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="244.0" text="Travel by Bike&#10;instead of car" textAlignment="CENTER">
+      <Button fx:id="bike" layoutX="342.0" layoutY="116.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="85.0" prefWidth="244.0" text="Travel by Bike&#10;instead of car" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="22.0" />
          </font>
       </Button>
-      <Button fx:id="local" layoutX="14.0" layoutY="233.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="109.0" prefWidth="244.0" text="Buy local &#10;Produce" textAlignment="CENTER">
+      <Button fx:id="local" layoutX="14.0" layoutY="242.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="85.0" prefWidth="244.0" text="Buy local &#10;Produce" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="22.0" />
          </font>
       </Button>
       <Label layoutX="104.0" layoutY="76.0" text="Food">
@@ -45,31 +45,36 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <Label layoutX="258.0" layoutY="365.0" text="Energy">
+      <Label layoutX="259.0" layoutY="343.0" text="Energy">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
-      <Button fx:id="temp" layoutX="14.0" layoutY="405.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="109.0" prefWidth="244.0" text="Lower the&#10;temperature&#10;in your house" textAlignment="CENTER">
+      <Button fx:id="temp" layoutX="14.0" layoutY="383.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="109.0" prefWidth="244.0" text="Lower the&#10;temperature&#10;in your house" textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-      <BorderPane layoutX="342.0" layoutY="405.0" prefHeight="109.0" prefWidth="244.0" style="-fx-background-color: #5CDB95;">
+      <BorderPane layoutX="342.0" layoutY="383.0" prefHeight="109.0" prefWidth="244.0" style="-fx-background-color: #5CDB95;">
          <center>
-            <CheckBox  id="solar" fx:id="solar" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="192.0" text="I have solar &#10;panels installed" BorderPane.alignment="CENTER">
+            <CheckBox id="solar" fx:id="solar" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="192.0" text="I have solar &#10;panels installed" BorderPane.alignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>
             </CheckBox>
          </center>
       </BorderPane>
-      <Slider fx:id="bikeslider" layoutX="343.0" layoutY="219.0" max="50.0" onContextMenuRequested="#updateBikeValue" onDragDetected="#updateBikeValue" onDragDone="#updateBikeValue" onDragDropped="#updateBikeValue" onDragEntered="#updateBikeValue" onDragExited="#updateBikeValue" onDragOver="#updateBikeValue" onMouseClicked="#updateBikeValue" onMouseDragged="#updateBikeValue" onMouseEntered="#updateBikeValue" onMouseExited="#updateBikeValue" onMouseMoved="#updateBikeValue" prefHeight="14.0" prefWidth="166.0" />
-      <Slider fx:id="transportslider" layoutX="343.0" layoutY="343.0" onContextMenuRequested="#updateTransportValue" onDragDetected="#updateTransportValue" onDragDone="#updateTransportValue" onDragDropped="#updateTransportValue" onDragEntered="#updateTransportValue" onDragExited="#updateTransportValue" onDragOver="#updateTransportValue" onMouseClicked="#updateTransportValue" onMouseDragged="#updateTransportValue" onMouseEntered="#updateTransportValue" onMouseExited="#updateTransportValue" onMouseMoved="#updateTransportValue" prefHeight="14.0" prefWidth="166.0" />
+      <Slider fx:id="bikeslider" layoutX="343.0" layoutY="203.0" max="50.0" onContextMenuRequested="#updateBikeValue" onDragDetected="#updateBikeValue" onDragDone="#updateBikeValue" onDragDropped="#updateBikeValue" onDragEntered="#updateBikeValue" onDragExited="#updateBikeValue" onDragOver="#updateBikeValue" onMouseClicked="#updateBikeValue" onMouseDragged="#updateBikeValue" onMouseEntered="#updateBikeValue" onMouseExited="#updateBikeValue" onMouseMoved="#updateBikeValue" prefHeight="14.0" prefWidth="166.0" />
+      <Slider fx:id="transportslider" layoutX="343.0" layoutY="328.0" onContextMenuRequested="#updateTransportValue" onDragDetected="#updateTransportValue" onDragDone="#updateTransportValue" onDragDropped="#updateTransportValue" onDragEntered="#updateTransportValue" onDragExited="#updateTransportValue" onDragOver="#updateTransportValue" onMouseClicked="#updateTransportValue" onMouseDragged="#updateTransportValue" onMouseEntered="#updateTransportValue" onMouseExited="#updateTransportValue" onMouseMoved="#updateTransportValue" prefHeight="14.0" prefWidth="166.0" />
       <Text layoutX="563.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text layoutX="563.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Km" />
-      <Text layoutX="563.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Km" />
-      <Text fx:id="biketext" layoutX="520.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-      <Text fx:id="transporttext" layoutX="520.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+      <Text layoutX="546.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Km" />
+      <Text layoutX="546.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Km" />
+      <Text fx:id="biketext" layoutX="520.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+      <Text fx:id="transporttext" layoutX="520.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+      <Label fx:id="response" alignment="CENTER" layoutX="14.0" layoutY="506.0" prefHeight="40.0" prefWidth="569.0">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

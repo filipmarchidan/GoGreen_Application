@@ -51,21 +51,16 @@
                         <Insets top="120.0" />
                      </VBox.margin>
                      <children>
-                        <Label fx:id="scoreRepresentation" layoutX="13.0" layoutY="31.0" prefHeight="43.0" prefWidth="146.0" stylesheets="@style.css" text="Total saved CO2" textFill="#edf5e1" visible="false">
+                        <Label fx:id="scoreRepresentation" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="68.0" prefHeight="43.0" prefWidth="132.0" stylesheets="@style.css" textAlignment="CENTER" textFill="#edf5e1">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Label fx:id="theScore" alignment="CENTER" layoutX="13.0" layoutY="59.0" prefHeight="63.0" prefWidth="120.0" text="Please refresh" textFill="#edf5e1">
+                        <Label fx:id="scoreRepresentation1" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="25.0" prefHeight="20.0" prefWidth="132.0" stylesheets="@style.css" text="Total co2 saved:" textAlignment="CENTER" textFill="#edf5e1">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Button layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#refreshTotal" text="refresh">
-                           <font>
-                              <Font name="System Bold" size="7.0" />
-                           </font>
-                        </Button>
                      </children>
                   </Pane>
                </children>
