@@ -368,8 +368,6 @@ public class AppController {
         ScrollPane pane = new ScrollPane();
         pane.setPrefSize(600, 560);
         pane.setFitToWidth(true);
-        
-        
         User[] friends = Client.getFriends();
         friends = insertUser(friends);
         
@@ -388,7 +386,7 @@ public class AppController {
         pane.setContent(vbox);
         pane.setStyle("-fx-font-size:15px");
         borderpane.getChildren().removeAll();
-        borderpane.setCenter(pane);
+        borderpane.setCenter(vbox);
     }
     
     /** Prepares the leaderboard table based on the amount of friends.
@@ -425,18 +423,17 @@ public class AppController {
         
         TableColumn<TableUser, String> score = new TableColumn<>();
         score.setCellValueFactory(new PropertyValueFactory<TableUser, String>("score"));
-        score.setPrefWidth(125);
-        score.setMaxWidth(125);
-        score.setMaxWidth(125);
+        score.setPrefWidth(118);
+        score.setMaxWidth(118);
+        score.setMaxWidth(118);
         score.setText("score");
         
         TableView<TableUser> tableView = new TableView<TableUser>();
         tableView.getColumns().addAll(rank, email, achievementscolumn, score);
         tableView.setFixedCellSize(35);
-        tableView.setPrefHeight(35.5f * size + 37);
+        tableView.setPrefHeight(35.8f * size + 38);
         tableView.setStyle("-fx-border-color:  #05386B;"
-                + "-fx-border-width: 3;"
-                + "-fx-");
+                + "-fx-border-width: 3;");
         
         return tableView;
     }
@@ -509,11 +506,11 @@ public class AppController {
         
         VBox vbox = new VBox();
         vbox.setFillWidth(true);
-        //vbox.setMinHeight(560);
+
         vbox.setStyle("-fx-background-color: #8ee4af");
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setSpacing(10);
-        
+
         User currentUser = Client.findCurrentUser();
         List<User> currentFriends = Arrays.asList(Client.getFriends());
         User[] allusers = Client.getUsers();
@@ -525,7 +522,7 @@ public class AppController {
             hbox.setSpacing(10);
             hbox.setFillHeight(true);
             hbox.setPrefWidth(600);
-            vbox.setPrefHeight(200);
+            //hbox.setPrefHeight(200);
             for (int j = index; j < index + 2; j++) {
                 if (j < allusers.length && (allusers[j].equals(currentUser))) {
                     System.out.println(allusers[j].getEmail()
@@ -603,6 +600,7 @@ public class AppController {
             index += 2;
             vbox.getChildren().add(hbox);
         }
+        vbox.setMinHeight(560);
         pane.setContent(vbox);
         borderpane.getChildren().removeAll();
         borderpane.setCenter(pane);
