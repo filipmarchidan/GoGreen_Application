@@ -3,7 +3,6 @@ package gui;
 import com.google.gson.Gson;
 
 import client.Client;
-import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
 import gui.entity.TableUser;
@@ -11,9 +10,9 @@ import gui.entity.TableUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -21,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,27 +30,26 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
-public class AppController {
+public class AppController implements Initializable {
     
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
     
     
     @FXML
     public Label scoreRepresentation;
-    
-    @FXML
-    public Label theScore;
     
     private Gson gson = new Gson();
     
@@ -62,7 +59,6 @@ public class AppController {
     @FXML
     private BorderPane borderpane;
 
-
     @FXML
     private Button exit;
     
@@ -71,18 +67,25 @@ public class AppController {
     
     @FXML
     private Pane homeScreen;
-    
-    @FXML
-    private Slider transportslider;
-    
-    @FXML
-    private Text transporttext;
-    
-    @FXML
-    private Slider bikeslider;
-    
-    @FXML
-    private Text biketext;
+
+    /** This method is called before the fxml file gets loaded.
+     *
+     *
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        User user = Client.findCurrentUser();
+        scoreRepresentation.setText(Integer.toString(user.getTotalscore()));
+        borderpane.getChildren().removeAll();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/activities.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        borderpane.setCenter(root);
+        borderpane.setCenter(homeScreen);
+    }
     
     /** Oversees the switching of scenes.
      *
@@ -98,10 +101,13 @@ public class AppController {
             borderpane.setCenter(homeScreen);
         } else if (fxmlName.equals("history")) {
             displayActivities();
+            refreshTotal();
         } else if (fxmlName.equals("leaderboard")) {
             displayLeaderboard();
+            refreshTotal();
         } else if (fxmlName.equals("findfriends")) {
             displayUsers();
+            refreshTotal();
         } else {
             try {
                 borderpane.getChildren().removeAll();
@@ -113,7 +119,7 @@ public class AppController {
                     solar = (CheckBox) exit.getScene().lookup("#solar");
                     solar.setSelected(user.isSolarPanel());
                 }
-
+                refreshTotal();
             } catch (IOException ex) {
                 System.out.println("File " + fxmlName + ".fxml not found");
             }
@@ -131,135 +137,17 @@ public class AppController {
         Stage stage = (Stage) exit.getScene().getWindow();
         stage.close();
     }
-    
-    /** Adds an activity based on the button.
-     *
-     * @param event button trigger
-     */
-    @FXML
-    void addActivity(ActionEvent event) {
-        if (event.getSource() instanceof  Button) {
-            Button button = (Button) event.getSource();
-            ActType actType = null;
-            int amount = 1;
-            switch (button.getId()) {
-                case "vegetarian" :
-                    actType = ActType.vegetarian_meal;
-                    break;
-                case "bike" :
-                    actType = ActType.bike;
-                    amount = (int)bikeslider.getValue();
-                    if (amount == 0) {
-                        //TODO: add buzzer sound or something?
-                        return;
-                    }
-                    break;
-                case "local" :
-                    actType = ActType.local_produce;
-                    break;
-                case "transport" :
-                    actType = ActType.public_transport;
-                    amount = (int)transportslider.getValue();
-                    if (amount == 0) {
-                        //TODO: add buzzer sound or something?
-                        return;
-                    }
-                    break;
-                case "temp" :
-                    actType = ActType.lower_temperature;
-                    break;
-                default:
-                    return;
-            }
-    
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
-            Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
-            
-            //TODO: Add response to user
 
-        } else if (event.getSource() instanceof CheckBox) {
-            handleSolarActivity(event);
-        }
-    }
-    
-    /** Makes sure the client properly deals with a solar activity.
-     *
-     * @param event checkbox that calls the function
-     */
-    private void handleSolarActivity(Event event) {
-        CheckBox checkbox = (CheckBox) event.getSource();
-        if (checkbox.isSelected()) {
-        
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(ActType.solar_panel,
-                    1,Activity.getCurrentDateTimeString());
-            
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,
-                    "http://localhost:8080/addactivity",params);
-        
-        } else {
-            User user = Client.findCurrentUser();
-            user.setSolarPanel(false);
-            Client.updateSolar(user);
-        }
-    
-    
-    
-        //TODO: Add response to user
-    
-    }
-    
     /** Makes sure the sliders always update the numerical value.
      *
-     * @param event button that calls the function
-     */
-    @FXML
-    void refreshTotal(ActionEvent event) {
-        scoreRepresentation.setVisible(true);
-        setTotal();
-    }
-    
-    /** sets the current total.
      *
      */
     @FXML
-    void setTotal() {
-        try {
-            User user = Client.findCurrentUser();
-            int total = user.getTotalscore();
-            String score = ((Integer) total).toString();
-            theScore.setText(score);
-        } catch (NullPointerException e) {
-            theScore.setText("No score");
-        }
+    void refreshTotal() {
+        User user = Client.findCurrentUser();
+        scoreRepresentation.setText(Integer.toString(user.getTotalscore()));
     }
-    
-    /** Makes sure the sliders always update the numerical value.
-     *
-     * @param event button that calls the function
-     */
-    @FXML
-    public void updateBikeValue(Event event) {
-        Slider slider = (Slider) event.getSource();
-        int value = (int)slider.getValue();
-        biketext.setText(Integer.toString(value));
-    }
-    
-    /** Makes sure the sliders always update the numerical value.
-     *
-     * @param event button that calls the function
-     */
-    @FXML
-    public void updateTransportValue(Event event) {
-        Slider slider = (Slider) event.getSource();
-        int value = (int)slider.getValue();
-        transporttext.setText(Integer.toString(value));
-    }
-    
+
     /** Retrieves and displays all the activities of the user.
      *
      */
@@ -286,7 +174,7 @@ public class AppController {
 
         for (Activity a : activities) {
             HBox active = new HBox(0);
-            active.setStyle("-fx-border-color:  #05386B;"
+            active.setStyle("-fx-border-color: #05386B;"
                     + "-fx-border-width: 3;"
                     + "-fx-border-radius: 10 10 10 10;");
             active.setPrefSize(600, 50);
@@ -435,8 +323,7 @@ public class AppController {
         tableView.setFixedCellSize(35);
         tableView.setPrefHeight(35.5f * size + 37);
         tableView.setStyle("-fx-border-color:  #05386B;"
-                + "-fx-border-width: 3;"
-                + "-fx-");
+                + "-fx-border-width: 3;");
         
         return tableView;
     }
@@ -513,6 +400,7 @@ public class AppController {
         vbox.setStyle("-fx-background-color: #8ee4af");
         vbox.setPadding(new Insets(10, 20, 10, 20));
         vbox.setSpacing(10);
+        vbox.setMinHeight(560);
         
         User currentUser = Client.findCurrentUser();
         List<User> currentFriends = Arrays.asList(Client.getFriends());
