@@ -1,42 +1,76 @@
 .menuButton:hover {
-     -fx-scale-y: 1.2;
-     -fx-scale-x: 1.2;
+     -fx-scale-y: 1.07;
+     -fx-scale-x: 1.07;
 }
 .menuButton:pressed {
-     -fx-scale-y: 1;
-     -fx-scale-x: 1;
+     -fx-scale-y: 0.95;
+     -fx-scale-x: 0.95;
 }
+
+.topButton:hover {
+     -fx-scale-y: 1.07;
+     -fx-scale-x: 1.07;
+}
+.topButton:pressed {
+     -fx-scale-y: 0.95;
+     -fx-scale-x: 0.95;
+}
+
 .exit:hover {
     -fx-background-color: #f23a3a;
 }
-.minimizeButton:hover {
- -fx-background-color: #daea25;
-}
 .menuButton {
- -fx-background-color: #05386B;
+ -fx-background-color:  #379683;
  -fx-background-radius: 5 5 5 5;
 }
 .topButton{
- -fx-background-color: #5CDB95;
+ -fx-background-color: #05386B;
  -fx-background-radius: 3 3 3 3;
 }
 .appMenu {
--fx-background-color: #8ee4af;
+-fx-background-color: #5CDB95;
 }
+
+.errorMessage{
+ -fx-background-color: #f23a3a;
+ -fx-background-radius: 3 3 3 3;
+ }
+
 .topBar{
- -fx-background-color:  #05386B;
+ -fx-background-color:  #EDF5E1;
 }
 .sideBar{
--fx-background-color: #5CDB95;
+-fx-background-color: #05386B;
 }
 .loginMenu {
 -fx-background-radius: 5 5 5 5;
 }
 .loginButton: hover {
-  -fx-scale-y: 1.2;
+  -fx-scale-y: 1.07;
   -fx-scale-x: 1.07;
 }
 .loginButton {
  -fx-background-color: #05386B;
  -fx-background-radius: 5 5 5 5;
+ }
+
+.showScore {
+ -fx-background-color: #379683;
+ -fx-background-radius: 9 9 9 9;
+ }
+
+ .table-row-cell:odd {
+ -fx-background-color: #4BCA84;
+ }
+
+ .table-row-cell:even {
+ -fx-background-color: #5CDB95;
+ }
+
+ .table-view .column-header-background {
+  -fx-background-color: #379683;
+ }
+
+ .table-view .column-header {
+     -fx-background-color: #379683;
  }

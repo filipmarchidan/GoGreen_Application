@@ -1,157 +1,292 @@
 package client;
 
+
 import com.google.gson.Gson;
 
 import database.entities.Activity;
 import database.entities.User;
+import gui.LoginController;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 
-/** This client class is able to send request to different routes.
- *
- */
 public class Client {
     
-    private static Client client;
+    //private static Client client = new Client("");
     
-    Gson gson;
-    private  String address;
-    private RestTemplate restTemplate;
+    static Gson gson = new Gson();
+    //private  String address;
+    private static RestTemplate restTemplate = new RestTemplate();
     private HttpHeaders headers;
     
-    /** constructor for the client application.
-     *
-     * @param serverAdress server the client links to
-     */
-    public Client(String serverAdress) {
-        
-        gson = new Gson();
-        //instantiate the variables, template and headers.
-        address = serverAdress;
-        restTemplate = new RestTemplate();
-        headers = new HttpHeaders();
-        
-        
-        headers.add("Content-Type","application/json");
-        headers.add("Accept", "*/*");
-        
-        // Request to return JSON format
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
-        
-    }
-    
-    public static Client createInstance(String address) {
-        client = new Client(address);
-        return client;
-    }
-    
-    public static Client getInstance() {
-        return client;
-        
-    }
-    
-    
-    private String getRequest(String endpoint,Object obj) {
-        
-        String json = gson.toJson(obj);
-        HttpEntity<String> request = new HttpEntity<String>(json,headers);
-        
-        // Send request with GET method, and Headers.
-        ResponseEntity<String> response = restTemplate.exchange(
-                address + endpoint,HttpMethod.GET, request, String.class);
-        
-        String result = response.getBody();
-        
-        return result;
-    }
-    
-    private String postRequest(String endpoint, Object obj) {
-        
-        String json = gson.toJson(obj);
-        HttpEntity<String> request = new HttpEntity<String>(json,headers);
-        
-        // Send request with POST method, and Headers.
-        ResponseEntity<String> response = restTemplate.exchange(
-                address + endpoint,HttpMethod.POST, request, String.class);
-        
-        String result = response.getBody();
-        
-        return result;
-    }
-    
     /*
-    public static void main(String[] args) {
-        
-        Client client = new Client("http://localhost:8080/");
-        
-        //System.out.println(client.getRequest("all", null));
-        //System.out.println(client.getUsers());
-        //System.out.println(LocalDateTime.now());
-        client.addActivity(new Activity(1,"vegetarian_meal",50,Activity.getDateTime()));
-        System.out.println(client.postRequest("add", new User("asjhfv", "skldfgfja")));
-        //System.out.println(client.getRequest("all", null));
-        //client.postRequest("add", new User("jv#2r","5wew5fs"));
-        System.out.println(client.getActivities());
-        
-        
+    @Bean
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
     }
     */
     
     
-    /** Adds an Activity to the Server.
-     *
-     * @param activity Activity to be added
+    /**
+     * set the headers.
+     * @param sessionCookie sessionCookie
+     * @return httpHeaders
      */
-    public Activity addActivity(Activity activity) {
+    public static HttpHeaders setHeaders(String sessionCookie) {
         
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.add("Cookie", sessionCookie);
         
-        String result = postRequest("addactivity",activity);
-        Activity activity1 = gson.fromJson(result,Activity.class);
-        return activity1;
+        return headers;
+
+    }
+    /*
+    public Client(String sessionCookie) {
+        
+        this.gson = new Gson();
+        this.restTemplate = new RestTemplate();
+        this.headers = setHeaders(sessionCookie);
+
+    }
+    */
+    
+    /*
+    public static String getSessionCookie(String username, String password) {
+        
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("username", username);
+        params.add("password", password);
+        
+        HttpEntity<Response> response = HttpRequests.postRequest("", url_login, params);
+        HttpHeaders responseHeaders = response.getHeaders();
+        if (responseHeaders.getFirst(HttpHeaders.SET_COOKIE) != null) {
+            return responseHeaders.getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
+        } else {
+            return "No cookie found.";
+        }
+
+    }*/
+    
+    /**
+     * make a getRequest.
+     * @param sessionCookie sessionCookie
+     * @param address address
+     * @return httpEntity
+     */
+    public static HttpEntity<String> getRequest(String sessionCookie, String address) {
+
+        HttpHeaders headers = setHeaders(sessionCookie);
+        //RestTemplate restTemplate = new RestTemplate();
+
+        // Data attached to the request.
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(address, HttpMethod.GET, request, String.class);
+    
     }
     
-    /** Method that requests the leaderboard from the server.
-     *
-     */
     
-    public User[] getUsers() {
+    /**
+     * make a postRequest.
+     * @param sessionCookie sessionCookie
+     * @param address address
+     * @param params params
+     * @return httpEntity
+     */
+    public static HttpEntity<String> postRequest(String sessionCookie, String address,
+                                                 MultiValueMap<String, Object> params) {
+        
+        HttpHeaders headers = setHeaders(sessionCookie);
+        //RestTemplate restTemplate = new RestTemplate();
+
+        // Data attached to the request.
+        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(params, headers);
+        try {
+            return restTemplate.exchange(address, HttpMethod.POST, request, String.class);
+        } catch (HttpServerErrorException exception) {
+            System.out.println(exception.getClass());
+            return null;
+        } catch (HttpClientErrorException exception) {
+            System.out.println(exception.getClass());
+            return null;
+        }
+
+    }
+    
+    
+    /**
+     * getUsers.
+     * @return all users
+     */
+    public static User[] getUsers() {
+
+
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/allUsers");
         
         //this getRequest returns an Iterable<User>
         //but in JSON that is basically equal to an array.
-        String result = getRequest("allUsers",null);
+        //String result = getRequest("allUsers",null);
         
-        System.out.println(result);
+        //System.out.println(result);
         
         //so we can convert the JSON string to a User Array like this.
-        User[] users = gson.fromJson(result, User[].class);
+        //User[] users = gson.fromJson(result, User[].class);
         
+        User[] users = gson.fromJson(result.getBody(), User[].class);
         return users;
     }
     
-    /** retrieves all the activities (of a user?) from the server.
-     *
-     * @return an array of activities
+    
+    /**
+     * getActivities.
+     * @return all activities
      */
-    public Activity[] getActivities() {
-        
-        String result = getRequest("activities", null);
-        System.out.println(result);
-        Activity[] activities = gson.fromJson(result, Activity[].class);
+    public static Activity[] getActivities() {
+
+
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/activities");
+
+        Activity[] activities = gson.fromJson(result.getBody(), Activity[].class);
         return activities;
+
+    }
+    
+    /**
+     * getFriends.
+     * @return all friends
+     */
+    public static User[] getFriends() {
+
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie,"http://localhost:8080/getFriends");
+        User[] friends = gson.fromJson(result.getBody(), User[].class);
+
+        return friends;
+    }
+
+    /*
+    public int getScore(Activity a) {
+        String result = postRequest("getscore", a);
+        int score = gson.fromJson(result, int.class);
+        return score;
+    }
+    */
+
+    
+    /*
+    public static void main(String[] args) {
+
+        Client client = new Client("");
+
+        String sessionCookie = client.getSessionCookie("test", "test");
+
+        System.out.println(getUsers(sessionCookie)[0].getEmail());
+       // System.out.println(getActivities(sessionCookie)[0]);
+
+    }
+    */
+    
+    /**
+     * find current user.
+     * @return user
+     */
+    public static  User findCurrentUser() {
+        HttpEntity<String> response = getRequest(LoginController.sessionCookie,"http://localhost:8080/finduser");
+        return gson.fromJson(response.getBody(),User.class);
+    }
+    
+    /**
+     * update solar panels.
+     * @param user user
+     * @return user
+     */
+    public static User updateSolar(User user) {
+        
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("user",gson.toJson(user));
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/updatesolar",params).getBody(),User.class);
+        
+        return user1;
+    }
+    
+    /**
+     * add a new user.
+     * @param user user
+     * @return new user
+     */
+    public static boolean addUser(User user) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("username", user.getEmail());
+        params.add("password", user.getPassword());
+        //params.add("user", user);
+        HttpEntity<String> result = postRequest("", "http://localhost:8080/addUser", params);
+        if (result != null) {
+            return gson.fromJson(result.getBody(),boolean.class);
+        }
+        return false;
     }
     
     
+    /**
+     * return the sessionCookie.
+     * @param email email
+     * @param password password
+     * @return sessionCookie
+     */
+    public static String getSessionCookie(String email, String password) {
+
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("username", email);
+        params.add("password", password);
+        HttpEntity<String> string = postRequest("", "http://localhost:8080/login", params);
+        if (string != null) {
+            return string.getHeaders().getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
+        }
+        return null;
+    }
+    
+    /**
+     * follow a user.
+     * @param user user
+     * @return user
+     */
+    public static User followUser(User user) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("user",gson.toJson(user));
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(),User.class);
+        return user1;
+    }
+    
+    /**
+     * unfolow a user.
+     * @param user user
+     * @return user
+     */
+    public static User unfollowUser(User user) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("user",gson.toJson(user));
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowFriend",params).getBody(),User.class);
+        return user1;
+    }
     
     
+    /**
+     * get the restTemplate.
+     * @return restTemplate
+     */
+    public static RestTemplate getRestTemplate() {
+        return restTemplate;
+    }
+
 }
-
-
-

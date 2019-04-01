@@ -1,105 +1,96 @@
 package database.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+
+
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "activities")
+@NoArgsConstructor
 public class Activity {
     
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
+    @Setter
     private Integer id;
 
-    @Column(name = "user_id", nullable = false)
-    private int user_id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @Getter
+    @Setter
+    private User user;
 
     @Column(name = "activity_type", nullable = false)
-    private String activity_type;
+    @Getter
+    @Setter
+    private ActType activity_type;
 
-    @Column(name = "CO2_savings", nullable = false)
-    private int co2_savings;
+    @Column(name = "activity_amount", nullable = false)
+    @Getter
+    @Setter
+    private int activity_amount;
 
     @Column(name = "date_time", nullable = false)
+    @Setter
+    @Getter
     private String date_time;
 
 
     /**
      * creates an activity.
-     * @param user_id user_id
      * @param activity_type activity_type
-     * @param co2_savings co2_savings
      * @param date_time date_time
      */
-    public Activity(int user_id, String activity_type, int co2_savings, String date_time) {
-        this.user_id = user_id;
+    public Activity(ActType activity_type,int activity_amount, String date_time) {
         this.activity_type = activity_type;
-        this.co2_savings = co2_savings;
+        this.activity_amount = activity_amount;
         this.date_time = date_time;
     }
-
-    public Activity(){
-
-    }
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
     
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getActivity_type() {
-        return activity_type;
-    }
-
-    public void setActivity_type(String activity_type) {
+    /**
+     * creates an activity.
+     * @param id id
+     * @param activity_type activity_type
+     * @param activity_amount activity_amount
+     * @param date_time date_time
+     */
+    public Activity(int id ,ActType activity_type,int activity_amount, String date_time) {
+        this.id = id;
         this.activity_type = activity_type;
-    }
-
-    public int getCO2_savings() {
-        return co2_savings;
-    }
-
-    public void setCO2_savings(int co2_savings) {
-        this.co2_savings = co2_savings;
-    }
-
-    public String getDate_time() {
-        return date_time;
-    }
-
-    public void setDate_time(String date_time) {
+        this.activity_amount = activity_amount;
         this.date_time = date_time;
     }
+
 
 
     /**
      * returns the date and time.
+     *
      * @return date
      */
-    public static String getDateTime() {
+    public static String getCurrentDateTimeString() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
@@ -114,11 +105,15 @@ public class Activity {
             return false;
         }
         Activity activity = (Activity) o;
-        return user_id == activity.user_id
-                && co2_savings == activity.co2_savings
-                && Objects.equals(id, activity.id)
+        return  Objects.equals(activity_amount,activity.activity_amount)
                 && Objects.equals(activity_type, activity.activity_type)
                 && Objects.equals(date_time, activity.date_time);
+    }
+
+    @Override
+    public int hashCode() {
+        return activity_amount * activity_type.ordinal() * date_time
+            .hashCode();
     }
     
    

@@ -2,45 +2,81 @@ package API;
 
 
 import database.UserRepository;
+import database.UserServiceImpl;
 import database.entities.User;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@DataJpaTest
+@SpringBootTest
 public class UserServiceTest {
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserServiceImpl userService;
 
-    private  UserService userService;
+     static final String email1 = "Spongebob";
+     static final String pass1 = "12345";
+     User user1 = new User();
+     User user2 = new User();
 
-    private static final String email1 = "Spongebob";
-    private static final String pass1 = "12345";
+    @Before
+    public void setup(){
+        user1.setEmail(email1);
+        user1.setPassword(pass1);
+        user2.setEmail("Trump@Donald.Orange");
+        user2.setPassword("iLoveOil");
+    }
 
     @Test
-    public void checkFindByEmail()
+    public void checkUpdateUser()
     {
-        User newUser = getOneUser();
-        User saveUser = entityManager.persist(newUser);
-        List<User> users = userRepository.findByEmail(email1);
-        assertEquals(saveUser.getEmail(), users.get(0).getEmail());
+        User expectedUser = userRepository.save(user1);
+        User testUser = userRepository.save(user2);
+        Assert.assertFalse(expectedUser.equals(testUser));
+        User resultUser = userService.updateUser(testUser,"Spongebob","12345");
+        Assert.assertEquals(expectedUser, resultUser);
     }
-    private User getOneUser(){
-        User spongeBob = new User();
-        spongeBob.setEmail(email1);
-        spongeBob.setPassword(pass1);
-        return spongeBob;
+    @Test
+    public void checkFindAll()
+    {
+        List<User> expected = userRepository.findAll();
+        List<User> result = userService.getAllUsers();
+        Assert.assertEquals(expected.size(),result.size());
     }
+
+    @Test
+    public void checkDelete()
+    {
+        User user = new User("360noScope","420blazeIt");
+        userRepository.save(user);
+        List<User> before = userRepository.findAll();
+        userService.deleteUser(user.getId());
+        List<User> after = userRepository.findAll();
+        Assert.assertTrue("The numbers of users is bigger before", before.size() > after.size());
+    }
+    @Test
+    public void checkFindById()
+    {
+        userRepository.save(user1);
+        int expectedId = user1.getId();
+        Assert.assertEquals(expectedId, userService.getUserById(user1.getId()).getId());
+    }
+    @After
+    public void delete()
+    {
+      userRepository.delete(user1);
+      userRepository.delete(user2);
+    }
+
 }

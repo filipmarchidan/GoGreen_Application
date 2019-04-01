@@ -41,6 +41,28 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
+                  <Button fx:id="findfriends" mnemonicParsing="false" onAction="#switchScreen" prefHeight="25.0" prefWidth="150.0" styleClass="menuButton" stylesheets="@style.css" text="Manage Friends" textFill="#edf5e1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Pane prefHeight="136.0" prefWidth="150.0" styleClass="showScore" stylesheets="@style.css">
+                     <VBox.margin>
+                        <Insets top="120.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label fx:id="scoreRepresentation" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="68.0" prefHeight="43.0" prefWidth="132.0" stylesheets="@style.css" textAlignment="CENTER" textFill="#edf5e1">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreRepresentation1" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="25.0" prefHeight="20.0" prefWidth="132.0" stylesheets="@style.css" text="Total co2 saved:" textAlignment="CENTER" textFill="#edf5e1">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
                <padding>
                   <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
@@ -48,34 +70,35 @@
             </VBox>
          </left>
          <top>
-            <HBox alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" styleClass="topBar" stylesheets="@style.css" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="800.0" spacing="8.0" styleClass="topBar" stylesheets="@style.css" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="signout" mnemonicParsing="false" onAction="#handle_logout" prefHeight="30.0" prefWidth="93.0" stylesheets="@style.css" text="Sign out" textFill="#05386b">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                     <styleClass>
-                        <String fx:value="topButton" />
-                        <String fx:value="exit" />
-                     </styleClass>
+                  <Button fx:id="signOut" alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#handle_logout" prefHeight="26.0" prefWidth="69.0" styleClass="topButton" stylesheets="@style.css" text="Sign out" textFill="#edf5e1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#minimize" prefHeight="30.0" prefWidth="70.0" stylesheets="@style.css" text="Minimize" textFill="#05386b">
-                     <styleClass>
-                        <String fx:value="topButton" />
-                        <String fx:value="minimizeButton" />
-                     </styleClass></Button>
-                  <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" maxHeight="-Infinity" mnemonicParsing="false" onAction="#closeProgram" prefHeight="30.0" prefWidth="50.0" stylesheets="@style.css" text="Exit" textFill="#05386b">
+                  <Button alignment="CENTER" contentDisplay="TOP" layoutY="25.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#minimize" prefHeight="26.0" prefWidth="69.0" styleClass="topButton" stylesheets="@style.css" text="Minimize" textFill="#edf5e1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="8.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="exit" alignment="CENTER" contentDisplay="TOP" layoutY="25.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#closeProgram" prefHeight="25.0" prefWidth="42.0" stylesheets="@style.css" text="Exit" textFill="#edf5e1">
+                     <HBox.margin>
+                        <Insets left="8.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                      <styleClass>
-                        <String fx:value="exit" />
                         <String fx:value="topButton" />
+                        <String fx:value="exit" />
                      </styleClass>
                   </Button>
                </children>
                <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
          </top>
