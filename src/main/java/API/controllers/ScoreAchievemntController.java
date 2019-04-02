@@ -23,23 +23,23 @@ public class ScoreAchievemntController {
     
     
     @Autowired
-    private ActivityTypeRepository activityTypeRepository;
+    private static ActivityTypeRepository activityTypeRepository;
     
     @Autowired
-    private UserRepository userRepository;
+    private static  UserRepository userRepository;
     
     
     @Autowired
-    private ActivityRepository activityRepository;
+    private static ActivityRepository activityRepository;
     
     @Autowired
-    private AchievementRepository achievementRepository;
+    private static AchievementRepository achievementRepository;
     
     
     
     
     
-    private void updateScoreAdd(Activity activity) {
+    public static void updateScoreAdd(Activity activity) {
         //System.out.println(activity.getActivity_amount());
         //System.out.println("we get here");
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
@@ -50,7 +50,7 @@ public class ScoreAchievemntController {
         userRepository.save(user);
     }
     
-    private void updateScoreRemove(Activity activity) {
+    public static void updateScoreRemove(Activity activity) {
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
             .ordinal()).get();
         User user = userRepository.findById(activity.getUser().getId()).get();
@@ -62,7 +62,7 @@ public class ScoreAchievemntController {
     
     
     
-    private void checkAchievements(Activity act) {
+    public static void checkAchievements(Activity act) {
         List<Activity> activityList = activityRepository.findByUserId(act.getUser().getId());
         
         Set<Achievement> achievements =

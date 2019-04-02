@@ -109,8 +109,8 @@ public class ActivityController {
         if (activity.getActivity_type() != ActType.solar_panel) {
             //System.out.println("HELLO");
             Activity act = activityRepository.save(activity);
-            checkAchievements(act);
-            updateScoreAdd(act);
+            ScoreAchievemntController.checkAchievements(act);
+            ScoreAchievemntController.updateScoreAdd(act);
             return act;
             
         } else {
@@ -152,7 +152,7 @@ public class ActivityController {
         activity.setUser(user);
         
         if (activityRepository.existsById(activity.getId())) {
-            updateScoreRemove(activity);
+            ScoreAchievemntController.updateScoreRemove(activity);
             activityRepository.delete(activity);
             return true;
         }
