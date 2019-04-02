@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="b8212c90-8ec1-4d67-92e5-6245f7fb9cdf" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/java/API/ActivitiesController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -14,6 +15,11 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/ActivityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/ActivityController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application-default.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-default.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/API/MainControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/API/MainControllerTest.java" afterDir="false" />
+=======
+    <list default="true" id="49e053e2-a33e-4f03-ac96-1f4fbe56ac01" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OOP-Project.iml" beforeDir="false" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,10 +31,17 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/main/resources/application-default.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state>
               <caret column="36" selection-start-column="36" selection-end-column="36" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/main/java/gui/UiMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="28" selection-start-line="28" selection-end-line="28" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
             </state>
           </provider>
         </entry>
@@ -37,6 +50,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+<<<<<<< HEAD
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -52,6 +66,8 @@
         <option value="$PROJECT_DIR$/src/main/resources/application-default.properties" />
       </list>
     </option>
+=======
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="22" />
@@ -64,6 +80,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -73,6 +90,7 @@
             </path>
             <path>
               <item name="OOP-Project" type="b2602c69:ProjectViewProjectNode" />
+<<<<<<< HEAD
               <item name="template" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -85,6 +103,9 @@
             <path>
               <item name="OOP-Project" type="b2602c69:ProjectViewProjectNode" />
               <item name="template" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="OOPP" type="462c0819:PsiDirectoryNode" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
@@ -116,6 +137,7 @@
               <item name="OOP-Project" type="b2602c69:ProjectViewProjectNode" />
               <item name="template" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -124,30 +146,46 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gui" type="462c0819:PsiDirectoryNode" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
             </path>
             <path>
               <item name="OOP-Project" type="b2602c69:ProjectViewProjectNode" />
               <item name="template" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="API" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+<<<<<<< HEAD
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554216252596" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="API" />
     </key>
+=======
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554151224580" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -200,11 +238,19 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
       <changelist id="b8212c90-8ec1-4d67-92e5-6245f7fb9cdf" name="Default Changelist" comment="" />
       <created>1554213935096</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1554213935096</updated>
+=======
+      <changelist id="49e053e2-a33e-4f03-ac96-1f4fbe56ac01" name="Default Changelist" comment="" />
+      <created>1554115052320</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1554115052320</updated>
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
     </task>
     <servers />
   </component>
@@ -217,18 +263,29 @@
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24966443" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="CheckStyle" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Statistic" />
+=======
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
       <window_info anchor="bottom" id="Terminal" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.4036827" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.24929178" />
+=======
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32928476" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -255,6 +312,7 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/gui/ActivityController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="117">
@@ -377,15 +435,93 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="36" selection-start-column="36" selection-end-column="36" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/UiMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+>>>>>>> 3381c26d5b40e978c45ce902e8185d4fbeccf3c5
         </state>
       </provider>
     </entry>
   </component>
   <component name="masterDetails">
     <states>
-      <state key="ProjectJDKs.UI">
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
         <settings>
           <last-edited>10</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>OOP-Project</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>11</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
