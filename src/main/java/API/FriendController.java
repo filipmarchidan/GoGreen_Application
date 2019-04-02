@@ -1,9 +1,9 @@
-package API.controllers;
+package API;
 
-import API.UserService;
 import API.security.SecurityService;
 import com.google.gson.Gson;
 import database.UserRepository;
+import database.UserServiceImpl;
 import database.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class FriendController {
     
     
-    private Gson gson;
+    private Gson gson = new Gson();
     
     @Autowired
     private UserRepository userRepository;
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserServiceImpl userServiceImpl;
     
     
     
@@ -37,7 +40,7 @@ public class FriendController {
     public @ResponseBody
     User followFriend(@RequestBody MultiValueMap<String, Object> params) {
         
-        User other = gson.fromJson((String)params.getFirst("user"),User.class);
+        User other = gson.fromJson((String)params.getFirst("user"), User.class);
         other = userRepository.findByEmail(other.getEmail());
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);

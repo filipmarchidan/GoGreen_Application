@@ -1,6 +1,5 @@
-package API.controllers;
+package API;
 
-import API.UserService;
 import API.security.SecurityService;
 import com.google.gson.Gson;
 

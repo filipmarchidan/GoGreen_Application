@@ -1,7 +1,6 @@
-package API.controllers;
+package API;
 
 
-import API.UserService;
 import com.google.gson.Gson;
 
 import API.security.SecurityService;
@@ -9,38 +8,27 @@ import database.AchievementRepository;
 import database.ActivityRepository;
 import database.ActivityTypeRepository;
 import database.UserRepository;
-import database.UserServiceImpl;
 
-import database.entities.ActType;
-
-import database.entities.Activity;
-
-import database.entities.User;
-
-import javafx.fxml.FXML;
+import database.entities.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
 
 import org.springframework.web.bind.annotation.*;
 
 
-import java.awt.Label;
 import java.util.List;
 import java.util.Set;
 
 
 @RestController
-public class ActivityController {
+public class ActivitiesController {
     
     
     Gson gson = new Gson();
     
     
-    @FXML
-    private Label registrationStatus;
+    
     
     @Autowired
     private UserRepository userRepository;
@@ -48,29 +36,12 @@ public class ActivityController {
     @Autowired
     private ActivityRepository activityRepository;
     
-    @Autowired
-    private AchievementRepository achievementRepository;
     
     @Autowired
     private ActivityTypeRepository activityTypeRepository;
     
     @Autowired
-    private UserService userService;
-    
-    @Autowired
-    private BCryptPasswordEncoder encoder;
-    
-    @Autowired
-    private UserServiceImpl userServiceImpl;
-    
-    @Bean
-    public BCryptPasswordEncoder appPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-    
-    
-    
+    private AchievementRepository achievementRepository;
     
     
     /**
@@ -109,8 +80,8 @@ public class ActivityController {
         if (activity.getActivity_type() != ActType.solar_panel) {
             //System.out.println("HELLO");
             Activity act = activityRepository.save(activity);
-            ScoreAchievemntController.checkAchievements(act);
-            ScoreAchievemntController.updateScoreAdd(act);
+            checkAchievements(act);
+            updateScoreAdd(act);
             return act;
             
         } else {
@@ -152,7 +123,7 @@ public class ActivityController {
         activity.setUser(user);
         
         if (activityRepository.existsById(activity.getId())) {
-            ScoreAchievemntController.updateScoreRemove(activity);
+            updateScoreRemove(activity);
             activityRepository.delete(activity);
             return true;
         }
@@ -192,4 +163,57 @@ public class ActivityController {
     }
     
     
+    
+    public  void updateScoreAdd(Activity activity) {
+        //System.out.println(activity.getActivity_amount());
+        //System.out.println("we get here");
+        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
+            .ordinal()).get();
+        User user = userRepository.findByEmail(activity.getUser().getEmail());
+        user.setTotalscore(user.getTotalscore() + activityType.getCo2_savings() * activity
+            .getActivity_amount());
+        userRepository.save(user);
+    }
+    
+    public  void updateScoreRemove(Activity activity) {
+        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
+            .ordinal()).get();
+        User user = userRepository.findById(activity.getUser().getId()).get();
+        user.setTotalscore(user.getTotalscore() - activityType.getCo2_savings() * activity
+            .getActivity_amount());
+        userRepository.save(user);
+    }
+    
+    
+    
+    
+    public  void checkAchievements(Activity act) {
+        List<Activity> activityList = activityRepository.findByUserId(act.getUser().getId());
+        
+        Set<Achievement> achievements =
+            achievementRepository.getAchievementsFromUserId(act.getUser().getId());
+        
+        Achievement achievement = achievementRepository.findById(0).get();
+        
+        User user = userRepository.findById(act.getUser().getId()).get();
+        user.getAchievements().add(achievement);
+        achievement.getUsers().add(user);
+        achievementRepository.save(achievement);
+        userRepository.save(user);
+    }
+    
+    /** This is what the client can connect to, to retrieve a user's achievements.
+     *
+     * @return  a set of all the achievement that user earned
+     */
+    @GetMapping(path = "/getachievements")
+    public @ResponseBody
+    Set<Achievement> getAchievements() {
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        Set<Achievement> achievements =
+            achievementRepository.getAchievementsFromUserId(user.getId());
+        return achievements;
+        
+    }
 }
