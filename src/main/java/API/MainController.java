@@ -100,13 +100,16 @@ public class MainController {
     
     /**
      * find a user by theirs email.
-     * @param email email
+     * @param params email
      * @return the user.
      */
-    @GetMapping(path = "/findByEmail")
-    public @ResponseBody User findByEmail(@RequestBody String email) {
-        return userService.getUserByEmail(email);
+    @PostMapping(path = "/findByEmail")
+    public @ResponseBody User findByEmail(@RequestBody MultiValueMap<String, Object> params) {
+        String  email = gson.fromJson((String)params.getFirst("email"),String.class);
+        User user = userRepository.findByEmail(email);
+        return user;
     }
+
     
     /**
      * find the logged in  user.
