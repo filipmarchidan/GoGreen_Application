@@ -2,71 +2,176 @@ package API;
 
 import API.messages.Message;
 import client.Client;
+import com.google.gson.Gson;
+import database.entities.Achievement;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.HttpMethod;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureMockRestServiceServer;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+
+@RunWith(SpringRunner.class)
+@AutoConfigureMockRestServiceServer
 public class ClientTest {
     
-    Client client;
-    User user;
-    RestTemplate restTemplate;
-    ServerApplication serverApplication;
+    Gson gson = new Gson();
+    
+    
+    private RestTemplate restTemplate;
+    
+    private MockRestServiceServer mockServer;
+    User user1 = new User("test1","testpass");
+    Set<User> users = new HashSet<>();
+
+    Activity activity = new Activity(ActType.vegetarian_meal,1,Activity.getCurrentDateTimeString());
+    Set<Activity> activities = new HashSet<>();
+
+    Achievement achievement = new Achievement(1,"testach",500);
+    Set<Achievement> achievements = new HashSet<>();
+
+    List<Integer> integerList = new ArrayList<>();
+
+    
+    
     @Before
-    public void before(){
-        user = new User("test@test.com","supersecretpassword");
-        user.setId(1);
-        client = Client.createInstance("http://localhost:8080/");
-        serverApplication = new ServerApplication();
+    public void setup() throws  Exception {
+        mockServer = MockRestServiceServer.bindTo(Client.getRestTemplate()).build();
+        users.add(user1);
+        activities.add(activity);
+        achievements.add(achievement);
+        integerList.add(1);
+        integerList.add(2);
+        /*
+        mockServer.expect(requestTo("http://localhost:8080/getFriends")).andRespond(withSuccess(gson.toJson(users), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/addactivity")).andRespond(withSuccess(gson.toJson(activity), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/removeactivity")).andRespond(withSuccess(gson.toJson(true), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/getachievements")).andRespond(withSuccess(gson.toJson(achievements), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/activities")).andRespond(withSuccess(gson.toJson(activities), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/allActType")).andRespond(withSuccess(gson.toJson(integerList), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/followFriend")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/unfollowFriend")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/updateSolar")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/findUser")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        */
+    
     }
-
+    
     @Test
-    public void client_retrieves_message(){
-        serverApplication.main(new String[0]);
-        Message message = new Message("Paul");
-        User[] s = client.getUsers();
-        System.out.println(s);
-        String other = "{\"id\":1,\"content\":\"Hello, Paul!\"}";
+    public void getFriendsTest() {
+        mockServer.expect(requestTo("http://localhost:8080/getFriends")).andRespond(withSuccess(gson.toJson(users), MediaType.APPLICATION_JSON));
+    
+        User[] users = Client.getFriends();
+        System.out.println(users);
+        Assert.assertTrue(users[0].equals(user1));
     }
-
+    
     @Test
-    public void getinstance_returns_instance(){
-        Client client = Client.createInstance("http://localhost:8080/");
-        Client client2 = Client.getInstance();
-        Assert.assertEquals(client,client2);
-
+    public void getAllActivitiesTest() {
+        mockServer.expect(requestTo("http://localhost:8080/activities")).andRespond(withSuccess(gson.toJson(activities), MediaType.APPLICATION_JSON));
+    
+        Activity[] activities = Client.getActivities();
+        Set<Activity> activitySet = new HashSet<>(Arrays.asList(activities));
+        Assert.assertEquals(activitySet,this.activities);
     }
-
-
     @Test
-    public void client_adds_activity(){
-        client = Client.getInstance();
-        Activity veggy = new Activity(1, ActType.vegetarian_meal,1,Activity.getDateTime());
-        Activity back = client.addActivity(veggy);
-        Assert.assertEquals(veggy.getDate_time(),back.getDate_time());
-        Assert.assertEquals(veggy.getActivity_type(),back.getActivity_type());
-        Assert.assertEquals(veggy.getUserId(),back.getUserId());
+    public void findUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/finduser")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        
+        User user = Client.findCurrentUser();
+        Assert.assertTrue(user.equals(user1));
     }
-
+    
     @Test
-    public void activity_list_contains_activity(){
-
-        client = Client.getInstance();
-        Activity veggy = new Activity(1,ActType.vegetarian_meal,1,Activity.getDateTime());
-        Activity back = client.addActivity(veggy);
-        Activity[] activities = client.getActivities();
-        Assert.assertTrue(Arrays.asList(activities).contains(back));
+    public void addUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/addUser")).andRespond(withSuccess(gson.toJson(true), MediaType.APPLICATION_JSON));
+        boolean bool = Client.addUser(user1);
+        Assert.assertTrue(bool);
     }
+    @Test
+    public void addFalseUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/addUser")).andRespond(withServerError());
+        boolean bool = Client.addUser(user1);
+        Assert.assertFalse(bool);
+    }
+    
+    
+    @Test
+    public void updateSolarTest() {
+        mockServer.expect(requestTo("http://localhost:8080/updatesolar")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        User user = Client.updateSolar(user1);
+        Assert.assertEquals(user,user1);
+    }
+    
+    @Test
+    public void getSessionCookieTest() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE,"blahblahsession");
+        mockServer.expect(requestTo("http://localhost:8080/login")).andRespond(withSuccess(gson.toJson(users), MediaType.APPLICATION_JSON).headers(headers));
+    
+        String sessionCookie = Client.getSessionCookie(user1.getEmail(),user1.getPassword());
+        Assert.assertEquals(sessionCookie,headers.getFirst(HttpHeaders.SET_COOKIE));
+
+    }
+    
+    @Test
+    public void getFalseSessionCookieTest() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE,"blahblahsession");
+        mockServer.expect(requestTo("http://localhost:8080/login")).andRespond(withServerError());
+        
+        String sessionCookie = Client.getSessionCookie(user1.getEmail(),user1.getPassword());
+        Assert.assertEquals(sessionCookie,null);
+        
+    }
+    
+    @Test
+    public void getAllUsersTest() {
+        mockServer.expect(requestTo("http://localhost:8080/allUsers")).andRespond(withSuccess(gson.toJson(users), MediaType.APPLICATION_JSON));
+    
+        User[] users = Client.getUsers();
+        Set<User> userSet = new HashSet<>(Arrays.asList(users));
+        Assert.assertEquals(this.users,userSet);
+    }
+    
+    @Test
+    public void followUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/followFriend")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        
+        User user = Client.followUser(user1);
+        Assert.assertEquals(user,user1);
+    }
+    
+    @Test
+    public void unfollowUserTest() {
+        mockServer.expect(requestTo("http://localhost:8080/unfollowFriend")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        
+        User user = Client.unfollowUser(user1);
+        Assert.assertEquals(user,user1);
+    }
+    
+    
+    
+    
+    
+
 
 
 }

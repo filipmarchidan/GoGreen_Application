@@ -1,0 +1,13 @@
+| User Story                                                   | Task                                                         | Assigned to         | Estimated work(hours) | Priority |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------- | --------------------- | -------- |
+| Add buttons and client methods for different activities      | Add buttons to userinterface for different activities, add client methods | Jordy               | 4-5                   | 1        |
+|                                                              | Show feedback when add veggie meal                           | Jordy/ Mark         | 1-2 pp                | 1        |
+| Allow users to have friends, and show leaderboard containing friends | Change user to have friends (database/ server)               | Jordy/ Mark         | 1-2 pp                | 1        |
+|                                                              | Allow users to add friends (client/ server)                  | Jordy/ Mark         | 1-2pp                 | 1        |
+| Show total co2 saved                                         | Change user table to contain the total co2 saved             | Jordy/ Mark         | 2-3 pp                | 1        |
+|                                                              | Show total co2 saved UI                                      | Jim                 | 2                     | 1        |
+| Allow a user to fulfil achievements                          | display achievements on the client                           | Kevin, Edin         | 5-7 pp                | 2        |
+|                                                              | (Bonus)  show some feedback when user collects an achievements | Kevin, Edin         | 3 pp                  | 3        |
+| Connect user authentication to userinterface                 | Change userinterface to work with authentication (testing)   | Jim, Giacomo, Filip | 10 pp                 | 1        |
+| Protect user safety                                          | Close session when signing                                   | Giacomo             | 3                     | 3        |
+| Update server_side endpoints                                 | update server_side endpoints                                 | Everyone            | 3 pp                  | 1        |
