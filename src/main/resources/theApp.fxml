@@ -77,7 +77,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="TOP" layoutY="25.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#minimize" prefHeight="26.0" prefWidth="69.0" styleClass="topButton" stylesheets="@style.css" text="Minimize" textFill="#edf5e1">
+                  <Button fx:id="minimize" alignment="CENTER" contentDisplay="TOP" layoutY="25.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#minimize" prefHeight="26.0" prefWidth="69.0" styleClass="topButton" stylesheets="@style.css" text="Minimize" textFill="#edf5e1">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

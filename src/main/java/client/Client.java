@@ -165,6 +165,17 @@ public class Client {
     }
 
     /**
+     *
+     * @return
+     */
+    public static Achievement[] getAchievements () {
+
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements");
+        Achievement[] achievements = gson.fromJson(result.getBody(), Achievement[].class);
+        return achievements;
+    }
+
+    /**
      * getFriends.
      * @return all friends
      */
@@ -281,18 +292,7 @@ public class Client {
         return user1;
     }
 
-    /**
-     *
-     * @return
-     */
-    public Achievement[] getAchievements () {
-        //TODO: FIX THIS METHOD
-        //String result = postRequest("getAchievements", user);
-        //Achievement[] achievement = gson.fromJson(result, Achievement[].class);
-        //return achievement;
-        return null;
 
-    }
 
     //@FXML
     //public static void getAchievements

@@ -187,7 +187,8 @@ public class MainController {
         if (activity.getActivity_type() != ActType.solar_panel) {
             //System.out.println("HELLO");
             Activity act = activityRepository.save(activity);
-            checkAchievements(act);
+            checkAchievements(user);
+            checkActivityAchievements(act, user);
             updateScoreAdd(act);
             return act;
 
@@ -209,15 +210,75 @@ public class MainController {
         }
     }
 
-    private void checkAchievements(Activity act) {
-        List<Activity> activityList = activityRepository.findByUserId(act.getUser().getId());
-        
-        Set<Achievement> achievements =
-                    achievementRepository.getAchievementsFromUserId(act.getUser().getId());
+    private void checkAchievements(User user) {
+        Achievement achievement = null;
 
-        Achievement achievement = achievementRepository.findById(0).get();
-        
-        User user = userRepository.findById(act.getUser().getId()).get();
+        if (user.getTotalscore() >= 100000) {
+            achievement = achievementRepository.findById(1).get();
+
+        }
+        if (user.getTotalscore() >= 500000) {
+            achievement = achievementRepository.findById(2).get();
+
+        }
+        if (user.getTotalscore() >= 1000000) {
+            achievement = achievementRepository.findById(3).get();
+        }
+        if (achievement != null) {
+            user.getAchievements().add(achievement);;
+            achievement.getUsers().add(user);
+            achievementRepository.save(achievement);
+        }
+
+        userRepository.save(user);
+    }
+
+    private void checkActivityAchievements(Activity activity, User user) {
+        List<Activity> activityList = activityRepository.findByUserId(user.getId());
+
+        //check test achievements
+        if (activityList.size() >= 1 ) {
+
+            Achievement achievement = achievementRepository.findById(0).get();
+            user.getAchievements().add(achievement);
+            //achievement.getUsers().add(user);
+            //achievementRepository.save(achievement);
+        }
+
+        Achievement achievement;
+
+        switch (activity.getActivity_type()) {
+
+            case vegetarian_meal:
+                achievement = achievementRepository.findById(5).get();
+                break;
+
+            case bike:
+                achievement = achievementRepository.findById(6).get();
+                break;
+
+            case solar_panel:
+                achievement = achievementRepository.findById(4).get();
+                break;
+
+            case local_produce:
+                achievement = achievementRepository.findById(9).get();
+                break;
+
+            case public_transport:
+                achievement = achievementRepository.findById(7).get();
+                break;
+
+            case lower_temperature:
+                achievement = achievementRepository.findById(8).get();
+                break;
+
+            default:
+                achievement = null;
+                break;
+
+        }
+
         user.getAchievements().add(achievement);
         achievement.getUsers().add(user);
         achievementRepository.save(achievement);
@@ -293,7 +354,7 @@ public class MainController {
      *
      * @return  a set of all the achievement that user earned
      */
-    @GetMapping(path = "/getachievements")
+    @GetMapping(path = "/getAchievements")
     public @ResponseBody Set<Achievement> getAchievements() {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);

@@ -3,7 +3,7 @@ package gui;
 import com.google.gson.Gson;
 
 import client.Client;
-import database.entities.ActType;
+import database.entities.Achievement;
 import database.entities.Activity;
 import database.entities.User;
 import gui.entity.TableUser;
@@ -11,19 +11,17 @@ import gui.entity.TableUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -34,7 +32,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -47,7 +44,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class AppController implements Initializable{
+public class AppController {
     
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
 
@@ -65,12 +62,14 @@ public class AppController implements Initializable{
     @FXML
     private BorderPane borderpane;
 
-
     @FXML
     private Button exit;
+
+    @FXML
+    private Button minimize;
     
     @FXML
-    private CheckBox solar;
+    private CheckBox ssolar;
     
     @FXML
     private Pane homeScreen;
@@ -78,60 +77,60 @@ public class AppController implements Initializable{
     @FXML
     private Button activities;
 
-    /** This method is called before the fxml file gets loaded.
-     *
-     *
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        User user = Client.findCurrentUser();
-        scoreRepresentation.setText(Integer.toString(user.getTotalscore()));
-        borderpane.getChildren().removeAll();
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/activities.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        borderpane.setCenter(root);
-        borderpane.setCenter(homeScreen);
-    }
-
+    @FXML
+    private ImageView bronze;
 
     @FXML
     private void switchScreen(ActionEvent event) {
         Button variable = (Button) event.getSource();
         String fxmlName = variable.getId();
         System.out.println(fxmlName);
-        if (fxmlName.equals("home")) {
-            borderpane.getChildren().removeAll();
-            borderpane.setCenter(homeScreen);
-        } else if (fxmlName.equals("history")) {
-            displayActivities();
-            refreshTotal();
-        } else if (fxmlName.equals("leaderboard")) {
-            displayLeaderboard();
-            refreshTotal();
-        } else if (fxmlName.equals("findfriends")) {
-            displayUsers();
-            refreshTotal();
-        } else {
-            try {
+        switch (fxmlName) {
+            case "home":
                 borderpane.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlName + ".fxml"));
-                borderpane.setCenter(root);
-
-                if (fxmlName.equals("activities")) {
-                    User user = Client.findCurrentUser();
-                    solar = (CheckBox) exit.getScene().lookup("#solar");
-                    solar.setSelected(user.isSolarPanel());
-                }
+                borderpane.setCenter(homeScreen);
+                break;
+            case "history":
+                displayActivities();
                 refreshTotal();
-            } catch (IOException ex) {
-                System.out.println("File " + fxmlName + ".fxml not found");
-            }
+                break;
+            case "leaderboard":
+                displayLeaderboard();
+                refreshTotal();
+                break;
+            case "findfriends":
+                displayUsers();
+                refreshTotal();
+                break;
+            case "achievements":
+                Parent achieve;
+                try {
+                    borderpane.getChildren().removeAll();
+                    achieve = FXMLLoader.load(getClass().getResource("/achievements.fxml"));
+                    borderpane.setCenter(achieve);
+                    displayAchievements();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            case "activities":
+                borderpane.getChildren().removeAll();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/activities.fxml"));
+                    borderpane.setCenter(root);
+                    User user = Client.findCurrentUser();
+                    ssolar = (CheckBox) exit.getScene().lookup("#ssolar");
+                    ssolar.setSelected(user.isSolarPanel());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                return;
 
         }
+        refreshTotal();
     }
 
 
@@ -171,7 +170,13 @@ public class AppController implements Initializable{
         }
     }
 
-    
+    void displayAchievements() {
+        Achievement[] achievements = Client.getAchievements();
+        for(Achievement a : achievements) {
+            System.out.println(a.getAchievement_name());
+        }
+    }
+
     /** Retrieves and displays all the activities of the user.
      *
      */
@@ -533,6 +538,7 @@ public class AppController implements Initializable{
         Stage stage = (Stage)content.getScene().getWindow();
         stage.setIconified(true);
     }
+
 
 
 
