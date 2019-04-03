@@ -184,14 +184,14 @@ public class MainControllerTest {
 
     @Test
     public void getUserByEmail() throws Exception{
-        user.setEmail("erik@doe.rustig");
+        //user.setEmail("erik@doe.rustig");
         String testEmail = user.getEmail();
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("email",gson.toJson(testEmail));     //not sure if testEmail needs to be converted to json.
 
         String requestBody = buildRequestBody(params);
         String responseBody = mvc.perform(
-                post("/followFriend")
+                post("/findByEmail")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .content(requestBody).session(sessionCookie).params(params)
         )
