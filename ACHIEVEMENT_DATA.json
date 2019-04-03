@@ -1,32 +1,27 @@
 [
   {
-    "id":0,
-    "achievement_name":"TestAchievement",
-    "achievement_value": 9001
-  },
-  {
     "id":1,
-    "achievement_name":"Bronze Badge",
+    "achievement_name":"Bronze",
     "achievement_value": 0
   },
   {
     "id":2,
-    "achievement_name":"Silver Badge",
+    "achievement_name":"Silver",
     "achievement_value": 0
   },
   {
     "id":3,
-    "achievement_name":"Golden Badge",
+    "achievement_name":"Gold",
     "achievement_value": 0
   },
   {
     "id":4,
-    "achievement_name":"Solar Panel",
+    "achievement_name":"Solar_Panel",
     "achievement_value": 5000
   },
   {
     "id":5,
-    "achievement_name":"Vegetarian Meal",
+    "achievement_name":"Vegetarian_Meal",
     "achievement_value": 500
   },
   {
@@ -36,7 +31,7 @@
   },
   {
     "id":7,
-    "achievement_name":"Public Transport",
+    "achievement_name":"Public_Transport",
     "achievement_value": 500
   },
   {
@@ -46,7 +41,7 @@
   },
   {
     "id":9,
-    "achievement_name":"Buying Local",
+    "achievement_name":"Buying_Local",
     "achievement_value": 500
   }
 ]
