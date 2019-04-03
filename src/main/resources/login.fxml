@@ -18,7 +18,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" styleClass="dit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@deacht.jpeg" />
+            <Image url="@images/deacht.jpeg" />
          </image>
       </ImageView>
       <Pane fx:id="content" layoutX="456.0" layoutY="336.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="266.0" style="-fx-background-color: #379683;" styleClass="loginMenu" stylesheets="@style.css">
