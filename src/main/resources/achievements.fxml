@@ -40,7 +40,7 @@
    <Text layoutX="398.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="public transport" />
    <ImageView id="transport" fx:id="transport" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
-         <Image url="@publictransport.png" />
+         <Image url="@transport.png" />
       </image>
    </ImageView>
    <ImageView id="local" fx:id="local" fitHeight="100.0" fitWidth="100.0" layoutX="98.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
