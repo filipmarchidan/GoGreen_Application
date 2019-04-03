@@ -81,6 +81,40 @@ public class AppController {
     private ImageView bronze;
 
     @FXML
+    private ImageView silver;
+
+    @FXML
+    private ImageView gold;
+
+    @FXML
+    private ImageView bike;
+
+    @FXML
+    private ImageView local;
+
+    @FXML
+    private ImageView solar;
+
+    @FXML
+    private ImageView vegetarian;
+
+    @FXML
+    private ImageView transport;
+
+    @FXML
+    private ImageView temperature;
+
+
+
+
+
+
+
+
+
+
+
+    @FXML
     private void switchScreen(ActionEvent event) {
         Button variable = (Button) event.getSource();
         String fxmlName = variable.getId();
@@ -174,6 +208,49 @@ public class AppController {
         Achievement[] achievements = Client.getAchievements();
         for(Achievement a : achievements) {
             System.out.println(a.getAchievement_name());
+            String achievementname = a.getAchievement_name();
+            switch (achievementname) {
+                case "Bronze Badge":
+                    bronze = (ImageView) exit.getScene().lookup("#bronze");
+                    bronze.setOpacity(1);
+                break;
+                case "Silver Badge":
+                    silver = (ImageView) exit.getScene().lookup("#silver");
+                    silver.setOpacity(1);
+                    break;
+                case "Golden Badge":
+                    gold = (ImageView) exit.getScene().lookup("#gold");
+                    gold.setOpacity(1);
+                    break;
+                case "Solar Panel":
+                    solar = (ImageView) exit.getScene().lookup("#solar");
+                    solar.setOpacity(1);
+                    break;
+                case "Bike":
+                    bike = (ImageView) exit.getScene().lookup("#bike");
+                    bike.setOpacity(1);
+                    break;
+                case "Buying Local":
+                    local = (ImageView) exit.getScene().lookup("#local");
+                    local.setOpacity(1);
+                    break;
+                case "Temperature":
+                    temperature.setOpacity(1);
+                    temperature = (ImageView) exit.getScene().lookup("#temperature");
+                    break;
+                case "Public Transport":
+                    transport.setOpacity(1);
+                    transport = (ImageView) exit.getScene().lookup("#transport");
+                    break;
+                case "Vegetarian Meal":
+                    vegetarian = (ImageView) exit.getScene().lookup("#vegetarian");
+                    vegetarian.setOpacity(1);
+                    break;
+                default:
+                        break;
+
+            }
+
         }
     }
 
