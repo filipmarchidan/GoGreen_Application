@@ -9,13 +9,20 @@ import database.ActivityRepository;
 import database.ActivityTypeRepository;
 import database.UserRepository;
 
-import database.entities.*;
+import database.entities.Achievement;
+import database.entities.ActType;
+import database.entities.Activity;
+import database.entities.ActivityType;
+import database.entities.User;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
-
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Set;
@@ -51,7 +58,7 @@ public class ActivitiesController {
      */
     @GetMapping("/activities")
     public @ResponseBody
-    Set<Activity> getAllActivities(String sessionCookie) {
+        Set<Activity> getAllActivities(String sessionCookie) {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         return activityRepository.findByUserIdSorted(user.getId());
@@ -66,7 +73,7 @@ public class ActivitiesController {
      */
     @PostMapping(path = "/addactivity")
     public @ResponseBody
-    Activity addNewActivity(@RequestBody MultiValueMap<String,
+        Activity addNewActivity(@RequestBody MultiValueMap<String,
         Object> params) {
         
         String email = SecurityService.findLoggedInEmail();
@@ -155,7 +162,7 @@ public class ActivitiesController {
      */
     @GetMapping("/allActType")
     public @ResponseBody
-    List getAllActType() {
+        List getAllActType() {
         
         List co2Values = activityTypeRepository.findAllCo2SavingsSorted();
         return co2Values;
@@ -163,7 +170,10 @@ public class ActivitiesController {
     }
     
     
-    
+    /**
+     * update the score.
+     * @param activity activity
+     */
     public  void updateScoreAdd(Activity activity) {
         //System.out.println(activity.getActivity_amount());
         //System.out.println("we get here");
@@ -175,6 +185,10 @@ public class ActivitiesController {
         userRepository.save(user);
     }
     
+    /**\
+     * update the score when removing an activity.
+     * @param activity activity
+     */
     public  void updateScoreRemove(Activity activity) {
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
             .ordinal()).get();
@@ -185,8 +199,10 @@ public class ActivitiesController {
     }
     
     
-    
-    
+    /**
+     * checks if a user gained an achievement.
+     * @param act activity
+     */
     public  void checkAchievements(Activity act) {
         List<Activity> activityList = activityRepository.findByUserId(act.getUser().getId());
         
@@ -208,7 +224,7 @@ public class ActivitiesController {
      */
     @GetMapping(path = "/getachievements")
     public @ResponseBody
-    Set<Achievement> getAchievements() {
+        Set<Achievement> getAchievements() {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         Set<Achievement> achievements =

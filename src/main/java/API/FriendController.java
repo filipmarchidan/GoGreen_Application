@@ -1,7 +1,10 @@
 package API;
 
-import API.security.SecurityService;
 import com.google.gson.Gson;
+
+import API.security.SecurityService;
+
+
 import database.UserRepository;
 import database.UserServiceImpl;
 import database.entities.User;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 @RestController
 public class FriendController {
@@ -38,7 +43,7 @@ public class FriendController {
      */
     @PostMapping(path = "/followFriend")
     public @ResponseBody
-    User followFriend(@RequestBody MultiValueMap<String, Object> params) {
+        User followFriend(@RequestBody MultiValueMap<String, Object> params) {
         
         User other = gson.fromJson((String)params.getFirst("user"), User.class);
         other = userRepository.findByEmail(other.getEmail());

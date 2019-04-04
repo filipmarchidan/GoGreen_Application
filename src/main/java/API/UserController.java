@@ -1,7 +1,9 @@
 package API;
 
-import API.security.SecurityService;
 import com.google.gson.Gson;
+
+import API.security.SecurityService;
+
 
 import database.ActivityRepository;
 
@@ -13,8 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.HashSet;
@@ -60,7 +67,7 @@ public class UserController {
      */
     @PostMapping(path = "/addUser")
     public @ResponseBody
-    boolean addNewUser(@RequestBody MultiValueMap<String, Object> params) {
+        boolean addNewUser(@RequestBody MultiValueMap<String, Object> params) {
         System.out.println(params);
         User user = new User();
         user.setEmail((String)params.getFirst("username"));
@@ -105,7 +112,7 @@ public class UserController {
     
     @GetMapping("/allUsers")
     public @ResponseBody
-    Set<User> getAllUsers() {
+        Set<User> getAllUsers() {
         
         return userRepository.findUsersSimple();
         
