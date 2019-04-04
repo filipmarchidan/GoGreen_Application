@@ -119,6 +119,13 @@ public class ClientTest {
         User user = Client.updateSolar(user1);
         Assert.assertEquals(user,user1);
     }
+
+    @Test
+    public void getUserByEmailTest() {
+        mockServer.expect(requestTo("http://localhost:8080/findByEmail")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        User user = Client.getUserByEmail(user1.getEmail());
+        Assert.assertEquals(user,user1);
+    }
     
     @Test
     public void getSessionCookieTest() {
