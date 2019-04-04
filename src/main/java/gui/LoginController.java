@@ -46,6 +46,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private PasswordField newPassword;
+
     @FXML
     private  Label registrationStatus;
     @FXML
