@@ -99,7 +99,7 @@ public class AppController {
     private ImageView vegetarian;
 
     @FXML
-    private ImageView train;
+    private ImageView transport;
 
     @FXML
     private ImageView temperature;
@@ -235,12 +235,12 @@ public class AppController {
                     local.setOpacity(1);
                     break;
                 case "Temperature":
-                    temperature.setOpacity(1);
                     temperature = (ImageView) exit.getScene().lookup("#temperature");
+                    temperature.setOpacity(1);
                     break;
                 case "Public Transport":
-                    train.setOpacity(1);
-                    train = (ImageView) exit.getScene().lookup("#train");
+                    transport = (ImageView) exit.getScene().lookup("#transport");
+                    transport.setOpacity(1);
                     break;
                 case "Vegetarian Meal":
                     vegetarian = (ImageView) exit.getScene().lookup("#vegetarian");

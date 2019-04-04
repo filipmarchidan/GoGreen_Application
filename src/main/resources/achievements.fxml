@@ -38,7 +38,7 @@
    <Text layoutX="137.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="local" />
    <Text layoutX="254.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="temperature" />
    <Text layoutX="398.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="public transport" />
-   <ImageView id="transport" fx:id="train" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="transport" fx:id="transport" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@transport.png" />
       </image>
