@@ -17,7 +17,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,9 +42,6 @@ import org.springframework.util.MultiValueMap;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import static client.Client.getUserByEmail;
-
 
 public class AppController {
     
@@ -544,7 +548,7 @@ public class AppController {
         borderpane.setCenter(pane);
 
         lookUp.setOnAction(event -> {
-            try{
+            try {
                 error.setVisible(false);
                 String email = findFriends.getText();
                 vbox.getChildren().clear();
@@ -554,7 +558,7 @@ public class AppController {
                 pane.setContent(followfriend);
                 borderpane.getChildren().removeAll();
                 borderpane.setCenter(pane);
-            }catch(Exception e){
+            } catch (NullPointerException e) {
                 error.setVisible(true);
             }
         });
@@ -562,8 +566,8 @@ public class AppController {
     }
 
 
-    private User[] searchFriend(String email){
-        User friend = getUserByEmail(email);
+    private User[] searchFriend(String email) {
+        User friend = Client.getUserByEmail(email);
         User[] list = new User[1];
         list[0] = friend;
         return list;
