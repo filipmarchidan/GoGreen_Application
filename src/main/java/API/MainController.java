@@ -188,7 +188,6 @@ public class MainController {
             //System.out.println("HELLO");
             Activity act = activityRepository.save(activity);
             checkAchievements(act);
-            updateScoreAdd(act);
             return act;
 
         } else {
@@ -240,18 +239,6 @@ public class MainController {
         return userRepository.save(user1);
     
     }
-
-    private void updateScoreAdd(Activity activity) {
-        //System.out.println(activity.getActivity_amount());
-        //System.out.println("we get here");
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
-            .ordinal()).get();
-        User user = userRepository.findByEmail(activity.getUser().getEmail());
-        user.setTotalscore(user.getTotalscore() + activityType.getCo2_savings() * activity
-            .getActivity_amount());
-        userRepository.save(user);
-    }
-    
     
     /**
      * removes activit.
@@ -272,21 +259,11 @@ public class MainController {
         activity.setUser(user);
         
         if (activityRepository.existsById(activity.getId())) {
-            updateScoreRemove(activity);
             activityRepository.delete(activity);
             return true;
         }
 
         return false;
-    }
-
-    private void updateScoreRemove(Activity activity) {
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
-            .ordinal()).get();
-        User user = userRepository.findById(activity.getUser().getId()).get();
-        user.setTotalscore(user.getTotalscore() - activityType.getCo2_savings() * activity
-            .getActivity_amount());
-        userRepository.save(user);
     }
 
     /** This is what the client can connect to, to retrieve a user's achievements.
