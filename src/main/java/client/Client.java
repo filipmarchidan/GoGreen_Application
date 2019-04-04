@@ -178,6 +178,7 @@ public class Client {
         return achievements;
     }
 
+
     /**
      * getFriends.
      * @return all friends
@@ -291,7 +292,7 @@ public class Client {
     public static User followUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
-        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(),User.class);
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(), User.class);
         return user1;
     }
 
