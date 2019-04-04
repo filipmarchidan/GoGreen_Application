@@ -18,12 +18,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +35,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -103,16 +102,6 @@ public class AppController {
 
     @FXML
     private ImageView temperature;
-
-
-
-
-
-
-
-
-
-
 
     @FXML
     private void switchScreen(ActionEvent event) {
@@ -205,7 +194,7 @@ public class AppController {
     }
 
     void displayAchievements() {
-        Achievement[] achievements = Client.getAchievements();
+        Achievement[] achievements = Client.getAchievements(Client.findCurrentUser().getEmail());
         for(Achievement a : achievements) {
             System.out.println(a.getAchievement_name());
             String achievementname = a.getAchievement_name();
@@ -393,9 +382,7 @@ public class AppController {
     private TableView<TableUser> loadTable(int size) {
         
         TableColumn<TableUser, String> rank = new TableColumn<>();
-        
-        
-        
+
         rank.setCellValueFactory(new PropertyValueFactory<TableUser, String>("rank"));
         rank.setPrefWidth(25);
         rank.setMaxWidth(25);
@@ -450,35 +437,12 @@ public class AppController {
             }
             System.out.println(user);
             
-            /*
-            HBox hbox = new HBox();
-            ImageView images = new ImageView(
-            new Image(getClass().getResource("/images/path815.png").toExternalForm()));
-            images.setFitHeight(30);
-            images.setFitWidth(30);
-            Tooltip.install(images, new Tooltip("This is an achievement"));
-            ImageView images3 = new ImageView(
-            new Image(getClass().getResource("/images/path815.png").toExternalForm()));
-            images3.setFitHeight(30);
-            images3.setFitWidth(30);
-            ImageView images2 = new ImageView(
-            new Image(getClass().getResource("/images/path817.png").toExternalForm()));
-            images2.setFitHeight(30);
-            images2.setFitWidth(30);
-            ImageView images4 = new ImageView(
-            new Image(getClass().getResource("/images/path817.png").toExternalForm()));
-            images4.setFitHeight(30);
-            images4.setFitWidth(30);
-            Tooltip.install(images, new Tooltip("This is an achievement"));
-            Tooltip.install(images2, new Tooltip("This is an achievement"));
-            Tooltip.install(images3, new Tooltip("This is an achievement"));
-            Tooltip.install(images4, new Tooltip("This is an achievement"));
-            hbox.getChildren().addAll(images, images2, images3, images4);
+
+            HBox hbox = initializeAchievement(user.getEmail());
             hbox.setSpacing(4);
             hbox.setFillHeight(true);
-            */
             TableUser tableUser =
-                    new TableUser(i + 1, user.getEmail(), null/*hbox*/, user.getTotalscore());
+                    new TableUser(i + 1, user.getEmail(), hbox, user.getTotalscore());
             imgList.add(tableUser);
         }
         if (!seen) {
@@ -490,7 +454,72 @@ public class AppController {
         }
         return imgList;
     }
-    
+
+    private HBox initializeAchievement(String email) {
+        Achievement[] achievements = Client.getAchievements(email);
+        HBox hBox = new HBox();
+        for (Achievement a : achievements) {
+            switch (a.getAchievement_name()){
+                case "Bronze Badge":
+                    ImageView bronze = new ImageView(new Image(getClass().getResource("/images/bronze.png").toExternalForm()));
+                    bronze.setFitHeight(30);
+                    bronze.setFitWidth(30);
+                    hBox.getChildren().add(bronze);
+                    break;
+                case "Silver Badge":
+                    ImageView silver = new ImageView(new Image(getClass().getResource("/images/silver.png").toExternalForm()));
+                    silver.setFitHeight(30);
+                    silver.setFitWidth(30);
+                    hBox.getChildren().add(silver);
+                    break;
+                case "Golden Badge":
+                    ImageView gold = new ImageView(new Image(getClass().getResource("/images/gold.png").toExternalForm()));
+                    gold.setFitHeight(30);
+                    gold.setFitWidth(30);
+                    hBox.getChildren().add(gold);
+                    break;
+                case "Solar Panel":
+                    ImageView solarPanel = new ImageView(new Image(getClass().getResource("/images/solar.png").toExternalForm()));
+                    solarPanel.setFitHeight(30);
+                    solarPanel.setFitWidth(30);
+                    hBox.getChildren().add(solarPanel);
+                    break;
+                case "Vegetarian Meal":
+                    ImageView vegetarian = new ImageView(new Image(getClass().getResource("/images/vegetarian.png").toExternalForm()));
+                    vegetarian.setFitHeight(30);
+                    vegetarian.setFitWidth(30);
+                    hBox.getChildren().add(vegetarian);
+                    break;
+                case "Bike":
+                    ImageView bike = new ImageView(new Image(getClass().getResource("/images/bike.png").toExternalForm()));
+                    bike.setFitHeight(30);
+                    bike.setFitWidth(30);
+                    hBox.getChildren().add(bike);
+                    break;
+                case"Public Transport":
+                    ImageView publicTransport = new ImageView(new Image(getClass().getResource("/images/publictransport.png").toExternalForm()));
+                    publicTransport.setFitHeight(30);
+                    publicTransport.setFitWidth(30);
+                    hBox.getChildren().add(publicTransport);
+                    break;
+                case"Temperature":
+                    ImageView temp = new ImageView(new Image(getClass().getResource("/images/temp.png").toExternalForm()));
+                    temp.setFitHeight(30);
+                    temp.setFitWidth(30);
+                    hBox.getChildren().add(temp);
+                    break;
+                case"Buying Local":
+                    ImageView buyLocal = new ImageView(new Image(getClass().getResource("/images/local.png").toExternalForm()));
+                    buyLocal.setFitHeight(30);
+                    buyLocal.setFitWidth(30);
+                    hBox.getChildren().add(buyLocal);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return hBox;
+    }
     /** Displays the array of all users so the current user can friend/unfriend them.
      *
      */
@@ -615,8 +644,4 @@ public class AppController {
         Stage stage = (Stage)content.getScene().getWindow();
         stage.setIconified(true);
     }
-
-
-
-
 }

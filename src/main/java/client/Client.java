@@ -168,9 +168,11 @@ public class Client {
      *
      * @return
      */
-    public static Achievement[] getAchievements () {
+    public static Achievement[] getAchievements (String email) {
 
-        HttpEntity<String> result = getRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements");
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("email",email);
+        HttpEntity<String> result = postRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements", params);
         Achievement[] achievements = gson.fromJson(result.getBody(), Achievement[].class);
         return achievements;
     }
@@ -291,19 +293,6 @@ public class Client {
         User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowFriend",params).getBody(),User.class);
         return user1;
     }
-
-
-
-    //@FXML
-    //public static void getAchievements
-    //handle (ActionEvent event) {
-    //    if (obj=true()) {
-    //   Show();
-
-    //    } else {
-    //           Hide();
-    //    }
-    //  }
 
 
     /**

@@ -321,7 +321,8 @@ public class MainController {
      */
     @PostMapping(path = "/removeactivity")
     public @ResponseBody boolean removeActivity(@RequestBody MultiValueMap<String, Object> params) {
-        
+        //TODO: update to also remove activity in database en update the score
+
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
     
@@ -354,12 +355,12 @@ public class MainController {
      *
      * @return  a set of all the achievement that user earned
      */
-    @GetMapping(path = "/getAchievements")
-    public @ResponseBody Set<Achievement> getAchievements() {
-        String email = SecurityService.findLoggedInEmail();
+    @PostMapping(path = "/getAchievements")
+    public @ResponseBody Set<Achievement> getAchievements(@RequestBody MultiValueMap<String, Object> params) {
+
+        String email = (String) (params.getFirst("email"));
         User user = userRepository.findByEmail(email);
-        Set<Achievement> achievements =
-                achievementRepository.getAchievementsFromUserId(user.getId());
+        Set<Achievement> achievements = achievementRepository.getAchievementsFromUserId(user.getId());
         return achievements;
 
     }
