@@ -16,8 +16,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -163,7 +163,7 @@ public class AppController {
         stage.close();
     }
 
-    /** Makes sure the total score gets updated
+    /** Makes sure the total score gets updated.
      *
      */
     @FXML
@@ -190,54 +190,57 @@ public class AppController {
 
     void displayAchievements() {
         Achievement[] achievements = Client.getAchievements(Client.findCurrentUser().getEmail());
-        for(Achievement a : achievements) {
+        for (Achievement a : achievements) {
             System.out.println(a.getAchievement_name());
             String achievementname = a.getAchievement_name();
-            switch (achievementname) {
-                case "Bronze Badge":
-                    bronze = (ImageView) exit.getScene().lookup("#bronze");
-                    bronze.setOpacity(1);
-                break;
-                case "Silver Badge":
-                    silver = (ImageView) exit.getScene().lookup("#silver");
-                    silver.setOpacity(1);
-                    break;
-                case "Golden Badge":
-                    gold = (ImageView) exit.getScene().lookup("#gold");
-                    gold.setOpacity(1);
-                    break;
-                case "Solar Panel":
-                    solar = (ImageView) exit.getScene().lookup("#solar");
-                    solar.setOpacity(1);
-                    break;
-                case "Bike":
-                    bike = (ImageView) exit.getScene().lookup("#bike");
-                    bike.setOpacity(1);
-                    break;
-                case "Buying Local":
-                    local = (ImageView) exit.getScene().lookup("#local");
-                    local.setOpacity(1);
-                    break;
-                case "Temperature":
-                    temperature = (ImageView) exit.getScene().lookup("#temperature");
-                    temperature.setOpacity(1);
-                    break;
-                case "Public Transport":
-                    transport = (ImageView) exit.getScene().lookup("#transport");
-                    transport.setOpacity(1);
-                    break;
-                case "Vegetarian Meal":
-                    vegetarian = (ImageView) exit.getScene().lookup("#vegetarian");
-                    vegetarian.setOpacity(1);
-                    break;
-                default:
-                        break;
-
-            }
+            switchBadge(achievementname);
 
         }
     }
-    
+
+    private void switchBadge(String achievementname) {
+        switch (achievementname) {
+            case "Bronze Badge":
+                bronze = (ImageView) exit.getScene().lookup("#bronze");
+                bronze.setOpacity(1);
+                break;
+            case "Silver Badge":
+                silver = (ImageView) exit.getScene().lookup("#silver");
+                silver.setOpacity(1);
+                break;
+            case "Golden Badge":
+                gold = (ImageView) exit.getScene().lookup("#gold");
+                gold.setOpacity(1);
+                break;
+            case "Solar Panel":
+                solar = (ImageView) exit.getScene().lookup("#solar");
+                solar.setOpacity(1);
+                break;
+            case "Bike":
+                bike = (ImageView) exit.getScene().lookup("#bike");
+                bike.setOpacity(1);
+                break;
+            case "Buying Local":
+                local = (ImageView) exit.getScene().lookup("#local");
+                local.setOpacity(1);
+                break;
+            case "Temperature":
+                temperature = (ImageView) exit.getScene().lookup("#temperature");
+                temperature.setOpacity(1);
+                break;
+            case "Public Transport":
+                transport = (ImageView) exit.getScene().lookup("#transport");
+                transport.setOpacity(1);
+                break;
+            case "Vegetarian Meal":
+                vegetarian = (ImageView) exit.getScene().lookup("#vegetarian");
+                vegetarian.setOpacity(1);
+                break;
+            default: break;
+
+        }
+    }
+
     /** Retrieves and displays all the activities of the user.
      *
      */
@@ -456,69 +459,84 @@ public class AppController {
 
     private HBox initializeAchievement(String email) {
         Achievement[] achievements = Client.getAchievements(email);
-        HBox hBox = new HBox();
+        HBox hbox = new HBox();
         for (Achievement a : achievements) {
-            switch (a.getAchievement_name()){
-                case "Bronze Badge":
-                    ImageView bronze = new ImageView(new Image(getClass().getResource("/images/bronze.png").toExternalForm()));
-                    bronze.setFitHeight(30);
-                    bronze.setFitWidth(30);
-                    hBox.getChildren().add(bronze);
-                    break;
-                case "Silver Badge":
-                    ImageView silver = new ImageView(new Image(getClass().getResource("/images/silver.png").toExternalForm()));
-                    silver.setFitHeight(30);
-                    silver.setFitWidth(30);
-                    hBox.getChildren().add(silver);
-                    break;
-                case "Golden Badge":
-                    ImageView gold = new ImageView(new Image(getClass().getResource("/images/gold.png").toExternalForm()));
-                    gold.setFitHeight(30);
-                    gold.setFitWidth(30);
-                    hBox.getChildren().add(gold);
-                    break;
-                case "Solar Panel":
-                    ImageView solar = new ImageView(new Image(getClass().getResource("/images/solar.png").toExternalForm()));
-                    solar.setFitHeight(30);
-                    solar.setFitWidth(30);
-                    hBox.getChildren().add(solar);
-                    break;
-                case "Vegetarian Meal":
-                    ImageView vegetarian = new ImageView(new Image(getClass().getResource("/images/vegetarian.png").toExternalForm()));
-                    vegetarian.setFitHeight(30);
-                    vegetarian.setFitWidth(30);
-                    hBox.getChildren().add(vegetarian);
-                    break;
-                case "Bike":
-                    ImageView bike = new ImageView(new Image(getClass().getResource("/images/bike.png").toExternalForm()));
-                    bike.setFitHeight(30);
-                    bike.setFitWidth(30);
-                    hBox.getChildren().add(bike);
-                    break;
-                case"Public Transport":
-                    ImageView publicTransport = new ImageView(new Image(getClass().getResource("/images/publictransport.png").toExternalForm()));
-                    publicTransport.setFitHeight(30);
-                    publicTransport.setFitWidth(30);
-                    hBox.getChildren().add(publicTransport);
-                    break;
-                case"Temperature":
-                    ImageView temp = new ImageView(new Image(getClass().getResource("/images/temp.png").toExternalForm()));
-                    temp.setFitHeight(30);
-                    temp.setFitWidth(30);
-                    hBox.getChildren().add(temp);
-                    break;
-                case"Buying Local":
-                    ImageView buyLocal = new ImageView(new Image(getClass().getResource("/images/local.png").toExternalForm()));
-                    buyLocal.setFitHeight(30);
-                    buyLocal.setFitWidth(30);
-                    hBox.getChildren().add(buyLocal);
-                    break;
-                default:
-                    break;
-            }
+            hbox = switchBadgeLeaderboard(a, hbox);
+        }
+        return hbox;
+    }
+
+    private HBox switchBadgeLeaderboard(Achievement a, HBox hBox) {
+        switch (a.getAchievement_name()) {
+            case "Bronze Badge":
+                ImageView bronze = new ImageView(
+                        new Image(getClass().getResource("/images/bronze.png").toExternalForm()));
+                bronze.setFitHeight(30);
+                bronze.setFitWidth(30);
+                hBox.getChildren().add(bronze);
+                break;
+            case "Silver Badge":
+                ImageView silver = new ImageView(
+                        new Image(getClass().getResource("/images/silver.png").toExternalForm()));
+                silver.setFitHeight(30);
+                silver.setFitWidth(30);
+                hBox.getChildren().add(silver);
+                break;
+            case "Golden Badge":
+                ImageView gold = new ImageView(
+                        new Image(getClass().getResource("/images/gold.png").toExternalForm()));
+                gold.setFitHeight(30);
+                gold.setFitWidth(30);
+                hBox.getChildren().add(gold);
+                break;
+            case "Solar Panel":
+                ImageView solar = new ImageView(
+                        new Image(getClass().getResource("/images/solar.png").toExternalForm()));
+                solar.setFitHeight(30);
+                solar.setFitWidth(30);
+                hBox.getChildren().add(solar);
+                break;
+            case "Vegetarian Meal":
+                ImageView vegetarian = new ImageView(
+                        new Image(getClass().getResource("/images/vegmeal.png").toExternalForm()));
+                vegetarian.setFitHeight(30);
+                vegetarian.setFitWidth(30);
+                hBox.getChildren().add(vegetarian);
+                break;
+            case "Bike":
+                ImageView bike = new ImageView(
+                        new Image(getClass().getResource("/images/bike.png").toExternalForm()));
+                bike.setFitHeight(30);
+                bike.setFitWidth(30);
+                hBox.getChildren().add(bike);
+                break;
+            case"Public Transport":
+                ImageView publicTransport = new ImageView(
+                        new Image(getClass().getResource("/images/trans.png").toExternalForm()));
+                publicTransport.setFitHeight(30);
+                publicTransport.setFitWidth(30);
+                hBox.getChildren().add(publicTransport);
+                break;
+            case"Temperature":
+                ImageView temp = new ImageView(
+                        new Image(getClass().getResource("/images/temp.png").toExternalForm()));
+                temp.setFitHeight(30);
+                temp.setFitWidth(30);
+                hBox.getChildren().add(temp);
+                break;
+            case"Buying Local":
+                ImageView buyLocal = new ImageView(
+                        new Image(getClass().getResource("/images/local.png").toExternalForm()));
+                buyLocal.setFitHeight(30);
+                buyLocal.setFitWidth(30);
+                hBox.getChildren().add(buyLocal);
+                break;
+            default:
+                break;
         }
         return hBox;
     }
+
     /** Displays the array of all users so the current user can friend/unfriend them.
      *
      */

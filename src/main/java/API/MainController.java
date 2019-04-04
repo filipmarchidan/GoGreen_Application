@@ -228,7 +228,7 @@ public class MainController {
             achievement = achievementRepository.findById(3).get();
         }
         if (achievement != null) {
-            user.getAchievements().add(achievement);;
+            user.getAchievements().add(achievement);
             achievement.getUsers().add(user);
             achievementRepository.save(achievement);
         }
@@ -359,11 +359,13 @@ public class MainController {
      * @return  a set of all the achievement that user earned
      */
     @PostMapping(path = "/getAchievements")
-    public @ResponseBody Set<Achievement> getAchievements(@RequestBody MultiValueMap<String, Object> params) {
+    public @ResponseBody Set<Achievement> getAchievements(
+            @RequestBody MultiValueMap<String, Object> params) {
 
         String email = (String) (params.getFirst("email"));
         User user = userRepository.findByEmail(email);
-        Set<Achievement> achievements = achievementRepository.getAchievementsFromUserId(user.getId());
+        Set<Achievement> achievements =
+                achievementRepository.getAchievementsFromUserId(user.getId());
         return achievements;
 
     }

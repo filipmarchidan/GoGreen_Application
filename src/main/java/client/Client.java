@@ -165,10 +165,11 @@ public class Client {
     }
 
     /**
-     *
-     * @return
+     *getAchievements.
+     * @param email String
+     * @return all achievements from a user
      */
-    public static Achievement[] getAchievements (String email) {
+    public static Achievement[] getAchievements(String email) {
 
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("email",email);
