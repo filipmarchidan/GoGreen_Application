@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppController">
+<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppController">
 
         <Label layoutX="157.0" layoutY="31.0" text="Achievements">
             <font>
@@ -17,17 +17,17 @@
       <Text layoutX="132.0" layoutY="224.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="bronze" />
    <Text layoutX="281.0" layoutY="224.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="silver" />
    <Text layoutX="427.0" layoutY="224.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="gold" />
-   <ImageView fx:id="goldBadge" fitHeight="100.0" fitWidth="100.0" layoutX="390.0" layoutY="92.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="gold" fx:id="gold" fitHeight="100.0" fitWidth="100.0" layoutX="390.0" layoutY="92.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@gold.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="silverBadge" fitHeight="100.0" fitWidth="100.0" layoutX="247.0" layoutY="92.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="silver" fx:id="silver" fitHeight="100.0" fitWidth="100.0" layoutX="247.0" layoutY="92.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@silver.png" />
       </image>
    </ImageView>
-   <ImageView id="bronzeBadge" fx:id="bronze" fitHeight="100.0" fitWidth="100.0" layoutX="103.0" layoutY="92.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="bronze" fx:id="bronze" fitHeight="100.0" fitWidth="100.0" layoutX="103.0" layoutY="92.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@bronze.png" />
       </image>
@@ -38,32 +38,32 @@
    <Text layoutX="137.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="local" />
    <Text layoutX="254.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="temperature" />
    <Text layoutX="398.0" layoutY="510.0" scaleX="0.8" scaleY="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="public transport" />
-   <ImageView fx:id="publictBadge" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="transport" fx:id="transport" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
-         <Image url="@publictransport.png" />
+         <Image url="@transport.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="localBadge" fitHeight="100.0" fitWidth="100.0" layoutX="98.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="local" fx:id="local" fitHeight="100.0" fitWidth="100.0" layoutX="98.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@local.png" />
       </image>
    </ImageView>
-   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="242.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="temperature" fx:id="temperature" fitHeight="100.0" fitWidth="100.0" layoutX="242.0" layoutY="371.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@temp.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="vegetariaBadge" fitHeight="100.0" fitWidth="100.0" layoutX="106.0" layoutY="232.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="vegetarian" fx:id="vegetarian" fitHeight="100.0" fitWidth="100.0" layoutX="106.0" layoutY="232.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@vegetarian.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="solarBadge" fitHeight="100.0" fitWidth="100.0" layoutX="246.0" layoutY="232.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="solar" fx:id="solar" fitHeight="100.0" fitWidth="100.0" layoutX="246.0" layoutY="232.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@solar.png" />
       </image>
    </ImageView>
-   <ImageView fx:id="bikeBadge" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="232.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
+   <ImageView id="bike" fx:id="bike" fitHeight="100.0" fitWidth="100.0" layoutX="389.0" layoutY="232.0" opacity="0.1" scaleX="0.8" scaleY="0.8">
       <image>
          <Image url="@bike.png" />
       </image>
