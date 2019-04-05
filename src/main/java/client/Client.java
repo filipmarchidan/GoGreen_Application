@@ -165,15 +165,19 @@ public class Client {
     }
 
     /**
-     *
-     * @return
+     *getAchievements.
+     * @param email String
+     * @return all achievements from a user
      */
-    public static Achievement[] getAchievements () {
+    public static Achievement[] getAchievements(String email) {
 
-        HttpEntity<String> result = getRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements");
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("email",email);
+        HttpEntity<String> result = postRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements", params);
         Achievement[] achievements = gson.fromJson(result.getBody(), Achievement[].class);
         return achievements;
     }
+
 
     /**
      * getFriends.
@@ -185,6 +189,18 @@ public class Client {
         User[] friends = gson.fromJson(result.getBody(), User[].class);
 
         return friends;
+    }
+
+    /**
+     * getUserByEmail.
+     *@param email String
+     *@return user
+     */
+    public static User getUserByEmail(String email) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("email",gson.toJson(email));
+        User friend = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/findByEmail",params).getBody(),User.class);
+        return friend;
     }
 
     /*
@@ -276,7 +292,7 @@ public class Client {
     public static User followUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
-        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(),User.class);
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(), User.class);
         return user1;
     }
 
@@ -291,19 +307,6 @@ public class Client {
         User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowFriend",params).getBody(),User.class);
         return user1;
     }
-
-
-
-    //@FXML
-    //public static void getAchievements
-    //handle (ActionEvent event) {
-    //    if (obj=true()) {
-    //   Show();
-
-    //    } else {
-    //           Hide();
-    //    }
-    //  }
 
 
     /**

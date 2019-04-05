@@ -13,10 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -24,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,16 +37,14 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
-
 
 public class AppController {
     
     //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-
+    
+    
     @FXML
     public Label scoreRepresentation;
     
@@ -66,10 +63,7 @@ public class AppController {
     private Button exit;
 
     @FXML
-    private Button minimize;
-    
-    @FXML
-    private CheckBox ssolar;
+    private CheckBox solarPanel;
     
     @FXML
     private Pane homeScreen;
@@ -79,6 +73,30 @@ public class AppController {
 
     @FXML
     private ImageView bronze;
+
+    @FXML
+    private ImageView silver;
+
+    @FXML
+    private ImageView gold;
+
+    @FXML
+    private ImageView bike;
+
+    @FXML
+    private ImageView local;
+
+    @FXML
+    private ImageView solar;
+
+    @FXML
+    private ImageView vegetarian;
+
+    @FXML
+    private ImageView transport;
+
+    @FXML
+    private ImageView temperature;
 
     @FXML
     private void switchScreen(ActionEvent event) {
@@ -120,8 +138,8 @@ public class AppController {
                     root = FXMLLoader.load(getClass().getResource("/activities.fxml"));
                     borderpane.setCenter(root);
                     User user = Client.findCurrentUser();
-                    ssolar = (CheckBox) exit.getScene().lookup("#ssolar");
-                    ssolar.setSelected(user.isSolarPanel());
+                    solarPanel = (CheckBox) exit.getScene().lookup("#solarPanel");
+                    solarPanel.setSelected(user.isSolarPanel());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -145,7 +163,7 @@ public class AppController {
         stage.close();
     }
 
-    /** Makes sure the total score gets updated
+    /** Makes sure the total score gets updated.
      *
      */
     @FXML
@@ -171,9 +189,55 @@ public class AppController {
     }
 
     void displayAchievements() {
-        Achievement[] achievements = Client.getAchievements();
-        for(Achievement a : achievements) {
+        Achievement[] achievements = Client.getAchievements(Client.findCurrentUser().getEmail());
+        for (Achievement a : achievements) {
             System.out.println(a.getAchievement_name());
+            String achievementname = a.getAchievement_name();
+            switchBadge(achievementname);
+
+        }
+    }
+
+    private void switchBadge(String achievementname) {
+        switch (achievementname) {
+            case "Bronze Badge":
+                bronze = (ImageView) exit.getScene().lookup("#bronze");
+                bronze.setOpacity(1);
+                break;
+            case "Silver Badge":
+                silver = (ImageView) exit.getScene().lookup("#silver");
+                silver.setOpacity(1);
+                break;
+            case "Golden Badge":
+                gold = (ImageView) exit.getScene().lookup("#gold");
+                gold.setOpacity(1);
+                break;
+            case "Solar Panel":
+                solar = (ImageView) exit.getScene().lookup("#solar");
+                solar.setOpacity(1);
+                break;
+            case "Bike":
+                bike = (ImageView) exit.getScene().lookup("#bike");
+                bike.setOpacity(1);
+                break;
+            case "Buying Local":
+                local = (ImageView) exit.getScene().lookup("#local");
+                local.setOpacity(1);
+                break;
+            case "Temperature":
+                temperature = (ImageView) exit.getScene().lookup("#temperature");
+                temperature.setOpacity(1);
+                break;
+            case "Public Transport":
+                transport = (ImageView) exit.getScene().lookup("#transport");
+                transport.setOpacity(1);
+                break;
+            case "Vegetarian Meal":
+                vegetarian = (ImageView) exit.getScene().lookup("#vegetarian");
+                vegetarian.setOpacity(1);
+                break;
+            default: break;
+
         }
     }
 
@@ -233,6 +297,8 @@ public class AppController {
             but.setStyle("-fx-background-color: #f23a3a;"
                     + "-fx-border-radius: 3 3 3 3;");
             but.setOnAction(event -> {
+                //TODO: The program only allows to remove the last activity
+
                 MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
                 params.add("activity",gson.toJson(a));
                 HttpEntity<String> response = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/removeactivity", params);
@@ -373,35 +439,12 @@ public class AppController {
             }
             System.out.println(user);
             
-            /*
-            HBox hbox = new HBox();
-            ImageView images = new ImageView(
-            new Image(getClass().getResource("/images/path815.png").toExternalForm()));
-            images.setFitHeight(30);
-            images.setFitWidth(30);
-            Tooltip.install(images, new Tooltip("This is an achievement"));
-            ImageView images3 = new ImageView(
-            new Image(getClass().getResource("/images/path815.png").toExternalForm()));
-            images3.setFitHeight(30);
-            images3.setFitWidth(30);
-            ImageView images2 = new ImageView(
-            new Image(getClass().getResource("/images/path817.png").toExternalForm()));
-            images2.setFitHeight(30);
-            images2.setFitWidth(30);
-            ImageView images4 = new ImageView(
-            new Image(getClass().getResource("/images/path817.png").toExternalForm()));
-            images4.setFitHeight(30);
-            images4.setFitWidth(30);
-            Tooltip.install(images, new Tooltip("This is an achievement"));
-            Tooltip.install(images2, new Tooltip("This is an achievement"));
-            Tooltip.install(images3, new Tooltip("This is an achievement"));
-            Tooltip.install(images4, new Tooltip("This is an achievement"));
-            hbox.getChildren().addAll(images, images2, images3, images4);
+
+            HBox hbox = initializeAchievement(user.getEmail());
             hbox.setSpacing(4);
             hbox.setFillHeight(true);
-            */
             TableUser tableUser =
-                    new TableUser(i + 1, user.getEmail(), null/*hbox*/, user.getTotalscore());
+                    new TableUser(i + 1, user.getEmail(), hbox, user.getTotalscore());
             imgList.add(tableUser);
         }
         if (!seen) {
@@ -413,7 +456,87 @@ public class AppController {
         }
         return imgList;
     }
-    
+
+    private HBox initializeAchievement(String email) {
+        Achievement[] achievements = Client.getAchievements(email);
+        HBox hbox = new HBox();
+        for (Achievement a : achievements) {
+            hbox = switchBadgeLeaderboard(a, hbox);
+        }
+        return hbox;
+    }
+
+    private HBox switchBadgeLeaderboard(Achievement a, HBox hBox) {
+        switch (a.getAchievement_name()) {
+            case "Bronze Badge":
+                ImageView bronze = new ImageView(
+                        new Image(getClass().getResource("/images/bronze.png").toExternalForm()));
+                bronze.setFitHeight(30);
+                bronze.setFitWidth(30);
+                hBox.getChildren().add(bronze);
+                break;
+            case "Silver Badge":
+                ImageView silver = new ImageView(
+                        new Image(getClass().getResource("/images/silver.png").toExternalForm()));
+                silver.setFitHeight(30);
+                silver.setFitWidth(30);
+                hBox.getChildren().add(silver);
+                break;
+            case "Golden Badge":
+                ImageView gold = new ImageView(
+                        new Image(getClass().getResource("/images/gold.png").toExternalForm()));
+                gold.setFitHeight(30);
+                gold.setFitWidth(30);
+                hBox.getChildren().add(gold);
+                break;
+            case "Solar Panel":
+                ImageView solar = new ImageView(
+                        new Image(getClass().getResource("/images/solar.png").toExternalForm()));
+                solar.setFitHeight(30);
+                solar.setFitWidth(30);
+                hBox.getChildren().add(solar);
+                break;
+            case "Vegetarian Meal":
+                ImageView vegetarian = new ImageView(
+                        new Image(getClass().getResource("/images/vegmeal.png").toExternalForm()));
+                vegetarian.setFitHeight(30);
+                vegetarian.setFitWidth(30);
+                hBox.getChildren().add(vegetarian);
+                break;
+            case "Bike":
+                ImageView bike = new ImageView(
+                        new Image(getClass().getResource("/images/bike.png").toExternalForm()));
+                bike.setFitHeight(30);
+                bike.setFitWidth(30);
+                hBox.getChildren().add(bike);
+                break;
+            case"Public Transport":
+                ImageView publicTransport = new ImageView(
+                        new Image(getClass().getResource("/images/trans.png").toExternalForm()));
+                publicTransport.setFitHeight(30);
+                publicTransport.setFitWidth(30);
+                hBox.getChildren().add(publicTransport);
+                break;
+            case"Temperature":
+                ImageView temp = new ImageView(
+                        new Image(getClass().getResource("/images/temp.png").toExternalForm()));
+                temp.setFitHeight(30);
+                temp.setFitWidth(30);
+                hBox.getChildren().add(temp);
+                break;
+            case"Buying Local":
+                ImageView buyLocal = new ImageView(
+                        new Image(getClass().getResource("/images/local.png").toExternalForm()));
+                buyLocal.setFitHeight(30);
+                buyLocal.setFitWidth(30);
+                hBox.getChildren().add(buyLocal);
+                break;
+            default:
+                break;
+        }
+        return hBox;
+    }
+
     /** Displays the array of all users so the current user can friend/unfriend them.
      *
      */
@@ -425,52 +548,112 @@ public class AppController {
         
         VBox vbox = new VBox();
         vbox.setFillWidth(true);
-
+        vbox.setPrefHeight(560);
         vbox.setStyle("-fx-background-color: #8ee4af");
-        vbox.setPadding(new Insets(10, 20, 10, 20));
+        vbox.setPadding(new Insets(10, 10, 10, 20));
         vbox.setSpacing(10);
 
-        User currentUser = Client.findCurrentUser();
-        List<User> currentFriends = Arrays.asList(Client.getFriends());
+        Label error = new Label();
+        error.setMinSize(225,30);
+        error.setText("  There exists no user under this email.");
+        error.setStyle("-fx-background-radius: 10 10 10 10;"
+                + "-fx-background-color: #DC143C;"
+                + "-fx-font-size:13px;"
+                + "-fx-text-fill: #edf5e1;");
+        error.setVisible(false);
+        TextField findFriends = new TextField();
+        findFriends.setMinSize(230, 30);
+        findFriends.setPromptText("Find your friends by email.");
+        Button lookUp = new Button();
+        lookUp.setMinSize(60, 30);
+        lookUp.setStyle("-fx-background-radius: 10 10 10 10;"
+                + "-fx-background-color: #05386B;"
+                + "-fx-font-size: 13px;"
+                + "-fx-text-fill: #edf5e1;");
+        lookUp.setText("Search");
+        HBox search = new HBox();
+        search.setSpacing(20);
+        search.setPrefHeight(40);
+
+        search.getChildren().addAll(findFriends,lookUp, error);
+        vbox.getChildren().add(search);
+
         User[] allusers = Client.getUsers();
         System.out.println(allusers.length + "AMOUNT OF USERS");
-        
+        VBox updatedVbox = populateVbox(allusers, vbox);
+        pane.setContent(updatedVbox);
+        borderpane.getChildren().removeAll();
+        borderpane.setCenter(pane);
+
+        lookUp.setOnAction(event -> {
+            try {
+                error.setVisible(false);
+                String email = findFriends.getText();
+                vbox.getChildren().clear();
+                vbox.getChildren().add(search);
+                User[] lookedUp = searchFriend(email);
+                VBox followfriend = populateVbox(lookedUp, vbox);
+                pane.setContent(followfriend);
+                borderpane.getChildren().removeAll();
+                borderpane.setCenter(pane);
+            } catch (NullPointerException e) {
+                error.setVisible(true);
+            }
+        });
+
+    }
+
+
+    private User[] searchFriend(String email) {
+        User friend = Client.getUserByEmail(email);
+        User[] list = new User[1];
+        list[0] = friend;
+        return list;
+
+    }
+
+    private VBox populateVbox(User[] users, VBox vbox) {
+        User currentUser = Client.findCurrentUser();
+        List<User> currentFriends = Arrays.asList(Client.getFriends());
         int index = 0;
-        while (index < allusers.length) {
+        while (index < users.length) {
             HBox hbox = new HBox();
             hbox.setSpacing(10);
             hbox.setFillHeight(true);
             hbox.setPrefWidth(600);
-            //hbox.setPrefHeight(200);
+            hbox.setPrefHeight(200);
             for (int j = index; j < index + 2; j++) {
-                if (j < allusers.length && (allusers[j].equals(currentUser))) {
-                    System.out.println(allusers[j].getEmail()
-                            + " equals " + currentUser.getEmail() );
+                if (j < users.length && (users[j].equals(currentUser))) {
+                    System.out.println(users[j].getEmail()
+                            + " equals " + currentUser.getEmail());
                     index++;
                     j++;
                 }
-                if (!(j < allusers.length)) {
+                if (!(j < users.length)) {
                     break;
                 }
+
                 VBox innerv = new VBox();
                 innerv.setPrefWidth(270);
                 innerv.setPrefHeight(120);
                 innerv.setFillWidth(true);
                 innerv.setStyle("-fx-border-color: #05386B; "
-                        + "-fx-border-width: 3; "
-                        + "-fx-border-radius: 10 10 10 10;" );
+                        + "-fx-border-width: 5; "
+                        + "-fx-border-radius: 7 7 7 7;"
+                        + "-fx-background-color: #379683;"
+                        + "-fx-background-radius: 10 10 10 10;");
                 innerv.setPadding(new Insets(10, 50, 10, 50));
-                Label email = new Label(allusers[j].getEmail());
+                Label email = new Label(users[j].getEmail());
                 email.setStyle("-fx-font-size:15px;");
                 email.setPrefWidth(270);
                 email.setAlignment(Pos.CENTER);
-                Label score = new Label("Score: " + Integer.toString(allusers[j].getTotalscore()));
+                Label score = new Label();
+                String total = Integer.toString(users[j].getTotalscore());
+                score.setText("Score: " + total);
                 score.setStyle("-fx-font-size:15px;");
                 score.setAlignment(Pos.CENTER);
                 score.setPrefWidth(180);
-    
-                User user = allusers[j];
-                innerv.getChildren().addAll(email,score);
+                User user = users[j];
                 Button button1 = new Button();
                 button1.setAlignment(Pos.BOTTOM_CENTER);
                 button1.setPrefWidth(160);
@@ -480,9 +663,9 @@ public class AppController {
                         + "-fx-background-color: #05386B;"
                         + "-fx-font-size:19px;"
                         + "-fx-text-fill: #edf5e1;");
-    
+
                 button1.setText("Follow");
-    
+
                 Button button2 = new Button();
                 button2.setAlignment(Pos.BOTTOM_CENTER);
                 button2.setPrefWidth(160);
@@ -492,9 +675,9 @@ public class AppController {
                         + "-fx-background-color: #05386B;"
                         + "-fx-font-size:19px;"
                         + "-fx-text-fill: #edf5e1;");
-    
+
                 button2.setText("Unfollow");
-                
+
                 button1.setOnAction(event -> {
                     Client.followUser(user);
                     innerv.getChildren().remove(button1);
@@ -504,25 +687,29 @@ public class AppController {
                     Client.unfollowUser(user);
                     innerv.getChildren().remove(button2);
                     innerv.getChildren().add(button1);
-                
+
                 });
-                
-                if (!currentFriends.contains(allusers[j])) {
+
+                if (!currentFriends.contains(users[j])) {
                     innerv.getChildren().add(button1);
                 } else {
                     innerv.getChildren().add(button2);
                 }
-                
-                //innerv.getChildren().addAll(email,score,button1);
+
+                innerv.getChildren().addAll(email, score);
                 hbox.getChildren().add(innerv);
+                System.out.println(index + " index");
+                System.out.println(j + "j");
+
             }
             index += 2;
             vbox.getChildren().add(hbox);
+
+
         }
-        pane.setContent(vbox);
-        borderpane.getChildren().removeAll();
-        borderpane.setCenter(pane);
+        return vbox;
     }
+
 
     @FXML
     void handle_logout(ActionEvent event) throws IOException {
@@ -538,8 +725,4 @@ public class AppController {
         Stage stage = (Stage)content.getScene().getWindow();
         stage.setIconified(true);
     }
-
-
-
-
 }

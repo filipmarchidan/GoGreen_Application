@@ -23,26 +23,26 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class AuthenticationTest {
-    
+
     private MockMvc mvc;
 
     @Autowired
     private WebApplicationContext appContext;
-    
+
     //create a MockMvc instance
     @Before
     public void setup(){
-        
+
          mvc = MockMvcBuilders
              .webAppContextSetup(appContext)
              .apply(springSecurity())
              .build();
     }
-    
+
 //    @Before
 //    public void
-    
-    
+
+
     @Test
     public void notAuthenticatedTest() throws Exception {
         ResultActions resultActions = mvc.perform(formLogin().user("invalid").password("invalid"))
@@ -52,12 +52,12 @@ public class AuthenticationTest {
 
     @Test
     public void authenticatedTest() throws Exception {
-        
+
         mvc.perform(formLogin().user("user1@user1.com").password("test"))
                 .andExpect(authenticated());
-        
+
     }
-    
+
     @Test
     public void logoutTest() throws Exception {
 
@@ -66,6 +66,6 @@ public class AuthenticationTest {
 
         mvc.perform(logout())
             .andExpect(unauthenticated());
-        
+
     }
 }
