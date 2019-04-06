@@ -200,6 +200,9 @@ public class AppController {
             params.add("activity",gson.toJson(activity));
             HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,
                     "http://localhost:8080/addactivity",params);
+
+            bw.write("The Trees Thank You");
+            bw.flush();
         
         } else {
             User user = Client.findCurrentUser();
@@ -208,8 +211,7 @@ public class AppController {
         }
     
     
-    
-        //TODO: Add response to user
+        
     
     }
     
