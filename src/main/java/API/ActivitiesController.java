@@ -81,13 +81,13 @@ public class ActivitiesController {
         
         //System.out.println((String)params.getFirst("activity"));
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
-        System.out.println(activity.getActivity_type());
+        //System.out.println(activity.getActivity_type() + "display");
         activity.setUser(user);
-        
+        checkAchievements(user);
         if (activity.getActivity_type() != ActType.solar_panel) {
             //System.out.println("HELLO");
             Activity act = activityRepository.save(activity);
-            checkAchievements(user);
+
             checkActivityAchievements(act, user);
 
             updateScoreAdd(act);
@@ -99,6 +99,7 @@ public class ActivitiesController {
                 
                 user.setSolarPanel(true);
                 Activity act = activityRepository.save(activity);
+                checkActivityAchievements(act, user);
                 return act;
             }
             try {
@@ -228,17 +229,8 @@ public class ActivitiesController {
 
     private void checkActivityAchievements(Activity activity, User user) {
         List<Activity> activityList = activityRepository.findByUserId(user.getId());
-
-        //check test achievements
-        if (activityList.size() >= 1) {
-
-            Achievement achievement = achievementRepository.findById(0).get();
-            user.getAchievements().add(achievement);
-            //achievement.getUsers().add(user);
-            //achievementRepository.save(achievement);
-        }
-
-        Achievement achievement;
+        
+        Achievement achievement = null;
 
         switch (activity.getActivity_type()) {
 
@@ -265,10 +257,11 @@ public class ActivitiesController {
             case lower_temperature:
                 achievement = achievementRepository.findById(8).get();
                 break;
-
+                
             default:
-                achievement = null;
-                break;
+                System.out.println("TEST_CASE");
+                return;
+
         }
         user.getAchievements().add(achievement);
         achievement.getUsers().add(user);
@@ -278,10 +271,10 @@ public class ActivitiesController {
     }
 
 
-        /** This is what the client can connect to, to retrieve a user's achievements.
-        *
-        * @return  a set of all the achievement that user earned
-        */
+    /** This is what the client can connect to, to retrieve a user's achievements.
+     *
+     * @return  a set of all the achievement that user earned
+     */
     @PostMapping(path = "/getAchievements")
     public @ResponseBody Set<Achievement> getAchievements(
                 @RequestBody MultiValueMap<String, Object> params) {
