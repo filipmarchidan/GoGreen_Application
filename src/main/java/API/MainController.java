@@ -6,6 +6,7 @@ import database.*;
 import database.entities.*;
 import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -53,10 +54,10 @@ public class MainController {
     @Autowired
     private UserServiceImpl userServiceImpl;
     
-//    @Bean
-//    public BCryptPasswordEncoder appPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public BCryptPasswordEncoder appPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     
     
     /**
