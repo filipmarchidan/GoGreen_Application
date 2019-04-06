@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -8,11 +9,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.geometry.Insets?>
-
 
 <AnchorPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginController">
    <children>
@@ -21,6 +20,11 @@
             <Image url="@deacht.jpeg" />
          </image>
       </ImageView>
+      <Label fx:id="registrationConfirmation" alignment="CENTER" contentDisplay="CENTER" layoutX="456.0" layoutY="526.0" prefHeight="26.0" prefWidth="266.0" styleClass="regMes" stylesheets="@style.css" text="Your registration succeeded, please login." textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
       <Pane fx:id="content" layoutX="456.0" layoutY="336.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="266.0" style="-fx-background-color: #379683;" styleClass="loginMenu" stylesheets="@style.css">
          <children>
             <Button fx:id="register" layoutX="18.0" layoutY="151.0" mnemonicParsing="false" onAction="#handle_register" prefHeight="25.0" prefWidth="231.0" styleClass="loginButton" text="Register" textFill="#edf5e1">
@@ -46,10 +50,13 @@
             <TextField fx:id="emailInput" layoutX="18.0" layoutY="14.0" prefHeight="30.0" prefWidth="231.0" promptText="Email" />
             <PasswordField fx:id="newPassword" layoutX="18.0" layoutY="58.0" prefHeight="30.0" prefWidth="231.0" promptText="Password" />
             <PasswordField fx:id="newPasswordRepeat" layoutX="18.0" layoutY="104.0" prefHeight="30.0" prefWidth="231.0" promptText="Repeat Password" />
-            <Label fx:id="registrationStatus" layoutX="18.0" layoutY="191.0" prefHeight="30.0" prefWidth="231.0" text="" visible="false"></Label>
+            <Label fx:id="registrationStatus" layoutX="18.0" layoutY="191.0" prefHeight="30.0" prefWidth="231.0" text="" visible="false" />
          </children>
       </Pane>
-      <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="456.0" layoutY="526.0" prefHeight="26.0" prefWidth="266.0" styleClass="errorMessage" stylesheets="@style.css" text="test" textFill="WHITE" visible="false" />
+      <Label fx:id="errorMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="456.0" layoutY="526.0" prefHeight="26.0" prefWidth="266.0" styleClass="errorMessage" stylesheets="@style.css" text="Your credentials are incorrect, please try again." textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
       <HBox alignment="TOP_RIGHT" prefHeight="40.0" prefWidth="800.0" spacing="8.0" AnchorPane.leftAnchor="0.0">
          <children>
             <Button fx:id="regMenu" mnemonicParsing="false" onAction="#backLogin" prefHeight="24.0" prefWidth="50.0" styleClass="topButton" stylesheets="@style.css" text="Login" textFill="#edf5e1" visible="false">
@@ -74,5 +81,10 @@
             <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
          </padding>
       </HBox>
+      <Label fx:id="passwordMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="456.0" layoutY="549.0" prefHeight="26.0" prefWidth="266.0" styleClass="errorMessage" stylesheets="@style.css" text="characters and at least 1 number." textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
