@@ -50,7 +50,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <Button fx:id="temp" layoutX="14.0" layoutY="383.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="109.0" prefWidth="244.0" text="Lower the&#10;temperature&#10;in your house" textAlignment="CENTER">
+      <Button fx:id="temp" layoutX="74.0" layoutY="429.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="71.0" prefWidth="260.0" text="Set room temperature " textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>
@@ -64,9 +64,7 @@
             </CheckBox>
          </center>
       </BorderPane>
-      <Slider fx:id="bikeslider" layoutX="343.0" layoutY="203.0" max="50.0" onContextMenuRequested="#updateBikeValue" onDragDetected="#updateBikeValue" onDragDone="#updateBikeValue" onDragDropped="#updateBikeValue" onDragEntered="#updateBikeValue" onDragExited="#updateBikeValue" onDragOver="#updateBikeValue" onMouseClicked="#updateBikeValue" onMouseDragged="#updateBikeValue" onMouseEntered="#updateBikeValue" onMouseExited="#updateBikeValue" onMouseMoved="#updateBikeValue" prefHeight="14.0" prefWidth="166.0" />
       <Slider fx:id="transportslider" layoutX="343.0" layoutY="328.0" onContextMenuRequested="#updateTransportValue" onDragDetected="#updateTransportValue" onDragDone="#updateTransportValue" onDragDropped="#updateTransportValue" onDragEntered="#updateTransportValue" onDragExited="#updateTransportValue" onDragOver="#updateTransportValue" onMouseClicked="#updateTransportValue" onMouseDragged="#updateTransportValue" onMouseEntered="#updateTransportValue" onMouseExited="#updateTransportValue" onMouseMoved="#updateTransportValue" prefHeight="14.0" prefWidth="166.0" />
-      <Text layoutX="563.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text layoutX="546.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Km" />
       <Text layoutX="546.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Km" />
       <Text fx:id="biketext" layoutX="520.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
@@ -76,5 +74,10 @@
             <Font size="26.0" />
          </font>
       </Label>
+      <Text layoutX="27.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="°C" />
+      <Text layoutX="78.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General Average Temperature is 21" wrappingWidth="251.69683837890625" />
+      <Slider fx:id="tempSlider" layoutX="51.0" layoutY="389.0" max="21.0" min="16.0" onContextMenuRequested="#updateTemperatureValue" onDragDetected="#updateTemperatureValue" onDragDone="#updateTemperatureValue" onDragDropped="#updateTemperatureValue" onDragEntered="#updateTemperatureValue" onDragExited="#updateTemperatureValue" onDragOver="#updateTemperatureValue" onMouseClicked="#updateTemperatureValue" onMouseDragged="#updateTemperatureValue" onMouseEntered="#updateTemperatureValue" onMouseExited="#updateTemperatureValue" onMouseMoved="#updateTemperatureValue" orientation="VERTICAL" prefHeight="110.0" prefWidth="14.0" value="21.0" />
+      <Slider fx:id="bikeslider" layoutX="344.0" layoutY="204.0" onContextMenuRequested="#updateBikeValue" onDragDetected="#updateBikeValue" onDragDone="#updateBikeValue" onDragDropped="#updateBikeValue" onDragEntered="#updateBikeValue" onDragExited="#updateBikeValue" onDragOver="#updateBikeValue" onMouseClicked="#updateBikeValue" onMouseDragged="#updateBikeValue" onMouseEntered="#updateBikeValue" onMouseExited="#updateBikeValue" onMouseMoved="#updateBikeValue" prefHeight="14.0" prefWidth="166.0" />
+      <Text fx:id="tempDisplay" layoutX="14.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21" />
    </children>
 </AnchorPane>
