@@ -77,3 +77,75 @@
 
 #tempSlider:thumb{-fx-background-color: #ff0000!important;}
 #tempSlider{-fx-control-inner-background: #ff0000!important;}
+#transportslider:thumb{-fx-background-color: #05386B!important;}
+#transportslider{-fx-control-inner-background: #05386B!important;}
+#bikeslider:thumb{-fx-background-color: #05386B!important;}
+#bikeslider{-fx-control-inner-background: #05386B!important;}
+#bikeslider:hover{-fx-control-inner-background: #ffffff !important;}
+#transportslider:hover{-fx-control-inner-background: #ffffff !important;}
+#vegetarian:hover{
+    -fx-background-color : #05386B;
+    -fx-text-fill : white;
+    -fx-scale-y : 1.07;
+    -fx-scale-x : 1.07;
+}
+#vegetarian{
+    -fx-background-color : white;
+    -fx-text-fill : #05386B;
+}
+#transport:hover{
+    -fx-background-color : #05386B;
+    -fx-text-fill : white;
+    -fx-scale-y : 1.07;
+    -fx-scale-x : 1.07;
+}
+#transport{
+    -fx-background-color : white;
+    -fx-text-fill : #05386B;
+}
+#bike:hover{
+    -fx-background-color : #05386B;
+    -fx-text-fill : white;
+    -fx-scale-y : 1.07;
+    -fx-scale-x : 1.07;
+}
+#bike{
+    -fx-background-color : white;
+    -fx-text-fill : #05386B;
+}
+#local:hover{
+    -fx-background-color : #05386B;
+    -fx-text-fill : white;
+    -fx-scale-y : 1.07;
+    -fx-scale-x : 1.07;
+}
+#local{
+    -fx-background-color : white;
+    -fx-text-fill : #05386B;
+}
+#temp:hover{
+    -fx-background-color : #05386B;
+    -fx-text-fill : white;
+    -fx-scale-y : 1.07;
+    -fx-scale-x : 1.07;
+}
+#temp{
+    -fx-background-color : white;
+    -fx-text-fill : #05386B;
+}
+.checkbox .mark
+{
+    -fx-shape:
+    "M2,0L5,4L8,0L10,0L10,2L6,5L10,8L10,10L8,10L5,6L2,10L0,10L0,8L4,5L0,2L0,0Z";
+}
+#solarPanel
+{
+
+    -fx-text-fill : #05386B;
+}
+#solarPanel:hover
+{
+        -fx-text-fill : white;
+        -fx-scale-y : 1.07;
+        -fx-scale-x : 1.07;
+}
