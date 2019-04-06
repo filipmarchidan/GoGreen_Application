@@ -1,33 +1,16 @@
 package API;
 
-import com.google.gson.Gson;
-
 import API.security.SecurityService;
-import database.AchievementRepository;
-import database.ActivityRepository;
-import database.ActivityTypeRepository;
-import database.UserRepository;
-import database.UserServiceImpl;
-import database.entities.Achievement;
-import database.entities.ActType;
-import database.entities.Activity;
-import database.entities.ActivityType;
-import database.entities.User;
-
+import com.google.gson.Gson;
+import database.*;
+import database.entities.*;
 import javafx.fxml.FXML;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-
-import java.awt.Label;
+import java.awt.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -70,10 +53,10 @@ public class MainController {
     @Autowired
     private UserServiceImpl userServiceImpl;
     
-    @Bean
-    public BCryptPasswordEncoder appPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public BCryptPasswordEncoder appPasswordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
     
     
     /**
