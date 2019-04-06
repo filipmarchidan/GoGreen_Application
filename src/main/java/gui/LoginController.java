@@ -46,6 +46,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private PasswordField newPassword;
+
     @FXML
     private  Label registrationStatus;
     @FXML
@@ -140,11 +141,11 @@ public class LoginController implements Initializable {
         params.add("username", email);
         params.add("password", password);
         if (!email.isEmpty() && !password.isEmpty()) {
-            
+
             HttpEntity<String> result = Client.postRequest("","http://localhost:8080/login", params);
             System.out.println(result);
             if (result == null) {
-                
+
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Validation Error");
                 alert.setHeaderText(null);
@@ -154,7 +155,7 @@ public class LoginController implements Initializable {
             }
             if (result.getBody().equals("not authenticated")) {
                 System.out.println("wrong credentials");
-                
+
             } else {
                 System.out.println("User has signed in");
                 this.sessionCookie = Client.getSessionCookie(email, password);
@@ -162,13 +163,14 @@ public class LoginController implements Initializable {
                 parent.getChildren().removeAll();
                 parent.getChildren().setAll(menu);
                 System.out.println(sessionCookie);
-                
+
             }
-            
+
         } else {
             System.out.println("empty credentials");
         }
     }
+
 
     @FXML
     void handle_register(ActionEvent event) throws IOException {

@@ -3,6 +3,7 @@ package client;
 
 import com.google.gson.Gson;
 
+import database.entities.Achievement;
 import database.entities.Activity;
 import database.entities.User;
 import gui.LoginController;
@@ -35,8 +36,8 @@ public class Client {
         return new BCryptPasswordEncoder();
     }
     */
-    
-    
+
+
     /**
      * set the headers.
      * @param sessionCookie sessionCookie
@@ -54,21 +55,21 @@ public class Client {
     }
     /*
     public Client(String sessionCookie) {
-        
+
         this.gson = new Gson();
         this.restTemplate = new RestTemplate();
         this.headers = setHeaders(sessionCookie);
 
     }
     */
-    
+
     /*
     public static String getSessionCookie(String username, String password) {
         
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", username);
         params.add("password", password);
-        
+
         HttpEntity<Response> response = HttpRequests.postRequest("", url_login, params);
         HttpHeaders responseHeaders = response.getHeaders();
         if (responseHeaders.getFirst(HttpHeaders.SET_COOKIE) != null) {
@@ -94,10 +95,10 @@ public class Client {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
 
         return restTemplate.exchange(address, HttpMethod.GET, request, String.class);
-    
+
     }
     
-    
+
     /**
      * make a postRequest.
      * @param sessionCookie sessionCookie
@@ -148,7 +149,7 @@ public class Client {
         return users;
     }
     
-    
+
     /**
      * getActivities.
      * @return all activities
@@ -162,7 +163,22 @@ public class Client {
         return activities;
 
     }
-    
+
+    /**
+     *getAchievements.
+     * @param email String
+     * @return all achievements from a user
+     */
+    public static Achievement[] getAchievements(String email) {
+
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("email",email);
+        HttpEntity<String> result = postRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements", params);
+        Achievement[] achievements = gson.fromJson(result.getBody(), Achievement[].class);
+        return achievements;
+    }
+
+
     /**
      * getFriends.
      * @return all friends
@@ -173,6 +189,18 @@ public class Client {
         User[] friends = gson.fromJson(result.getBody(), User[].class);
 
         return friends;
+    }
+
+    /**
+     * getUserByEmail.
+     *@param email String
+     *@return user
+     */
+    public static User getUserByEmail(String email) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("email",gson.toJson(email));
+        User friend = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/findByEmail",params).getBody(),User.class);
+        return friend;
     }
 
     /*
@@ -205,21 +233,21 @@ public class Client {
         HttpEntity<String> response = getRequest(LoginController.sessionCookie,"http://localhost:8080/finduser");
         return gson.fromJson(response.getBody(),User.class);
     }
-    
+
     /**
      * update solar panels.
      * @param user user
      * @return user
      */
     public static User updateSolar(User user) {
-        
+
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
         User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/updatesolar",params).getBody(),User.class);
-        
+
         return user1;
     }
-    
+
     /**
      * add a new user.
      * @param user user
@@ -236,8 +264,8 @@ public class Client {
         }
         return false;
     }
-    
-    
+
+
     /**
      * return the sessionCookie.
      * @param email email
@@ -255,7 +283,7 @@ public class Client {
         }
         return null;
     }
-    
+
     /**
      * follow a user.
      * @param user user
@@ -264,10 +292,10 @@ public class Client {
     public static User followUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
-        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(),User.class);
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(), User.class);
         return user1;
     }
-    
+
     /**
      * unfolow a user.
      * @param user user
@@ -279,8 +307,8 @@ public class Client {
         User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowFriend",params).getBody(),User.class);
         return user1;
     }
-    
-    
+
+
     /**
      * get the restTemplate.
      * @return restTemplate
