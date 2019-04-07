@@ -7,6 +7,20 @@
      -fx-scale-x: 0.95;
 }
 
+.activityCategory {
+    -fx-background-color: #379683;
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-width: 5px;
+    -fx-border-color: #05386B;
+    -fx-border-radius: 5 5 5 5;
+
+}
+
+.motivationMessage{
+    -fx-background-color: #05386B;
+    -fx-background-radius: 5 5 5 5;
+    }
+
 .topButton:hover {
      -fx-scale-y: 1.07;
      -fx-scale-x: 1.07;
@@ -31,9 +45,29 @@
 -fx-background-color: #5CDB95;
 }
 
+.activityButton{
+    -fx-background-color: #05386B;
+    -fx-background-radius: 5 5 5 5;
+    }
+
+.activityButton:hover {
+         -fx-scale-y: 1.07;
+         -fx-scale-x: 1.07;
+    }
+
+.activityButton:pressed {
+         -fx-scale-y: 0.95;
+         -fx-scale-x: 0.95;
+    }
+
 .errorMessage{
  -fx-background-color: #f23a3a;
  -fx-background-radius: 3 3 3 3;
+ }
+
+ .regMes{
+ -fx-background-color: #05386B;
+  -fx-background-radius: 3 3 3 3;
  }
 
 .topBar{

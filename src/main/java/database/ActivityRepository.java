@@ -24,6 +24,6 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
         + " ach.activity_type,ach.activity_amount,ach.date_time)"
             + "FROM User u JOIN u.activities ach Where u.id = :userId "
         + "AND ach.activity_type = 5 ORDER BY ach.id DESC ")
-    Set<Activity> findSolarActivityFromUserId(@Param("userId") Integer user_id);
+    Activity findSolarActivityFromUserId(@Param("userId") Integer user_id);
 
 }

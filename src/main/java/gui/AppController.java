@@ -24,6 +24,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,7 +42,6 @@ import org.springframework.util.MultiValueMap;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 
 public class AppController {
     
@@ -62,6 +62,7 @@ public class AppController {
     @FXML
     private BorderPane borderpane;
 
+    private Button lookUp;
 
     @FXML
     private Button exit;
@@ -132,88 +133,14 @@ public class AppController {
         stage.close();
     }
     
-    /** Adds an activity based on the button.
-     *
-     * @param event button trigger
-     */
-    @FXML
-    void addActivity(ActionEvent event) {
-        if (event.getSource() instanceof  Button) {
-            Button button = (Button) event.getSource();
-            ActType actType = null;
-            int amount = 1;
-            switch (button.getId()) {
-                case "vegetarian" :
-                    actType = ActType.vegetarian_meal;
-                    break;
-                case "bike" :
-                    actType = ActType.bike;
-                    amount = (int)bikeslider.getValue();
-                    if (amount == 0) {
-                        //TODO: add buzzer sound or something?
-                        return;
-                    }
-                    break;
-                case "local" :
-                    actType = ActType.local_produce;
-                    break;
-                case "transport" :
-                    actType = ActType.public_transport;
-                    amount = (int)transportslider.getValue();
-                    if (amount == 0) {
-                        //TODO: add buzzer sound or something?
-                        return;
-                    }
-                    break;
-                case "temp" :
-                    actType = ActType.lower_temperature;
-                    break;
-                default:
-                    return;
-            }
     
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
-            Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
-            
-            //TODO: Add response to user
-
-        } else if (event.getSource() instanceof CheckBox) {
-            handleSolarActivity(event);
-        }
-    }
-    
-    /** Makes sure the client properly deals with a solar activity.
-     *
-     * @param event checkbox that calls the function
-     */
-    private void handleSolarActivity(Event event) {
-        CheckBox checkbox = (CheckBox) event.getSource();
-        if (checkbox.isSelected()) {
-        
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(ActType.solar_panel,
-                    1,Activity.getCurrentDateTimeString());
-            
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,
-                    "http://localhost:8080/addactivity",params);
-
-            bw.write("The Trees Thank You");
-            bw.flush();
-        
-        } else {
-            User user = Client.findCurrentUser();
-            user.setSolarPanel(false);
-            Client.updateSolar(user);
-        }
-    
-    
+<<<<<<< HEAD
 
     
     }
+=======
+   
+>>>>>>> 51cdfd7065701a3b2112f99e6c15a5400089943c
     
     /** Makes sure the sliders always update the numerical value.
      *
@@ -312,7 +239,7 @@ public class AppController {
             ImageView compressed = new ImageView(image);
             compressed.setPreserveRatio(true);
             compressed.setFitHeight(20);
-
+            
             Button but = new Button();
             but.setGraphic(compressed);
             but.setStyle("-fx-background-color: #f23a3a;"
@@ -322,9 +249,14 @@ public class AppController {
                 params.add("activity",gson.toJson(a));
                 HttpEntity<String> response = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/removeactivity", params);
                 boolean result = gson.fromJson(response.getBody(), boolean.class);
-    
-                vbox.getChildren().remove(active);
+                if(result) {
+                    vbox.getChildren().remove(active);
+                }
             });
+            
+            if(a.getActivity_type() == ActType.solar_panel) {
+                but.setVisible(false);
+            }
 
 
             active.getChildren().addAll(activity, co2Label, date, but);
@@ -510,52 +442,112 @@ public class AppController {
         
         VBox vbox = new VBox();
         vbox.setFillWidth(true);
-
+        vbox.setPrefHeight(560);
         vbox.setStyle("-fx-background-color: #8ee4af");
-        vbox.setPadding(new Insets(10, 20, 10, 20));
+        vbox.setPadding(new Insets(10, 10, 10, 20));
         vbox.setSpacing(10);
 
-        User currentUser = Client.findCurrentUser();
-        List<User> currentFriends = Arrays.asList(Client.getFriends());
+        Label error = new Label();
+        error.setMinSize(225,30);
+        error.setText("  There exists no user under this email.");
+        error.setStyle("-fx-background-radius: 10 10 10 10;"
+                + "-fx-background-color: #DC143C;"
+                + "-fx-font-size:13px;"
+                + "-fx-text-fill: #edf5e1;");
+        error.setVisible(false);
+        TextField findFriends = new TextField();
+        findFriends.setMinSize(230, 30);
+        findFriends.setPromptText("Find your friends by email.");
+        Button lookUp = new Button();
+        lookUp.setMinSize(60, 30);
+        lookUp.setStyle("-fx-background-radius: 10 10 10 10;"
+                + "-fx-background-color: #05386B;"
+                + "-fx-font-size: 13px;"
+                + "-fx-text-fill: #edf5e1;");
+        lookUp.setText("Search");
+        HBox search = new HBox();
+        search.setSpacing(20);
+        search.setPrefHeight(40);
+
+        search.getChildren().addAll(findFriends,lookUp, error);
+        vbox.getChildren().add(search);
+
         User[] allusers = Client.getUsers();
         System.out.println(allusers.length + "AMOUNT OF USERS");
-        
+        VBox updatedVbox = populateVbox(allusers, vbox);
+        pane.setContent(updatedVbox);
+        borderpane.getChildren().removeAll();
+        borderpane.setCenter(pane);
+
+        lookUp.setOnAction(event -> {
+            try {
+                error.setVisible(false);
+                String email = findFriends.getText();
+                vbox.getChildren().clear();
+                vbox.getChildren().add(search);
+                User[] lookedUp = searchFriend(email);
+                VBox followfriend = populateVbox(lookedUp, vbox);
+                pane.setContent(followfriend);
+                borderpane.getChildren().removeAll();
+                borderpane.setCenter(pane);
+            } catch (NullPointerException e) {
+                error.setVisible(true);
+            }
+        });
+
+    }
+
+
+    private User[] searchFriend(String email) {
+        User friend = Client.getUserByEmail(email);
+        User[] list = new User[1];
+        list[0] = friend;
+        return list;
+
+    }
+
+    private VBox populateVbox(User[] users, VBox vbox) {
+        User currentUser = Client.findCurrentUser();
+        List<User> currentFriends = Arrays.asList(Client.getFriends());
         int index = 0;
-        while (index < allusers.length) {
+        while (index < users.length) {
             HBox hbox = new HBox();
             hbox.setSpacing(10);
             hbox.setFillHeight(true);
             hbox.setPrefWidth(600);
-            //hbox.setPrefHeight(200);
+            hbox.setPrefHeight(200);
             for (int j = index; j < index + 2; j++) {
-                if (j < allusers.length && (allusers[j].equals(currentUser))) {
-                    System.out.println(allusers[j].getEmail()
-                            + " equals " + currentUser.getEmail() );
+                if (j < users.length && (users[j].equals(currentUser))) {
+                    System.out.println(users[j].getEmail()
+                            + " equals " + currentUser.getEmail());
                     index++;
                     j++;
                 }
-                if (!(j < allusers.length)) {
+                if (!(j < users.length)) {
                     break;
                 }
+
                 VBox innerv = new VBox();
                 innerv.setPrefWidth(270);
                 innerv.setPrefHeight(120);
                 innerv.setFillWidth(true);
                 innerv.setStyle("-fx-border-color: #05386B; "
-                        + "-fx-border-width: 3; "
-                        + "-fx-border-radius: 10 10 10 10;" );
+                        + "-fx-border-width: 5; "
+                        + "-fx-border-radius: 7 7 7 7;"
+                        + "-fx-background-color: #379683;"
+                        + "-fx-background-radius: 10 10 10 10;");
                 innerv.setPadding(new Insets(10, 50, 10, 50));
-                Label email = new Label(allusers[j].getEmail());
+                Label email = new Label(users[j].getEmail());
                 email.setStyle("-fx-font-size:15px;");
                 email.setPrefWidth(270);
                 email.setAlignment(Pos.CENTER);
-                Label score = new Label("Score: " + Integer.toString(allusers[j].getTotalscore()));
+                Label score = new Label();
+                String total = Integer.toString(users[j].getTotalscore());
+                score.setText("Score: " + total);
                 score.setStyle("-fx-font-size:15px;");
                 score.setAlignment(Pos.CENTER);
                 score.setPrefWidth(180);
-    
-                User user = allusers[j];
-                innerv.getChildren().addAll(email,score);
+                User user = users[j];
                 Button button1 = new Button();
                 button1.setAlignment(Pos.BOTTOM_CENTER);
                 button1.setPrefWidth(160);
@@ -565,9 +557,9 @@ public class AppController {
                         + "-fx-background-color: #05386B;"
                         + "-fx-font-size:19px;"
                         + "-fx-text-fill: #edf5e1;");
-    
+
                 button1.setText("Follow");
-    
+
                 Button button2 = new Button();
                 button2.setAlignment(Pos.BOTTOM_CENTER);
                 button2.setPrefWidth(160);
@@ -577,9 +569,9 @@ public class AppController {
                         + "-fx-background-color: #05386B;"
                         + "-fx-font-size:19px;"
                         + "-fx-text-fill: #edf5e1;");
-    
+
                 button2.setText("Unfollow");
-                
+
                 button1.setOnAction(event -> {
                     Client.followUser(user);
                     innerv.getChildren().remove(button1);
@@ -589,24 +581,27 @@ public class AppController {
                     Client.unfollowUser(user);
                     innerv.getChildren().remove(button2);
                     innerv.getChildren().add(button1);
-                
+
                 });
-                
-                if (!currentFriends.contains(allusers[j])) {
+
+                if (!currentFriends.contains(users[j])) {
                     innerv.getChildren().add(button1);
                 } else {
                     innerv.getChildren().add(button2);
                 }
-                
-                //innerv.getChildren().addAll(email,score,button1);
+
+                innerv.getChildren().addAll(email, score);
                 hbox.getChildren().add(innerv);
+                System.out.println(index + " index");
+                System.out.println(j + "j");
+
             }
             index += 2;
             vbox.getChildren().add(hbox);
+
+
         }
-        pane.setContent(vbox);
-        borderpane.getChildren().removeAll();
-        borderpane.setCenter(pane);
+        return vbox;
     }
 
     @FXML
