@@ -233,7 +233,7 @@ public class AppController {
             ImageView compressed = new ImageView(image);
             compressed.setPreserveRatio(true);
             compressed.setFitHeight(20);
-
+            
             Button but = new Button();
             but.setGraphic(compressed);
             but.setStyle("-fx-background-color: #f23a3a;"
@@ -243,9 +243,14 @@ public class AppController {
                 params.add("activity",gson.toJson(a));
                 HttpEntity<String> response = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/removeactivity", params);
                 boolean result = gson.fromJson(response.getBody(), boolean.class);
-    
-                vbox.getChildren().remove(active);
+                if(result) {
+                    vbox.getChildren().remove(active);
+                }
             });
+            
+            if(a.getActivity_type() == ActType.solar_panel) {
+                but.setVisible(false);
+            }
 
 
             active.getChildren().addAll(activity, co2Label, date, but);
