@@ -151,7 +151,7 @@ public class ActivityController {
                 response.setTextFill(Color.BLACK);
                 break;
             case "solar_panel":
-                response.setText("Your total co2 saved will increase overtime!");
+                response.setText("The Trees Thank you!");
                 response.setTextFill(Color.BLACK);
                 break;
             default:
