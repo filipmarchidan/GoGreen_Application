@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import javax.annotation.PostConstruct;
 
-@Component
+//@Component
 public class FriendTestInitializer {
 
     @Autowired

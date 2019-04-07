@@ -18,18 +18,18 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class UserServiceTest {
-
+    
     @Autowired
     private UserRepository userRepository;
-
+    
     @Autowired
     private UserServiceImpl userService;
-
-     static final String email1 = "Spongebob";
-     static final String pass1 = "12345";
-     User user1 = new User();
-     User user2 = new User();
-
+    
+    static final String email1 = "Spongebob";
+    static final String pass1 = "12345";
+    User user1 = new User();
+    User user2 = new User();
+    
     @Before
     public void setup(){
         user1.setEmail(email1);
@@ -37,15 +37,17 @@ public class UserServiceTest {
         user2.setEmail("Trump@Donald.Orange");
         user2.setPassword("iLoveOil");
     }
-
+    
     @Test
     public void checkUpdateUser()
     {
         User expectedUser = userRepository.save(user1);
-        User testUser = userRepository.save(user2);
-        Assert.assertFalse(expectedUser.equals(testUser));
-        User resultUser = userService.updateUser(testUser,"Spongebob","12345");
-        Assert.assertEquals(expectedUser, resultUser);
+//        User testUser = userRepository.save(user2);
+//        Assert.assertFalse(expectedUser.equals(testUser));
+        userService.updateUser(expectedUser,"Spongebob1","123456");
+        //Assert.assertEquals(expectedUser, resultUser);
+        Assert.assertEquals("Spongebob1", expectedUser.getEmail());
+        Assert.assertEquals("123456", expectedUser.getPassword());
     }
     @Test
     public void checkFindAll()
@@ -54,7 +56,7 @@ public class UserServiceTest {
         List<User> result = userService.getAllUsers();
         Assert.assertEquals(expected.size(),result.size());
     }
-
+    
     @Test
     public void checkDelete()
     {
@@ -75,8 +77,8 @@ public class UserServiceTest {
     @After
     public void delete()
     {
-      userRepository.delete(user1);
-      userRepository.delete(user2);
+        userRepository.delete(user1);
+        userRepository.delete(user2);
     }
-
+    
 }

@@ -116,7 +116,14 @@ public class ClientTest {
     @Test
     public void updateSolarTest() {
         mockServer.expect(requestTo("http://localhost:8080/updatesolar")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
-        User user = Client.updateSolar(user1);
+        Activity activity = Client.updateSolar(user1);
+        Assert.assertEquals(ActType.solar_panel,activity.getActivity_type());
+    }
+
+    @Test
+    public void getUserByEmailTest() {
+        mockServer.expect(requestTo("http://localhost:8080/findByEmail")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        User user = Client.getUserByEmail(user1.getEmail());
         Assert.assertEquals(user,user1);
     }
     

@@ -58,9 +58,8 @@ public class ActivityController {
                     actType = ActType.bike;
                     amount = (int)bikeslider.getValue();
                     if (amount == 0) {
-                        response.setText("Please specify cycling distance");
+                        response.setText("Please specify traveled cycling distance");
                         response.setTextFill(Color.RED);
-                        //TODO: add buzzer sound or something?
                         return;
                     }
                     break;
@@ -71,9 +70,8 @@ public class ActivityController {
                     actType = ActType.public_transport;
                     amount = (int)transportslider.getValue();
                     if (amount == 0) {
-                        response.setText("Please specify distance");
+                        response.setText("Please specify traveled distance");
                         response.setTextFill(Color.RED);
-                        //TODO: add buzzer sound or something?
                         return;
                     }
                     break;
@@ -87,10 +85,9 @@ public class ActivityController {
             MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
             Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
             params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
+            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity", params);
             Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
             displayResponse(activity1);
-            //TODO: Add response to user
 
         } else if (event.getSource() instanceof CheckBox) {
             handleSolarActivity(event);
@@ -102,23 +99,30 @@ public class ActivityController {
      * @param event checkbox that calls the function
      */
     private void handleSolarActivity(Event event) {
+        
         CheckBox checkbox = (CheckBox) event.getSource();
-        if (checkbox.isSelected()) {
-
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(ActType.solar_panel,
-                    1,Activity.getCurrentDateTimeString());
-
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,
-                    "http://localhost:8080/addactivity",params);
-            displayResponse(activity);
-
-        } else {
-            User user = Client.findCurrentUser();
-            user.setSolarPanel(false);
-            Client.updateSolar(user);
-        }
+        User user = Client.findCurrentUser();
+        user.setSolarPanel(checkbox.isSelected());
+        Activity activity = Client.updateSolar(user);
+        System.out.println("handleSolarActivityLives");
+        
+        
+        
+//        if (checkbox.isSelected()) {
+//            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
+//            Activity activity = new Activity(ActType.solar_panel,
+//                    1,Activity.getCurrentDateTimeString());
+//
+//            params.add("activity",gson.toJson(activity));
+//            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,
+//                    "http://localhost:8080/addactivity",params);
+//            displayResponse(activity);
+//
+//        } else {
+//            User user = Client.findCurrentUser();
+//            user.setSolarPanel(false);
+//            Client.updateSolar(user);
+//        }
 
     }
 
@@ -132,27 +136,27 @@ public class ActivityController {
         switch (actType) {
             case "vegetarian_meal":
                 response.setText("The animals thank you!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "local_produce":
                 response.setText("Good Job!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "bike":
                 response.setText("Good for the environment and your health!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "public_transport":
                 response.setText("Good Job!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "lower_temperature":
                 response.setText("Don't get cold");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "solar_panel":
                 response.setText("Your total co2 saved will increase overtime!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             default:
                 return;
