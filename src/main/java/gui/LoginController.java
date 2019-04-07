@@ -113,7 +113,6 @@ public class LoginController implements Initializable {
                     user.setPassword(password1);
                     
                     boolean result = Client.addUser(user);
-                    System.out.println(result);
                     if (!result) {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Username in use");
@@ -136,7 +135,7 @@ public class LoginController implements Initializable {
     void handle_login(ActionEvent event) throws IOException {
         String email = userField.getText().trim();
         String password = passwordInput.getText().trim();
-        //String encodedPassword = passwordEncoder.encode(password);
+
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", email);
         params.add("password", password);
@@ -162,8 +161,6 @@ public class LoginController implements Initializable {
                 Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
                 parent.getChildren().removeAll();
                 parent.getChildren().setAll(menu);
-                System.out.println(sessionCookie);
-
             }
 
         } else {

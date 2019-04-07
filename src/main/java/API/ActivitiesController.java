@@ -78,14 +78,11 @@ public class ActivitiesController {
         
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
-        
-        //System.out.println((String)params.getFirst("activity"));
+
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
-        //System.out.println(activity.getActivity_type() + "display");
         activity.setUser(user);
         checkAchievements(user);
         if (activity.getActivity_type() != ActType.solar_panel) {
-            //System.out.println("HELLO");
             Activity act = activityRepository.save(activity);
 
             checkActivityAchievements(act, user);
@@ -124,7 +121,7 @@ public class ActivitiesController {
         
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
-        
+
         System.out.println((String)params.getFirst("activity"));
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
         if (activity.getActivity_type() == ActType.solar_panel) {
@@ -178,8 +175,7 @@ public class ActivitiesController {
      * @param activity activity
      */
     public  void updateScoreAdd(Activity activity) {
-        //System.out.println(activity.getActivity_amount());
-        //System.out.println("we get here");
+
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
             .ordinal()).get();
         User user = userRepository.findByEmail(activity.getUser().getEmail());
@@ -193,6 +189,7 @@ public class ActivitiesController {
      * @param activity activity
      */
     public  void updateScoreRemove(Activity activity) {
+
         ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
             .ordinal()).get();
         User user = userRepository.findById(activity.getUser().getId()).get();
@@ -207,13 +204,9 @@ public class ActivitiesController {
 
         if (user.getTotalscore() >= 100000) {
             achievement = achievementRepository.findById(1).get();
-
-        }
-        if (user.getTotalscore() >= 500000) {
+        } else if (user.getTotalscore() >= 500000) {
             achievement = achievementRepository.findById(2).get();
-
-        }
-        if (user.getTotalscore() >= 1000000) {
+        } else if (user.getTotalscore() >= 1000000) {
             achievement = achievementRepository.findById(3).get();
         }
         if (achievement != null) {
@@ -224,7 +217,6 @@ public class ActivitiesController {
 
         userRepository.save(user);
     }
-
 
 
     private void checkActivityAchievements(Activity activity, User user) {
@@ -259,10 +251,12 @@ public class ActivitiesController {
                 break;
                 
             default:
-                System.out.println("TEST_CASE");
+                //TODO: Throw some exception
                 return;
 
         }
+
+        //TODO: refractor method to have add achievements in the user Class
         user.getAchievements().add(achievement);
         achievement.getUsers().add(user);
         achievementRepository.save(achievement);
@@ -277,8 +271,8 @@ public class ActivitiesController {
      */
     @PostMapping(path = "/getAchievements")
     public @ResponseBody Set<Achievement> getAchievements(
-                @RequestBody MultiValueMap<String, Object> params) {
-        String email = (String) (params.getFirst("email"));
+                @RequestBody MultiValueMap<String, String> params) {
+        String email = params.getFirst("email");
         User user = userRepository.findByEmail(email);
         Set<Achievement> achievements =
              achievementRepository.getAchievementsFromUserId(user.getId());

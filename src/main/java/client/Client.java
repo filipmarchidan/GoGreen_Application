@@ -21,22 +21,11 @@ import org.springframework.web.client.RestTemplate;
 
 
 public class Client {
-    
-    //private static Client client = new Client("");
-    
+
     static Gson gson = new Gson();
     //private  String address;
     private static RestTemplate restTemplate = new RestTemplate();
     private HttpHeaders headers;
-    
-    /*
-    @Bean
-    public PasswordEncoder passwordEncoder()
-    {
-        return new BCryptPasswordEncoder();
-    }
-    */
-
 
     /**
      * set the headers.
@@ -53,32 +42,6 @@ public class Client {
         return headers;
 
     }
-    /*
-    public Client(String sessionCookie) {
-
-        this.gson = new Gson();
-        this.restTemplate = new RestTemplate();
-        this.headers = setHeaders(sessionCookie);
-
-    }
-    */
-
-    /*
-    public static String getSessionCookie(String username, String password) {
-        
-        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-        params.add("username", username);
-        params.add("password", password);
-
-        HttpEntity<Response> response = HttpRequests.postRequest("", url_login, params);
-        HttpHeaders responseHeaders = response.getHeaders();
-        if (responseHeaders.getFirst(HttpHeaders.SET_COOKIE) != null) {
-            return responseHeaders.getFirst(HttpHeaders.SET_COOKIE).split(";")[0];
-        } else {
-            return "No cookie found.";
-        }
-
-    }*/
     
     /**
      * make a getRequest.
@@ -202,28 +165,6 @@ public class Client {
         User friend = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/findByEmail",params).getBody(),User.class);
         return friend;
     }
-
-    /*
-    public int getScore(Activity a) {
-        String result = postRequest("getscore", a);
-        int score = gson.fromJson(result, int.class);
-        return score;
-    }
-    */
-
-    
-    /*
-    public static void main(String[] args) {
-
-        Client client = new Client("");
-
-        String sessionCookie = client.getSessionCookie("test", "test");
-
-        System.out.println(getUsers(sessionCookie)[0].getEmail());
-       // System.out.println(getActivities(sessionCookie)[0]);
-
-    }
-    */
     
     /**
      * find current user.
@@ -264,7 +205,6 @@ public class Client {
         }
         return false;
     }
-
 
     /**
      * return the sessionCookie.
@@ -307,7 +247,6 @@ public class Client {
         User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowFriend",params).getBody(),User.class);
         return user1;
     }
-
 
     /**
      * get the restTemplate.
