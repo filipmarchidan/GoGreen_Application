@@ -132,88 +132,8 @@ public class AppController {
         stage.close();
     }
     
-    /** Adds an activity based on the button.
-     *
-     * @param event button trigger
-     */
-    @FXML
-    void addActivity(ActionEvent event) {
-        if (event.getSource() instanceof  Button) {
-            Button button = (Button) event.getSource();
-            ActType actType = null;
-            int amount = 1;
-            switch (button.getId()) {
-                case "vegetarian" :
-                    actType = ActType.vegetarian_meal;
-                    break;
-                case "bike" :
-                    actType = ActType.bike;
-                    amount = (int)bikeslider.getValue();
-                    if (amount == 0) {
-                        //TODO: add buzzer sound or something?
-                        return;
-                    }
-                    break;
-                case "local" :
-                    actType = ActType.local_produce;
-                    break;
-                case "transport" :
-                    actType = ActType.public_transport;
-                    amount = (int)transportslider.getValue();
-                    if (amount == 0) {
-                        //TODO: add buzzer sound or something?
-                        return;
-                    }
-                    break;
-                case "temp" :
-                    actType = ActType.lower_temperature;
-                    break;
-                default:
-                    return;
-            }
     
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
-            Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
-            
-            //TODO: Add response to user
-
-        } else if (event.getSource() instanceof CheckBox) {
-            handleSolarActivity(event);
-        }
-    }
-    
-    /** Makes sure the client properly deals with a solar activity.
-     *
-     * @param event checkbox that calls the function
-     */
-    private void handleSolarActivity(Event event) {
-        CheckBox checkbox = (CheckBox) event.getSource();
-        if (checkbox.isSelected()) {
-        
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(ActType.solar_panel,
-                    1,Activity.getCurrentDateTimeString());
-            
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,
-                    "http://localhost:8080/addactivity",params);
-
-            bw.write("The Trees Thank You");
-            bw.flush();
-        
-        } else {
-            User user = Client.findCurrentUser();
-            user.setSolarPanel(false);
-            Client.updateSolar(user);
-        }
-    
-    
-        
-    
-    }
+   
     
     /** Makes sure the sliders always update the numerical value.
      *
