@@ -175,6 +175,18 @@ public class Client {
         return friends;
     }
 
+    /**
+     * getUserByEmail.
+     *@param email String
+     *@return user
+     */
+    public static User getUserByEmail(String email) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("email",gson.toJson(email));
+        User friend = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/findByEmail",params).getBody(),User.class);
+        return friend;
+    }
+
     /*
     public int getScore(Activity a) {
         String result = postRequest("getscore", a);
@@ -264,7 +276,7 @@ public class Client {
     public static User followUser(User user) {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
-        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(),User.class);
+        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(), User.class);
         return user1;
     }
     

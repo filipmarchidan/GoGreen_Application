@@ -63,7 +63,7 @@ public class ActivityController {
                     actType = ActType.bike;
                     amount = (int)bikeslider.getValue();
                     if (amount == 0) {
-                        response.setText("Please specify cycling distance");
+                        response.setText("Please specify traveled cycling distance");
                         response.setTextFill(Color.RED);
                         //TODO: add buzzer sound or something?
                         return;
@@ -76,7 +76,7 @@ public class ActivityController {
                     actType = ActType.public_transport;
                     amount = (int)transportslider.getValue();
                     if (amount == 0) {
-                        response.setText("Please specify distance");
+                        response.setText("Please specify traveled distance");
                         response.setTextFill(Color.RED);
                         //TODO: add buzzer sound or something?
                         return;
@@ -108,7 +108,7 @@ public class ActivityController {
             MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
             Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
             params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity",params);
+            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity", params);
             Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
             displayResponse(activity1);
             //TODO: Add response to user
@@ -153,27 +153,27 @@ public class ActivityController {
         switch (actType) {
             case "vegetarian_meal":
                 response.setText("The animals thank you!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "local_produce":
                 response.setText("Good Job!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "bike":
                 response.setText("Good for the environment and your health!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "public_transport":
                 response.setText("Good Job!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "lower_temperature":
                 response.setText("Don't get cold");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             case "solar_panel":
                 response.setText("Your total co2 saved will increase overtime!");
-                response.setTextFill(Color.BLACK);
+                response.setTextFill(Color.rgb(237,245,225));
                 break;
             default:
                 return;
