@@ -24,7 +24,9 @@ public class AchievementTypeInitializer {
         Gson gson = new Gson();
         System.out.println("LOADING ACHIEVEMENT DATA");
         try {
-            JsonReader jsonReader = new JsonReader(new FileReader("ACHIEVEMENT_DATA.json"));
+            FileReader fileReader =
+                    new FileReader("src/main/resources/jsonFiles/ACHIEVEMENT_DATA.json");
+            JsonReader jsonReader = new JsonReader(fileReader);
             Achievement[] achievements = gson.fromJson(jsonReader, Achievement[].class);
             System.out.println("HELLO?!");
             

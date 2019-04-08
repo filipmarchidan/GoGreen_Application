@@ -71,6 +71,8 @@ public class ActivityControllerTest {
     @Autowired
     AchievementRepository achievementRepository;
     
+    @Autowired
+    UserService userService;
     
     private String buildRequestBody(Object data) throws JsonProcessingException {
         
@@ -179,6 +181,150 @@ public class ActivityControllerTest {
     }
     
     @Test
+    public void addNewBikeActivity() throws Exception {
+        
+        Activity activity = new Activity(ActType.bike,1,date);
+        activity.setActivity_type(ActType.bike);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/addactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Activity.class
+        );
+        
+        
+        if (responseBody instanceof Activity) {
+            
+            Activity returnedActivity = (Activity) responseBody;
+            assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+            assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+            
+        } else {
+            fail();
+        }
+    }
+    
+    @Test
+    public void addNewLocalActivity() throws Exception {
+        
+        Activity activity = new Activity(ActType.local_produce,1,date);
+        activity.setActivity_type(ActType.local_produce);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/addactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Activity.class
+        );
+        
+        
+        if (responseBody instanceof Activity) {
+            
+            Activity returnedActivity = (Activity) responseBody;
+            assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+            assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+            
+        } else {
+            fail();
+        }
+    }
+    
+    @Test
+    public void addNewTransportActivity() throws Exception {
+        
+        Activity activity = new Activity(ActType.public_transport,1,date);
+        activity.setActivity_type(ActType.public_transport);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/addactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Activity.class
+        );
+        
+        
+        if (responseBody instanceof Activity) {
+            
+            Activity returnedActivity = (Activity) responseBody;
+            assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+            assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+            
+        } else {
+            fail();
+        }
+    }
+    
+    @Test
+    public void addNewTemperatureActivity() throws Exception {
+        
+        Activity activity = new Activity(ActType.lower_temperature,1,date);
+        activity.setActivity_type(ActType.lower_temperature);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/addactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Activity.class
+        );
+        
+        
+        if (responseBody instanceof Activity) {
+            
+            Activity returnedActivity = (Activity) responseBody;
+            assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+            assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+            
+        } else {
+            fail();
+        }
+    }
+    
+    @Test
     public void addNewSolarPanel() throws Exception {
         
         Activity activity = new Activity(ActType.solar_panel,1,date);
@@ -208,6 +354,36 @@ public class ActivityControllerTest {
     }
     
     @Test
+    public void addNewTestActivity() throws Exception {
+        
+        Activity activity = new Activity(ActType.TEST_DEFAULT,1,date);
+        activity.setActivity_type(ActType.TEST_DEFAULT);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        
+        String requestBody = buildRequestBody(params);
+        
+        String responseBody =
+                
+                mvc.perform(
+                        
+                        post("/addactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        
+        
+        System.out.println(responseBody +  " HELLO");
+        Activity returnedActivity = gson.fromJson(responseBody,Activity.class);
+        assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+        assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+        
+    }
+    
+    
+    @Test
     public void getAllActivities() throws Exception {
         Set<Activity> activities = activityRepository.findByUserIdSorted(user.getId());
         
@@ -229,9 +405,123 @@ public class ActivityControllerTest {
         
         Assert.assertEquals(activities,activities2);
         
-        
-        
     }
+    
+    @Test
+    public void checkScoreAchievementBronze() throws Exception {
+        User user1 = userRepository.findByEmail("testaccount@test.com");
+        user1.setTotalscore(99999);
+        userService.createUser(user1);
+        Activity activity = new Activity(ActType.lower_temperature,1,date);
+        activity.setActivity_type(ActType.lower_temperature);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/addactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Activity.class
+        );
+        
+        
+        if (responseBody instanceof Activity) {
+            
+            Activity returnedActivity = (Activity) responseBody;
+            assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+            assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+            
+        } else {
+            fail();
+        }
+    }
+    
+    @Test
+    public void checkScoreAchievementSilver() throws Exception {
+        User user1 = userRepository.findByEmail("testaccount@test.com");
+        user1.setTotalscore(499999);
+        userService.createUser(user1);
+        Activity activity = new Activity(ActType.lower_temperature,1,date);
+        activity.setActivity_type(ActType.lower_temperature);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/addactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Activity.class
+        );
+        
+        
+        if (responseBody instanceof Activity) {
+            
+            Activity returnedActivity = (Activity) responseBody;
+            assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+            assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+            
+        } else {
+            fail();
+        }
+    }
+    
+    @Test
+    public void checkScoreAchievementGold() throws Exception {
+        User user1 = userRepository.findByEmail("testaccount@test.com");
+        user1.setTotalscore(999999);
+        userService.createUser(user1);
+        Activity activity = new Activity(ActType.lower_temperature,1,date);
+        activity.setActivity_type(ActType.lower_temperature);
+        activity.setDate_time(Activity.getCurrentDateTimeString());
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/addactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Activity.class
+        );
+        
+        
+        if (responseBody instanceof Activity) {
+            
+            Activity returnedActivity = (Activity) responseBody;
+            assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
+            assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+            
+        } else {
+            fail();
+        }
+    }
+    
+    
     
     @Test
     public void switchSolar() throws Exception {
@@ -254,6 +544,8 @@ public class ActivityControllerTest {
         User user2 = gson.fromJson(responseBody,User.class);
         Assert.assertEquals(user.isSolarPanel(),user2.isSolarPanel());
     }
+    
+    
     
     @Test
     public void removeActivity() throws Exception {
@@ -343,14 +635,17 @@ public class ActivityControllerTest {
         dataUser.setAchievements(new HashSet<Achievement>());
         dataUser.getAchievements().add(achievement);
         userRepository.save(dataUser);
-        
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("email", dataUser.getEmail());
+        String requestBody = buildRequestBody(params);
+
         String responseBody =
-            mvc.perform(
-                get("/getachievements")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .session(sessionCookie)
-            )
-                .andExpect(
+                mvc.perform(
+                        post("/getAchievements")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(
                     status().isOk()
                 )
                 .andReturn()
@@ -361,9 +656,6 @@ public class ActivityControllerTest {
         Set<Achievement> achievements = new HashSet<>(Arrays.asList(gson.fromJson(responseBody,Achievement[].class)));
         System.out.println(achievements.size());
         Assert.assertTrue(achievements.contains(achievement));
-        
-        
-        
     }
     
 }
