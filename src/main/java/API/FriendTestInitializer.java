@@ -12,6 +12,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import javax.annotation.PostConstruct;
 
+
+/**
+ * This class is a Component for spring, because of that it automatically gets run by spring when the server boots up.
+ * This class is responsible for loading test user data whenever the server loads up, it will be removed/disabled before
+ * production.
+ */
 @Component
 public class FriendTestInitializer {
 
