@@ -31,10 +31,7 @@ public class FriendController {
     
     @Autowired
     private UserServiceImpl userServiceImpl;
-    
-    
-    
-    
+
     /**
      * adds a friend to the user.
      *

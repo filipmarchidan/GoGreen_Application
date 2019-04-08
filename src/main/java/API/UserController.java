@@ -103,8 +103,7 @@ public class UserController {
         User user = userRepository.findByEmail(email);
         return  user;
     }
-    
-    
+
     /**
      * retrieves a list of all users.
      * @return a list of all users.
@@ -152,6 +151,4 @@ public class UserController {
         return userRepository.getFriendsfromUser(user.getId());
         
     }
-    
-    
 }

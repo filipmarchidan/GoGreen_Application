@@ -30,13 +30,9 @@ import java.util.Set;
 
 @RestController
 public class ActivitiesController {
-    
-    
+
     Gson gson = new Gson();
-    
-    
-    
-    
+
     @Autowired
     private UserRepository userRepository;
     
@@ -49,8 +45,7 @@ public class ActivitiesController {
     
     @Autowired
     private AchievementRepository achievementRepository;
-    
-    
+
     /**
      * return the activities of a user.
      * @param sessionCookie sessionCookie.
@@ -63,9 +58,7 @@ public class ActivitiesController {
         User user = userRepository.findByEmail(email);
         return activityRepository.findByUserIdSorted(user.getId());
     }
-    
-    
-    
+
     /** adds an activity to the database.
      *
      * @param params parameter passed by client
@@ -108,9 +101,7 @@ public class ActivitiesController {
             }
         }
     }
-    
-    
-    
+
     /**
      * removes activit.
      * @param params params.
@@ -137,8 +128,7 @@ public class ActivitiesController {
         
         return false;
     }
-    
-    
+
     /**
      * updates solar panels.
      * @param params params.
@@ -154,8 +144,7 @@ public class ActivitiesController {
         return userRepository.save(user1);
         
     }
-    
-    
+
     /**
      * returns the actTypes.
      * @return a list.
@@ -168,8 +157,7 @@ public class ActivitiesController {
         return co2Values;
         
     }
-    
-    
+
     /**
      * update the score.
      * @param activity activity
@@ -198,7 +186,6 @@ public class ActivitiesController {
         userRepository.save(user);
     }
     
-    
     private void checkAchievements(User user) {
         Achievement achievement = null;
 
@@ -217,7 +204,6 @@ public class ActivitiesController {
 
         userRepository.save(user);
     }
-
 
     private void checkActivityAchievements(Activity activity, User user) {
         List<Activity> activityList = activityRepository.findByUserId(user.getId());
@@ -249,21 +235,17 @@ public class ActivitiesController {
             case lower_temperature:
                 achievement = achievementRepository.findById(8).get();
                 break;
-                
             default:
-                //TODO: Throw some exception
                 return;
 
         }
 
-        //TODO: refractor method to have add achievements in the user Class
         user.getAchievements().add(achievement);
         achievement.getUsers().add(user);
         achievementRepository.save(achievement);
         userRepository.save(user);
 
     }
-
 
     /** This is what the client can connect to, to retrieve a user's achievements.
      *

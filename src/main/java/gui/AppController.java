@@ -42,8 +42,6 @@ import java.util.List;
 
 public class AppController {
     
-    //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-    
     
     @FXML
     public Label scoreRepresentation;
@@ -67,9 +65,6 @@ public class AppController {
     
     @FXML
     private Pane homeScreen;
-
-    @FXML
-    private Button activities;
 
     @FXML
     private ImageView bronze;
@@ -98,6 +93,10 @@ public class AppController {
     @FXML
     private ImageView temperature;
 
+    /** set the current screen.
+     *
+     * @param event button trigger
+     */
     @FXML
     private void switchScreen(ActionEvent event) {
         Button variable = (Button) event.getSource();
@@ -151,18 +150,6 @@ public class AppController {
         refreshTotal();
     }
 
-
-    /** Closes the program.
-     *
-     * @param event button trigger
-     */
-    @FXML
-    void closeProgram(ActionEvent event) {
-        
-        Stage stage = (Stage) exit.getScene().getWindow();
-        stage.close();
-    }
-
     /** Makes sure the total score gets updated.
      *
      */
@@ -198,6 +185,10 @@ public class AppController {
         }
     }
 
+    /** Display badge.
+     *
+     * @param achievementname achievement to show
+     */
     private void switchBadge(String achievementname) {
         switch (achievementname) {
             case "Bronze Badge":
@@ -255,13 +246,8 @@ public class AppController {
         vbox.setMinHeight(560);
 
 
-        //TODO: FIX SESSIONCOOKIE LOCATION
         Activity[] activities = Client.getActivities();
 
-        /*
-        HttpEntity<String> rep = Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/allActType");
-        List<Double> activityTypes = gson.fromJson(rep.getBody(), List.class);
-        */
         HttpEntity<String> co2Values = Client.getRequest(LoginController.sessionCookie, "http://localhost:8080/allActType");
         List<Double> co2List = gson.fromJson(co2Values.getBody(), List.class);
 
@@ -309,7 +295,6 @@ public class AppController {
 
 
             active.getChildren().addAll(activity, co2Label, date, but);
-            //System.out.println(a.getActivity_type() + a.getDate_time() + "!!!!!!");
             vbox.getChildren().add(active);
         }
         scroll.setContent(vbox);
@@ -457,6 +442,11 @@ public class AppController {
         return imgList;
     }
 
+    /** gets the achievements and returns hbox with achievements.
+     *
+     * @param email email of the user
+     * @return HBox to display in leaderboard
+     */
     private HBox initializeAchievement(String email) {
         Achievement[] achievements = Client.getAchievements(email);
         HBox hbox = new HBox();
@@ -466,6 +456,12 @@ public class AppController {
         return hbox;
     }
 
+    /** updates the HBox to contain the achievement.
+     *
+     * @param a Achievement to add
+     * @param hBox HBox to update
+     * @return HBox
+     */
     private HBox switchBadgeLeaderboard(Achievement a, HBox hBox) {
         switch (a.getAchievement_name()) {
             case "Bronze Badge":
@@ -710,7 +706,11 @@ public class AppController {
         return vbox;
     }
 
-
+    /** logs out the current user.
+     *
+     * @param event button trigger
+     * @throws IOException throws exception if the method cannot find
+     */
     @FXML
     void handle_logout(ActionEvent event) throws IOException {
 
@@ -720,9 +720,25 @@ public class AppController {
         content.getChildren().setAll(login);
     }
 
+    /** Minimizes the program.
+     *
+     * @param event button trigger
+     */
     @FXML
     void minimize(ActionEvent event) {
         Stage stage = (Stage)content.getScene().getWindow();
         stage.setIconified(true);
+    }
+
+
+    /** Closes the program.
+     *
+     * @param event button trigger
+     */
+    @FXML
+    void closeProgram(ActionEvent event) {
+
+        Stage stage = (Stage) exit.getScene().getWindow();
+        stage.close();
     }
 }

@@ -60,7 +60,6 @@ public class Client {
         return restTemplate.exchange(address, HttpMethod.GET, request, String.class);
 
     }
-    
 
     /**
      * make a postRequest.
@@ -88,8 +87,7 @@ public class Client {
         }
 
     }
-    
-    
+
     /**
      * getUsers.
      * @return all users
@@ -111,7 +109,6 @@ public class Client {
         User[] users = gson.fromJson(result.getBody(), User[].class);
         return users;
     }
-    
 
     /**
      * getActivities.
@@ -140,7 +137,6 @@ public class Client {
         Achievement[] achievements = gson.fromJson(result.getBody(), Achievement[].class);
         return achievements;
     }
-
 
     /**
      * getFriends.
