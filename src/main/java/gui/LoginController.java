@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -49,6 +48,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private  Label registrationStatus;
+
     @FXML
     private PasswordField newPasswordRepeat;
 
@@ -59,10 +59,16 @@ public class LoginController implements Initializable {
     private Button regMenu;
 
     @FXML
-    private Button login;
+    private Label pageLabel;
 
     @FXML
-    private Label pageLabel;
+    private Label errorMessage;
+
+    @FXML
+    private Label registrationConfirmation;
+
+    @FXML
+    private Label passwordMessage;
 
     @FXML
     private Button exit;
@@ -89,6 +95,8 @@ public class LoginController implements Initializable {
         Parent login = FXMLLoader.load(getClass().getResource("/login.fxml"));
         parent.getChildren().removeAll();
         parent.getChildren().setAll(login);
+        errorMessage.setVisible(false);
+        passwordMessage.setVisible(false);
 
     }
     
@@ -104,25 +112,24 @@ public class LoginController implements Initializable {
             if (!password1.isEmpty() && !password2.isEmpty() && (password1.equals(password2))) {
                 
                 if (validatePassword(password1) == true) {
-                    
-                    registerContent.setVisible(false);
-                    regMenu.setVisible(false);
-                    pageLabel.setText("Go Green");
                     User user = new User();
                     user.setEmail(newUsername);
                     user.setPassword(password1);
-                    
                     boolean result = Client.addUser(user);
+                    System.out.println(result);
                     if (!result) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Username in use");
-                        alert.setHeaderText(null);
-                        alert.setContentText("The email you entered is already in use! "
-                                + "Please try something else");
-                        alert.show();
-                        return;
+                        errorMessage.setText("This email is already in use.");
+                        errorMessage.setVisible(true);
+                    } else {
+                        registrationStatus.setVisible(false);
+                        registerContent.setVisible(false);
+                        regMenu.setVisible(false);
+                        pageLabel.setText("Go Green");
+                        registrationConfirmation.setVisible(true);
+                        errorMessage.setVisible(false);
+                        passwordMessage.setVisible(false);
+                        registrationConfirmation.setVisible(true);
                     }
-                    registrationStatus.setVisible(false);
                 }
             }
         }
@@ -135,45 +142,40 @@ public class LoginController implements Initializable {
     void handle_login(ActionEvent event) throws IOException {
         String email = userField.getText().trim();
         String password = passwordInput.getText().trim();
-
+        //String encodedPassword = passwordEncoder.encode(password);
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("username", email);
         params.add("password", password);
         if (!email.isEmpty() && !password.isEmpty()) {
-
+            
             HttpEntity<String> result = Client.postRequest("","http://localhost:8080/login", params);
             System.out.println(result);
             if (result == null) {
-
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Validation Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Something went wrong, please check your credentials!");
-                alert.show();
-                return;
-            }
-            if (result.getBody().equals("not authenticated")) {
-                System.out.println("wrong credentials");
-
+                errorMessage.setText("Your credentials are incorrect, please try again.");
+                errorMessage.setVisible(true);
             } else {
                 System.out.println("User has signed in");
                 this.sessionCookie = Client.getSessionCookie(email, password);
                 Parent menu = FXMLLoader.load(getClass().getResource("/theApp.fxml"));
                 parent.getChildren().removeAll();
                 parent.getChildren().setAll(menu);
+                System.out.println(sessionCookie);
+                
             }
-
+            
         } else {
-            System.out.println("empty credentials");
+            errorMessage.setText("Please fill in both fields.");
+            errorMessage.setVisible(true);
         }
     }
-
 
     @FXML
     void handle_register(ActionEvent event) throws IOException {
         registerContent.setVisible(true);
         regMenu.setVisible(true);
         pageLabel.setText("Sign-up");
+        errorMessage.setVisible(false);
+        registrationConfirmation.setVisible(false);
     }
 
     private void makeStageDragable() {
@@ -201,11 +203,15 @@ public class LoginController implements Initializable {
             if (matcher.find() && matcher.group().equals(value)) {
                 return true;
             } else {
-                validationAlert(field);
+                passwordMessage.setVisible(false);
+                errorMessage.setText("This email address is invalid, please try again.");
+                errorMessage.setVisible(true);
                 return false;
             }
         } else {
-            validationAlert(field);
+            passwordMessage.setVisible(false);
+            errorMessage.setText("Please fill in all fields.");
+            errorMessage.setVisible(true);
             return false;
         }
     }
@@ -218,29 +224,21 @@ public class LoginController implements Initializable {
                 if (pass.matches("^[a-zA-Z0-9]+$")) {
                     return true;
                 } else {
-                    validationAlert(pass);
+                    errorMessage.setText("Your password must contain at least 8");
+                    errorMessage.setVisible(true);
+                    passwordMessage.setVisible(true);
                     return false;
                 }
             } else {
-                validationAlert(pass);
+                errorMessage.setText("Your password must contain at least 8");
+                errorMessage.setVisible(true);
+                passwordMessage.setVisible(true);
                 return false;
             }
         }
-        validationAlert(pass);
+        passwordMessage.setVisible(false);
+        errorMessage.setText("Please fill in all fields.");
+        errorMessage.setVisible(true);
         return false;
     }
-    
-    private void validationAlert(String field) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Validation Error");
-        alert.setHeaderText(null);
-        if (field.equals("Email")) {
-            alert.setContentText("Your email is incorrect");
-        } else {
-            alert.setContentText("Your password must contain at"
-                    + "least 8 character and at least 1 numbers");
-        }
-        alert.showAndWait();
-    }
-
 }

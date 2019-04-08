@@ -191,9 +191,11 @@ public class ActivitiesController {
 
         if (user.getTotalscore() >= 100000) {
             achievement = achievementRepository.findById(1).get();
-        } else if (user.getTotalscore() >= 500000) {
+        }
+        if (user.getTotalscore() >= 500000) {
             achievement = achievementRepository.findById(2).get();
-        } else if (user.getTotalscore() >= 1000000) {
+        }
+        if (user.getTotalscore() >= 1000000) {
             achievement = achievementRepository.findById(3).get();
         }
         if (achievement != null) {

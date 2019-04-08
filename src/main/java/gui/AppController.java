@@ -694,8 +694,6 @@ public class AppController {
 
                 innerv.getChildren().addAll(email, score);
                 hbox.getChildren().add(innerv);
-                System.out.println(index + " index");
-                System.out.println(j + "j");
 
             }
             index += 2;
