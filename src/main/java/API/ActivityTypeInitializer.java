@@ -25,9 +25,9 @@ public class ActivityTypeInitializer {
         System.out.println("LOADING CO2 DATA");
         try {
             
-            FileReader fileReader = new FileReader("CO2_DATA.json");
+            FileReader fileReader = new FileReader("src/main/resources/jsonFiles/CO2_DATA.json");
             fileReader.toString();
-            JsonReader jsonReader = new JsonReader(new FileReader("CO2_DATA.json"));
+            JsonReader jsonReader = new JsonReader(fileReader);
             ActivityType[] activityTypes = gson.fromJson(jsonReader,ActivityType[].class);
             System.out.println("HELLO?!");
             

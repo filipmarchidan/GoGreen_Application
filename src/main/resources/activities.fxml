@@ -104,7 +104,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <CheckBox id="solar" fx:id="solar" layoutX="22.0" layoutY="33.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="147.0" text="I have solar &#10;panels installed" textFill="#edf5e1">
+            <CheckBox id="solarPanel" fx:id="solarPanel" layoutX="22.0" layoutY="33.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="147.0" text="I have solar &#10;panels installed" textFill="#edf5e1">
                <font>
                   <Font size="15.0" />
                </font>

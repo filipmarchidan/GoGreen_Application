@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
@@ -35,7 +36,7 @@ public class AchievementRepositoryTest {
         Gson gson = new Gson();
         System.out.println("LOADING ACHIEVEMENT DATA");
         try {
-            JsonReader jsonReader = new JsonReader(new FileReader("ACHIEVEMENT_DATA.json"));
+            JsonReader jsonReader = new JsonReader(new FileReader("src/main/resources/jsonFiles/ACHIEVEMENT_DATA.json"));
             Achievement[] achievements = gson.fromJson(jsonReader, Achievement[].class);
             System.out.println("HELLO?!");
             for(Achievement achievement : achievements) {
