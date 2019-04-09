@@ -85,6 +85,8 @@ public class AppController {
     @FXML
     private Text biketext;
     
+    
+    
     /** Oversees the switching of scenes.
      *
      * @param event button trigger
@@ -113,6 +115,8 @@ public class AppController {
                     User user = Client.findCurrentUser();
                     solar = (CheckBox) exit.getScene().lookup("#solar");
                     solar.setSelected(user.isSolarPanel());
+                    
+                    
                 }
 
             } catch (IOException ex) {
@@ -134,13 +138,7 @@ public class AppController {
     }
     
     
-<<<<<<< HEAD
 
-    
-    }
-=======
-   
->>>>>>> 51cdfd7065701a3b2112f99e6c15a5400089943c
     
     /** Makes sure the sliders always update the numerical value.
      *

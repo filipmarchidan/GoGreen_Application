@@ -7,6 +7,7 @@ import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -38,7 +39,26 @@ public class ActivityController {
 
     @FXML
     private Label response;
+    
+    @FXML
+    private Label daysOfSolarPanel;
 
+    
+    @FXML
+    private CheckBox solar;
+    
+    @FXML
+    void setDaysOfSolarPanels(){
+        
+        String sessionCookie = LoginController.sessionCookie;
+        
+        String numberOfDays = Client.getRequest(sessionCookie, "/getDaysOfSolarPanel").getBody();
+        
+        //System.out.println(label);
+    
+        daysOfSolarPanel.setText(numberOfDays);
+    }
+    
 
     /** Adds an activity based on the button.
      *
@@ -105,6 +125,7 @@ public class ActivityController {
         user.setSolarPanel(checkbox.isSelected());
         Activity activity = Client.updateSolar(user);
         System.out.println("handleSolarActivityLives");
+        
         
         
         

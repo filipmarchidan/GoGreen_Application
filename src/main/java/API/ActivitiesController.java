@@ -65,6 +65,21 @@ public class ActivitiesController {
     }
     
     
+    @GetMapping("/getDaysOfSolarPanel")
+    public @ResponseBody Integer getDaysOfSolarPanel(String sessionCookie){
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        int user_id = user.getId();
+        Activity act =  activityRepository.findSolarActivityFromUserId(user_id);
+        Integer amount =  act.getActivity_amount();
+        
+        if(amount <= 0 || amount == null ){
+            amount = 0;
+        }
+        return amount;
+    }
+    
+    
     
     /** adds an activity to the database.
      *
