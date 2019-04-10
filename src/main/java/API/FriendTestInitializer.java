@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import javax.annotation.PostConstruct;
 
-//@Component
+@Component
 public class FriendTestInitializer {
 
     @Autowired
@@ -32,7 +32,10 @@ public class FriendTestInitializer {
 
             for (int i = 0; i < users.length;i++) {
                 System.out.println(users[i].getEmail());
-                userRepository.save(users[i]);
+                if(userRepository.findByEmail(users[i].getEmail()) == null){
+                    userRepository.save(users[i]);
+                }
+                
 
             }
             User user = userRepository.findByEmail(users[0].getEmail());

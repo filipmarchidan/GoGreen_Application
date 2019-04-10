@@ -44,8 +44,10 @@ public class UserControllerTest {
     User user;
     
     Gson gson = new Gson();
+    
     @Autowired
     private MockMvc mvc;
+    
     String date = Activity.getCurrentDateTimeString();
     @Autowired
     private UserRepository userRepository;

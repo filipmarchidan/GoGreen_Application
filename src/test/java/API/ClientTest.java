@@ -42,6 +42,7 @@ public class ClientTest {
     Set<User> users = new HashSet<>();
 
     Activity activity = new Activity(ActType.vegetarian_meal,1,Activity.getCurrentDateTimeString());
+    Activity solarActivity = new Activity(ActType.solar_panel,1,Activity.getCurrentDateTimeString());
     Set<Activity> activities = new HashSet<>();
 
     Achievement achievement = new Achievement(1,"testach",500);
@@ -115,7 +116,7 @@ public class ClientTest {
     
     @Test
     public void updateSolarTest() {
-        mockServer.expect(requestTo("http://localhost:8080/updatesolar")).andRespond(withSuccess(gson.toJson(user1), MediaType.APPLICATION_JSON));
+        mockServer.expect(requestTo("http://localhost:8080/updateSolar")).andRespond(withSuccess(gson.toJson(solarActivity), MediaType.APPLICATION_JSON));
         Activity activity = Client.updateSolar(user1);
         Assert.assertEquals(ActType.solar_panel,activity.getActivity_type());
     }
