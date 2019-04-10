@@ -33,15 +33,11 @@ public class FriendTestInitializer {
             for (int i = 0; i < users.length;i++) {
                 System.out.println(users[i].getEmail());
                 if(userRepository.findByEmail(users[i].getEmail()) == null){
-                    userRepository.save(users[i]);
+                    users[i] = userRepository.save(users[i]);
                 }
                 
 
             }
-            User user = userRepository.findByEmail(users[0].getEmail());
-            user.getFriends().add(users[1]);
-            user.getFriends().add(users[2]);
-            userRepository.save(user);
 
 
         } catch (FileNotFoundException e) {
