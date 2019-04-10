@@ -115,7 +115,8 @@ public class AppController {
                     User user = Client.findCurrentUser();
                     solar = (CheckBox) exit.getScene().lookup("#solar");
                     solar.setSelected(user.isSolarPanel());
-                    
+                    //calling your function in the method that instantiates the activities fxml.
+                    setDaysOfSolarPanels();
                     
                 }
 
@@ -125,6 +126,20 @@ public class AppController {
 
         }
     }
+    
+    @FXML
+    void setDaysOfSolarPanels(){
+        
+        String sessionCookie = LoginController.sessionCookie;
+        
+        String numberOfDays = Client.getRequest(sessionCookie, "http://localhost:8080/getDaysOfSolarPanel").getBody();
+        
+        //System.out.println(label);
+        //Since we are technically in the wrong scene we can find the label you created like this:
+        Label daysOfSolarPanel = (Label)exit.getScene().lookup("#daysOfSolarPanel");
+        daysOfSolarPanel.setText(numberOfDays);
+    }
+    
     
     /** Closes the program.
      *

@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -21,6 +22,9 @@ import javafx.scene.text.Text;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class ActivityController {
     Gson gson = new Gson();
@@ -42,11 +46,12 @@ public class ActivityController {
     
     @FXML
     private Label daysOfSolarPanel;
-
     
     @FXML
     private CheckBox solar;
     
+    /*
+    //MOVED THIS TO THE AppController!
     @FXML
     void setDaysOfSolarPanels(){
         
@@ -58,6 +63,7 @@ public class ActivityController {
     
         daysOfSolarPanel.setText(numberOfDays);
     }
+    */
     
 
     /** Adds an activity based on the button.

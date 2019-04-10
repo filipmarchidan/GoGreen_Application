@@ -109,7 +109,7 @@
                   <Font size="15.0" />
                </font>
             </CheckBox>
-            <Label fx:id="daysOfSolarPanel" layoutX="14.0" layoutY="97.0" textFill="WHITE" />
+            <Label id="daysOfSolarPanel" fx:id="daysOfSolarPanel" layoutX="14.0" layoutY="97.0" textFill="WHITE" />
             <Label layoutX="74.0" layoutY="97.0" prefHeight="17.0" prefWidth="84.0" text="days of usage" textFill="#f5f4f4" />
          </children>
       </Pane>

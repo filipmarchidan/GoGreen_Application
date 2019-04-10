@@ -71,9 +71,16 @@ public class ActivitiesController {
         User user = userRepository.findByEmail(email);
         int user_id = user.getId();
         Activity act =  activityRepository.findSolarActivityFromUserId(user_id);
-        Integer amount =  act.getActivity_amount();
         
-        if(amount <= 0 || amount == null ){
+        //added a check to make sure the activity itself was not null (this can happen)
+        //if it happens the amount is just 0:
+        if(act == null) {
+            return 0;
+        }
+        
+        Integer amount =  act.getActivity_amount();
+        //removed the if amount == null check because intellij said it would never happen (it's an int, not integer so would default to 0 not null )
+        if(amount <= 0){
             amount = 0;
         }
         return amount;
