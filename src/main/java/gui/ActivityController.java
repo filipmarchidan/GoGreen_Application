@@ -65,7 +65,6 @@ public class ActivityController {
                     if (amount == 0) {
                         response.setText("Please specify traveled cycling distance");
                         response.setTextFill(Color.RED);
-                        //TODO: add buzzer sound or something?
                         return;
                     }
                     break;
@@ -78,24 +77,14 @@ public class ActivityController {
                     if (amount == 0) {
                         response.setText("Please specify traveled distance");
                         response.setTextFill(Color.RED);
-                        //TODO: add buzzer sound or something?
                         return;
                     }
                     break;
                 case "temp" :
                     actType = ActType.lower_temperature;
                     int preTempValue = (int)tempSlider.getValue();
-                    if(preTempValue == 16)
-                        amount = 5;
-                    else if(preTempValue == 17)
-                        amount = 4;
-                    else if(preTempValue == 18)
-                        amount = 3;
-                    else if(preTempValue == 19)
-                        amount = 2;
-                    else if(preTempValue == 20)
-                        amount = 1;
-                    else if (preTempValue == 21){
+                    amount = 21 - preTempValue;
+                    if (amount == 0) {
                         response.setText("This is the average room temperature no points added");
                         response.setTextFill(Color.RED);
                         return;
@@ -111,7 +100,6 @@ public class ActivityController {
             HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity", params);
             Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
             displayResponse(activity1);
-            //TODO: Add response to user
 
         } else if (event.getSource() instanceof CheckBox) {
             handleSolarActivity(event);
