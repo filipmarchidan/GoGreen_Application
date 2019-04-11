@@ -108,3 +108,6 @@
  .table-view .column-header {
      -fx-background-color: #379683;
  }
+
+#tempSlider:thumb{-fx-background-color: #ff0000!important;}
+#tempSlider{-fx-control-inner-background: #ff0000!important;}

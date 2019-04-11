@@ -39,6 +39,11 @@ public class ActivityController {
     @FXML
     private Label response;
 
+    @FXML
+    private Slider tempSlider;
+
+    @FXML
+    private Text tempDisplay;
 
     /** Adds an activity based on the button.
      *
@@ -60,7 +65,6 @@ public class ActivityController {
                     if (amount == 0) {
                         response.setText("Please specify traveled cycling distance");
                         response.setTextFill(Color.RED);
-                        //TODO: add buzzer sound or something?
                         return;
                     }
                     break;
@@ -73,12 +77,18 @@ public class ActivityController {
                     if (amount == 0) {
                         response.setText("Please specify traveled distance");
                         response.setTextFill(Color.RED);
-                        //TODO: add buzzer sound or something?
                         return;
                     }
                     break;
                 case "temp" :
                     actType = ActType.lower_temperature;
+                    int preTempValue = (int)tempSlider.getValue();
+                    amount = 21 - preTempValue;
+                    if (amount == 0) {
+                        response.setText("This is the average room temperature no points added");
+                        response.setTextFill(Color.RED);
+                        return;
+                    }
                     break;
                 default:
                     return;
@@ -90,7 +100,6 @@ public class ActivityController {
             HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity", params);
             Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
             displayResponse(activity1);
-            //TODO: Add response to user
 
         } else if (event.getSource() instanceof CheckBox) {
             handleSolarActivity(event);
@@ -181,5 +190,10 @@ public class ActivityController {
         int value = (int)slider.getValue();
         transporttext.setText(Integer.toString(value));
     }
-
+    @FXML
+    public void updateTemperatureValue(Event event) {
+        Slider slider = (Slider) event.getSource();
+        int value = (int)slider.getValue();
+        tempDisplay.setText(Integer.toString(value));
+    }
 }
