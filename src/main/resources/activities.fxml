@@ -86,20 +86,19 @@
             <Font name="System Bold" size="32.0" />
          </font>
       </Label>
-      <Text layoutX="563.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Label fx:id="response" alignment="CENTER" layoutX="14.0" layoutY="518.0" prefHeight="28.0" prefWidth="570.0" styleClass="motivationMessage" stylesheets="@style.css" text="Go and save the planet" textFill="#edf5e1">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Pane layoutX="90.0" layoutY="369.0" prefHeight="130.0" prefWidth="420.0" styleClass="activityCategory" stylesheets="@style.css">
+      <Pane layoutX="89.0" layoutY="367.0" prefHeight="130.0" prefWidth="420.0" styleClass="activityCategory" stylesheets="@style.css">
          <children>
             <Label layoutX="168.0" text="Energy" textFill="#edf5e1">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Button fx:id="temp" layoutX="251.0" layoutY="42.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="74.0" prefWidth="155.0" styleClass="activityButton" stylesheets="@style.css" text="Lower the&#10;temperature&#10;in your house" textAlignment="CENTER" textFill="#edf5e1">
+            <Button fx:id="temp" layoutX="260.0" layoutY="44.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="72.0" prefWidth="147.0" styleClass="activityButton" stylesheets="@style.css" text="Set the&#10;temperature&#10;in your house" textAlignment="CENTER" textFill="#edf5e1">
                <font>
                   <Font size="15.0" />
                </font>
@@ -109,6 +108,10 @@
                   <Font size="15.0" />
                </font>
             </CheckBox>
+            <Slider fx:id="tempSlider" layoutX="238.0" layoutY="42.0" max="21.0" min="16.0" orientation="VERTICAL" onContextMenuRequested="#updateTemperatureValue" onDragDetected="#updateTemperatureValue" onDragDone="#updateTemperatureValue" onDragDropped="#updateTemperatureValue" onDragEntered="#updateTemperatureValue" onDragExited="#updateTemperatureValue" onDragOver="#updateTemperatureValue" onMouseClicked="#updateTemperatureValue" onMouseDragged="#updateTemperatureValue" onMouseEntered="#updateTemperatureValue" onMouseExited="#updateTemperatureValue" onMouseMoved="#updateTemperatureValue" prefHeight="72.0" prefWidth="14.0" value="21.0" />
+            <Text fx:id="tempDisplay" fill="WHITE" layoutX="210.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21" wrappingWidth="18.779289722442627" />
+            <Label layoutX="223.0" layoutY="44.0" text="°C" textFill="WHITE" />
+            <Label layoutX="259.0" layoutY="23.0" text="Average Temperature is 21" textFill="WHITE" />
          </children>
       </Pane>
    </children>
