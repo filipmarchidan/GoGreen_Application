@@ -84,11 +84,11 @@ public class UserController {
     }
 
 
-/**
- * find a user by theirs email.
- * @param params email
- * @return the user.
- */
+    /**
+     * find a user by theirs email.
+     * @param params email
+     * @return the user.
+     */
     @PostMapping(path = "/findByEmail")
     public @ResponseBody User findByEmail(@RequestBody MultiValueMap<String, Object> params) {
         String  email = gson.fromJson((String)params.getFirst("email"),String.class);

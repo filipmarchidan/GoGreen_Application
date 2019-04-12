@@ -12,7 +12,6 @@ import gui.entity.TableUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -22,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -34,7 +32,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -81,10 +78,6 @@ public class AppController {
 
     @FXML
     private ImageView bike;
-    
-    @FXML
-    private Text biketext;
-    
     
     @FXML
     private ImageView local;
@@ -160,7 +153,7 @@ public class AppController {
     }
     
     @FXML
-    void setDaysOfSolarPanels(){
+    void setDaysOfSolarPanels() {
         
         String sessionCookie = LoginController.sessionCookie;
         
@@ -310,12 +303,12 @@ public class AppController {
                 params.add("activity",gson.toJson(a));
                 HttpEntity<String> response = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/removeactivity", params);
                 boolean result = gson.fromJson(response.getBody(), boolean.class);
-                if(result) {
+                if (result) {
                     vbox.getChildren().remove(active);
                 }
             });
             
-            if(a.getActivity_type() == ActType.solar_panel) {
+            if (a.getActivity_type() == ActType.solar_panel) {
                 but.setVisible(false);
             }
 

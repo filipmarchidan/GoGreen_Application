@@ -12,7 +12,6 @@ import database.UserRepository;
 import database.entities.Achievement;
 import database.entities.ActType;
 import database.entities.Activity;
-import database.entities.ActivityType;
 import database.entities.User;
 
 
@@ -59,25 +58,29 @@ public class ActivitiesController {
         return activityRepository.findByUserIdSorted(user.getId());
     }
     
-    
+    /** Returns the amount of days a user has solar panels for.
+     *
+     * @param sessionCookie current session useer
+     * @return amount of days
+     */
     @GetMapping("/getDaysOfSolarPanel")
-    public @ResponseBody Integer getDaysOfSolarPanel(String sessionCookie){
+    public @ResponseBody Integer getDaysOfSolarPanel(String sessionCookie) {
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
-        int user_id = user.getId();
-        Activity act =  activityRepository.findSolarActivityFromUserId(user_id);
+        int userId = user.getId();
+        Activity act =  activityRepository.findSolarActivityFromUserId(userId);
         
         //added a check to make sure the activity itself was not null (this can happen)
         //if it happens the amount is just 0:
-        if(act == null) {
+        if (act == null) {
             return 0;
         }
         
         Integer amount =  act.getActivity_amount();
-        //removed the if amount == null check because intellij said it would never happen (it's an int, not integer so would default to 0 not null )
-        if(amount <= 0){
-            amount = 0;
+        if (amount > 0) {
+            checkActivityAchievements(act,user);
         }
+
         return amount;
     }
     
@@ -147,9 +150,9 @@ public class ActivitiesController {
         User user1 = userRepository.findByEmail(email);
         user1.setSolarPanel(user.isSolarPanel());
         
-        Activity activity = activityRepository.findSolarActivityFromUserId(user.getId());
+        Activity activity = activityRepository.findSolarActivityFromUserId(user1.getId());
         System.out.println(activity + "hi1");
-        if(activity == null) {
+        if (activity == null) {
             
             activity = new Activity(ActType.solar_panel,0,Activity.getCurrentDateTimeString());
             activity.setUser(user1);

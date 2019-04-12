@@ -31,7 +31,7 @@ public class FriendTestInitializer {
             
             for (int i = 0; i < users.length;i++) {
                 System.out.println(users[i].getEmail());
-                if(userRepository.findByEmail(users[i].getEmail()) == null){
+                if (userRepository.findByEmail(users[i].getEmail()) == null) {
                     users[i] = userRepository.save(users[i]);
                 }
                 

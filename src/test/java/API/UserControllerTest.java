@@ -220,4 +220,40 @@ public class UserControllerTest {
         
     }
     
+    @Test
+    public void findUserByEmail() throws Exception {
+        String email = "blah";
+        MultiValueMap<String,String > params = new LinkedMultiValueMap<>();
+        params.add("email",email);
+        String requestBody = buildRequestBody(params);
+    
+    
+        String responseBody =
+            
+                mvc.perform(
+                    
+                        post("/findByEmail")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        User user = gson.fromJson(responseBody,User.class);
+        assertNull(user);
+        
+    }
+    
+    @Test
+    public void getAllUsers() throws Exception {
+        MvcResult responseBody2 = mvc.perform(
+                get("/allUsers")
+                        .contentType(MediaType.ALL)
+                        .session(sessionCookie)
+        )
+                .andExpect(
+                        status().isOk()
+                ).andReturn();
+        User[] users = gson.fromJson(responseBody2.getResponse().getContentAsString(),User[].class);
+        assertNotNull(users);
+    }
+    
 }
