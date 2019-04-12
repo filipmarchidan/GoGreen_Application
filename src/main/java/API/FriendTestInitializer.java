@@ -27,7 +27,10 @@ public class FriendTestInitializer {
             JsonReader jsonReader = new JsonReader(fileReader);
             User[] users = gson.fromJson(jsonReader,User[].class);
 
-            userRepository.delete(userRepository.findByEmail(users[2].getEmail()));
+            User user = userRepository.findByEmail(users[2].getEmail());
+            if (user != null) {
+                userRepository.delete(user);
+            }
             
             for (int i = 0; i < users.length;i++) {
                 System.out.println(users[i].getEmail());
