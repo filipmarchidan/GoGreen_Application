@@ -1,0 +1,38 @@
+[
+  {
+    "id": 0,
+    "activity_name": "Vegetarian Meal",
+    "co2_savings": 1361
+  },
+  {
+    "id": 1,
+    "activity_name": "Buying Local Produce",
+    "co2_savings": 700
+  },
+  {
+    "id": 2,
+    "activity_name": "Taking the Bike",
+    "co2_savings": 220
+  },
+  {
+    "id": 3,
+    "activity_name": "Public Transport",
+    "co2_savings": 184
+  },
+  {
+    "id": 4,
+    "activity_name": "Lowering House Temperature",
+    "co2_savings": 816
+  },
+  {
+    "id": 5,
+    "activity_name": "Installing Solar Panels",
+    "co2_savings": 2107
+  },
+  {
+    "id": 6,
+    "activity_name": "TEST ACTIVITY",
+    "co2_savings": 0
+  }
+
+]

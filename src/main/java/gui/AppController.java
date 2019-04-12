@@ -3,6 +3,7 @@ package gui;
 import com.google.gson.Gson;
 
 import client.Client;
+import database.entities.Achievement;
 import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
@@ -45,8 +46,6 @@ import java.util.List;
 
 public class AppController {
     
-    //TODO: JUST FOR TESTING SHOULD BE FIXED LATER
-    
     
     @FXML
     public Label scoreRepresentation;
@@ -62,32 +61,47 @@ public class AppController {
     @FXML
     private BorderPane borderpane;
 
-    private Button lookUp;
-
     @FXML
     private Button exit;
-    
+
     @FXML
-    private CheckBox solar;
+    private CheckBox solarPanel;
     
     @FXML
     private Pane homeScreen;
     
     @FXML
-    private Slider transportslider;
-    
+    private ImageView bronze;
+
     @FXML
-    private Text transporttext;
-    
+    private ImageView silver;
+
     @FXML
-    private Slider bikeslider;
+    private ImageView gold;
+
+    @FXML
+    private ImageView bike;
     
     @FXML
     private Text biketext;
     
     
-    
-    /** Oversees the switching of scenes.
+    @FXML
+    private ImageView local;
+
+    @FXML
+    private ImageView solar;
+
+    @FXML
+    private ImageView vegetarian;
+
+    @FXML
+    private ImageView transport;
+
+    @FXML
+    private ImageView temperature;
+
+    /** set the current screen.
      *
      * @param event button trigger
      */
@@ -96,71 +110,61 @@ public class AppController {
         Button variable = (Button) event.getSource();
         String fxmlName = variable.getId();
         System.out.println(fxmlName);
-        if (fxmlName.equals("home")) {
-            borderpane.getChildren().removeAll();
-            borderpane.setCenter(homeScreen);
-        } else if (fxmlName.equals("history")) {
-            displayActivities();
-        } else if (fxmlName.equals("leaderboard")) {
-            displayLeaderboard();
-        } else if (fxmlName.equals("findfriends")) {
-            displayUsers();
-        } else {
-            try {
+        switch (fxmlName) {
+            case "home":
                 borderpane.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("/" + fxmlName + ".fxml"));
-                borderpane.setCenter(root);
-                
-                if (fxmlName.equals("activities")) {
-                    User user = Client.findCurrentUser();
-                    solar = (CheckBox) exit.getScene().lookup("#solar");
-                    solar.setSelected(user.isSolarPanel());
-                    //calling your function in the method that instantiates the activities fxml.
-                    setDaysOfSolarPanels();
-                    
+                borderpane.setCenter(homeScreen);
+                break;
+            case "history":
+                displayActivities();
+                refreshTotal();
+                break;
+            case "leaderboard":
+                displayLeaderboard();
+                refreshTotal();
+                break;
+            case "findfriends":
+                displayUsers();
+                refreshTotal();
+                break;
+            case "achievements":
+                Parent achieve;
+                try {
+                    borderpane.getChildren().removeAll();
+                    achieve = FXMLLoader.load(getClass().getResource("/achievements.fxml"));
+                    borderpane.setCenter(achieve);
+                    displayAchievements();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-
-            } catch (IOException ex) {
-                System.out.println("File " + fxmlName + ".fxml not found");
-            }
+                break;
+            case "activities":
+                borderpane.getChildren().removeAll();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/activities.fxml"));
+                    borderpane.setCenter(root);
+                    User user = Client.findCurrentUser();
+                    solarPanel = (CheckBox) exit.getScene().lookup("#solarPanel");
+                    solarPanel.setSelected(user.isSolarPanel());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                return;
 
         }
+        refreshTotal();
     }
-    
-    @FXML
-    void setDaysOfSolarPanels(){
-        
-        String sessionCookie = LoginController.sessionCookie;
-        
-        String numberOfDays = Client.getRequest(sessionCookie, "http://localhost:8080/getDaysOfSolarPanel").getBody();
-        
-        //System.out.println(label);
-        //Since we are technically in the wrong scene we can find the label you created like this:
-        Label daysOfSolarPanel = (Label)exit.getScene().lookup("#daysOfSolarPanel");
-        daysOfSolarPanel.setText(numberOfDays);
-    }
-    
-    
-    /** Closes the program.
-     *
-     * @param event button trigger
-     */
-    @FXML
-    void closeProgram(ActionEvent event) {
-        
-        Stage stage = (Stage) exit.getScene().getWindow();
-        stage.close();
-    }
-    
-    
 
     
-    /** Makes sure the sliders always update the numerical value.
+    
+    /** Makes sure the total score gets updated.
      *
-     * @param event button that calls the function
      */
     @FXML
-    void refreshTotal(ActionEvent event) {
+    void refreshTotal() {
         scoreRepresentation.setVisible(true);
         setTotal();
     }
@@ -179,29 +183,64 @@ public class AppController {
             theScore.setText("No score");
         }
     }
-    
-    /** Makes sure the sliders always update the numerical value.
-     *
-     * @param event button that calls the function
-     */
-    @FXML
-    public void updateBikeValue(Event event) {
-        Slider slider = (Slider) event.getSource();
-        int value = (int)slider.getValue();
-        biketext.setText(Integer.toString(value));
+
+    void displayAchievements() {
+        Achievement[] achievements = Client.getAchievements(Client.findCurrentUser().getEmail());
+        for (Achievement a : achievements) {
+            System.out.println(a.getAchievement_name());
+            String achievementname = a.getAchievement_name();
+            switchBadge(achievementname);
+
+        }
     }
-    
-    /** Makes sure the sliders always update the numerical value.
+
+    /** Display badge.
      *
-     * @param event button that calls the function
+     * @param achievementname achievement to show
      */
-    @FXML
-    public void updateTransportValue(Event event) {
-        Slider slider = (Slider) event.getSource();
-        int value = (int)slider.getValue();
-        transporttext.setText(Integer.toString(value));
+    private void switchBadge(String achievementname) {
+        switch (achievementname) {
+            case "Bronze Badge":
+                bronze = (ImageView) exit.getScene().lookup("#bronze");
+                bronze.setOpacity(1);
+                break;
+            case "Silver Badge":
+                silver = (ImageView) exit.getScene().lookup("#silver");
+                silver.setOpacity(1);
+                break;
+            case "Golden Badge":
+                gold = (ImageView) exit.getScene().lookup("#gold");
+                gold.setOpacity(1);
+                break;
+            case "Solar Panel":
+                solar = (ImageView) exit.getScene().lookup("#solar");
+                solar.setOpacity(1);
+                break;
+            case "Bike":
+                bike = (ImageView) exit.getScene().lookup("#bike");
+                bike.setOpacity(1);
+                break;
+            case "Buying Local":
+                local = (ImageView) exit.getScene().lookup("#local");
+                local.setOpacity(1);
+                break;
+            case "Temperature":
+                temperature = (ImageView) exit.getScene().lookup("#temperature");
+                temperature.setOpacity(1);
+                break;
+            case "Public Transport":
+                transport = (ImageView) exit.getScene().lookup("#transport");
+                transport.setOpacity(1);
+                break;
+            case "Vegetarian Meal":
+                vegetarian = (ImageView) exit.getScene().lookup("#vegetarian");
+                vegetarian.setOpacity(1);
+                break;
+            default: break;
+
+        }
     }
-    
+
     /** Retrieves and displays all the activities of the user.
      *
      */
@@ -216,13 +255,8 @@ public class AppController {
         vbox.setMinHeight(560);
 
 
-        //TODO: FIX SESSIONCOOKIE LOCATION
         Activity[] activities = Client.getActivities();
 
-        /*
-        HttpEntity<String> rep = Client.getRequest(LoginController.sessionCookie,"http://localhost:8080/allActType");
-        List<Double> activityTypes = gson.fromJson(rep.getBody(), List.class);
-        */
         HttpEntity<String> co2Values = Client.getRequest(LoginController.sessionCookie, "http://localhost:8080/allActType");
         List<Double> co2List = gson.fromJson(co2Values.getBody(), List.class);
 
@@ -252,7 +286,7 @@ public class AppController {
             ImageView compressed = new ImageView(image);
             compressed.setPreserveRatio(true);
             compressed.setFitHeight(20);
-            
+
             Button but = new Button();
             but.setGraphic(compressed);
             but.setStyle("-fx-background-color: #f23a3a;"
@@ -273,7 +307,6 @@ public class AppController {
 
 
             active.getChildren().addAll(activity, co2Label, date, but);
-            //System.out.println(a.getActivity_type() + a.getDate_time() + "!!!!!!");
             vbox.getChildren().add(active);
         }
         scroll.setContent(vbox);
@@ -403,35 +436,13 @@ public class AppController {
             }
             System.out.println(user);
             
-            /*
-            HBox hbox = new HBox();
-            ImageView images = new ImageView(
-            new Image(getClass().getResource("/images/path815.png").toExternalForm()));
-            images.setFitHeight(30);
-            images.setFitWidth(30);
-            Tooltip.install(images, new Tooltip("This is an achievement"));
-            ImageView images3 = new ImageView(
-            new Image(getClass().getResource("/images/path815.png").toExternalForm()));
-            images3.setFitHeight(30);
-            images3.setFitWidth(30);
-            ImageView images2 = new ImageView(
-            new Image(getClass().getResource("/images/path817.png").toExternalForm()));
-            images2.setFitHeight(30);
-            images2.setFitWidth(30);
-            ImageView images4 = new ImageView(
-            new Image(getClass().getResource("/images/path817.png").toExternalForm()));
-            images4.setFitHeight(30);
-            images4.setFitWidth(30);
-            Tooltip.install(images, new Tooltip("This is an achievement"));
-            Tooltip.install(images2, new Tooltip("This is an achievement"));
-            Tooltip.install(images3, new Tooltip("This is an achievement"));
-            Tooltip.install(images4, new Tooltip("This is an achievement"));
-            hbox.getChildren().addAll(images, images2, images3, images4);
+
+            HBox hbox = initializeAchievement(user.getEmail());
             hbox.setSpacing(4);
             hbox.setFillHeight(true);
-            */
+            
             TableUser tableUser =
-                    new TableUser(i + 1, user.getEmail(), null/*hbox*/, user.getTotalscore());
+                    new TableUser(i + 1, user.getEmail(), hbox, user.getTotalscore());
             imgList.add(tableUser);
         }
         if (!seen) {
@@ -443,7 +454,98 @@ public class AppController {
         }
         return imgList;
     }
-    
+
+    /** gets the achievements and returns hbox with achievements.
+     *
+     * @param email email of the user
+     * @return HBox to display in leaderboard
+     */
+    private HBox initializeAchievement(String email) {
+        Achievement[] achievements = Client.getAchievements(email);
+        HBox hbox = new HBox();
+        for (Achievement a : achievements) {
+            hbox = switchBadgeLeaderboard(a, hbox);
+        }
+        return hbox;
+    }
+
+    /** updates the HBox to contain the achievement.
+     *
+     * @param a Achievement to add
+     * @param hBox HBox to update
+     * @return HBox
+     */
+    private HBox switchBadgeLeaderboard(Achievement a, HBox hBox) {
+        switch (a.getAchievement_name()) {
+            case "Bronze Badge":
+                ImageView bronze = new ImageView(
+                        new Image(getClass().getResource("/images/bronze.png").toExternalForm()));
+                bronze.setFitHeight(30);
+                bronze.setFitWidth(30);
+                hBox.getChildren().add(bronze);
+                break;
+            case "Silver Badge":
+                ImageView silver = new ImageView(
+                        new Image(getClass().getResource("/images/silver.png").toExternalForm()));
+                silver.setFitHeight(30);
+                silver.setFitWidth(30);
+                hBox.getChildren().add(silver);
+                break;
+            case "Golden Badge":
+                ImageView gold = new ImageView(
+                        new Image(getClass().getResource("/images/gold.png").toExternalForm()));
+                gold.setFitHeight(30);
+                gold.setFitWidth(30);
+                hBox.getChildren().add(gold);
+                break;
+            case "Solar Panel":
+                ImageView solar = new ImageView(
+                        new Image(getClass().getResource("/images/solar.png").toExternalForm()));
+                solar.setFitHeight(30);
+                solar.setFitWidth(30);
+                hBox.getChildren().add(solar);
+                break;
+            case "Vegetarian Meal":
+                ImageView vegetarian = new ImageView(
+                        new Image(getClass().getResource("/images/vegmeal.png").toExternalForm()));
+                vegetarian.setFitHeight(30);
+                vegetarian.setFitWidth(30);
+                hBox.getChildren().add(vegetarian);
+                break;
+            case "Bike":
+                ImageView bike = new ImageView(
+                        new Image(getClass().getResource("/images/bike.png").toExternalForm()));
+                bike.setFitHeight(30);
+                bike.setFitWidth(30);
+                hBox.getChildren().add(bike);
+                break;
+            case"Public Transport":
+                ImageView publicTransport = new ImageView(
+                        new Image(getClass().getResource("/images/trans.png").toExternalForm()));
+                publicTransport.setFitHeight(30);
+                publicTransport.setFitWidth(30);
+                hBox.getChildren().add(publicTransport);
+                break;
+            case"Temperature":
+                ImageView temp = new ImageView(
+                        new Image(getClass().getResource("/images/temp.png").toExternalForm()));
+                temp.setFitHeight(30);
+                temp.setFitWidth(30);
+                hBox.getChildren().add(temp);
+                break;
+            case"Buying Local":
+                ImageView buyLocal = new ImageView(
+                        new Image(getClass().getResource("/images/local.png").toExternalForm()));
+                buyLocal.setFitHeight(30);
+                buyLocal.setFitWidth(30);
+                hBox.getChildren().add(buyLocal);
+                break;
+            default:
+                break;
+        }
+        return hBox;
+    }
+
     /** Displays the array of all users so the current user can friend/unfriend them.
      *
      */
@@ -617,6 +719,11 @@ public class AppController {
         return vbox;
     }
 
+    /** logs out the current user.
+     *
+     * @param event button trigger
+     * @throws IOException throws exception if the method cannot find
+     */
     @FXML
     void handle_logout(ActionEvent event) throws IOException {
 
@@ -626,6 +733,10 @@ public class AppController {
         content.getChildren().setAll(login);
     }
 
+    /** Minimizes the program.
+     *
+     * @param event button trigger
+     */
     @FXML
     void minimize(ActionEvent event) {
         Stage stage = (Stage)content.getScene().getWindow();
@@ -633,5 +744,14 @@ public class AppController {
     }
 
 
+    /** Closes the program.
+     *
+     * @param event button trigger
+     */
+    @FXML
+    void closeProgram(ActionEvent event) {
 
+        Stage stage = (Stage) exit.getScene().getWindow();
+        stage.close();
+    }
 }

@@ -23,10 +23,8 @@ public class FriendTestInitializer {
         Gson gson = new Gson();
         System.out.println("LOADING FRIEND DATA");
         try {
-
-            //FileReader fileReader = new FileReader("FRIEND_INFO.json");
-            //fileReader.toString();
-            JsonReader jsonReader = new JsonReader(new FileReader("FRIEND_INFO.json"));
+            FileReader fileReader = new FileReader("src/main/resources/jsonFiles/FRIEND_INFO.json");
+            JsonReader jsonReader = new JsonReader(fileReader);
             User[] users = gson.fromJson(jsonReader,User[].class);
 
 

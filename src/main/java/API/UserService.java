@@ -47,8 +47,7 @@ public class UserService implements UserServiceImpl {
         return updatedUser;
         
     }
-    
-    
+
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }

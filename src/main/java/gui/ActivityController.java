@@ -45,6 +45,12 @@ public class ActivityController {
     private Label response;
     
     @FXML
+    private Slider tempSlider;
+    
+    @FXML
+    private Text tempDisplay;
+    
+    @FXML
     private Label daysOfSolarPanel;
     
     @FXML
@@ -103,6 +109,13 @@ public class ActivityController {
                     break;
                 case "temp" :
                     actType = ActType.lower_temperature;
+                    int preTempValue = (int)tempSlider.getValue();
+                    amount = 21 - preTempValue;
+                    if (amount == 0) {
+                        response.setText("This is the average room temperature no points added");
+                        response.setTextFill(Color.RED);
+                        return;
+                    }
                     break;
                 default:
                     return;
@@ -212,5 +225,10 @@ public class ActivityController {
         int value = (int)slider.getValue();
         transporttext.setText(Integer.toString(value));
     }
-
+    @FXML
+    public void updateTemperatureValue(Event event) {
+        Slider slider = (Slider) event.getSource();
+        int value = (int)slider.getValue();
+        tempDisplay.setText(Integer.toString(value));
+    }
 }

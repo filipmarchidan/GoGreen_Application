@@ -17,7 +17,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" styleClass="dit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@deacht.jpeg" />
+            <Image url="@images/deacht.jpeg" />
          </image>
       </ImageView>
       <Label fx:id="registrationConfirmation" alignment="CENTER" contentDisplay="CENTER" layoutX="456.0" layoutY="526.0" prefHeight="26.0" prefWidth="266.0" styleClass="regMes" stylesheets="@style.css" text="Your registration succeeded, please login." textFill="WHITE" visible="false">

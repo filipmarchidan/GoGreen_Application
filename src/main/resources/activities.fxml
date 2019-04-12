@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ActivityController">
+<AnchorPane prefHeight="560.0" prefWidth="600.0" styleClass="appMenu" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ActivityController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="327.0" layoutY="78.0" prefHeight="263.0" prefWidth="244.0" spacing="10.0" styleClass="activityCategory" stylesheets="@style.css">
          <children>
@@ -86,31 +86,34 @@
             <Font name="System Bold" size="32.0" />
          </font>
       </Label>
-      <Text layoutX="563.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Label fx:id="response" alignment="CENTER" layoutX="14.0" layoutY="518.0" prefHeight="28.0" prefWidth="570.0" styleClass="motivationMessage" stylesheets="@style.css" text="Go and save the planet" textFill="#edf5e1">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Pane layoutX="90.0" layoutY="369.0" prefHeight="130.0" prefWidth="420.0" styleClass="activityCategory" stylesheets="@style.css">
+      <Pane layoutX="89.0" layoutY="367.0" prefHeight="130.0" prefWidth="420.0" styleClass="activityCategory" stylesheets="@style.css">
          <children>
             <Label layoutX="168.0" text="Energy" textFill="#edf5e1">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Button fx:id="temp" layoutX="251.0" layoutY="42.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="74.0" prefWidth="155.0" styleClass="activityButton" stylesheets="@style.css" text="Lower the&#10;temperature&#10;in your house" textAlignment="CENTER" textFill="#edf5e1">
+            <Button fx:id="temp" layoutX="260.0" layoutY="44.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="72.0" prefWidth="147.0" styleClass="activityButton" stylesheets="@style.css" text="Set the&#10;temperature&#10;in your house" textAlignment="CENTER" textFill="#edf5e1">
                <font>
                   <Font size="15.0" />
                </font>
             </Button>
-            <CheckBox id="solar" fx:id="solar" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="147.0" text="I have solar &#10;panels installed " textFill="#edf5e1">
+            <CheckBox id="solarPanel" fx:id="solarPanel" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="147.0" text="I have solar &#10;panels installed " textFill="#edf5e1">
                <font>
                   <Font size="15.0" />
                </font>
             </CheckBox>
-            <Label id="daysOfSolarPanel" fx:id="daysOfSolarPanel" layoutX="26.0" layoutY="97.0" textFill="WHITE" />
-            <Label layoutX="50.0" layoutY="97.0" prefHeight="17.0" prefWidth="84.0" text="days of usage" textFill="#f5f4f4" />
+             <Label id="daysOfSolarPanel" fx:id="daysOfSolarPanel" layoutX="26.0" layoutY="97.0" textFill="WHITE" />
+             <Label layoutX="50.0" layoutY="97.0" prefHeight="17.0" prefWidth="84.0" text="days of usage" textFill="#f5f4f4" />
+             <Slider fx:id="tempSlider" layoutX="238.0" layoutY="42.0" max="21.0" min="16.0" orientation="VERTICAL" onContextMenuRequested="#updateTemperatureValue" onDragDetected="#updateTemperatureValue" onDragDone="#updateTemperatureValue" onDragDropped="#updateTemperatureValue" onDragEntered="#updateTemperatureValue" onDragExited="#updateTemperatureValue" onDragOver="#updateTemperatureValue" onMouseClicked="#updateTemperatureValue" onMouseDragged="#updateTemperatureValue" onMouseEntered="#updateTemperatureValue" onMouseExited="#updateTemperatureValue" onMouseMoved="#updateTemperatureValue" prefHeight="72.0" prefWidth="14.0" value="21.0" />
+            <Text fx:id="tempDisplay" fill="WHITE" layoutX="210.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21" wrappingWidth="18.779289722442627" />
+            <Label layoutX="223.0" layoutY="44.0" text="°C" textFill="WHITE" />
+            <Label layoutX="259.0" layoutY="23.0" text="Average Temperature is 21" textFill="WHITE" />
          </children>
       </Pane>
    </children>

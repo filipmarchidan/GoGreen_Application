@@ -30,13 +30,9 @@ import java.util.Set;
 
 @RestController
 public class ActivitiesController {
-    
-    
+
     Gson gson = new Gson();
-    
-    
-    
-    
+
     @Autowired
     private UserRepository userRepository;
     
@@ -49,8 +45,7 @@ public class ActivitiesController {
     
     @Autowired
     private AchievementRepository achievementRepository;
-    
-    
+
     /**
      * return the activities of a user.
      * @param sessionCookie sessionCookie.
@@ -96,10 +91,10 @@ public class ActivitiesController {
     @PostMapping(path = "/addactivity")
     public @ResponseBody Activity addNewActivity(
             @RequestBody MultiValueMap<String, Object> params) {
-        System.out.println("HELLLOOOOO");
+        
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
-        
+
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
         activity.setUser(user);
         
@@ -108,11 +103,11 @@ public class ActivitiesController {
             return null;
         }
         Activity act = activityRepository.save(activity);
-        checkAchievements(act);
+        checkAchievements(user);
+        checkActivityAchievements(act, user);
         return act;
     }
-    
-    
+
     /**
      * removes activit.
      * @param params params.
@@ -138,8 +133,7 @@ public class ActivitiesController {
         
         return false;
     }
-    
-    
+
     /**
      * updates solar panels.
      * @param params params.
@@ -148,7 +142,6 @@ public class ActivitiesController {
     @PostMapping(path = "/updateSolar")
     public @ResponseBody Activity updateSolar(@RequestBody MultiValueMap<String, Object> params) {
         
-        System.out.println("HELLO?!?!");
         User user = gson.fromJson((String)params.getFirst("user"),User.class);
         String email = SecurityService.findLoggedInEmail();
         User user1 = userRepository.findByEmail(email);
@@ -184,21 +177,69 @@ public class ActivitiesController {
     
     /**
      * checks if a user gained an achievement.
-     * @param act activity
+     * @param user user
      */
-    public  void checkAchievements(Activity act) {
-        List<Activity> activityList = activityRepository.findByUserId(act.getUser().getId());
+    private void checkAchievements(User user) {
+        Achievement achievement = null;
+    
+        if (user.getTotalscore() >= 100000) {
+            achievement = achievementRepository.findById(1).get();
+        }
+        if (user.getTotalscore() >= 500000) {
+            achievement = achievementRepository.findById(2).get();
+        }
+        if (user.getTotalscore() >= 1000000) {
+            achievement = achievementRepository.findById(3).get();
+        }
+        if (achievement != null) {
+            user.getAchievements().add(achievement);
+            achievement.getUsers().add(user);
+            achievementRepository.save(achievement);
+        }
+    
+        userRepository.save(user);
+    }
+    
+    private void checkActivityAchievements(Activity activity, User user) {
+        List<Activity> activityList = activityRepository.findByUserId(user.getId());
         
-        Set<Achievement> achievements =
-            achievementRepository.getAchievementsFromUserId(act.getUser().getId());
+        Achievement achievement = null;
         
-        Achievement achievement = achievementRepository.findById(0).get();
+        switch (activity.getActivity_type()) {
+            
+            case vegetarian_meal:
+                achievement = achievementRepository.findById(5).get();
+                break;
+            
+            case bike:
+                achievement = achievementRepository.findById(6).get();
+                break;
+            
+            case solar_panel:
+                achievement = achievementRepository.findById(4).get();
+                break;
+            
+            case local_produce:
+                achievement = achievementRepository.findById(9).get();
+                break;
+            
+            case public_transport:
+                achievement = achievementRepository.findById(7).get();
+                break;
+            
+            case lower_temperature:
+                achievement = achievementRepository.findById(8).get();
+                break;
+            default:
+                return;
+            
+        }
         
-        User user = userRepository.findById(act.getUser().getId()).get();
         user.getAchievements().add(achievement);
         achievement.getUsers().add(user);
         achievementRepository.save(achievement);
         userRepository.save(user);
+        
     }
     
     /** This is what the client can connect to, to retrieve a user's achievements.
