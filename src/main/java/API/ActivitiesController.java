@@ -246,7 +246,7 @@ public class ActivitiesController {
      *
      * @return  a set of all the achievement that user earned
      */
-    @GetMapping(path = "/getachievements")
+    @GetMapping(path = "/getAchievements")
     public @ResponseBody
         Set<Achievement> getAchievements() {
         String email = SecurityService.findLoggedInEmail();

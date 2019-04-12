@@ -147,6 +147,7 @@ public class AppController {
                     User user = Client.findCurrentUser();
                     solarPanel = (CheckBox) exit.getScene().lookup("#solarPanel");
                     solarPanel.setSelected(user.isSolarPanel());
+                    setDaysOfSolarPanels();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -157,7 +158,20 @@ public class AppController {
         }
         refreshTotal();
     }
-
+    
+    @FXML
+    void setDaysOfSolarPanels(){
+        
+        String sessionCookie = LoginController.sessionCookie;
+        
+        String numberOfDays = Client.getRequest(sessionCookie, "http://localhost:8080/getDaysOfSolarPanel").getBody();
+        
+        //System.out.println(label);
+        //Since we are technically in the wrong scene we can find the label you created like this:
+        Label daysOfSolarPanel = (Label)exit.getScene().lookup("#daysOfSolarPanel");
+        daysOfSolarPanel.setText(numberOfDays);
+    }
+    
     
     
     /** Makes sure the total score gets updated.
@@ -165,8 +179,8 @@ public class AppController {
      */
     @FXML
     void refreshTotal() {
-        scoreRepresentation.setVisible(true);
-        setTotal();
+        User user = Client.findCurrentUser();
+        scoreRepresentation.setText(Integer.toString(user.getTotalscore()));
     }
     
     /** sets the current total.
@@ -185,7 +199,7 @@ public class AppController {
     }
 
     void displayAchievements() {
-        Achievement[] achievements = Client.getAchievements(Client.findCurrentUser().getEmail());
+        Achievement[] achievements = Client.getAchievements();
         for (Achievement a : achievements) {
             System.out.println(a.getAchievement_name());
             String achievementname = a.getAchievement_name();
@@ -461,7 +475,7 @@ public class AppController {
      * @return HBox to display in leaderboard
      */
     private HBox initializeAchievement(String email) {
-        Achievement[] achievements = Client.getAchievements(email);
+        Achievement[] achievements = Client.getAchievements();
         HBox hbox = new HBox();
         for (Achievement a : achievements) {
             hbox = switchBadgeLeaderboard(a, hbox);

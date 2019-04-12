@@ -209,4 +209,24 @@ public class FriendControllerTest {
         userRepository.delete(userRepository.findByEmail("email@blah"));
         
     }
+    @Test
+    public void unfollowNonFriend() throws Exception {
+        User user1 = new User("email@blah","password");
+        user1 = userRepository.save(user1);
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("user",gson.toJson(user1));
+        String requestBody = buildRequestBody(params);
+        String responseBody =
+            
+                mvc.perform(
+                    
+                        post("/unfollowFriend")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        User user2 = gson.fromJson(responseBody,User.class);
+        Assert.assertEquals(null,user2);
+        userRepository.delete(userRepository.findByEmail("email@blah"));
+    }
 }

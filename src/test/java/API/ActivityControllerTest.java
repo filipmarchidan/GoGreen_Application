@@ -629,20 +629,16 @@ public class ActivityControllerTest {
     
     @Test
     public void getUserAchievements() throws Exception {
-        Achievement achievement = achievementRepository.findById(0).get();
+        Achievement achievement = achievementRepository.findById(1).get();
         User dataUser = userRepository.findByEmail(user.getEmail());
         dataUser.setAchievements(new HashSet<Achievement>());
         dataUser.getAchievements().add(achievement);
-        userRepository.save(dataUser);
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("email", dataUser.getEmail());
-        String requestBody = buildRequestBody(params);
 
         String responseBody =
                 mvc.perform(
-                        post("/getAchievements")
+                        get("/getAchievements")
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                                .content(requestBody).session(sessionCookie).params(params)
+                                .session(sessionCookie)
                 )
                         .andExpect(
                     status().isOk()
