@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import client.Client;
 import database.entities.Achievement;
+import database.entities.ActType;
 import database.entities.Activity;
 import database.entities.User;
 import gui.entity.TableUser;
@@ -65,7 +66,7 @@ public class AppController {
     
     @FXML
     private Pane homeScreen;
-
+    
     @FXML
     private ImageView bronze;
 
@@ -77,7 +78,7 @@ public class AppController {
 
     @FXML
     private ImageView bike;
-
+    
     @FXML
     private ImageView local;
 
@@ -139,6 +140,7 @@ public class AppController {
                     User user = Client.findCurrentUser();
                     solarPanel = (CheckBox) exit.getScene().lookup("#solarPanel");
                     solarPanel.setSelected(user.isSolarPanel());
+                    setDaysOfSolarPanels();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -149,7 +151,22 @@ public class AppController {
         }
         refreshTotal();
     }
-
+    
+    @FXML
+    void setDaysOfSolarPanels() {
+        
+        String sessionCookie = LoginController.sessionCookie;
+        
+        String numberOfDays = Client.getRequest(sessionCookie, "http://localhost:8080/getDaysOfSolarPanel").getBody();
+        
+        //System.out.println(label);
+        //Since we are technically in the wrong scene we can find the label you created like this:
+        Label daysOfSolarPanel = (Label)exit.getScene().lookup("#daysOfSolarPanel");
+        daysOfSolarPanel.setText(numberOfDays);
+    }
+    
+    
+    
     /** Makes sure the total score gets updated.
      *
      */
@@ -158,8 +175,7 @@ public class AppController {
         User user = Client.findCurrentUser();
         scoreRepresentation.setText(Integer.toString(user.getTotalscore()));
     }
-
-
+    
     /** sets the current total.
      *
      */
@@ -176,7 +192,7 @@ public class AppController {
     }
 
     void displayAchievements() {
-        Achievement[] achievements = Client.getAchievements(Client.findCurrentUser().getEmail());
+        Achievement[] achievements = Client.getAchievements();
         for (Achievement a : achievements) {
             System.out.println(a.getAchievement_name());
             String achievementname = a.getAchievement_name();
@@ -283,15 +299,18 @@ public class AppController {
             but.setStyle("-fx-background-color: #f23a3a;"
                     + "-fx-border-radius: 3 3 3 3;");
             but.setOnAction(event -> {
-                //TODO: The program only allows to remove the last activity
-
                 MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
                 params.add("activity",gson.toJson(a));
                 HttpEntity<String> response = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/removeactivity", params);
                 boolean result = gson.fromJson(response.getBody(), boolean.class);
-    
-                vbox.getChildren().remove(active);
+                if (result) {
+                    vbox.getChildren().remove(active);
+                }
             });
+            
+            if (a.getActivity_type() == ActType.solar_panel) {
+                but.setVisible(false);
+            }
 
 
             active.getChildren().addAll(activity, co2Label, date, but);
@@ -428,6 +447,7 @@ public class AppController {
             HBox hbox = initializeAchievement(user.getEmail());
             hbox.setSpacing(4);
             hbox.setFillHeight(true);
+            
             TableUser tableUser =
                     new TableUser(i + 1, user.getEmail(), hbox, user.getTotalscore());
             imgList.add(tableUser);
@@ -448,7 +468,7 @@ public class AppController {
      * @return HBox to display in leaderboard
      */
     private HBox initializeAchievement(String email) {
-        Achievement[] achievements = Client.getAchievements(email);
+        Achievement[] achievements = Client.getAchievements();
         HBox hbox = new HBox();
         for (Achievement a : achievements) {
             hbox = switchBadgeLeaderboard(a, hbox);
@@ -694,6 +714,8 @@ public class AppController {
 
                 innerv.getChildren().addAll(email, score);
                 hbox.getChildren().add(innerv);
+                System.out.println(index + " index");
+                System.out.println(j + "j");
 
             }
             index += 2;

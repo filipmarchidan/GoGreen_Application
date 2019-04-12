@@ -38,12 +38,34 @@ public class ActivityController {
 
     @FXML
     private Label response;
-
+    
     @FXML
     private Slider tempSlider;
-
+    
     @FXML
     private Text tempDisplay;
+    
+    @FXML
+    private Label daysOfSolarPanel;
+    
+    @FXML
+    private CheckBox solar;
+    
+    /*
+    //MOVED THIS TO THE AppController!
+    @FXML
+    void setDaysOfSolarPanels(){
+        
+        String sessionCookie = LoginController.sessionCookie;
+        
+        String numberOfDays = Client.getRequest(sessionCookie, "/getDaysOfSolarPanel").getBody();
+        
+        //System.out.println(label);
+    
+        daysOfSolarPanel.setText(numberOfDays);
+    }
+    */
+    
 
     /** Adds an activity based on the button.
      *
@@ -52,58 +74,66 @@ public class ActivityController {
     @FXML
     void addActivity(ActionEvent event) {
         if (event.getSource() instanceof  Button) {
-            Button button = (Button) event.getSource();
-            ActType actType = null;
-            int amount = 1;
-            switch (button.getId()) {
-                case "vegetarian" :
-                    actType = ActType.vegetarian_meal;
-                    break;
-                case "bike" :
-                    actType = ActType.bike;
-                    amount = (int)bikeslider.getValue();
-                    if (amount == 0) {
-                        response.setText("Please specify traveled cycling distance");
-                        response.setTextFill(Color.RED);
-                        return;
-                    }
-                    break;
-                case "local" :
-                    actType = ActType.local_produce;
-                    break;
-                case "transport" :
-                    actType = ActType.public_transport;
-                    amount = (int)transportslider.getValue();
-                    if (amount == 0) {
-                        response.setText("Please specify traveled distance");
-                        response.setTextFill(Color.RED);
-                        return;
-                    }
-                    break;
-                case "temp" :
-                    actType = ActType.lower_temperature;
-                    int preTempValue = (int)tempSlider.getValue();
-                    amount = 21 - preTempValue;
-                    if (amount == 0) {
-                        response.setText("This is the average room temperature no points added");
-                        response.setTextFill(Color.RED);
-                        return;
-                    }
-                    break;
-                default:
-                    return;
-            }
-
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity", params);
-            Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
-            displayResponse(activity1);
-
+            handleNormalActivity(event);
         } else if (event.getSource() instanceof CheckBox) {
             handleSolarActivity(event);
         }
+    }
+    
+    /** Split from activity for Cyclomatic Complexity, handles normal activities
+     *
+     * @param event event that triggered adding an activity.
+     */
+    private void handleNormalActivity(ActionEvent event) {
+        Button button = (Button) event.getSource();
+        ActType actType = null;
+        int amount = 1;
+        switch (button.getId()) {
+            case "vegetarian" :
+                actType = ActType.vegetarian_meal;
+                break;
+            case "bike" :
+                actType = ActType.bike;
+                amount = (int)bikeslider.getValue();
+                if (amount == 0) {
+                    response.setText("Please specify traveled cycling distance");
+                    response.setTextFill(Color.RED);
+                    return;
+                }
+                break;
+            case "local" :
+                actType = ActType.local_produce;
+                break;
+            case "transport" :
+                actType = ActType.public_transport;
+                amount = (int)transportslider.getValue();
+                if (amount == 0) {
+                    response.setText("Please specify traveled distance");
+                    response.setTextFill(Color.RED);
+                    return;
+                }
+                break;
+            case "temp" :
+                actType = ActType.lower_temperature;
+                int preTempValue = (int)tempSlider.getValue();
+                amount = 21 - preTempValue;
+                if (amount == 0) {
+                    response.setText("This is the average room temperature no points added");
+                    response.setTextFill(Color.RED);
+                    return;
+                }
+                break;
+            default:
+                return;
+        }
+    
+        MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
+        Activity activity = new Activity(actType, amount,Activity.getCurrentDateTimeString());
+        params.add("activity",gson.toJson(activity));
+        HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,"http://localhost:8080/addactivity", params);
+        Activity activity1 = gson.fromJson(result.getBody(),Activity.class);
+        displayResponse(activity1);
+    
     }
 
     /** Makes sure the client properly deals with a solar activity.
@@ -111,23 +141,13 @@ public class ActivityController {
      * @param event checkbox that calls the function
      */
     private void handleSolarActivity(Event event) {
+        
         CheckBox checkbox = (CheckBox) event.getSource();
-        if (checkbox.isSelected()) {
-
-            MultiValueMap<String,Object> params = new LinkedMultiValueMap<>();
-            Activity activity = new Activity(ActType.solar_panel,
-                    1,Activity.getCurrentDateTimeString());
-
-            params.add("activity",gson.toJson(activity));
-            HttpEntity<String> result = Client.postRequest(LoginController.sessionCookie,
-                    "http://localhost:8080/addactivity",params);
-            displayResponse(activity);
-
-        } else {
-            User user = Client.findCurrentUser();
-            user.setSolarPanel(false);
-            Client.updateSolar(user);
-        }
+        User user = Client.findCurrentUser();
+        user.setSolarPanel(checkbox.isSelected());
+        Activity activity = Client.updateSolar(user);
+        System.out.println("handleSolarActivityLives");
+        
 
     }
 
@@ -190,6 +210,11 @@ public class ActivityController {
         int value = (int)slider.getValue();
         transporttext.setText(Integer.toString(value));
     }
+    
+    /** Makes sure the sliders always update the numerical value.
+     *
+     * @param event button that calls the function
+     */
     @FXML
     public void updateTemperatureValue(Event event) {
         Slider slider = (Slider) event.getSource();

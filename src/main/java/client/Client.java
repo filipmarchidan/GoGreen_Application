@@ -126,14 +126,10 @@ public class Client {
 
     /**
      *getAchievements.
-     * @param email String
      * @return all achievements from a user
      */
-    public static Achievement[] getAchievements(String email) {
-
-        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-        params.add("email",email);
-        HttpEntity<String> result = postRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements", params);
+    public static Achievement[] getAchievements() {
+        HttpEntity<String> result = getRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements");
         Achievement[] achievements = gson.fromJson(result.getBody(), Achievement[].class);
         return achievements;
     }
@@ -176,15 +172,15 @@ public class Client {
      * @param user user
      * @return user
      */
-    public static User updateSolar(User user) {
-
+    public static Activity updateSolar(User user) {
+        
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("user",gson.toJson(user));
-        User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/updatesolar",params).getBody(),User.class);
-
-        return user1;
+        Activity activity = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/updateSolar",params).getBody(),Activity.class);
+        
+        return activity;
     }
-
+    
     /**
      * add a new user.
      * @param user user
@@ -219,7 +215,7 @@ public class Client {
         }
         return null;
     }
-
+    
     /**
      * follow a user.
      * @param user user
@@ -231,7 +227,7 @@ public class Client {
         User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/followFriend",params).getBody(), User.class);
         return user1;
     }
-
+    
     /**
      * unfolow a user.
      * @param user user
@@ -243,7 +239,8 @@ public class Client {
         User user1 = gson.fromJson(postRequest(LoginController.sessionCookie,"http://localhost:8080/unfollowFriend",params).getBody(),User.class);
         return user1;
     }
-
+    
+    
     /**
      * get the restTemplate.
      * @return restTemplate

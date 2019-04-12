@@ -103,12 +103,14 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <CheckBox id="solarPanel" fx:id="solarPanel" layoutX="22.0" layoutY="33.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="147.0" text="I have solar &#10;panels installed" textFill="#edf5e1">
+            <CheckBox id="solarPanel" fx:id="solarPanel" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#addActivity" prefHeight="91.0" prefWidth="147.0" text="I have solar &#10;panels installed " textFill="#edf5e1">
                <font>
                   <Font size="15.0" />
                </font>
             </CheckBox>
-            <Slider fx:id="tempSlider" layoutX="238.0" layoutY="42.0" max="21.0" min="16.0" orientation="VERTICAL" onContextMenuRequested="#updateTemperatureValue" onDragDetected="#updateTemperatureValue" onDragDone="#updateTemperatureValue" onDragDropped="#updateTemperatureValue" onDragEntered="#updateTemperatureValue" onDragExited="#updateTemperatureValue" onDragOver="#updateTemperatureValue" onMouseClicked="#updateTemperatureValue" onMouseDragged="#updateTemperatureValue" onMouseEntered="#updateTemperatureValue" onMouseExited="#updateTemperatureValue" onMouseMoved="#updateTemperatureValue" prefHeight="72.0" prefWidth="14.0" value="21.0" />
+             <Label id="daysOfSolarPanel" fx:id="daysOfSolarPanel" layoutX="26.0" layoutY="97.0" textFill="WHITE" />
+             <Label layoutX="50.0" layoutY="97.0" prefHeight="17.0" prefWidth="84.0" text="days of usage" textFill="#f5f4f4" />
+             <Slider fx:id="tempSlider" layoutX="238.0" layoutY="42.0" max="21.0" min="16.0" orientation="VERTICAL" onContextMenuRequested="#updateTemperatureValue" onDragDetected="#updateTemperatureValue" onDragDone="#updateTemperatureValue" onDragDropped="#updateTemperatureValue" onDragEntered="#updateTemperatureValue" onDragExited="#updateTemperatureValue" onDragOver="#updateTemperatureValue" onMouseClicked="#updateTemperatureValue" onMouseDragged="#updateTemperatureValue" onMouseEntered="#updateTemperatureValue" onMouseExited="#updateTemperatureValue" onMouseMoved="#updateTemperatureValue" prefHeight="72.0" prefWidth="14.0" value="21.0" />
             <Text fx:id="tempDisplay" fill="WHITE" layoutX="210.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="21" wrappingWidth="18.779289722442627" />
             <Label layoutX="223.0" layoutY="44.0" text="°C" textFill="WHITE" />
             <Label layoutX="259.0" layoutY="23.0" text="Average Temperature is 21" textFill="WHITE" />

@@ -348,8 +348,7 @@ public class ActivityControllerTest {
         
         System.out.println(responseBody +  " HELLO");
         Activity returnedActivity = gson.fromJson(responseBody,Activity.class);
-        assertEquals(returnedActivity.getActivity_type(), activity.getActivity_type());
-        assertEquals(returnedActivity.getDate_time(), activity.getDate_time());
+        assertEquals(null,returnedActivity);
         
     }
     
@@ -541,9 +540,10 @@ public class ActivityControllerTest {
             )
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         
-        User user2 = gson.fromJson(responseBody,User.class);
-        Assert.assertEquals(user.isSolarPanel(),user2.isSolarPanel());
+        Activity activity = gson.fromJson(responseBody,Activity.class);
+        Assert.assertEquals(ActType.solar_panel,activity.getActivity_type());
     }
+    
     
     
     
@@ -572,6 +572,38 @@ public class ActivityControllerTest {
         
         if (responseBody instanceof Boolean) {
             Assert.assertTrue((boolean)responseBody);
+            
+        } else {
+            fail();
+        }
+        
+    }
+    
+    @Test
+    public void removeFalseActivity() throws Exception {
+        Activity activity = new Activity(ActType.vegetarian_meal,1,Activity.getCurrentDateTimeString());
+        activity.setUser(user);
+        activity.setId(-1);
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("activity",gson.toJson(activity));
+        String requestBody = buildRequestBody(params);
+        
+        Object responseBody = getResponseBody(
+                
+                mvc.perform(
+                        
+                        post("/removeactivity")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(requestBody).session(sessionCookie).params(params)
+                )
+                        .andExpect(status().isOk()),
+                
+                Boolean.class
+        );
+        
+        
+        if (responseBody instanceof Boolean) {
+            Assert.assertFalse((boolean)responseBody);
             
         } else {
             fail();
@@ -630,20 +662,16 @@ public class ActivityControllerTest {
     
     @Test
     public void getUserAchievements() throws Exception {
-        Achievement achievement = achievementRepository.findById(0).get();
+        Achievement achievement = achievementRepository.findById(1).get();
         User dataUser = userRepository.findByEmail(user.getEmail());
         dataUser.setAchievements(new HashSet<Achievement>());
         dataUser.getAchievements().add(achievement);
-        userRepository.save(dataUser);
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("email", dataUser.getEmail());
-        String requestBody = buildRequestBody(params);
 
         String responseBody =
                 mvc.perform(
-                        post("/getAchievements")
+                        get("/getAchievements")
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                                .content(requestBody).session(sessionCookie).params(params)
+                                .session(sessionCookie)
                 )
                         .andExpect(
                     status().isOk()
@@ -656,6 +684,41 @@ public class ActivityControllerTest {
         Set<Achievement> achievements = new HashSet<>(Arrays.asList(gson.fromJson(responseBody,Achievement[].class)));
         System.out.println(achievements.size());
         Assert.assertTrue(achievements.contains(achievement));
+    }
+    
+    @Test
+    public void getDaysOfSolarPanelTest() throws Exception {
+        String responseBody =
+                mvc.perform(
+                        get("/getDaysOfSolarPanel")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .session(sessionCookie)
+                )
+                        .andExpect(
+                                status().isOk()
+                        )
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+        
+    }
+    
+    @Test
+    public void getDaysOfSolarPanelTestNotNull() throws Exception {
+        
+        String responseBody =
+                mvc.perform(
+                        get("/getDaysOfSolarPanel")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .session(sessionCookie)
+                )
+                        .andExpect(
+                                status().isOk()
+                        )
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+        
     }
     
 }

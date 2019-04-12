@@ -12,7 +12,6 @@ import database.UserRepository;
 import database.entities.Achievement;
 import database.entities.ActType;
 import database.entities.Activity;
-import database.entities.ActivityType;
 import database.entities.User;
 
 
@@ -58,48 +57,58 @@ public class ActivitiesController {
         User user = userRepository.findByEmail(email);
         return activityRepository.findByUserIdSorted(user.getId());
     }
+    
+    /** Returns the amount of days a user has solar panels for.
+     *
+     * @param sessionCookie current session useer
+     * @return amount of days
+     */
+    @GetMapping("/getDaysOfSolarPanel")
+    public @ResponseBody Integer getDaysOfSolarPanel(String sessionCookie) {
+        String email = SecurityService.findLoggedInEmail();
+        User user = userRepository.findByEmail(email);
+        int userId = user.getId();
+        Activity act =  activityRepository.findSolarActivityFromUserId(userId);
+        
+        //added a check to make sure the activity itself was not null (this can happen)
+        //if it happens the amount is just 0:
+        if (act == null) {
+            return 0;
+        }
+        
+        Integer amount =  act.getActivity_amount();
+        if (amount > 0) {
+            checkActivityAchievements(act,user);
+        }
 
+        return amount;
+    }
+    
+    
+    
     /** adds an activity to the database.
      *
      * @param params parameter passed by client
      * @return activity actually added (proper id)
      */
     @PostMapping(path = "/addactivity")
-    public @ResponseBody
-        Activity addNewActivity(@RequestBody MultiValueMap<String,
-        Object> params) {
+    public @ResponseBody Activity addNewActivity(
+            @RequestBody MultiValueMap<String, Object> params) {
         
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
 
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
         activity.setUser(user);
-        checkAchievements(user);
-        if (activity.getActivity_type() != ActType.solar_panel) {
-            Activity act = activityRepository.save(activity);
-
-            checkActivityAchievements(act, user);
-
-            updateScoreAdd(act);
-            return act;
-            
-        } else {
-            
-            if (!user.isSolarPanel()) {
-                
-                user.setSolarPanel(true);
-                Activity act = activityRepository.save(activity);
-                checkActivityAchievements(act, user);
-                return act;
-            }
-            try {
-                return (Activity) activityRepository.findSolarActivityFromUserId(user.getId())
-                    .toArray()[0];
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Testing descepancy");
-                return activity;
-            }
+        
+        if (activity.getActivity_type() == ActType.solar_panel) {
+            //should not add solar panel activities directly!
+            return null;
         }
+        Activity act = activityRepository.save(activity);
+        checkAchievements(user);
+        checkActivityAchievements(act, user);
+        return act;
     }
 
     /**
@@ -112,7 +121,7 @@ public class ActivitiesController {
         
         String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
-
+        
         System.out.println((String)params.getFirst("activity"));
         Activity activity = gson.fromJson((String)params.getFirst("activity"),Activity.class);
         if (activity.getActivity_type() == ActType.solar_panel) {
@@ -121,7 +130,6 @@ public class ActivitiesController {
         activity.setUser(user);
         
         if (activityRepository.existsById(activity.getId())) {
-            updateScoreRemove(activity);
             activityRepository.delete(activity);
             return true;
         }
@@ -135,16 +143,28 @@ public class ActivitiesController {
      * @return User.
      */
     @PostMapping(path = "/updateSolar")
-    public @ResponseBody User updateSolar(@RequestBody MultiValueMap<String, Object> params) {
+    public @ResponseBody Activity updateSolar(@RequestBody MultiValueMap<String, Object> params) {
         
         User user = gson.fromJson((String)params.getFirst("user"),User.class);
         String email = SecurityService.findLoggedInEmail();
         User user1 = userRepository.findByEmail(email);
         user1.setSolarPanel(user.isSolarPanel());
-        return userRepository.save(user1);
         
+        Activity activity = activityRepository.findSolarActivityFromUserId(user1.getId());
+        System.out.println(activity + "hi1");
+        if (activity == null) {
+            
+            activity = new Activity(ActType.solar_panel,0,Activity.getCurrentDateTimeString());
+            activity.setUser(user1);
+            activityRepository.save(activity);
+            user1.getActivities().add(activity);
+            
+        }
+        userRepository.save(user1);
+        System.out.println(activity + " hi");
+        return activity;
     }
-
+    
     /**
      * returns the actTypes.
      * @return a list.
@@ -157,38 +177,14 @@ public class ActivitiesController {
         return co2Values;
         
     }
-
+    
     /**
-     * update the score.
-     * @param activity activity
+     * checks if a user gained an achievement.
+     * @param user user
      */
-    public  void updateScoreAdd(Activity activity) {
-
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
-            .ordinal()).get();
-        User user = userRepository.findByEmail(activity.getUser().getEmail());
-        user.setTotalscore(user.getTotalscore() + activityType.getCo2_savings() * activity
-            .getActivity_amount());
-        userRepository.save(user);
-    }
-    
-    /**\
-     * update the score when removing an activity.
-     * @param activity activity
-     */
-    public  void updateScoreRemove(Activity activity) {
-
-        ActivityType activityType = activityTypeRepository.findById(activity.getActivity_type()
-            .ordinal()).get();
-        User user = userRepository.findById(activity.getUser().getId()).get();
-        user.setTotalscore(user.getTotalscore() - activityType.getCo2_savings() * activity
-            .getActivity_amount());
-        userRepository.save(user);
-    }
-    
     private void checkAchievements(User user) {
         Achievement achievement = null;
-
+    
         if (user.getTotalscore() >= 100000) {
             achievement = achievementRepository.findById(1).get();
         }
@@ -203,63 +199,64 @@ public class ActivitiesController {
             achievement.getUsers().add(user);
             achievementRepository.save(achievement);
         }
-
+    
         userRepository.save(user);
     }
-
+    
     private void checkActivityAchievements(Activity activity, User user) {
         List<Activity> activityList = activityRepository.findByUserId(user.getId());
         
         Achievement achievement = null;
-
+        
         switch (activity.getActivity_type()) {
-
+            
             case vegetarian_meal:
                 achievement = achievementRepository.findById(5).get();
                 break;
-
+            
             case bike:
                 achievement = achievementRepository.findById(6).get();
                 break;
-
+            
             case solar_panel:
                 achievement = achievementRepository.findById(4).get();
                 break;
-
+            
             case local_produce:
                 achievement = achievementRepository.findById(9).get();
                 break;
-
+            
             case public_transport:
                 achievement = achievementRepository.findById(7).get();
                 break;
-
+            
             case lower_temperature:
                 achievement = achievementRepository.findById(8).get();
                 break;
             default:
                 return;
-
+            
         }
-
+        
         user.getAchievements().add(achievement);
         achievement.getUsers().add(user);
         achievementRepository.save(achievement);
         userRepository.save(user);
-
+        
     }
-
+    
     /** This is what the client can connect to, to retrieve a user's achievements.
      *
      * @return  a set of all the achievement that user earned
      */
-    @PostMapping(path = "/getAchievements")
-    public @ResponseBody Set<Achievement> getAchievements(
-                @RequestBody MultiValueMap<String, String> params) {
-        String email = params.getFirst("email");
+    @GetMapping(path = "/getAchievements")
+    public @ResponseBody
+        Set<Achievement> getAchievements() {
+        String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         Set<Achievement> achievements =
-             achievementRepository.getAchievementsFromUserId(user.getId());
+            achievementRepository.getAchievementsFromUserId(user.getId());
         return achievements;
+        
     }
 }
