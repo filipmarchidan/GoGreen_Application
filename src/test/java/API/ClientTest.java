@@ -80,7 +80,7 @@ public class ClientTest {
     public void getAchievementsTest() {
         mockServer.expect(requestTo("http://localhost:8080/getAchievements")).andRespond(withSuccess(gson.toJson(achievements), MediaType.APPLICATION_JSON));
         
-        Achievement[] achievements = Client.getAchievements();
+        Achievement[] achievements = Client.getAchievements("test@email.com");
         Assert.assertTrue(achievements[0].equals(achievement));
     }
     

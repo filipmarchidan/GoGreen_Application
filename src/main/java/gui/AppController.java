@@ -192,7 +192,7 @@ public class AppController {
     }
 
     void displayAchievements() {
-        Achievement[] achievements = Client.getAchievements();
+        Achievement[] achievements = Client.getAchievements(Client.findCurrentUser().getEmail());
         for (Achievement a : achievements) {
             System.out.println(a.getAchievement_name());
             String achievementname = a.getAchievement_name();
@@ -468,7 +468,7 @@ public class AppController {
      * @return HBox to display in leaderboard
      */
     private HBox initializeAchievement(String email) {
-        Achievement[] achievements = Client.getAchievements();
+        Achievement[] achievements = Client.getAchievements(email);
         HBox hbox = new HBox();
         for (Achievement a : achievements) {
             hbox = switchBadgeLeaderboard(a, hbox);
