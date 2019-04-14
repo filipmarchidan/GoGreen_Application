@@ -249,10 +249,11 @@ public class ActivitiesController {
      *
      * @return  a set of all the achievement that user earned
      */
-    @GetMapping(path = "/getAchievements")
+    @PostMapping(path = "/getAchievements")
     public @ResponseBody
-        Set<Achievement> getAchievements() {
-        String email = SecurityService.findLoggedInEmail();
+        Set<Achievement> getAchievements(@RequestBody MultiValueMap<String, Object> params) {
+        String email = gson.fromJson((String)params.getFirst("email"),String.class);
+        //String email = SecurityService.findLoggedInEmail();
         User user = userRepository.findByEmail(email);
         Set<Achievement> achievements =
             achievementRepository.getAchievementsFromUserId(user.getId());

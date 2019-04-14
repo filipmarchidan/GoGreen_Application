@@ -128,8 +128,10 @@ public class Client {
      *getAchievements.
      * @return all achievements from a user
      */
-    public static Achievement[] getAchievements() {
-        HttpEntity<String> result = getRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements");
+    public static Achievement[] getAchievements(String email) {
+        MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
+        params.add("email",gson.toJson(email));
+        HttpEntity<String> result = postRequest(LoginController.sessionCookie, "http://localhost:8080/getAchievements",params);
         Achievement[] achievements = gson.fromJson(result.getBody(), Achievement[].class);
         return achievements;
     }
