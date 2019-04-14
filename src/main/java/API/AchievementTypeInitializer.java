@@ -13,6 +13,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import javax.annotation.PostConstruct;
 
+/**
+ * This class is a Component for spring, because of that it
+ * automatically gets run by spring when the server boots up.
+ * This class is responsible for loading/updating the achievement information
+ * from a JSON file into the database every time the server boots up.
+ * Information is taken from ACHIEVEMENT_DATA.json
+ */
+
 @Component
 public class AchievementTypeInitializer {
     

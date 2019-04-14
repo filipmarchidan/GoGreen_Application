@@ -348,8 +348,13 @@ public class AppController {
         return friends2;
     }
     
-    /** Main function that collects friends and displays the leaderboard to the user.
-     *
+    /** Main function that collects friends and displays the leaderboard to the user
+     * Algorithm: Retrieve all friends from user sorted by totalscore from server.
+     * Place user in correct place in between these users.
+     * Create TableUser for first 10 people in list/array.
+     * IF the user is not part of these 10, add him in as an 11th person.
+     * Create table to display TableUsers.
+     * Add all TableUsers to the table.
      */
     private void displayLeaderboard() {
         ScrollPane pane = new ScrollPane();
@@ -428,7 +433,9 @@ public class AppController {
     }
     
     /** fills a List of TableUsers for display in the leaderboards.
-     *
+     * Populates a TableUser with all the needed information from a user
+     * adds it to an ObservableList, and when it is done returns the observableList
+     * This ObservableList can be directly added to the table to display properly.
      * @param friends list of friends for the leaderboard.
      * @return List of tabluUsers
      */

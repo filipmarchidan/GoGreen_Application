@@ -26,6 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Set;
 
+/**
+ *  This class is a restController that gets initialized by spring.
+ *  It contains endpoints that can be called by the client.
+ * '@Getmapping//@Postmapping' determine if an endpoint
+ *  can be connected to be a HTTP GET or POST message.
+ *  This controller takes care of all the activity parts,
+ *  so get activity, add activity and remove activity etc
+ */
 
 @RestController
 public class ActivitiesController {
